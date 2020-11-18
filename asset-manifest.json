@@ -1,23 +1,22 @@
 {
   "files": {
     "main.css": "/thursdaytherapy/static/css/main.ab7136cd.chunk.css",
-    "main.js": "/thursdaytherapy/static/js/main.e6f46b08.chunk.js",
-    "main.js.map": "/thursdaytherapy/static/js/main.e6f46b08.chunk.js.map",
+    "main.js": "/thursdaytherapy/static/js/main.2dec6a9c.chunk.js",
+    "main.js.map": "/thursdaytherapy/static/js/main.2dec6a9c.chunk.js.map",
     "runtime-main.js": "/thursdaytherapy/static/js/runtime-main.9f83de21.js",
     "runtime-main.js.map": "/thursdaytherapy/static/js/runtime-main.9f83de21.js.map",
-    "static/js/2.0b557168.chunk.js": "/thursdaytherapy/static/js/2.0b557168.chunk.js",
-    "static/js/2.0b557168.chunk.js.map": "/thursdaytherapy/static/js/2.0b557168.chunk.js.map",
+    "static/js/2.fbafffa9.chunk.js": "/thursdaytherapy/static/js/2.fbafffa9.chunk.js",
+    "static/js/2.fbafffa9.chunk.js.map": "/thursdaytherapy/static/js/2.fbafffa9.chunk.js.map",
     "static/js/3.97b81cb5.chunk.js": "/thursdaytherapy/static/js/3.97b81cb5.chunk.js",
     "static/js/3.97b81cb5.chunk.js.map": "/thursdaytherapy/static/js/3.97b81cb5.chunk.js.map",
     "index.html": "/thursdaytherapy/index.html",
     "static/css/main.ab7136cd.chunk.css.map": "/thursdaytherapy/static/css/main.ab7136cd.chunk.css.map",
-    "static/js/2.0b557168.chunk.js.LICENSE.txt": "/thursdaytherapy/static/js/2.0b557168.chunk.js.LICENSE.txt",
-    "static/media/logo.103b5fa1.svg": "/thursdaytherapy/static/media/logo.103b5fa1.svg"
+    "static/js/2.fbafffa9.chunk.js.LICENSE.txt": "/thursdaytherapy/static/js/2.fbafffa9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.9f83de21.js",
-    "static/js/2.0b557168.chunk.js",
+    "static/js/2.fbafffa9.chunk.js",
     "static/css/main.ab7136cd.chunk.css",
-    "static/js/main.e6f46b08.chunk.js"
+    "static/js/main.2dec6a9c.chunk.js"
   ]
 }
