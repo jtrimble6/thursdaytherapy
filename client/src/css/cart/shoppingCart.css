@@ -1,0 +1,49 @@
+#cartRow {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.shoppingCartTitle {
+    text-align: center;
+    margin-top: 5vw;
+    margin-bottom: 3vw;
+    font-size: 5vw;
+}
+
+.cartEditButtons {
+    padding: 0;
+    white-space: nowrap;
+}
+
+.changeQtyButton {
+    margin-left: 2vw;
+}
+
+#emptyCartTitle {
+    text-align: center;
+    margin-top: 5vw;
+    /* font-size: 18vw; */
+}
+
+.rs-table-body-row-wrapper {
+    /* max-height: 50vw; */
+}
+
+#placeOrderRow {
+    width: 30vw;
+    margin: 0 auto;
+    margin-bottom: 10vw;
+}
+
+#placeOrderButton {
+    background-color: lightgreen;
+    width: 30vw;
+    align-content: center;
+}
+
+#placeOrderTotal {
+    text-align: center;
+    margin-bottom: 2vw;
+    font-size: 2vw;
+    font-weight: bolder;
+}

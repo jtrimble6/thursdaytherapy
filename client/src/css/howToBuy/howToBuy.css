@@ -1,0 +1,39 @@
+#howToBuyImagesRow {
+    /* height: 25vw; */
+    padding-bottom: 2vw;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 5vw;
+    align-content: center;
+}
+
+.howToBuyImagesCol, .howToBuyTextCol {
+    width: 33.3%;
+    display: inline-block;
+    height: 100%;
+}
+
+.howToBuyTextCol {
+    height: 100%;
+    text-align: center;
+    
+}
+
+.howToBuyTextCol {
+    vertical-align: top !important;
+    margin-top: 10vw;
+}
+
+.howToBuyText {
+    padding: 1vw;
+    text-align: center; 
+    font-family: 'Didot';
+    font-size: 2vw;
+    vertical-align: top !important;
+    font-family: 'ComicSansMS','Comic Sans MS','Comic Sans MS',cursive;
+}
+
+.howToBuyImage {
+    width: 100%;
+    height: auto;
+}

@@ -1,0 +1,52 @@
+#footerImagesRow {
+    height: 20vw;
+    padding-bottom: 5vw;
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 5vw;
+    align-content: center;
+}
+
+.footerImagesCol {
+    width: 33.3%;
+    display: inline-block;
+}
+
+#footerImage1 img {
+    width: 50%;
+    height: auto;
+    float: right;
+}
+
+#footerImage2 img {
+    width: 50%;
+    height: auto;
+    float: left;
+}
+
+#etsyLink {
+    text-align: center;
+    line-height: 5vw;
+    font-family: 'ComicSansMS','Comic Sans MS','Comic Sans MS',cursive;
+}
+
+#etsyLink a {
+    position: relative;
+    bottom: 3vw;
+    font-size: 3vw;
+    color: #3F2E76 !important;
+}
+
+#etsyLink a:hover {
+    text-decoration: none !important;
+}
+
+strong {
+    color: #F7A175;
+    font-weight: bolder !important;
+}
+
+.footerImage {
+    width: 100%;
+    height: auto;
+}

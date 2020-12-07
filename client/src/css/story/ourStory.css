@@ -1,0 +1,35 @@
+#ourStoryImagesRow {
+    /* height: 25vw; */
+    padding-bottom: 2vw;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 5vw;
+    align-content: center;
+}
+
+.ourStoryImagesCol, .ourStoryTextCol {
+    width: 33.3%;
+    display: inline-block;
+    height: 100%;
+}
+
+.ourStoryTextCol {
+    height: 100%;
+}
+
+.ourStoryTextCol {
+    vertical-align: top !important;
+}
+
+.ourStoryText {
+    padding: 1vw;
+    text-align: center; 
+    font-family: 'Didot';
+    font-size: 2vw;
+    vertical-align: top !important;
+}
+
+.ourStoryImage {
+    width: 100%;
+    height: auto;
+}

@@ -1,0 +1,29 @@
+#loginTitle {
+    text-align: center;
+    font-size: 3vw;
+    margin-bottom: 2vw;
+}
+
+#loginPage {
+    width: 40vw;
+    margin: 0 auto;
+    margin-bottom: 10vw;
+}
+
+#loginForm {
+    text-align: center;
+}
+
+#loginFormHeading {
+    font-size: 2vw;
+    margin-bottom: 2vw;
+}
+
+
+.loginFormGroup {
+    margin-bottom: 1vw;   
+}
+
+.loginFormLabel {
+    margin-right: 2vw;
+}

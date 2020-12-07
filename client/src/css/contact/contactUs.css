@@ -1,0 +1,22 @@
+#contactUsImagesRow {
+    height: 35vw;
+    padding-bottom: 4vw;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 1vw;
+    align-content: center;
+}
+
+.contactUsImagesCol, .contactUsFormCol {
+    width: 50%;
+    display: inline-block;
+    height: 100%;
+    padding: 5vw;
+}
+
+.contactUsImage {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    
+}
