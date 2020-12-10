@@ -11,8 +11,11 @@ class Inventory extends Component {
         super(props);
       
         this.state = {
+            node_env: "PRODUCTION",
             showEditModal: false,
             showAddModal: false,
+            developmentURL: "http://localhost:3000/product",
+            productionURL: "http://thursdaytherapy.herokuapp.com/product",
             soapName: '',
             soapId: '',
             soapFile: '',
@@ -53,7 +56,7 @@ class Inventory extends Component {
       }
   
     async fetchData() {
-        const res = await fetch("http://localhost:3000/product");
+        const res = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
         res
           .json()
           .then((res) => {
@@ -88,7 +91,7 @@ class Inventory extends Component {
       // console.log('DATA: ', data)
 
       // ADD NEW SOAP PRODUCT
-      axios.post("http://localhost:3000/product", data, {
+      axios.post(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
             headers: {'Content-Type': 'multipart/form-data' },
           })
           .then(res => { // then print response status
@@ -121,7 +124,7 @@ class Inventory extends Component {
         console.log('DELETE THIS SOAP: ', soapEditId)
         
         try {
-            const response = await fetch("http://localhost:3000/product/" + soapEditId, {
+            const response = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
               method: "DELETE",
             });
             let data = await response.json();
@@ -134,7 +137,7 @@ class Inventory extends Component {
           }
 
         // ADD NEW SOAP PRODUCT
-        axios.post("http://localhost:3000/product", data, {
+        axios.post(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
           headers: {'Content-Type': 'multipart/form-data' },
         })
         .then(res => { // then print response status
@@ -155,7 +158,7 @@ class Inventory extends Component {
         console.log('DELETE THIS SOAP: ', soapId)
         
         try {
-            const response = await fetch("http://localhost:3000/product/" + soapId, {
+            const response = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + '/' + soapId, {
               method: "DELETE",
             });
             let data = await response.json();
@@ -503,7 +506,7 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            src={"http://localhost:3000/" + product.image} 
+                            src={(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL) + product.image} 
                             data-soapname={product.name} 
                             data-soapprice={product.price} 
                             data-soapimage={product.image} 

@@ -10,6 +10,9 @@ class Cart extends Component {
       
 
       this.state = {
+        node_env: "PRODUCTION",
+        developmentURL: "http://localhost:3000/product",
+        productionURL: "http://thursdaytherapy.herokuapp.com/product",
         products: [],
         carts: [],
         cartTotal: '',
@@ -47,7 +50,7 @@ class Cart extends Component {
     }
 
     async fetchData() {
-      const res = await fetch("http://localhost:3000/product");
+      const res = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
       res
         .json()
         .then((res) => {
