@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
+const connection = process.env.MONGO_URI;
+
 module.exports = app => {
-    mongoose.connect('mongodb://localhost:27017/cart', {
+    mongoose.connect(process.env.NODE_ENV === "DEVELOPMENT" ? 'mongodb://localhost:27017/cart' : connection, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         useFindAndModify: false

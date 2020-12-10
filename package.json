@@ -23,5 +23,8 @@
   "scripts": {
     "start": "node server.js",
     "server": "node server.js"
-  }
+  },
+  "engines": {
+    "node": "10.16.0"
+}
 }
