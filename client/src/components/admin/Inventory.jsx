@@ -60,8 +60,9 @@ class Inventory extends Component {
         res
           .json()
           .then((res) => {
+            console.log('RESPONSE: ', res);
             console.log('ALL PRODUCTS: ', res.data);
-            console.log('ALL FILES: ', res.file);
+            console.log('ALL FILES: ', res.files);
             this.setState({
               products: res.data,
               filteredProducts: res.data
