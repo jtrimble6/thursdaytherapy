@@ -30,7 +30,7 @@ require('./src/routeHandler')(app)
 
 
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "PRODUCTION") {
 	app.use(express.static(path.join(__dirname, "client", "build")));
   }
   
@@ -41,7 +41,7 @@ app.use(express.static('client/build'));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes)
-
+app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
 app.use(
 	session({
 	  secret: 'fraggle-rock',
@@ -65,13 +65,8 @@ passport.deserializeUser(function(id, done) {
 // 	res.send('Hello from MERN');
 // });
 
-if (process.env.NODE_ENV === 'production') {
-	//set static folder
-	app.use(express.static('client/build'));
-  }
-
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "client/build", "index.html"));
+	res.sendFile(path.join(__dirname, "client/build/index.html"));
   });
 
 // Bootstrap server
