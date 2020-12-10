@@ -21,10 +21,10 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "server": "node server.js",
     "build": "react-scripts build",
-    "heroku-postbuild": "cd client && yarn && yarn run build"
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "engines": {
     "node": "10.16.0"
