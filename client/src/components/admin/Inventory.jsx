@@ -56,7 +56,7 @@ class Inventory extends Component {
       }
   
     async fetchData() {
-        const res = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
+        const res = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
         res
           .json()
           .then((res) => {
@@ -91,7 +91,7 @@ class Inventory extends Component {
       // console.log('DATA: ', data)
 
       // ADD NEW SOAP PRODUCT
-      axios.post(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
+      axios.post(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
             headers: {'Content-Type': 'multipart/form-data' },
           })
           .then(res => { // then print response status
@@ -124,7 +124,7 @@ class Inventory extends Component {
         console.log('DELETE THIS SOAP: ', soapEditId)
         
         try {
-            const response = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
+            const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
               method: "DELETE",
             });
             let data = await response.json();
@@ -158,7 +158,7 @@ class Inventory extends Component {
         console.log('DELETE THIS SOAP: ', soapId)
         
         try {
-            const response = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + '/' + soapId, {
+            const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + '/' + soapId, {
               method: "DELETE",
             });
             let data = await response.json();
@@ -506,7 +506,7 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            src={(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL) + product.image} 
+                            src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL) + product.image} 
                             data-soapname={product.name} 
                             data-soapprice={product.price} 
                             data-soapimage={product.image} 

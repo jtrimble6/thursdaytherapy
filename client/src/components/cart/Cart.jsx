@@ -50,7 +50,7 @@ class Cart extends Component {
     }
 
     async fetchData() {
-      const res = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
+      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
       res
         .json()
         .then((res) => {

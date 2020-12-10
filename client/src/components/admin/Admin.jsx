@@ -37,7 +37,7 @@ class Admin extends Component {
     }
 
   async fetchData() {
-      const res = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
+      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
       res
         .json()
         .then((res) => {
@@ -57,7 +57,7 @@ class Admin extends Component {
       console.log('must set a valid qty')
       return
     } else try {
-        const response = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentCartURL : this.state.productionCartURL, {
+        const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentCartURL : this.state.productionCartURL, {
           method: "POST",
           body: JSON.stringify({
             productId: id,
