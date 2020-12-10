@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const passport = require('./server/passport');
 const app = express();
+const path = require("path");
 const userRoutes = require("./routes/API/userAPI");
 const sessionRoutes = require("./routes/API/sessionAPI");
 const contactRoutes = require('./routes/API/contactAPI')
@@ -60,13 +61,13 @@ passport.deserializeUser(function(id, done) {
   });
 
 // routes
-// app.get('/', (req, res) => {
-// 	res.send('Hello from MERN');
-// });
+app.get('/', (req, res) => {
+	res.send('Hello from MERN');
+});
 
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "client/build/index.html"));
-  });
+// app.get("*", (req, res) => {
+// 	res.sendFile(path.join(__dirname, "client/build/index.html"));
+//   });
 
 // Bootstrap server
 app.listen(PORT, () => {
