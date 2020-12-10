@@ -11,8 +11,8 @@ class Cart extends Component {
 
       this.state = {
         node_env: "PRODUCTION",
-        developmentURL: "http://localhost:3000/product",
-        productionURL: "https://thursdaytherapy.herokuapp.com/product",
+        developmentURL: "http://localhost:3000/cart",
+        productionURL: "https://thursdaytherapy.herokuapp.com/cart",
         products: [],
         carts: [],
         cartTotal: '',
