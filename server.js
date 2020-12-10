@@ -66,7 +66,9 @@ passport.deserializeUser(function(id, done) {
 // });
 
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "client/build/index.html"));
+	// res.sendFile(path.join(__dirname, "client/build/index.html"));
+	const index = path.join(__dirname, 'build', 'index.html');
+  	res.sendFile(index);
   });
 
 // Bootstrap server

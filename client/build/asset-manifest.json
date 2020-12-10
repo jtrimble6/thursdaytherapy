@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/thursdaytherapy/static/css/main.c17d3e1e.chunk.css",
+    "main.js": "/thursdaytherapy/static/js/main.1a844e80.chunk.js",
+    "main.js.map": "/thursdaytherapy/static/js/main.1a844e80.chunk.js.map",
+    "runtime-main.js": "/thursdaytherapy/static/js/runtime-main.7b29628f.js",
+    "runtime-main.js.map": "/thursdaytherapy/static/js/runtime-main.7b29628f.js.map",
+    "static/css/2.e133fd2b.chunk.css": "/thursdaytherapy/static/css/2.e133fd2b.chunk.css",
+    "static/js/2.2aac8f86.chunk.js": "/thursdaytherapy/static/js/2.2aac8f86.chunk.js",
+    "static/js/2.2aac8f86.chunk.js.map": "/thursdaytherapy/static/js/2.2aac8f86.chunk.js.map",
+    "static/js/3.8e259e15.chunk.js": "/thursdaytherapy/static/js/3.8e259e15.chunk.js",
+    "static/js/3.8e259e15.chunk.js.map": "/thursdaytherapy/static/js/3.8e259e15.chunk.js.map",
+    "index.html": "/thursdaytherapy/index.html",
+    "static/css/2.e133fd2b.chunk.css.map": "/thursdaytherapy/static/css/2.e133fd2b.chunk.css.map",
+    "static/css/main.c17d3e1e.chunk.css.map": "/thursdaytherapy/static/css/main.c17d3e1e.chunk.css.map",
+    "static/js/2.2aac8f86.chunk.js.LICENSE.txt": "/thursdaytherapy/static/js/2.2aac8f86.chunk.js.LICENSE.txt",
+    "static/media/contactUsImage.f5d04cf5.jpeg": "/thursdaytherapy/static/media/contactUsImage.f5d04cf5.jpeg",
+    "static/media/homeImage1.2c7e0a2e.jpg": "/thursdaytherapy/static/media/homeImage1.2c7e0a2e.jpg",
+    "static/media/homeImage2.b091e17e.jpg": "/thursdaytherapy/static/media/homeImage2.b091e17e.jpg",
+    "static/media/homeImage3.1245c6a1.jpg": "/thursdaytherapy/static/media/homeImage3.1245c6a1.jpg",
+    "static/media/howToBuyImage1.d18f7d6a.jpeg": "/thursdaytherapy/static/media/howToBuyImage1.d18f7d6a.jpeg",
+    "static/media/howToBuyImage2.094ea568.jpeg": "/thursdaytherapy/static/media/howToBuyImage2.094ea568.jpeg",
+    "static/media/navbarHeaderImage.e04670ab.png": "/thursdaytherapy/static/media/navbarHeaderImage.e04670ab.png",
+    "static/media/ourStoryImage1.c10f5fcf.jpeg": "/thursdaytherapy/static/media/ourStoryImage1.c10f5fcf.jpeg",
+    "static/media/ourStoryImage2.5b0f2142.jpg": "/thursdaytherapy/static/media/ourStoryImage2.5b0f2142.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b29628f.js",
+    "static/css/2.e133fd2b.chunk.css",
+    "static/js/2.2aac8f86.chunk.js",
+    "static/css/main.c17d3e1e.chunk.css",
+    "static/js/main.1a844e80.chunk.js"
+  ]
+}
