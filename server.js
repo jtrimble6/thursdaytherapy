@@ -65,6 +65,11 @@ passport.deserializeUser(function(id, done) {
 // 	res.send('Hello from MERN');
 // });
 
+if (process.env.NODE_ENV === 'production') {
+	//set static folder
+	app.use(express.static('client/build'));
+  }
+
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
