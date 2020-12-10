@@ -61,13 +61,13 @@ passport.deserializeUser(function(id, done) {
   });
 
 // routes
-app.get('/', (req, res) => {
-	res.send('Hello from MERN');
-});
+// app.get('/', (req, res) => {
+// 	res.send('Hello from MERN');
+// });
 
-// app.get("*", (req, res) => {
-// 	res.sendFile(path.join(__dirname, "client/build/index.html"));
-//   });
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client/build/index.html"));
+  });
 
 // Bootstrap server
 app.listen(PORT, () => {
