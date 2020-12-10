@@ -71,5 +71,5 @@ app.get("*", (req, res) => {
 
 // Bootstrap server
 app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}.`);
+	console.log(`Server now listening on port ${PORT}.`);
 });
