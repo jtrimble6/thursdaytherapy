@@ -509,7 +509,7 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentImageURL : this.state.productionImageURL) + "/" + product.image} 
+                            src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentImageURL : this.state.productionImageURL) + product.image} 
                             data-soapname={product.name} 
                             data-soapprice={product.price} 
                             data-soapimage={product.image} 
