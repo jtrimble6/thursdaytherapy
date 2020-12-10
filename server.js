@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
 app.use(express.static('client/build'));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes, productRoutes, cartRoutes)
+app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes)
 app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
 app.use(
 	session({
