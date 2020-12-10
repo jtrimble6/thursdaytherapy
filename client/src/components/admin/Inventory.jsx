@@ -11,7 +11,7 @@ class Inventory extends Component {
         super(props);
       
         this.state = {
-            node_env: "PRODUCTION",
+            node_env: "DEVELOPMENT",
             showEditModal: false,
             showAddModal: false,
             developmentURL: "http://localhost:3000/product",
@@ -62,9 +62,9 @@ class Inventory extends Component {
         res
           .json()
           .then((res) => {
-            console.log('RESPONSE: ', res);
+            // console.log('RESPONSE: ', res);
             console.log('ALL PRODUCTS: ', res.data);
-            console.log('ALL FILES: ', res.files);
+            // console.log('ALL FILES: ', res.file);
             this.setState({
               products: res.data,
               filteredProducts: res.data
