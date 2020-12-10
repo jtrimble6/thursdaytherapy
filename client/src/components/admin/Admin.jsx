@@ -9,6 +9,11 @@ class Admin extends Component {
       
 
       this.state = {
+        node_env: "PRODUCTION",
+        developmentURL: "http://localhost:3000/product",
+        developmentCartURL: "http://localhost:3000/cart",
+        productionCartURL: "http://thursdaytherapy.herokuapp.com/cart",
+        productionURL: "http://thursdaytherapy.herokuapp.com/product",
         show: false,
         soapName: '',
         soapIngredients: '',
@@ -32,7 +37,7 @@ class Admin extends Component {
     }
 
   async fetchData() {
-      const res = await fetch("http://localhost:3000/product");
+      const res = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
       res
         .json()
         .then((res) => {
@@ -52,7 +57,7 @@ class Admin extends Component {
       console.log('must set a valid qty')
       return
     } else try {
-        const response = await fetch("http://localhost:3000/cart", {
+        const response = await fetch(this.state.node_env = "DEVELOPMENT" ? this.state.developmentCartURL : this.state.productionCartURL, {
           method: "POST",
           body: JSON.stringify({
             productId: id,
