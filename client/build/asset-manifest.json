@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/thursdaytherapy/static/css/main.c17d3e1e.chunk.css",
-    "main.js": "/thursdaytherapy/static/js/main.1a844e80.chunk.js",
-    "main.js.map": "/thursdaytherapy/static/js/main.1a844e80.chunk.js.map",
+    "main.js": "/thursdaytherapy/static/js/main.c812e0fb.chunk.js",
+    "main.js.map": "/thursdaytherapy/static/js/main.c812e0fb.chunk.js.map",
     "runtime-main.js": "/thursdaytherapy/static/js/runtime-main.7b29628f.js",
     "runtime-main.js.map": "/thursdaytherapy/static/js/runtime-main.7b29628f.js.map",
     "static/css/2.e133fd2b.chunk.css": "/thursdaytherapy/static/css/2.e133fd2b.chunk.css",
@@ -29,6 +29,6 @@
     "static/css/2.e133fd2b.chunk.css",
     "static/js/2.2aac8f86.chunk.js",
     "static/css/main.c17d3e1e.chunk.css",
-    "static/js/main.1a844e80.chunk.js"
+    "static/js/main.c812e0fb.chunk.js"
   ]
 }

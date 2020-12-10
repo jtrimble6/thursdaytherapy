@@ -81,7 +81,7 @@ class App extends Component {
       <Router>
         <div id='appRoot' className="App">
           <Switch>
-            <Route exact path='/thursdaytherapy'
+            <Route exact path='/'
               render={() =>
                 <Home />
               }

@@ -38,7 +38,7 @@ class NavbarHome extends Component {
                 <Navbar.Body id='navbarHomeBody'>
                 <img src={NavbarHeaderImage} id="navbarHomeLogo" className="navbar-brand Navbar-logo" alt="NavbarHeaderImg" />
                 <Nav id='navbarHomeTabs'>
-                    <Nav.Item className='navbarHomeItems' href='/thursdaytherapy'>Home</Nav.Item>
+                    <Nav.Item className='navbarHomeItems' href='/'>Home</Nav.Item>
                     <Nav.Item className='navbarHomeItems' href='/products'>Products</Nav.Item>
                     <Nav.Item className='navbarHomeItems' href='/ourstory'>Our Story</Nav.Item>
                     <Nav.Item className='navbarHomeItems' href='/howtobuy'>How to Buy</Nav.Item>
