@@ -15,7 +15,9 @@ class Inventory extends Component {
             showEditModal: false,
             showAddModal: false,
             developmentURL: "http://localhost:3000/product",
+            developmentImageURL: "http://localhost:3000/",
             productionURL: "https://thursdaytherapy.herokuapp.com/product",
+            productionImageURL: "https://thursdaytherapy.herokuapp.com/",
             soapName: '',
             soapId: '',
             soapFile: '',
@@ -507,7 +509,7 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL) + "/" + product.image} 
+                            src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentImageURL : this.state.productionImageURL) + "/" + product.image} 
                             data-soapname={product.name} 
                             data-soapprice={product.price} 
                             data-soapimage={product.image} 
