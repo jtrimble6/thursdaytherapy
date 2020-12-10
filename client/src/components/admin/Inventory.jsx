@@ -157,7 +157,7 @@ class Inventory extends Component {
     async removeFromInventory() {
         // console.log(e.target)
         // let soap = e.target
-        let soapId = this.state.soapId
+        let soapId = this.state.soapEditId
         console.log('DELETE THIS SOAP: ', soapId)
         
         try {
