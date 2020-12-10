@@ -148,7 +148,7 @@ class AdminAdd extends Component {
                                 this.setState({
                                     adminAddSuccess: true,
                                 })
-                                document.getElementById('contactForm').reset();
+                                document.getElementById('adminAddForm').reset();
                                 // this.setRedirect();
                             } else {
                                 console.log("Signup error")
