@@ -204,7 +204,7 @@ class Inventory extends Component {
         let soapImage = soap.dataset.soapimage
         let soapPrice = soap.dataset.soapprice
         let soapFile = soap.dataset.soapfile
-        console.log("PRODUCT: ", soapName)
+        console.log("PRODUCT: ", soap)
         this.setState({ 
             soapEditImage: soapImage,
             soapEditId: soapId,
