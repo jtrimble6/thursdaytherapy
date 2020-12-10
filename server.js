@@ -11,6 +11,9 @@ const userRoutes = require("./routes/API/userAPI");
 const sessionRoutes = require("./routes/API/sessionAPI");
 const contactRoutes = require('./routes/API/contactAPI')
 const purchaseRoutes = require('./routes/API/purchaseAPI')
+const productRoutes = require('./src/app/Product/routes')
+const cartRoutes = require('./src/app/Cart/routes');
+const { cart } = require('./src/app/Cart/repository');
 const PORT = process.env.PORT || 5000;
 
 app.use(morgan('dev'));
@@ -40,7 +43,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
 app.use(express.static('client/build'));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes)
+app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes, productRoutes, cartRoutes)
 app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
 app.use(
 	session({
