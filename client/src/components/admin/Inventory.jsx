@@ -15,7 +15,7 @@ class Inventory extends Component {
             showEditModal: false,
             showAddModal: false,
             developmentURL: "http://localhost:3000/product",
-            productionURL: "http://thursdaytherapy.herokuapp.com/product",
+            productionURL: "https://thursdaytherapy.herokuapp.com/product",
             soapName: '',
             soapId: '',
             soapFile: '',
