@@ -10,10 +10,12 @@ class Cart extends Component {
       
 
       this.state = {
+        products: [],
         carts: [],
         cartTotal: '',
         payloader: '',
         hasError: '',
+        itemKey: '',
         soapName: '',
         soapIngredients: '',
         soapPrice: '',
@@ -29,6 +31,7 @@ class Cart extends Component {
       this.open = this.open.bind(this);
       this.changeQty = this.changeQty.bind(this)
       this.fetchCart = this.fetchCart.bind(this)
+      this.fetchData = this.fetchData.bind(this)
       this.increaseQty = this.increaseQty.bind(this)
       this.decreaseQty = this.decreaseQty.bind(this)
       this.removeItem = this.removeItem.bind(this)
@@ -39,141 +42,236 @@ class Cart extends Component {
     }
 
     componentDidMount() {
-      this.fetchCart()
+      this.fetchData()
+      // this.fetchCart()
+    }
+
+    async fetchData() {
+      const res = await fetch("http://localhost:3000/product");
+      res
+        .json()
+        .then((res) => {
+          // console.log('PRODUCTS: ', res.data);
+          this.setState({
+            products: res.data
+          }, () => {
+            this.fetchCart()
+          });
+        })
+        .catch((error) => {
+          this.setState({
+            error: error
+          });
+        });
     }
 
     async fetchCart() {
-        const res = await fetch("http://localhost:3000/cart");
-        res
-          .json()
-          .then((res) => {
-            // console.log('CART CONTENTS: ', res.data.items);
-            let cartItems = res.data.items
-            let cartTotal = 0
-            for (let i=0; i<cartItems.length; i++) {
-              let cartItem = cartItems[i]
-              let cartItemTotal = cartItem.total
-              cartTotal = cartTotal + cartItemTotal
-            }
-            // console.log('CART TOTAL: ', cartTotal)
-            this.setState({
-                carts: res.data.items,
-                payloader: res.data,
-                cartTotal: cartTotal
-            })
-          })
-          .catch((error) => {
-            this.setState({
-                hasError: error
-            })
-          });
+      let cart = []
+      console.log('LOCAL STORAGE: ', localStorage)
+      // console.log('PRODUCTS: ', products)
+      let cartTotal = 0
+      for (let c=0; c<localStorage.length; c++) {
+        let products = this.state.products
+        let itemKey = localStorage.key(c)
+        let item = localStorage.getItem(itemKey)
+        let itemObj = JSON.parse(item)
+        // console.log('LOCAL STORAGE ITEM: ', itemObj)
+
+        let itemLookup = ''
+        let itemName = ''
+        let itemPrice = ''
+        let itemQty = ''
+        let itemId = ''
+        itemLookup = products.filter(product => {
+          return (product._id === itemObj.soapName)
+        })
+        // console.log('ITEM LOOKUP: ', itemLookup)
+        itemName = itemLookup[0].name
+        itemPrice = itemLookup[0].price
+        itemQty = itemObj.soapQty
+        itemId = itemLookup[0]._id
+
+        if (itemQty > 0) {
+          let newCartItem = {
+            'itemKey': itemKey,
+            'soapName': itemName,
+            'soapPrice': itemPrice,
+            'soapQty': itemQty,
+            'soapTotal': (itemPrice * itemQty),
+            'soapId': itemId
+          }
+          cart.push(newCartItem)
+          cartTotal = cartTotal + (itemPrice * itemQty)
+        } else {
+          this.removeItem(itemKey)
+        }
+        
+      }
+      
+      this.setState({
+        carts: cart,
+        cartTotal: cartTotal
+      })
+
+      console.log('CART: ', cart)
+
+        // const res = await fetch("http://localhost:3000/cart");
+        // res
+        //   .json()
+        //   .then((res) => {
+        //     // console.log('CART CONTENTS: ', res.data.items);
+        //     let cartItems = res.data.items
+        //     let cartTotal = 0
+        //     for (let i=0; i<cartItems.length; i++) {
+        //       let cartItem = cartItems[i]
+        //       let cartItemTotal = cartItem.total
+        //       cartTotal = cartTotal + cartItemTotal
+        //     }
+        //     // console.log('CART TOTAL: ', cartTotal)
+        //     this.setState({
+        //         carts: res.data.items,
+        //         payloader: res.data,
+        //         cartTotal: cartTotal
+        //     })
+        //   })
+        //   .catch((error) => {
+        //     this.setState({
+        //         hasError: error
+        //     })
+        //   });
       }
 
-    async increaseQty(id) {
-        try {
-          const res = await fetch("http://localhost:3000/cart", {
-            method: "POST",
-            body: JSON.stringify({
-              productId: id,
-              quantity: 1,
-            }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
+    async increaseQty(itemKey) {
+      let item = itemKey
+      let soapItem = localStorage.getItem(item)
+      let soapItemObj = JSON.parse(soapItem)
+      // console.log('SOAP ITEM OBJ: ', soapItemObj)
+      let newSoapItemObj = {
+        'soapName': soapItemObj.soapName,
+        'soapQty': soapItemObj.soapQty + 1
+      }
+      let newSoapItemString = JSON.stringify(newSoapItemObj)
+      localStorage.setItem(item, newSoapItemString)
+    
+        // try {
+        //   const res = await fetch("http://localhost:3000/cart", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //       productId: id,
+        //       quantity: 1,
+        //     }),
+        //     headers: {
+        //       "Content-type": "application/json; charset=UTF-8",
+        //     },
             
-          });
-          console.log(res);
-          this.fetchCart();
-        //   alert("Item Increamented");
-        } catch (err) {
-          console.log(err);
-        }
+        //   });
+        //   console.log(res);
+        //   this.fetchCart();
+        // //   alert("Item Increamented");
+        // } catch (err) {
+        //   console.log(err);
+        // }
       }
 
-    async decreaseQty(id) {
-        try {
-          const res = await fetch("http://localhost:3000/cart/minus", {
-            method: "POST",
-            body: JSON.stringify({
-              productId: id,
-              quantity: 1,
-            }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
-            
-          });
-          console.log(res);
-          this.fetchCart();
-        //   alert("Item Increamented");
-        } catch (err) {
-          console.log(err);
+    async decreaseQty(itemKey) {
+        let item = itemKey
+        let soapItem = localStorage.getItem(item)
+        let soapItemObj = JSON.parse(soapItem)
+        console.log('SOAP ITEM OBJ: ', soapItemObj)
+        let newSoapItemObj = {
+          'soapName': soapItemObj.soapName,
+          'soapQty': soapItemObj.soapQty - 1
         }
+        let newSoapItemString = JSON.stringify(newSoapItemObj)
+        localStorage.setItem(item, newSoapItemString)
+        // try {
+        //   const res = await fetch("http://localhost:3000/cart/minus", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //       productId: id,
+        //       quantity: 1,
+        //     }),
+        //     headers: {
+        //       "Content-type": "application/json; charset=UTF-8",
+        //     },
+            
+        //   });
+        //   console.log(res);
+        //   this.fetchCart();
+        // //   alert("Item Increamented");
+        // } catch (err) {
+        //   console.log(err);
+        // }
       }
 
-    async removeItem(id) {
-        try {
-          const res = await fetch("http://localhost:3000/cart", {
-            method: "POST",
-            body: JSON.stringify({
-              productId: id,
-              quantity: -1,
-            }),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
+    async removeItem(itemKey) {
+      localStorage.removeItem(itemKey)
+      window.location.reload()
+        // try {
+        //   const res = await fetch("http://localhost:3000/cart", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //       productId: id,
+        //       quantity: -1,
+        //     }),
+        //     headers: {
+        //       "Content-type": "application/json; charset=UTF-8",
+        //     },
             
-          });
-          console.log(res);
-          this.fetchCart();
-        //   alert("Item Increamented");
-        } catch (err) {
-          console.log(err);
-        }
+        //   });
+        //   console.log(res);
+        //   this.fetchCart();
+        // //   alert("Item Increamented");
+        // } catch (err) {
+        //   console.log(err);
+        // }
       }
     
     
     async emptyCart() {
-        try {
-          const res = await fetch("http://localhost:3000/cart/empty-cart", {
-            method: "DELETE",
-          });
-          await res.json();
-          this.fetchCart();
-          this.props.history.push("/");
-        } catch (err) {
-          console.log(err);
-        }
+      localStorage.clear()
+      window.location.reload()
+        // try {
+        //   const res = await fetch("http://localhost:3000/cart/empty-cart", {
+        //     method: "DELETE",
+        //   });
+        //   await res.json();
+        //   this.fetchCart();
+        //   this.props.history.push("/");
+        // } catch (err) {
+        //   console.log(err);
+        // }
       }
   
     changeQty = (e) => {
-        console.log("Quantity change: ", e.target)
+        // console.log("Quantity change: ", e.target)
         let newQty = $(e.target).text()
-        console.log('New qty: ', newQty)
+        // console.log('New qty: ', newQty)
         this.setState({
           qty: newQty
         })
       }
 
     changeQtyState = (e) => {
-        console.log('CHANGE TARGET: ', e.target)
-        console.log('BUTTON MATH: ', e.target.dataset.buttonmath)
+        // console.log('CHANGE TARGET: ', e.target)
+        // console.log('BUTTON MATH: ', e.target.dataset.buttonmath)
         let buttonMath = e.target.dataset.buttonmath
-        let soapQty = this.state.soapQty
+        let soapQty = JSON.parse(this.state.soapQty)
+        let itemKey = this.state.itemKey
 
         if (buttonMath === 'positive') {
             this.setState({
                 soapQty: soapQty + 1
             }, () => {
-                console.log('NEW SOAP QTY STATE: ', this.state.soapQty)
-                this.increaseQty(this.state.soapId)
+                // console.log('NEW SOAP QTY STATE: ', this.state.soapQty)
+                this.increaseQty(itemKey)
             })
         } else {
             this.setState({
                 soapQty: soapQty - 1
             }, () => {
-                console.log('NEW SOAP QTY STATE: ', this.state.soapQty)
-                this.decreaseQty(this.state.soapId)
+                // console.log('NEW SOAP QTY STATE: ', this.state.soapQty)
+                this.decreaseQty(itemKey)
             })
         }
       }
@@ -185,36 +283,42 @@ class Cart extends Component {
 
     handleRemoveItem = (e) => {
         let cart = this.state.carts
+        // console.log('CART: ', cart)
         let targetSoap = e.target
+        // console.log('TARGET SOAP: ', targetSoap.dataset.product)
         let soapId = targetSoap.dataset.product
         let soap = cart.filter(product => {
-            return product._id === soapId
+            return product.soapId === soapId
         })
-        let soapProductId = soap[0].productId._id
-        let soapName = soap[0].productId.name
-        console.log('SOAP SELECTED: ', soap)
-        console.log('SOAP NAME: ', soapName)
-        console.log('SOAP PRODUCT ID: ', soapProductId)
-        this.removeItem(soapProductId)
+        // let soapProductId = soap[0].soapId
+        // let soapName = soap[0].soapName
+        let itemKey = soap[0].itemKey
+        console.log('REMOVE THIS KEY: ', itemKey)
+        this.removeItem(itemKey)
+        this.fetchData()
     }
   
     open = (e) => {
         let cart = this.state.carts
+        // console.log('CART: ', cart)
         let targetSoap = e.target
+        // console.log('TARGET SOAP: ', targetSoap.dataset.product)
         let soapId = targetSoap.dataset.product
         let soap = cart.filter(product => {
-            return product._id === soapId
+            return product.soapId === soapId
         })
-        let soapProductId = soap[0].productId._id
-        let soapName = soap[0].productId.name
-        console.log('SOAP SELECTED: ', soap)
-        console.log('SOAP NAME: ', soapName)
-        console.log('SOAP ID: ', soapId)
+        let soapProductId = soap[0].soapId
+        let soapName = soap[0].soapName
+        let itemKey = soap[0].itemKey
+        // console.log('SOAP SELECTED: ', soap)
+        // console.log('SOAP NAME: ', soapName)
+        // console.log('SOAP ID: ', soapProductId)
         this.setState({
+            itemKey: itemKey,
             soapId: soapProductId,
             soapName: soapName,
-            soapPrice: soap[0].price,
-            soapQty: soap[0].quantity,
+            soapPrice: soap[0].soapPrice,
+            soapQty: soap[0].soapQty,
             show: true
         })
         // let soap = e.target
@@ -234,8 +338,8 @@ class Cart extends Component {
 
     handleOrderSubmit = (e) => {
       e.preventDefault()
-      console.log('SUBMITTING ORDER')
-      console.log('CURRENT CART: ', this.state.carts)
+      // console.log('SUBMITTING ORDER')
+      // console.log('CURRENT CART: ', this.state.carts)
       let cart = this.state.carts
       let orderData = { 
           firstName: 'test',
@@ -246,13 +350,13 @@ class Cart extends Component {
           confirmationNumber: '1234',
           purchaseDetails: cart
       };
-      console.log('ORDER DATA: ', orderData);
+      // console.log('ORDER DATA: ', orderData);
       API.submitOrder(orderData)
         .then(res => {
-          console.log('ORDER SUBMIT RESULT: ', res) 
+            console.log('ORDER SUBMIT RESULT: ', res) 
           })
           .catch(error => {
-              console.log(error)
+            console.log(error)
           })
     }
   
@@ -310,26 +414,27 @@ class Cart extends Component {
                 onRowClick={data => {
                     console.log(data);
                 }}
-
-                >
-                <Column width={200} align="center" fixed>
-                    <HeaderCell>Name</HeaderCell>
-                    <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell>
-                </Column>
-
-                <Column width={70} fixed>
-                    <HeaderCell>Price ($)</HeaderCell>
-                    <Cell dataKey="price" />
-                </Column>
-
-                <Column width={70}>
+              >
+                <Column width={70} align="center">
                     <HeaderCell>Qty</HeaderCell>
-                    <Cell dataKey="quantity" />
+                    <Cell dataKey="soapQty" />
                 </Column>
 
-                <Column width={200}>
-                    <HeaderCell>Total Price ($)</HeaderCell>
-                    <Cell dataKey="total" />
+                <Column width={200} align="center">
+                    <HeaderCell>Name</HeaderCell>
+                    <Cell dataKey="soapName" />
+                    {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
+                </Column>
+
+                <Column width={70} align="center">
+                    <HeaderCell>Price</HeaderCell>
+                    <Cell>{(rowData) => {return "$" + rowData.soapPrice}}</Cell>
+                    {/* <Cell dataKey="soapPrice" /> */}
+                </Column>
+
+                <Column width={200} align="center">
+                    <HeaderCell>Total Price</HeaderCell>
+                    <Cell>{(rowData) => {return "$" + rowData.soapTotal}}</Cell>
                 </Column>
 
                 {/* <Column width={200}>
@@ -347,8 +452,8 @@ class Cart extends Component {
                         // }
                         return (
                         <span>
-                            <Button className='cartEditButtons' onClick={this.open} data-product={rowData._id}> Edit </Button> |{' '}
-                            <Button className='cartEditButtons' onClick={(e) => this.handleRemoveItem(e)} data-product={rowData._id}> Remove </Button>
+                            <Button className='cartEditButtons' onClick={this.open} data-product={rowData.soapId}> Edit </Button> |{' '}
+                            <Button className='cartEditButtons' onClick={(e) => this.handleRemoveItem(e)} data-product={rowData.soapId}> Remove </Button>
                         </span>
                         );
                     }}
@@ -357,7 +462,10 @@ class Cart extends Component {
             </Table>
           </div>
           <div id='placeOrderRow' className="row">
-              <h2 id='placeOrderTotal'>Grand Total: ${this.state.cartTotal}</h2>
+              <h2 id='placeOrderTotal'>Subtotal: ${this.state.cartTotal}</h2>
+              <Button id='emptyCartButton' onClick={this.emptyCart}>
+                  Empty Cart <Icon icon='trash' />
+              </Button>
               <Button id='placeOrderButton' onClick={this.handleOrderSubmit}>
                   Secure Checkout <Icon icon='lock' />
               </Button>

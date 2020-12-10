@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Modal, Button, Dropdown } from 'rsuite';
+import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon } from 'rsuite';
 import $ from 'jquery'
 import '../../css/products/productsImages.css'
 
@@ -17,7 +17,8 @@ class Products extends Component {
         soapId: '',
         error: '',
         qty: 'qty',
-        products: []
+        products: [],
+        filteredProducts: []
       }
 
       this.close = this.close.bind(this);
@@ -25,6 +26,9 @@ class Products extends Component {
       this.fetchData = this.fetchData.bind(this)
       this.addToCart = this.addToCart.bind(this)
       this.changeQty = this.changeQty.bind(this)
+      this.updateExistingCart = this.updateExistingCart.bind(this)
+      this.checkBrowser = this.checkBrowser.bind(this)
+      this.handleSearchEntry = this.handleSearchEntry.bind(this)
   }
 
   componentDidMount() {
@@ -38,7 +42,8 @@ class Products extends Component {
         .then((res) => {
           console.log('PRODUCTS: ', res.data);
           this.setState({
-            products: res.data
+            products: res.data,
+            filteredProducts: res.data
           });
         })
         .catch((error) => {
@@ -47,29 +52,83 @@ class Products extends Component {
           });
         });
     }
+
   async addToCart(id) {
     if (this.state.qty === 'qty') {
       console.log('must set a valid qty')
+      // NEED TO ADD ALERT
       return
-    } else try {
-        const response = await fetch("http://localhost:3000/cart", {
-          method: "POST",
-          body: JSON.stringify({
-            productId: id,
-            quantity: this.state.qty,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-        let data = await response.json();
-        // alert("Item Added To Cart");
-        this.close()
-        console.log(data);
-      } catch (err) {
-        alert("Something Went Wrong");
-        console.log(err);
+    } else if (localStorage.getItem('item1')) {
+      // localStorage.clear()
+      let soapName = id;
+      let soapQty = this.state.qty;
+      let newCart = []
+      newCart.push({
+        'soapName': soapName,
+        'soapQty': soapQty,
+      })
+      console.log('CART EXISTS: ', localStorage.key(0))
+      for (let c=0; c<localStorage.length; c++) {
+        let itemKey = localStorage.key(c)
+        let item = localStorage.getItem(itemKey)
+        console.log('LOCAL STORAGE ITEM: ', item)
+        let itemObj = JSON.parse(item)
+        newCart.push(itemObj)
       }
+      console.log('NEW CART: ', newCart)
+      this.updateExistingCart(newCart)
+    } else {
+      let soapName = id;
+      let soapQty = this.state.qty;
+      let soapAdded = {
+        'soapName': soapName, 
+        'soapQty': soapQty,
+      }
+      // localStorage.clear()
+      let soapAddedString = JSON.stringify(soapAdded)
+      localStorage.setItem('item1', soapAddedString);
+      console.log('LOCAL STORAGE: ', localStorage)
+      this.close()
+    // try {
+    //     const response = await fetch("http://localhost:3000/cart", {
+    //       method: "POST",
+    //       body: JSON.stringify({
+    //         productId: id,
+    //         quantity: this.state.qty,
+    //       }),
+    //       headers: {
+    //         "Content-type": "application/json; charset=UTF-8",
+    //       },
+    //     });
+    //     let data = await response.json();
+    //     // alert("Item Added To Cart");
+    //     this.close()
+    //     console.log(data);
+    //   } catch (err) {
+    //     alert("Something Went Wrong");
+    //     console.log(err);
+    //   }
+      }
+    }
+
+  checkBrowser() {
+      if ('localStorage' in window && window['localStorage'] !== null) {
+        // We can use localStorage object to store data.
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+  updateExistingCart(cart) {
+    let newCart = cart
+    for (let n=0; n<newCart.length; n++) {
+      let item = newCart[n]
+      let itemString = JSON.stringify(item)
+      localStorage.setItem('item' + (n+1), itemString);
+    }
+    console.log('LOCAL STORAGE: ', localStorage)
+    this.close()
     }
 
   close() {
@@ -77,17 +136,18 @@ class Products extends Component {
         show: false,
         qty: 'qty',
        });
+      window.location.reload()
     }
 
   open = (e) => {
-      console.log(e.target)
+      // console.log(e.target)
       let soap = e.target
       let soapName = soap.dataset.soapname
       let soapId = soap.dataset.soapid
       let soapImage = soap.dataset.soapimage
       let soapPrice = soap.dataset.soapprice
       let soapIngredients = soap.dataset.soapingredients
-      console.log("PRODUCT: ", soapName)
+      // console.log("PRODUCT: ", soapName)
       this.setState({ 
           soapImage: soapImage,
           soapId: soapId,
@@ -105,13 +165,45 @@ class Products extends Component {
     this.setState({
       qty: newQty
     })
-  }
+    }
+
+  handleSearchEntry = event => {
+    console.log(event)
+    console.log('NEW SEARCH ENTRY: ', event.searchEntry)
+    let products = this.state.products
+    let newSearchEntry = event.searchEntry
+    if(newSearchEntry === '') {
+      this.fetchData()
+    }
+    let inventoryFiltered = products.filter(product => {
+      return product.name.toLowerCase().includes(newSearchEntry.toLowerCase())
+    })
+    this.setState({
+      filteredProducts: inventoryFiltered
+    })
+    }
   
   
 
   render() {                                                       
       return (
           <span>
+            <div className="row productsTitleRow">
+              <p className='productsTitle'>Soaps</p>
+              {/* SEARCH BAR */}
+              <Form id='adminProductsSearchBarForm' onChange={(event) => this.handleSearchEntry(event)}>
+                <FormGroup id='adminProductsSearchBarFormGroup'>
+                  <FormControl 
+                    name="searchEntry"
+                    type="text"
+                    className="form-control productsSearchBarFromEntry"
+                    id="searchEntry"
+                    placeholder="Search by name or ingredient" 
+                  />
+                  <Icon className='searchIcon' icon='search' size="lg" />
+                </FormGroup>
+              </Form>
+            </div>
             <div id='productsImagesRow1' className="row">
             <Modal show={this.state.show} onHide={this.close}>
               <Modal.Header>
@@ -153,7 +245,7 @@ class Products extends Component {
                 </Button>
               </Modal.Footer>
             </Modal>
-            {this.state.products.map((product, i) => (
+            {this.state.filteredProducts.map((product, i) => (
               <span key={product._id}>
                 <Panel className='productsImagePanel' shaded bordered bodyFill={false} style={{ display: 'inline-block' }}>
                   <img 

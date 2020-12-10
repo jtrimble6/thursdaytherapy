@@ -1,8 +1,32 @@
-.purchasesTitle {
-    text-align: center;
-    margin-top: 5vw;
+.purchasesTitleRow {
+    width: 100%;
+    display: inline-block !important;
     margin-bottom: 3vw;
+}
+
+.purchasesTitle {
     font-size: 5vw;
+    float: left;
+    width: 30%;
+    margin-left: 15vw;
+    font-family: 'Didot';
+}
+
+#adminPurchasesSearchBarForm {
+    float: right;
+    width: 30%;
+    margin-right: 10vw;
+    margin-top: 1vw;
+}
+
+#adminPurchasesSearchBarFormGroup .rs-form-control-wrapper {
+    max-width: 70% !important;
+}
+
+.searchIcon {
+    float: right;
+    margin-top: .5vw;
+    margin-right: 1vw;
 }
 
 #purchaseRow {
@@ -26,7 +50,7 @@
     margin-left: 2vw;
 }
 
-#emptyCartTitle {
+#emptyPurchasesTitle {
     text-align: center;
     margin-top: 5vw;
     /* font-size: 18vw; */

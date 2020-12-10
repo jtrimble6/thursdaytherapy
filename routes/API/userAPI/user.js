@@ -41,6 +41,7 @@ router.get('/', (req, res, next) => {
 
 router.route('/:id')
   .get(userController.findById)
+  .delete(userController.remove)
   // .put(userController.findOneAndUpdate)
   // .post(userController.addWin)
 

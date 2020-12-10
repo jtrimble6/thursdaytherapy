@@ -25,10 +25,10 @@ module.exports = {
           .then(dbModel => res.json(dbModel))
           .catch(err => res.status(422).json(err))
     },
-    updatePurchasePersonalInfo: function(req, res) {
+    updateOrderInfo: function(req, res) {
       db.Purchase
         .updateOne(
-          { username: req.params.id },
+          { _id: req.params.id },
           { $set: { 
             'firstName': req.body.firstName, 
             'lastName': req.body.lastName, 

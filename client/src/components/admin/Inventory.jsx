@@ -27,9 +27,11 @@ class Inventory extends Component {
             soapEditImageFile: '',
             soapEditId: '',
             soapEditFile: '',
+            searchEntry: '',
             error: '',
             qty: 'qty',
-            products: []
+            products: [],
+            filteredProducts: []
         }
 
         this.closeEditModal = this.closeEditModal.bind(this);
@@ -42,6 +44,7 @@ class Inventory extends Component {
         this.changeQty = this.changeQty.bind(this)
         this.handleFileSelection = this.handleFileSelection.bind(this)
         this.handleEditInventory = this.handleEditInventory.bind(this)
+        this.handleSearchEntry = this.handleSearchEntry.bind(this)
       
     }
 
@@ -57,7 +60,8 @@ class Inventory extends Component {
             console.log('ALL PRODUCTS: ', res.data);
             console.log('ALL FILES: ', res.file);
             this.setState({
-              products: res.data
+              products: res.data,
+              filteredProducts: res.data
             });
           })
           .catch((error) => {
@@ -66,6 +70,7 @@ class Inventory extends Component {
             });
           });
       }
+
     async addToInventory() {
       let soapName = document.getElementById('soapName').value
       let soapPrice = document.getElementById('soapPrice').value
@@ -99,7 +104,7 @@ class Inventory extends Component {
       let soapName = this.state.soapEditName
       let soapPrice = this.state.soapEditPrice
       let soapIngredients = this.state.soapEditIngredients
-        let imageFile = this.state.soapImageFile
+      let imageFile = this.state.soapImageFile
   
         // ADD FORM DATA
         const data = new FormData() 
@@ -248,15 +253,31 @@ class Inventory extends Component {
       }
 
     handleEditInventory = event => {
-      console.log(event)
-      console.log('NEW SOAP NAME: ', event.soapEditName)
-      console.log('NEW SOAP PRICE: ', event.soapEditPrice)
-      console.log('NEW SOAP INGREDIENTS: ', event.soapEditIngredients)
-      this.setState({
-          soapEditName: event.soapEditName !== undefined ? event.soapEditName : this.state.soapEditName,
-          soapEditPrice: event.soapEditPrice !== undefined ? event.soapEditPrice : this.state.soapEditPrice,
-          soapEditIngredients: event.soapEditIngredients !== undefined ? event.soapEditIngredients : this.state.soapEditIngredients
-      })
+        console.log(event)
+        console.log('NEW SOAP NAME: ', event.soapEditName)
+        console.log('NEW SOAP PRICE: ', event.soapEditPrice)
+        console.log('NEW SOAP INGREDIENTS: ', event.soapEditIngredients)
+        this.setState({
+            soapEditName: event.soapEditName !== undefined ? event.soapEditName : this.state.soapEditName,
+            soapEditPrice: event.soapEditPrice !== undefined ? event.soapEditPrice : this.state.soapEditPrice,
+            soapEditIngredients: event.soapEditIngredients !== undefined ? event.soapEditIngredients : this.state.soapEditIngredients
+        })
+      }
+
+    handleSearchEntry = event => {
+        console.log(event)
+        console.log('NEW SEARCH ENTRY: ', event.searchEntry)
+        let products = this.state.products
+        let newSearchEntry = event.searchEntry
+        if(newSearchEntry === '') {
+          this.fetchData()
+        }
+        let inventoryFiltered = products.filter(product => {
+          return product.name.toLowerCase().includes(newSearchEntry.toLowerCase())
+        })
+        this.setState({
+          filteredProducts: inventoryFiltered
+        })
       }
 
     
@@ -266,222 +287,237 @@ class Inventory extends Component {
           <div id='inventory'>
             <NavbarAdmin />
               <span>
-                <h2 className='inventoryTitle'>Inventory</h2>
+                <div className="row inventoryTitleRow">
+                  <p className='inventoryTitle'>Inventory</p>
+                  {/* SEARCH BAR */}
+                  <Form id='adminInventorySearchBarForm' onChange={(event) => this.handleSearchEntry(event)}>
+                    <FormGroup id='adminInventorySearchBarFormGroup'>
+                      <FormControl 
+                        name="searchEntry"
+                        type="text"
+                        className="form-control inventorySearchBarFromEntry"
+                        id="searchEntry"
+                        placeholder="Search by name" 
+                      />
+                      <Icon className='searchIcon' icon='search' size="lg" />
+                    </FormGroup>
+                  </Form>
+                </div>
+                
                 <div id='productsImagesRow1' className="row">
+                  {/* ADD INVENTORY MODAL */}
+                  <Modal show={this.state.showAddModal} onHide={this.closeAddModal}>
+                    <Modal.Header>
+                      <Modal.Title>{this.state.soapName}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Form id='addInventoryForm' encType="multipart/form-data" action='/products' method='POST'>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            className='inventoryFormLabel' 
+                            htmlFor="name"
+                          >
+                            Soap Name
+                          </ControlLabel>
+                          <FormControl 
+                              name="soapName"
+                              type="text"
+                              className="form-control inventoryFormEntry"
+                              id="soapName"
+                              placeholder='Soap Name'                                    
+                          />
+                          {/* <small id="usernameError" className="form-text text-muted">{this.state.nameTaken}</small> */}
+                        </FormGroup>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            className='inventoryFormLabel' 
+                            htmlFor="price"
+                          >
+                            Price
+                          </ControlLabel>
+                          <FormControl 
+                              name="soapPrice"
+                              type="text"
+                              // min={0}
+                              className="form-control inventoryFormEntry"
+                              id="soapPrice"
+                              placeholder='Price'                             
+                          />
+                        </FormGroup>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            id='ingredientsLabel' 
+                            className='inventoryFormLabel' 
+                            htmlFor="ingredients"
+                          >
+                            Soap Ingredients
+                          </ControlLabel>
+                          <FormControl 
+                            id='soapIngredients' 
+                            rows={5} 
+                            name="soapIngredients" 
+                            componentClass="textarea" 
+                            placeholder='Ingredients...' 
+                          />
+                        </FormGroup>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            className='inventoryFormLabel' 
+                            htmlFor="image"
+                          >
+                            Soap Image
+                          </ControlLabel>
+                          {/* <input type='file' id='image' name='image' onChange={this.handleFileSelection} /> */}
+                          <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
+                            <button>
+                              <Icon icon='camera-retro' size="lg" />
+                            </button>
+                          </Uploader>
+                          {/* <HelpBlock>Required</HelpBlock> */}
+                          {/* <FormControl 
+                            onChange={this.handleFileSelection}
+                            id='soapImage' 
+                            type='file' 
+                            name="file"
+                            className="form-control inventoryFormEntry" 
+                          /> */}
+                          {/* <HelpBlock>{this.state.soapFile}</HelpBlock> */}
+                        </FormGroup>
+                      </Form>
+                      {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button onClick={this.addToInventory}>
+                        Add to Inventory
+                      </Button>
+                      <Button onClick={this.closeAddModal}>
+                        Cancel
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
 
-                {/* ADD INVENTORY MODAL */}
-                <Modal show={this.state.showAddModal} onHide={this.closeAddModal}>
-                  <Modal.Header>
-                    <Modal.Title>{this.state.soapName}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form id='addInventoryForm' encType="multipart/form-data" action='/products' method='POST'>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          className='inventoryFormLabel' 
-                          htmlFor="name"
-                        >
-                          Soap Name
-                        </ControlLabel>
-                        <FormControl 
-                            name="soapName"
-                            type="text"
-                            className="form-control inventoryFormEntry"
-                            id="soapName"
-                            placeholder='Soap Name'                                    
-                         />
-                         {/* <small id="usernameError" className="form-text text-muted">{this.state.nameTaken}</small> */}
-                      </FormGroup>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          className='inventoryFormLabel' 
-                          htmlFor="price"
-                        >
-                          Price
-                        </ControlLabel>
-                        <FormControl 
-                            name="soapPrice"
+                  {/* EDIT INVENTORY MODAL */}
+                  <Modal show={this.state.showEditModal} onHide={this.closeEditModal}>
+                    <Modal.Header>
+                      <Modal.Title>{this.state.soapName}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Form id='inventoryForm' onChange={(event) => this.handleEditInventory(event)} >
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel className='inventoryFormLabel' htmlFor="name">Soap Name</ControlLabel>
+                          <FormControl 
+                              disabled
+                              name="soapEditName"
+                              type="text"
+                              className="form-control inventoryFormEntry"
+                              id="soapEditName"
+                              value={this.state.soapEditName}                            
+                          />
+                          <small id="usernameError" className="form-text text-muted">{this.state.nameTaken}</small>
+                        </FormGroup>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            className='inventoryFormLabel' 
+                            htmlFor="price"
+                          >
+                            Price
+                          </ControlLabel>
+                          <FormControl 
+                            disabled
+                            name="soapEditPrice"
                             type="text"
                             // min={0}
                             className="form-control inventoryFormEntry"
-                            id="soapPrice"
-                            placeholder='Price'                             
-                         />
-                      </FormGroup>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          id='ingredientsLabel' 
-                          className='inventoryFormLabel' 
-                          htmlFor="ingredients"
-                        >
-                          Soap Ingredients
-                        </ControlLabel>
-                        <FormControl 
-                          id='soapIngredients' 
-                          rows={5} 
-                          name="soapIngredients" 
-                          componentClass="textarea" 
-                          placeholder='Ingredients...' 
-                        />
-                      </FormGroup>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          className='inventoryFormLabel' 
-                          htmlFor="image"
-                        >
-                          Soap Image
-                        </ControlLabel>
-                        {/* <input type='file' id='image' name='image' onChange={this.handleFileSelection} /> */}
-                        <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
-                          <button>
-                            <Icon icon='camera-retro' size="lg" />
-                          </button>
-                        </Uploader>
-                        {/* <HelpBlock>Required</HelpBlock> */}
-                        {/* <FormControl 
-                          onChange={this.handleFileSelection}
-                          id='soapImage' 
-                          type='file' 
-                          name="file"
-                          className="form-control inventoryFormEntry" 
-                        /> */}
-                        {/* <HelpBlock>{this.state.soapFile}</HelpBlock> */}
-                      </FormGroup>
-                    </Form>
-                    {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button onClick={this.addToInventory}>
-                      Add to Inventory
-                    </Button>
-                    <Button onClick={this.closeAddModal}>
-                      Cancel
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-
-                {/* EDIT INVENTORY MODAL */}
-                <Modal show={this.state.showEditModal} onHide={this.closeEditModal}>
-                  <Modal.Header>
-                    <Modal.Title>{this.state.soapName}</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form id='inventoryForm' onChange={(event) => this.handleEditInventory(event)} >
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel className='inventoryFormLabel' htmlFor="name">Soap Name</ControlLabel>
-                        <FormControl 
+                            id="soapEditPrice"
+                            value={this.state.soapEditPrice}
+                            // onChange={this.handleEditInventory}                              
+                          />
+                        </FormGroup>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            id='ingredientsLabel' 
+                            className='inventoryFormLabel' 
+                            htmlFor="ingredients"
+                          >
+                            Soap Ingredients
+                          </ControlLabel>
+                          {/* <HelpBlock>Required</HelpBlock> */}
+                          <FormControl 
                             disabled
-                            name="soapEditName"
-                            type="text"
-                            className="form-control inventoryFormEntry"
-                            id="soapEditName"
-                            value={this.state.soapEditName}                            
-                         />
-                         <small id="usernameError" className="form-text text-muted">{this.state.nameTaken}</small>
-                      </FormGroup>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          className='inventoryFormLabel' 
-                          htmlFor="price"
-                        >
-                          Price
-                        </ControlLabel>
-                        <FormControl 
-                          disabled
-                          name="soapEditPrice"
-                          type="text"
-                          // min={0}
-                          className="form-control inventoryFormEntry"
-                          id="soapEditPrice"
-                          value={this.state.soapEditPrice}
-                          // onChange={this.handleEditInventory}                              
-                         />
-                      </FormGroup>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          id='ingredientsLabel' 
-                          className='inventoryFormLabel' 
-                          htmlFor="ingredients"
-                        >
-                          Soap Ingredients
-                        </ControlLabel>
-                        {/* <HelpBlock>Required</HelpBlock> */}
-                        <FormControl 
-                          disabled
-                          id='soapEditIngredients' 
-                          rows={5} 
-                          name="soapEditIngredients" 
-                          componentClass="textarea"
-                          value={this.state.soapEditIngredients}
-                          // onChange={this.handleEditInventory}
-                        />
-                      </FormGroup>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel 
-                          className='inventoryFormLabel' 
-                          htmlFor="img"
-                        >
-                          Soap Image
-                        </ControlLabel>
-                        {/* <HelpBlock>Required</HelpBlock> */}
-                        {/* <FormControl 
-                          id='img' 
-                          type='file' 
-                          name="file"
-                          className="form-control inventoryFormEntry" 
-                        /> */}
-                        <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
-                          <button>
-                            <Icon icon='camera-retro' size="lg" />
-                          </button>
-                        </Uploader>
-                        <HelpBlock id='editImageHelpBlock'>{this.state.soapEditFile}</HelpBlock>
-                      </FormGroup>
-                    </Form>
-                    {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button onClick={this.editInventory}>
-                      Edit
-                    </Button>
-                    <Button onClick={(e) => this.submitEditInventory(this.state.soapId)}>
-                      Submit Changes
-                    </Button>
-                    <Button onClick={this.removeFromInventory}>
-                      Delete from Inventory
-                    </Button>
-                    <Button onClick={this.closeEditModal}>
-                      Cancel
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                            id='soapEditIngredients' 
+                            rows={5} 
+                            name="soapEditIngredients" 
+                            componentClass="textarea"
+                            value={this.state.soapEditIngredients}
+                            // onChange={this.handleEditInventory}
+                          />
+                        </FormGroup>
+                        <FormGroup className="adminAddFormGroup">
+                          <ControlLabel 
+                            className='inventoryFormLabel' 
+                            htmlFor="img"
+                          >
+                            Soap Image
+                          </ControlLabel>
+                          {/* <HelpBlock>Required</HelpBlock> */}
+                          {/* <FormControl 
+                            id='img' 
+                            type='file' 
+                            name="file"
+                            className="form-control inventoryFormEntry" 
+                          /> */}
+                          <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
+                            <button>
+                              <Icon icon='camera-retro' size="lg" />
+                            </button>
+                          </Uploader>
+                          <HelpBlock id='editImageHelpBlock'>{this.state.soapEditFile}</HelpBlock>
+                        </FormGroup>
+                      </Form>
+                      {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button onClick={this.editInventory}>
+                        Edit
+                      </Button>
+                      <Button onClick={(e) => this.submitEditInventory(this.state.soapId)}>
+                        Submit Changes
+                      </Button>
+                      <Button onClick={this.removeFromInventory}>
+                        Delete from Inventory
+                      </Button>
+                      <Button onClick={this.closeEditModal}>
+                        Cancel
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
 
-                {/* ADD INVENTORY PANEL */}
-                <Panel className='addProductPanel productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
-                  <Icon icon='plus-square' onClick={this.openAddModal} id="addProductImage" />
-                    <Panel className='productsImageHeader' header="Add a Product"></Panel>
-                </Panel>
+                  {/* ADD INVENTORY PANEL */}
+                  <Panel className='addProductPanel productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
+                    <Icon icon='plus-square' onClick={this.openAddModal} id="addProductImage" />
+                      <Panel className='productsImageHeader' header="Add a Product"></Panel>
+                  </Panel>
 
-                {/* MAP THRU INVENTORY & CREATE PANELS */}
-                {this.state.products.map((product, i) => (
-                  <span key={product._id}>
-                    <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
-                        <img 
-                          src={"http://localhost:3000/" + product.image} 
-                          data-soapname={product.name} 
-                          data-soapprice={product.price} 
-                          data-soapimage={product.image} 
-                          data-soapid={product._id} 
-                          data-soapfile={product.image}
-                          data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
-                          onClick={this.openEditModal} 
-                          className="productsImage" 
-                          alt="soap name" 
-                        />
-                        <Panel className='productsImageHeader' header={product.name}></Panel>
-                    </Panel>
-                  </span>   
-                ))}
+                  {/* MAP THRU INVENTORY & CREATE PANELS */}
+                  {this.state.filteredProducts.map((product, i) => (
+                    <span key={product._id}>
+                      <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
+                          <img 
+                            src={"http://localhost:3000/" + product.image} 
+                            data-soapname={product.name} 
+                            data-soapprice={product.price} 
+                            data-soapimage={product.image} 
+                            data-soapid={product._id} 
+                            data-soapfile={product.image}
+                            data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
+                            onClick={this.openEditModal} 
+                            className="productsImage" 
+                            alt="soap name" 
+                          />
+                          <Panel className='productsImageHeader' header={product.name}></Panel>
+                      </Panel>
+                    </span>   
+                  ))}
               </div>
             </span>
           </div>

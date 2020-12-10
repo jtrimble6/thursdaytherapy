@@ -64,3 +64,32 @@
     font-weight: bolder;
 }
 
+.productsTitleRow {
+    width: 100%;
+    display: inline-block !important;
+}
+
+.productsTitle {
+    font-size: 5vw;
+    float: left;
+    width: 30%;
+    margin-left: 15vw;
+    font-family: 'Didot';
+}
+
+#adminProductsSearchBarForm {
+    float: right;
+    width: 30%;
+    margin-right: 10vw;
+    margin-top: 1vw;
+}
+
+#adminProductsSearchBarFormGroup .rs-form-control-wrapper {
+    max-width: 70% !important;
+}
+
+.searchIcon {
+    float: right;
+    margin-top: 0.5vw;
+    margin-right: 1vw;
+}

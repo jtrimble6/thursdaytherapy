@@ -65,3 +65,32 @@
 #navbarHomeCart .rs-icon:hover {
     background-color: transparent !important;
 }
+
+.badge {
+    padding-left: 9px;
+    padding-right: 9px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+  }
+  
+.label-warning[href],
+.badge-warning[href] {
+    background-color: #c67605;
+  }
+
+#cartCount {
+    font-size: 1vw;
+    background: lightblue !important;
+    color: black;
+    /* padding: 0 0.5vw 0 0.5vw; */
+    vertical-align: top;
+}
+
+#cartCount :hover {
+    font-size: 1vw;
+    background: lightblue !important;
+    color: black;
+    /* padding: 0 0.5vw 0 0.5vw; */
+    vertical-align: top;
+}

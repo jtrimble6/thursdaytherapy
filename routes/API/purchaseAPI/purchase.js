@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
 
 router.route('/:id')
   .get(purchaseController.findById)
-  // .put(purchaseController.findOneAndUpdate)
+  .put(purchaseController.updateOrderInfo)
   // .post(purchaseController.addWin)
 
 // router.route('/:id/picks/:status')

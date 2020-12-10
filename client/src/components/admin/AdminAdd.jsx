@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'rsuite';
+import { Form, FormGroup, ControlLabel, FormControl, Button, Modal } from 'rsuite';
 import API from '../../utils/API'
 // import Navbar from '../../nav/Navbar'
 
@@ -29,7 +29,7 @@ class AdminAdd extends Component {
         nameTaken: false,
         passwordError: false,
         adminAddError: false,
-        adminAddSuccess: false
+        adminAddSuccess: false,
       }
         this.setRedirect = this.setRedirect.bind(this)
         this.renderRedirect = this.renderRedirect.bind(this)
@@ -37,6 +37,7 @@ class AdminAdd extends Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
         this.checkPassword = this.checkPassword.bind(this)
         this.checkUserName = this.checkUserName.bind(this)
+        this.closeAdminAddModal = this.closeAdminAddModal.bind(this)
       
       }
 
@@ -175,99 +176,122 @@ class AdminAdd extends Component {
         
       }
 
+    closeAdminAddModal = () => {
+        window.location.reload()
+      }
+
     render() {
         return (
             <div id="adminAddPage">
               {/* {this.renderRedirect()} */}
-                <div id="adminAddForm" className="formContainer">   
+                  <Modal id="adminAddModal" show={this.props.showAdminAddModal} onHide={this.closeAdminAddModal}>
+                    <Modal.Header>
+                      <Modal.Title>Admin Add</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Form id='adminAddForm' action="index.html">
+                        <h2 id="adminAddFormHeading" className="adminAddFormHeading">Admin Add</h2>
+                        <FormGroup className="adminAddFormGroup">
+                            <ControlLabel className='adminAddFormLabel' htmlFor="firstName">First Name</ControlLabel>
+                            <FormControl 
+                                // value={this.state.firstName}
+                                name="firstName"
+                                // onChange={this.handleInputChange}
+                                type="text"
+                                className="form-control adminAddFormEntry"
+                                id="firstName"
+                                placeholder="First name" 
+                            />
+                            {/* <HelpBlock>Required</HelpBlock> */}
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel className='adminAddFormLabel' htmlFor="lastName">Last Name</ControlLabel>
+                            <FormControl 
+                                // value={this.state.lastName}
+                                name="lastName"
+                                // onChange={this.handleInputChange}
+                                type="text"
+                                className="form-control adminAddFormEntry"
+                                id="lastName"
+                                placeholder="Last name"                                        
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel className='adminAddFormLabel' htmlFor="email">Email</ControlLabel>
+                            <FormControl 
+                                // value={this.state.email}
+                                name="email"
+                                // onChange={this.handleInputChange}
+                                type="text"
+                                className="form-control adminAddFormEntry"
+                                id="email"
+                                placeholder="Email"                                    
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel className='adminAddFormLabel' htmlFor="username">Username</ControlLabel>
+                            <FormControl 
+                                // value={this.state.username}
+                                name="username"
+                                // onChange={this.checkUserName}
+                                type="text"
+                                className="form-control adminAddFormEntry"
+                                id="username"
+                                placeholder="Username"                                    
+                            />
+                            <small id="usernameError" className="form-text text-muted">{this.state.nameTaken}</small>
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel className='adminAddFormLabel' htmlFor="exampleInputPassword1">Create Password</ControlLabel>
+                            <FormControl 
+                                // value={this.state.password}
+                                name="password"
+                                // onChange={this.handleInputChange}
+                                type="password"
+                                className="form-control adminAddFormEntry"
+                                id="password"
+                                placeholder="Password"                                
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel className='adminAddFormLabel' htmlFor="exampleInputPassword1">Confirm Password</ControlLabel>
+                            <FormControl 
+                                // value={this.state.confirmPassword}
+                                name="confirmPassword"
+                                // onChange={this.checkPassword}
+                                type="password"
+                                className="form-control adminAddFormEntry"
+                                id="confirmPassword"
+                                placeholder="Confirm Password"                                 
+                            />
+                            <small id="passwordError" className="form-text text-muted">{this.state.passwordError}</small>
+                        </FormGroup>
+                        <FormGroup>
+                            
+                        </FormGroup>
+                      </Form>
+                      {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        type="submit"
+                        className="adminSubmitButton"
+                        onClick={this.handleFormSubmit}
+                      >
+                        Create Admin
+                      </Button>
+                      <Button onClick={this.closeAdminAddModal}>
+                        Cancel
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+
+
+
+                {/* <div id="adminAddForm" className="formContainer">   
                     <h2 id="adminAddFormHeading" className="adminAddFormHeading" action="index.html">Admin Add</h2>
-                    <Form id='contactForm'>
-                      <FormGroup className="adminAddFormGroup">
-                        <ControlLabel className='adminAddFormLabel' htmlFor="firstName">First Name</ControlLabel>
-                        <FormControl 
-                            // value={this.state.firstName}
-                            name="firstName"
-                            // onChange={this.handleInputChange}
-                            type="text"
-                            className="form-control adminAddFormEntry"
-                            id="firstName"
-                            placeholder="First name" 
-                        />
-                        {/* <HelpBlock>Required</HelpBlock> */}
-                      </FormGroup>
-                      <FormGroup>
-                        <ControlLabel className='adminAddFormLabel' htmlFor="lastName">Last Name</ControlLabel>
-                        <FormControl 
-                            // value={this.state.lastName}
-                            name="lastName"
-                            // onChange={this.handleInputChange}
-                            type="text"
-                            className="form-control adminAddFormEntry"
-                            id="lastName"
-                            placeholder="Last name"                                        
-                         />
-                      </FormGroup>
-                      <FormGroup>
-                        <ControlLabel className='adminAddFormLabel' htmlFor="email">Email</ControlLabel>
-                        <FormControl 
-                            // value={this.state.email}
-                            name="email"
-                            // onChange={this.handleInputChange}
-                            type="text"
-                            className="form-control adminAddFormEntry"
-                            id="email"
-                            placeholder="Email"                                    
-                         />
-                      </FormGroup>
-                      <FormGroup>
-                        <ControlLabel className='adminAddFormLabel' htmlFor="username">Username</ControlLabel>
-                        <FormControl 
-                            // value={this.state.username}
-                            name="username"
-                            // onChange={this.checkUserName}
-                            type="text"
-                            className="form-control adminAddFormEntry"
-                            id="username"
-                            placeholder="Username"                                    
-                         />
-                         <small id="usernameError" className="form-text text-muted">{this.state.nameTaken}</small>
-                      </FormGroup>
-                      <FormGroup>
-                        <ControlLabel className='adminAddFormLabel' htmlFor="exampleInputPassword1">Create Password</ControlLabel>
-                        <FormControl 
-                            // value={this.state.password}
-                            name="password"
-                            // onChange={this.handleInputChange}
-                            type="password"
-                            className="form-control adminAddFormEntry"
-                            id="password"
-                            placeholder="Password"                                
-                         />
-                      </FormGroup>
-                      <FormGroup>
-                        <ControlLabel className='adminAddFormLabel' htmlFor="exampleInputPassword1">Confirm Password</ControlLabel>
-                        <FormControl 
-                            // value={this.state.confirmPassword}
-                            name="confirmPassword"
-                            // onChange={this.checkPassword}
-                            type="password"
-                            className="form-control adminAddFormEntry"
-                            id="confirmPassword"
-                            placeholder="Confirm Password"                                 
-                         />
-                         <small id="passwordError" className="form-text text-muted">{this.state.passwordError}</small>
-                      </FormGroup>
-                      <FormGroup>
-                        <Button
-                            type="submit"
-                            className="adminSubmitButton"
-                            onClick={this.handleFormSubmit}
-                        >
-                            Create Admin
-                        </Button>
-                      </FormGroup>
-                    </Form>
-                </div>
+                    
+                </div> */}
             </div>
         
         )

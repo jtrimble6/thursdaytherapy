@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
-// import Admin from './Admin.jsx'
-import AdminAdd from './AdminAdd.jsx'
+import Admin from './Admin.jsx'
+// import AdminAdd from './AdminAdd.jsx'
 
 
 class AdminPage extends Component {
@@ -24,10 +24,10 @@ class AdminPage extends Component {
 
     render() {                                                       
         return (
-          <div id='products'>
+          <div id='adminPage'>
             <NavbarAdmin />
-            {/* <Admin /> */}
-            <AdminAdd />
+            <Admin />
+            {/* <AdminAdd /> */}
           </div>
         )
     }

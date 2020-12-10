@@ -4,31 +4,35 @@
     margin-bottom: 2vw;
 }
 
-#adminAddPage {
+#adminAddPage, #adminDeletePage {
     width: 40vw;
     margin: 0 auto;
     margin-bottom: 10vw;
 }
 
-#adminAddForm {
+#adminAddForm, #adminDeleteForm {
     text-align: center;
 }
 
-#adminAddFormHeading {
+#adminAddFormHeading, #adminDeleteFormHeading {
     font-size: 2vw;
     margin-bottom: 2vw;
 }
 
 
-.adminAddFormGroup {
+.adminAddFormGroup, .adminDeleteFormHeading {
     margin-bottom: 1vw;   
 }
 
-.adminAddFormLabel {
+.adminAddFormLabel, .adminDeleteFormLabel {
     margin-right: 2vw;
 }
 
 #logoutPage {
     text-align: center;
     margin-top: 10vw;
+}
+
+#adminDeleteModalBody {
+    padding-bottom: 10vw !important;
 }

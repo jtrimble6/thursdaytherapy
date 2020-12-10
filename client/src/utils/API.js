@@ -41,8 +41,11 @@ export default {
     submitOrder: function(orderData) {
         return axios.post('/api/purchases', orderData)
     },
-
+    updateOrder: function(id, orderInfo) {
+        return axios.put('/api/purchases/' + id, orderInfo)
+    },
     getPurchases: function() {
         return axios.get('/api/purchases/')
     },
+    
 }
