@@ -50,31 +50,70 @@ class Cart extends Component {
     }
 
     async fetchData() {
-      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
-      res
-        .json()
-        .then((res) => {
-          // console.log('PRODUCTS: ', res.data);
-          this.setState({
-            products: res.data
-          }, () => {
-            this.fetchCart()
-          });
-        })
-        .catch((error) => {
-          this.setState({
-            error: error
-          });
+      let productImages = []
+      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+        res.json()
+          .then((res) => {
+            // console.log('ALL IMAGES: ', res);
+            productImages = res
+            // console.log('ALL IMAGES: ', res.data);
+            // console.log('ALL FILES: ', res.file);
+            this.setState({
+              productImages: res,
+              // filteredProducts: res.data
+            });
+            API.getProducts()
+                .then(res => {
+                  // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+                  let productsData = res.data
+                  // console.log('PRODUCTS: ', productsData)
+                  for (let p=0; p<productsData.length; p++) {
+                    let product = productsData[p]
+                    let productName = product.name
+                    let productImage = productImages.filter(image => {
+                      return image.productId === productName
+                    })
+                    let newProducts = [...productsData]
+                    // console.log('FILENAME: ', productImage[0])
+                    let productImageFile = productImage[0]
+                    if (productImageFile) {
+                      let newProduct = {
+                        ...newProducts[p], 
+                        soapImageFile: productImage[0].filename,
+                        soapImageId: productImage[0]._id
+                      }
+                      newProducts[p] = newProduct
+                      this.setState({
+                        products: newProducts,
+                      })
+                      productsData = newProducts
+                    }
+                    this.fetchCart(newProducts)
+                    // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+                  }
+                  // this.setState({
+                  //     products: res.data,
+                  //     filteredProducts: res.data
+                  //   });
+                })
+                .catch(err => {
+                  console.log('ERROR GETTING PRODUCTS: ', err)
+                })
+          })
+          .catch((error) => {
+            this.setState({
+              error: error
+            });
         });
     }
 
-    async fetchCart() {
+    async fetchCart(newProducts) {
       let cart = []
       console.log('LOCAL STORAGE: ', localStorage)
       // console.log('PRODUCTS: ', products)
       let cartTotal = 0
       for (let c=0; c<localStorage.length; c++) {
-        let products = this.state.products
+        let products = newProducts
         let itemKey = localStorage.key(c)
         let item = localStorage.getItem(itemKey)
         let itemObj = JSON.parse(item)
@@ -280,7 +319,7 @@ class Cart extends Component {
       }
 
     close() {
-        this.fetchCart()
+        this.fetchCart(this.state.products)
         this.setState({ show: false });
       }
 

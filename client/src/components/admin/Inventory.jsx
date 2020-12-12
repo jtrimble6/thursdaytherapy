@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Panel, Modal, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button, Icon, Uploader } from 'rsuite';
 import axios from 'axios';
+import API from '../../utils/API'
 import $ from 'jquery'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import '../../css/admin/inventory.css'
@@ -15,9 +16,11 @@ class Inventory extends Component {
             showEditModal: false,
             showAddModal: false,
             developmentURL: "http://localhost:3000/product",
-            developmentImageURL: "http://localhost:3000/",
+            developmentImageURL: "http://localhost:3000/uploads/",
+            developmentPostImageURL: "http://localhost:3000/upload",
             productionURL: "https://thursdaytherapy.herokuapp.com/product",
             productionImageURL: "https://thursdaytherapy.herokuapp.com/",
+            productionPostImageURL: "https://thursdaytherapy.herokuapp.com/upload",
             soapName: '',
             soapId: '',
             soapFile: '',
@@ -25,6 +28,7 @@ class Inventory extends Component {
             soapPrice: '',
             soapImage: '',
             soapImageFile: '',
+            soapImageId: '',
             soapEditName: '',
             soapEditIngredients: '',
             soapEditPrice: '',
@@ -33,6 +37,7 @@ class Inventory extends Component {
             soapEditId: '',
             soapEditFile: '',
             searchEntry: '',
+            productImages: [],
             error: '',
             qty: 'qty',
             products: [],
@@ -56,25 +61,68 @@ class Inventory extends Component {
     componentDidMount() {
         this.fetchData()
       }
+
+    
   
     async fetchData() {
-        const res = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
-        res
-          .json()
+      let productImages = []
+      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+        res.json()
           .then((res) => {
-            console.log('RESPONSE: ', res);
-            console.log('ALL PRODUCTS: ', res.data);
+            // console.log('ALL IMAGES: ', res);
+            productImages = res
+            // console.log('ALL IMAGES: ', res.data);
             // console.log('ALL FILES: ', res.file);
             this.setState({
-              products: res.data,
-              filteredProducts: res.data
+              productImages: res,
+              // filteredProducts: res.data
             });
+            API.getProducts()
+                .then(res => {
+                  // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+                  let productsData = res.data
+                  // console.log('PRODUCTS: ', productsData)
+                  for (let p=0; p<productsData.length; p++) {
+                    let product = productsData[p]
+                    let productName = product.name
+                    let productImage = productImages.filter(image => {
+                      return image.productId === productName
+                    })
+                    let newProducts = [...productsData]
+                    // console.log('FILENAME: ', productImage[0])
+                    let productImageFile = productImage[0]
+                    if (productImageFile) {
+                      let newProduct = {
+                        ...newProducts[p], 
+                        soapImageFile: productImage[0].filename,
+                        soapImageId: productImage[0]._id
+                      }
+                      newProducts[p] = newProduct
+                      this.setState({
+                        products: newProducts,
+                        filteredProducts: newProducts
+                      })
+                      productsData = newProducts
+                    }
+                    
+                    // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+                  }
+                  // this.setState({
+                  //     products: res.data,
+                  //     filteredProducts: res.data
+                  //   });
+                })
+                .catch(err => {
+                  console.log('ERROR GETTING PRODUCTS: ', err)
+                })
           })
           .catch((error) => {
             this.setState({
               error: error
             });
-          });
+        });
+
+      
       }
 
     async addToInventory() {
@@ -83,73 +131,110 @@ class Inventory extends Component {
       let soapIngredients = document.getElementById('soapIngredients').value
       let imageFile = this.state.soapImageFile
 
-      // ADD FORM DATA
-      const data = new FormData() 
-      data.append('image', imageFile)
-      data.append('name', soapName)
-      data.append('price', soapPrice)
-      data.append('ingredients', soapIngredients)
-    
-      // console.log('SOAP DETAILS: ', soapName, soapPrice, soapIngredients)
-      // console.log('DATA: ', data)
+      // console.log('IMAGE FILE: ', imageFile)
+
+      let data = {
+        'name': soapName,
+        'price': soapPrice,
+        'ingredients': soapIngredients,
+        'image': imageFile.name
+      }
+
+      let formData = new FormData();
+      let imagefile = document.querySelector('#fileAdd');
+      formData.append("file", imagefile.files[0]);
+     
+      // console.log('DATA TO UPLOAD: ', data)
 
       // ADD NEW SOAP PRODUCT
-      axios.post(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
-            headers: {'Content-Type': 'multipart/form-data' },
-          })
-          .then(res => { // then print response status
-            console.log('INVENTORY NEW POST RESULT: ', res.statusText)
-            this.closeAddModal()
+      API.saveProduct(data)
+          .then(res => {
+              // console.log('SAVE PRODUCT RESULT: ', res)
+              axios.post("http://localhost:3000/upload/" + soapName, formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              window.location.reload()
           })
           .catch(err => {
-            console.log('ERROR ADDING PRODUCT: ', err)
+            console.log('ERROR SAVING PRODUCT: ', err)
           })
+
+        this.closeAddModal()
       }
 
     async submitEditInventory() {
       let soapName = this.state.soapEditName
       let soapPrice = this.state.soapEditPrice
       let soapIngredients = this.state.soapEditIngredients
-      let imageFile = this.state.soapImageFile
-  
-        // ADD FORM DATA
-        const data = new FormData() 
-        data.append('image', imageFile)
-        data.append('name', soapName)
-        data.append('price', soapPrice)
-        data.append('ingredients', soapIngredients)
+      let imageFile = this.state.soapEditImage
+      let soapId = this.state.soapEditId
+      let soapImageId = this.state.soapImageId
+      let data = {
+        'name': soapName,
+        'price': soapPrice,
+        'ingredients': soapIngredients,
+        'image': imageFile
+      }
+
+      let formData = new FormData();
+      let imagefile = document.querySelector('#fileUpdate');
+      formData.append("file", imagefile.files[0]);
       
-        // console.log('SOAP DETAILS: ', soapName, soapPrice, soapIngredients)
-        // console.log('DATA: ', data)
+      // console.log('SOAP UPDATE ID: ', soapId)
+      // console.log('SOAP UPDATE DATA: ', data)
+      // console.log('SOAP UPDATE IMAGE ID: ', soapImageId)
+
+      API.updateProduct(soapId, data)
+          .then(res => {
+            // console.log('UPDATE PRODUCT RESULT: ', res)
+            // this.closeEditModal()
+            axios.delete("http://localhost:3000/uploads/" + soapImageId, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+            axios.post("http://localhost:3000/upload/" + soapName, formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+              })
+              window.location.reload()
+          })
+          .catch(err => {
+            console.log('ERROR UPDATING PRODUCT: ', err)
+          })
+       
   
         // REMOVE OLD PRODUCT
-        let soapEditId = this.state.soapEditId
-        console.log('DELETE THIS SOAP: ', soapEditId)
+        // let soapEditId = this.state.soapEditId
+        // console.log('DELETE THIS SOAP: ', soapEditId)
         
-        try {
-            const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
-              method: "DELETE",
-            });
-            let data = await response.json();
-            // alert("Item Added To Cart");
-            this.closeEditModal()
-            console.log('DELETE RESPONSE: ', data);
-          } catch (err) {
-            alert("Something Went Wrong");
-            console.log(err);
-          }
+        // try {
+        //     const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
+        //       method: "DELETE",
+        //     });
+        //     let data = await response.json();
+        //     // alert("Item Added To Cart");
+        //     this.closeEditModal()
+        //     console.log('DELETE RESPONSE: ', data);
+        //   } catch (err) {
+        //     alert("Something Went Wrong");
+        //     console.log(err);
+        //   }
 
-        // ADD NEW SOAP PRODUCT
-        axios.post(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
-          headers: {'Content-Type': 'multipart/form-data' },
-        })
-        .then(res => { // then print response status
-          console.log('INVENTORY NEW POST RESULT: ', res.statusText)
-          this.closeAddModal()
-        })
-        .catch(err => {
-          console.log('ERROR ADDING PRODUCT: ', err)
-        })
+        // // ADD NEW SOAP PRODUCT
+        // axios.post(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
+        //   headers: {'Content-Type': 'multipart/form-data' },
+        // })
+        // .then(res => { // then print response status
+        //   console.log('INVENTORY NEW POST RESULT: ', res.statusText)
+        //   this.closeAddModal()
+        // })
+        // .catch(err => {
+        //   console.log('ERROR ADDING PRODUCT: ', err)
+        // })
         
         
       }
@@ -158,32 +243,30 @@ class Inventory extends Component {
         // console.log(e.target)
         // let soap = e.target
         let soapId = this.state.soapEditId
-        console.log('DELETE THIS SOAP: ', soapId)
-        
-        try {
-            const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + '/' + soapId, {
-              method: "DELETE",
-            });
-            let data = await response.json();
-            // alert("Item Added To Cart");
-            this.closeEditModal()
-            console.log('DELETE RESPONSE: ', data);
-          } catch (err) {
-            alert("Something Went Wrong");
-            console.log(err);
-          }
+        // console.log('DELETE THIS SOAP: ', soapId)
+
+        API.removeProduct(soapId)
+          .then(res => {
+              // console.log('REMOVE PRODUCT RESULT: ', res)
+              window.location.reload()
+          })
+          .catch(err => {
+            console.log('ERROR SAVING PRODUCT: ', err)
+          })
+
       }
 
     handleFileSelection = (e) => {
           // e.preventDefault()
-          console.log('HANDLING FILE SELECTION')
-          let file = e[0].blobFile
-          console.log('FILENAME: ', file)
-          // let image = document.getElementById('image')
-          // console.log('IMAGE TO UPLOAD: ', e.target.files[0])
-          // let imageFile = e.target.files[0]
+          // console.log('HANDLING FILE SELECTION')
+          // let file = e[0].blobFile
+          // console.log('FILENAME: ', file)
+          // let image = document.getElementById('soapImage')
+          // console.log('IMAGE TO UPLOAD: ', image)
+          let imageFile = e.target.files[0]
+          // console.log('IMAGE FILE: ', imageFile)
           this.setState({
-            soapImageFile: file
+            soapImageFile: imageFile
           })
       }
   
@@ -204,7 +287,8 @@ class Inventory extends Component {
         let soapImage = soap.dataset.soapimage
         let soapPrice = soap.dataset.soapprice
         let soapFile = soap.dataset.soapfile
-        console.log("PRODUCT: ", soap)
+        let soapImageId = soap.dataset.soapimageid
+        // console.log("PRODUCT: ", soap)
         this.setState({ 
             soapEditImage: soapImage,
             soapEditId: soapId,
@@ -212,6 +296,7 @@ class Inventory extends Component {
             soapEditPrice: soapPrice,
             soapEditIngredients: soapIngredients,
             soapEditFile: soapFile,
+            soapImageId: soapImageId,
             showEditModal: true
         });
       }
@@ -225,14 +310,14 @@ class Inventory extends Component {
       }
 
     openAddModal = (e) => {
-        console.log(e.target)
+        // console.log(e.target)
         let soap = e.target
         let soapName = soap.dataset.soapname
         let soapId = soap.dataset.soapid
         let soapImage = soap.dataset.soapimage
         let soapPrice = soap.dataset.soapprice
         let soapFile = soap.dataset.soapfile
-        console.log("PRODUCT: ", soapName)
+        // console.log("PRODUCT: ", soapName)
         this.setState({ 
             soapImage: soapImage,
             soapId: soapId,
@@ -244,9 +329,9 @@ class Inventory extends Component {
       }
 
     changeQty = (e) => {
-      console.log("Quantity change: ", e.target)
+      // console.log("Quantity change: ", e.target)
       let newQty = $(e.target).text()
-      console.log('New qty: ', newQty)
+      // console.log('New qty: ', newQty)
       this.setState({
         qty: newQty
       })
@@ -259,10 +344,10 @@ class Inventory extends Component {
       }
 
     handleEditInventory = event => {
-        console.log(event)
-        console.log('NEW SOAP NAME: ', event.soapEditName)
-        console.log('NEW SOAP PRICE: ', event.soapEditPrice)
-        console.log('NEW SOAP INGREDIENTS: ', event.soapEditIngredients)
+        // console.log(event)
+        // console.log('NEW SOAP NAME: ', event.soapEditName)
+        // console.log('NEW SOAP PRICE: ', event.soapEditPrice)
+        // console.log('NEW SOAP INGREDIENTS: ', event.soapEditIngredients)
         this.setState({
             soapEditName: event.soapEditName !== undefined ? event.soapEditName : this.state.soapEditName,
             soapEditPrice: event.soapEditPrice !== undefined ? event.soapEditPrice : this.state.soapEditPrice,
@@ -271,8 +356,8 @@ class Inventory extends Component {
       }
 
     handleSearchEntry = event => {
-        console.log(event)
-        console.log('NEW SEARCH ENTRY: ', event.searchEntry)
+        // console.log(event)
+        // console.log('NEW SEARCH ENTRY: ', event.searchEntry)
         let products = this.state.products
         let newSearchEntry = event.searchEntry
         if(newSearchEntry === '') {
@@ -369,16 +454,16 @@ class Inventory extends Component {
                         <FormGroup className="adminAddFormGroup">
                           <ControlLabel 
                             className='inventoryFormLabel' 
-                            htmlFor="image"
+                            htmlFor="file"
                           >
                             Soap Image
                           </ControlLabel>
-                          {/* <input type='file' id='image' name='image' onChange={this.handleFileSelection} /> */}
-                          <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
+                          <input type='file' id='fileAdd' name='file' onChange={this.handleFileSelection} />
+                          {/* <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
                             <button>
                               <Icon icon='camera-retro' size="lg" />
                             </button>
-                          </Uploader>
+                          </Uploader> */}
                           {/* <HelpBlock>Required</HelpBlock> */}
                           {/* <FormControl 
                             onChange={this.handleFileSelection}
@@ -472,11 +557,12 @@ class Inventory extends Component {
                             name="file"
                             className="form-control inventoryFormEntry" 
                           /> */}
-                          <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
+                          {/* <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
                             <button>
                               <Icon icon='camera-retro' size="lg" />
                             </button>
-                          </Uploader>
+                          </Uploader> */}
+                          <input type='file' id='fileUpdate' name='file' onChange={this.handleFileSelection} />
                           <HelpBlock id='editImageHelpBlock'>{this.state.soapEditFile}</HelpBlock>
                         </FormGroup>
                       </Form>
@@ -509,12 +595,14 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentImageURL : this.state.productionImageURL) + product.image} 
+                            // src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                            src={`uploads/${product.soapImageFile}`}
                             data-soapname={product.name} 
                             data-soapprice={product.price} 
-                            data-soapimage={product.image} 
+                            data-soapimage={product.soapImageFile} 
                             data-soapid={product._id} 
                             data-soapfile={product.image}
+                            data-soapimageid={product.soapImageId}
                             data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
                             onClick={this.openEditModal} 
                             className="productsImage" 

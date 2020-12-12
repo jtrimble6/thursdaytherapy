@@ -11,7 +11,7 @@ class ContactUsForm extends Component {
         super(props);
 
         this.state = {
-          env: 'DEVELOPMENT',
+          env: 'PRODUCTION',
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -36,7 +36,7 @@ class ContactUsForm extends Component {
         console.log(name, email, message)
         axios({
             method: "POST", 
-            url: this.state.env === 'DEVELOPMENT' ? "http://localhost:3000/send" : "http://thursdaytherapy.herokuapp.com/send",
+            url: this.state.env === 'DEVELOPMENT' ? "http://localhost:3000/send" : "https://thursdaytherapy.herokuapp.com/send",
             data: {
                 name: name,   
                 email: email,  

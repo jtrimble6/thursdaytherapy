@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon } from 'rsuite';
 import $ from 'jquery'
+import API from '../../utils/API'
 import '../../css/products/productsImages.css'
 
 class Products extends Component {
@@ -9,11 +10,13 @@ class Products extends Component {
       
 
       this.state = {
+        node_env: "PRODUCTION",
         show: false,
         soapName: '',
         soapIngredients: '',
         soapPrice: '',
         soapImage: '',
+        soapImageFile: '',
         soapId: '',
         error: '',
         qty: 'qty',
@@ -36,21 +39,62 @@ class Products extends Component {
     }
 
   async fetchData() {
-      const res = await fetch("http://localhost:3000/product");
-      res
-        .json()
+    let productImages = []
+    const res = await fetch(this.state.node_env === "DEVELOPMENT" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+      res.json()
         .then((res) => {
-          console.log('PRODUCTS: ', res.data);
+          // console.log('ALL IMAGES: ', res);
+          productImages = res
+          // console.log('ALL IMAGES: ', res.data);
+          // console.log('ALL FILES: ', res.file);
           this.setState({
-            products: res.data,
-            filteredProducts: res.data
+            productImages: res,
+            // filteredProducts: res.data
           });
+          API.getProducts()
+              .then(res => {
+                // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+                let productsData = res.data
+                // console.log('PRODUCTS: ', productsData)
+                for (let p=0; p<productsData.length; p++) {
+                  let product = productsData[p]
+                  let productName = product.name
+                  let productImage = productImages.filter(image => {
+                    return image.productId === productName
+                  })
+                  let newProducts = [...productsData]
+                  // console.log('FILENAME: ', productImage[0])
+                  let productImageFile = productImage[0]
+                  if (productImageFile) {
+                    let newProduct = {
+                      ...newProducts[p], 
+                      soapImageFile: productImage[0].filename,
+                      soapImageId: productImage[0]._id
+                    }
+                    newProducts[p] = newProduct
+                    this.setState({
+                      products: newProducts,
+                      filteredProducts: newProducts
+                    })
+                    productsData = newProducts
+                  }
+                  
+                  // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+                }
+                // this.setState({
+                //     products: res.data,
+                //     filteredProducts: res.data
+                //   });
+              })
+              .catch(err => {
+                console.log('ERROR GETTING PRODUCTS: ', err)
+              })
         })
         .catch((error) => {
           this.setState({
             error: error
           });
-        });
+      });
     }
 
   async addToCart(id) {
@@ -63,17 +107,35 @@ class Products extends Component {
       let soapName = id;
       let soapQty = this.state.qty;
       let newCart = []
-      newCart.push({
-        'soapName': soapName,
-        'soapQty': soapQty,
-      })
       console.log('CART EXISTS: ', localStorage.key(0))
+
       for (let c=0; c<localStorage.length; c++) {
         let itemKey = localStorage.key(c)
         let item = localStorage.getItem(itemKey)
         console.log('LOCAL STORAGE ITEM: ', item)
         let itemObj = JSON.parse(item)
         newCart.push(itemObj)
+      }
+
+      let itemAlreadyInCart = newCart.filter(item => {
+        return item.soapName === soapName
+      })
+
+      if (itemAlreadyInCart) {
+        console.log('NEW CART: ', newCart)
+        console.log('ITEM ALREADY IN CART: ', itemAlreadyInCart)
+        let data = [...newCart];
+        let index = data.findIndex(obj => obj.soapName === itemAlreadyInCart[0].soapName);
+        console.log('FOUND INDEX: ', index)
+        let newSoapQty = (parseInt(data[index].soapQty) + parseInt(soapQty))
+        console.log('NEW SOAP QTY: ', newSoapQty)
+        data[index].soapQty = newSoapQty.toString();
+        newCart = data
+      } else {
+        newCart.push({
+          'soapName': soapName,
+          'soapQty': soapQty,
+        })
       }
       console.log('NEW CART: ', newCart)
       this.updateExistingCart(newCart)
@@ -147,6 +209,7 @@ class Products extends Component {
       let soapImage = soap.dataset.soapimage
       let soapPrice = soap.dataset.soapprice
       let soapIngredients = soap.dataset.soapingredients
+      let soapImageFile = soap.dataset.soapimagefile
       // console.log("PRODUCT: ", soapName)
       this.setState({ 
           soapImage: soapImage,
@@ -154,6 +217,7 @@ class Products extends Component {
           soapName: soapName,
           soapPrice: soapPrice,
           soapIngredients: soapIngredients,
+          soapImageFile: soapImageFile,
           show: true
       });
     }
@@ -212,7 +276,7 @@ class Products extends Component {
               <Modal.Body>
                 
                 
-                <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.open} className="productsImageModal" alt="peacockZ1" />
+                <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' onClick={this.open} className="productsImageModal" alt="peacockZ1" />
                 <br />
                 <h5 className="productsListingPrice">
                   ${this.state.soapPrice} 
@@ -249,12 +313,13 @@ class Products extends Component {
               <span key={product._id}>
                 <Panel className='productsImagePanel' shaded bordered bodyFill={false} style={{ display: 'inline-block' }}>
                   <img 
-                    src={"http://localhost:3000/" + product.image} 
+                    src={`uploads/${product.soapImageFile}`}
                     data-soapname={product.name} 
                     data-soapprice={product.price} 
                     data-soapimage={product.image} 
                     data-soapid={product._id} 
                     data-soapingredients={product.ingredients}
+                    data-soapimagefile={product.soapImageFile}
                     onClick={this.open} 
                     className="productsImage" 
                     alt="peacockZ1" 

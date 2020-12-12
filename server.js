@@ -3,15 +3,20 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const mongoose = require("mongoose");
 const session = require('express-session');
+const crypto = require('crypto')
 const passport = require('./server/passport');
 const app = express();
 const path = require("path");
+const multer = require("multer");
+const GridFsStorage = require('multer-gridfs-storage')
+const Grid = require('gridfs-stream')
 const userRoutes = require("./routes/API/userAPI");
 const sessionRoutes = require("./routes/API/sessionAPI");
 const contactRoutes = require('./routes/API/contactAPI')
 const purchaseRoutes = require('./routes/API/purchaseAPI')
-const productRoutes = require('./src/app/Product/routes')
+const productRoutes = require('./routes/API/productAPI')
 const cartRoutes = require('./src/app/Cart/routes');
 const { cart } = require('./src/app/Cart/repository');
 const PORT = process.env.PORT || 5000;
@@ -28,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 require('dotenv').config();
-require("./config/mongoose.js")(app);
+// require("./config/mongoose.js")(app);
 require('./src/routeHandler')(app)
 
 
@@ -43,7 +48,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
 app.use(express.static('client/build'));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes)
+app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes, productRoutes)
 app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
 app.use(
 	session({
@@ -63,10 +68,206 @@ passport.deserializeUser(function(id, done) {
 	});
   });
 
-// routes
-// app.get('/', (req, res) => {
-// 	res.send('Hello from MERN');
+// Connect to the Mongo DB
+
+const promise = mongoose.connect("mongodb://localhost:27017/cart", { useNewUrlParser: true });
+
+var gfs;
+var connection = mongoose.connection;
+connection.on('error', console.error.bind(console, 'connection error:'));
+connection.once('open', function() {
+  console.log("Connected!")
+  var mongoDriver = mongoose.mongo;
+  gfs = Grid(connection.db, mongoDriver);
+  gfs.collection('uploads');
+});
+
+// const conn = mongoose.connection;
+// let gfs;
+
+// conn.once('open',() => {
+//   gfs = Grid(conn, mongoose.mongo);
+//   gfs.collection('uploads');
 // });
+
+//create storage object
+const storage = new GridFsStorage({
+  db: promise,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'uploads'
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+const upload = multer({ storage });
+
+
+// const connection = process.env.MONGO_URI;
+// mongoose.connect(process.env.NODE_ENV === "DEVELOPMENT" ? 'mongodb://localhost:27017/cart' : connection, {
+//         useUnifiedTopology: true,
+//         useNewUrlParser: true,
+//         useFindAndModify: false
+//     }).then(res => console.log("connected")).catch(err => console.log(err))
+//     mongoose.Promise = global.Promise;
+//     // process.on("SIGINT", cleanup);
+//     // process.on("SIGTERM", cleanup);
+//     // process.on("SIGHUP", cleanup);
+//     if (app) {
+//         app.set("mongoose", mongoose);
+// 	}
+// function cleanup() {
+// 	mongoose.connection.close(function () {
+// 		process.exit(0);
+// 	});
+// }
+// mongoose.connect(
+// 	process.env.MONGODB_URI || "mongodb://localhost:27017/thursdaytherapy", 
+// 	{
+// 		useUnifiedTopology: true,
+// 		useNewUrlParser: true,
+// 		useFindAndModify: false
+// 	});
+// const conn = mongoose.createConnection(process.env.MONGODB_URI || "mongodb://localhost:27017/thursdaytherapy");
+
+// //Init gfs
+// let gfs;
+
+// conn.once('open', () => {
+//   // Init stream
+//   gfs = Grid(conn.db, mongoose.mongo)
+//   gfs.collection('uploads')
+// })
+
+// const storage = new GridFsStorage({
+// 	url: process.env.MONGODB_URI || "mongodb://localhost:27017/thursdaytherapy",
+// 	// url: process.env.MONGODB_URI || "http://localhost:3000/uploads",
+//     file: (req, file) => {
+//       return new Promise((resolve, reject) => {
+//         crypto.randomBytes(16, (err, buf) => {
+//           if (err) {
+//             return reject(err);
+//           }
+//           const filename = buf.toString('hex') + path.extname(file.originalname);
+//           const fileInfo = {
+//             filename: filename,
+//             bucketName: 'uploads',
+//           };
+//           resolve(fileInfo);
+//         });
+//       });
+//     }
+//   });
+  
+// const upload = multer({ storage });
+
+app.post("/upload/:productId", function (req, res, next) {
+	upload.single('file')(req, res, function (error) {
+	  if (error) {
+		console.log(`upload.single error: ${error}`);
+		return res.sendStatus(500);
+	  } else {
+		console.log('UPLOAD FILE: ', req.file)
+		gfs.files.update({'filename': req.file.filename}, 
+			{'$set': 
+				{
+				'productId': req.params.productId
+				},
+			})
+	  }
+	  // code
+	})
+  });
+
+//   app.put("/upload/:productId", function (req, res, next) {
+// 	upload.single('file')(req, res, function (error) {
+// 	  if (error) {
+// 		console.log(`upload.single error: ${error}`);
+// 		return res.sendStatus(500);
+// 	  } else {
+// 		console.log('UPLOAD UPDATED FILE: ', req.file)
+// 		gfs.files.update({'filename': req.body.filename}, 
+// 			{'$set': 
+// 				{
+// 				'productId': req.params.productId
+// 				},
+// 			})
+// 	  }
+// 	  // code
+// 	})
+//   });
+  
+  // @route GET /files
+  // @desc Display all files in JSON
+  
+app.get('/uploads', (req, res) => {
+	// console.log('UPLOADS RESPONSE: ', res.data)
+	gfs.files.find().toArray((err, files) => {
+	  // Check if files exist
+	//   console.log('GFS: ', gfs)
+	  if(!files || files.length === 0) {
+		return res.status(404).json({
+		  err: 'No images exist: '
+		})
+	  } else {
+		// console.log('ALL FILES: ', files)
+		files.map(file => {
+		  if(file.contentType.startsWith('image')) {
+			file.isImage === true
+		  } else {
+			file.isImage === false
+		  }
+		})
+	  }
+  
+	  // Files exist
+	  return res.json(files)
+	})
+  })
+
+app.get('/uploads/:filename', (req, res) => {
+	gfs.files.findOne({filename: req.params.filename}, (err, file) => {
+	  // Check if files exist
+	  if(!file || file.length === 0) {
+		return res.status(404).json({
+		  err: 'No images exist'
+		})
+	  }
+  
+	  // File exists
+	//   console.log('FILE EXISTS!!!! ', file)
+	//   return res.json(file)
+
+	  if(file.contentType === 'image/jpeg') {
+		// Read output to browser
+		// console.log('THIS IS AN IMAGE!!!')
+		var readstream = gfs.createReadStream(file.filename)
+		readstream.pipe(res)
+	  } else {
+		res.status(404).json({
+		  err: 'Not an image'
+		})
+	  }
+
+	})
+  })
+
+app.delete('/uploads/:id', (req, res) => {
+	gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
+	  if(err) {
+		return res.status(404).json({ err: err })
+	  }
+	})
+  })
 
 app.get("*", (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
