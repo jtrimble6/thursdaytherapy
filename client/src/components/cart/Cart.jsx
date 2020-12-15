@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import { Table, Modal, Button, Icon } from 'rsuite';
 import $ from 'jquery'
 import API from '../../utils/API'
+
 import '../../css/cart/shoppingCart.css'
 
 class Cart extends Component {
@@ -13,6 +15,7 @@ class Cart extends Component {
         node_env: "PRODUCTION",
         developmentURL: "http://localhost:3000/cart",
         productionURL: "https://thursdaytherapy.herokuapp.com/cart",
+        redirect: false,
         products: [],
         carts: [],
         cartTotal: '',
@@ -27,11 +30,18 @@ class Cart extends Component {
         soapQty: '',
         error: '',
         qty: 'qty',
-        show: false
+        show: false,
+        showPaymentForm: false,
+        loaded: false,
+        submittingOrder: false
       }
 
+      this.setRedirect = this.setRedirect.bind(this)
+      this.renderRedirect = this.renderRedirect.bind(this)
       this.close = this.close.bind(this);
       this.open = this.open.bind(this);
+      this.handleOrderCheckout = this.handleOrderCheckout.bind(this)
+      this.closePaymentForm = this.closePaymentForm.bind(this)
       this.changeQty = this.changeQty.bind(this)
       this.fetchCart = this.fetchCart.bind(this)
       this.fetchData = this.fetchData.bind(this)
@@ -41,7 +51,6 @@ class Cart extends Component {
       this.handleRemoveItem = this.handleRemoveItem.bind(this)
       this.emptyCart = this.emptyCart.bind(this)
       this.changeQtyState = this.changeQtyState.bind(this)
-      this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -105,7 +114,7 @@ class Cart extends Component {
               error: error
             });
         });
-    }
+      }
 
     async fetchCart(newProducts) {
       let cart = []
@@ -157,30 +166,6 @@ class Cart extends Component {
 
       console.log('CART: ', cart)
 
-        // const res = await fetch("http://localhost:3000/cart");
-        // res
-        //   .json()
-        //   .then((res) => {
-        //     // console.log('CART CONTENTS: ', res.data.items);
-        //     let cartItems = res.data.items
-        //     let cartTotal = 0
-        //     for (let i=0; i<cartItems.length; i++) {
-        //       let cartItem = cartItems[i]
-        //       let cartItemTotal = cartItem.total
-        //       cartTotal = cartTotal + cartItemTotal
-        //     }
-        //     // console.log('CART TOTAL: ', cartTotal)
-        //     this.setState({
-        //         carts: res.data.items,
-        //         payloader: res.data,
-        //         cartTotal: cartTotal
-        //     })
-        //   })
-        //   .catch((error) => {
-        //     this.setState({
-        //         hasError: error
-        //     })
-        //   });
       }
 
     async increaseQty(itemKey) {
@@ -194,25 +179,8 @@ class Cart extends Component {
       }
       let newSoapItemString = JSON.stringify(newSoapItemObj)
       localStorage.setItem(item, newSoapItemString)
-    
-        // try {
-        //   const res = await fetch("http://localhost:3000/cart", {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       productId: id,
-        //       quantity: 1,
-        //     }),
-        //     headers: {
-        //       "Content-type": "application/json; charset=UTF-8",
-        //     },
-            
-        //   });
-        //   console.log(res);
-        //   this.fetchCart();
-        // //   alert("Item Increamented");
-        // } catch (err) {
-        //   console.log(err);
-        // }
+      // this.props.updateCart()
+      this.fetchData()
       }
 
     async decreaseQty(itemKey) {
@@ -226,24 +194,8 @@ class Cart extends Component {
         }
         let newSoapItemString = JSON.stringify(newSoapItemObj)
         localStorage.setItem(item, newSoapItemString)
-        // try {
-        //   const res = await fetch("http://localhost:3000/cart/minus", {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       productId: id,
-        //       quantity: 1,
-        //     }),
-        //     headers: {
-        //       "Content-type": "application/json; charset=UTF-8",
-        //     },
-            
-        //   });
-        //   console.log(res);
-        //   this.fetchCart();
-        // //   alert("Item Increamented");
-        // } catch (err) {
-        //   console.log(err);
-        // }
+        // this.props.updateCart()
+        this.fetchData()
       }
 
     async removeItem(itemKey) {
@@ -269,7 +221,6 @@ class Cart extends Component {
         // }
       }
     
-    
     async emptyCart() {
       localStorage.clear()
       window.location.reload()
@@ -283,6 +234,22 @@ class Cart extends Component {
         // } catch (err) {
         //   console.log(err);
         // }
+      }
+
+    formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        try {
+          decimalCount = Math.abs(decimalCount);
+          decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+      
+          const negativeSign = amount < 0 ? "-" : "";
+      
+          let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+          let j = (i.length > 3) ? i.length % 3 : 0;
+      
+          return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+          console.log(e)
+        }
       }
   
     changeQty = (e) => {
@@ -323,6 +290,11 @@ class Cart extends Component {
         this.setState({ show: false });
       }
 
+    closePaymentForm() {
+        // this.fetchCart(this.state.products)
+        this.setState({ showPaymentForm: false });
+      }
+
     handleRemoveItem = (e) => {
         let cart = this.state.carts
         // console.log('CART: ', cart)
@@ -338,7 +310,7 @@ class Cart extends Component {
         console.log('REMOVE THIS KEY: ', itemKey)
         this.removeItem(itemKey)
         this.fetchData()
-    }
+      }
   
     open = (e) => {
         let cart = this.state.carts
@@ -378,29 +350,23 @@ class Cart extends Component {
         // });
       }
 
-    handleOrderSubmit = (e) => {
-      e.preventDefault()
-      // console.log('SUBMITTING ORDER')
-      // console.log('CURRENT CART: ', this.state.carts)
-      let cart = this.state.carts
-      let orderData = { 
-          firstName: 'test',
-          lastName: 'tester',
-          email: 'test@yahoo.com',
-          phoneNumber: '111-222-3333',
-          purchaseId: 'testId',
-          confirmationNumber: '1234',
-          purchaseDetails: cart
-      };
-      // console.log('ORDER DATA: ', orderData);
-      API.submitOrder(orderData)
-        .then(res => {
-            console.log('ORDER SUBMIT RESULT: ', res) 
-          })
-          .catch(error => {
-            console.log(error)
-          })
-    }
+    handleOrderCheckout = () => {
+      this.setRedirect()
+      }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+      }
+
+    renderRedirect = () => {
+        if (this.state.redirect === true) {
+          return <Redirect to='/checkout' />
+        }
+        else {}
+      }
+
   
   
 
@@ -408,6 +374,7 @@ class Cart extends Component {
     const { Column, HeaderCell, Cell } = Table;                                                  
       return (
           <span>
+            {this.renderRedirect()}
             <h2 className='shoppingCartTitle'>Shopping Cart</h2>
             <div id='cartRow' className="row">
               
@@ -417,7 +384,7 @@ class Cart extends Component {
               </Modal.Header>
               <Modal.Body>
                 <h5 className="font-medium m-b-30">
-                  Price: ${this.state.soapPrice} 
+                  Price: {this.formatMoney(this.state.soapPrice)} 
                   {/* /{" "} */}
                   {/* <del className="text-muted line-through">$225</del> */}
                 </h5><br />
@@ -468,15 +435,15 @@ class Cart extends Component {
                     {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                 </Column>
 
-                <Column width={70} align="center">
+                <Column width={200} align="center">
                     <HeaderCell>Price</HeaderCell>
-                    <Cell>{(rowData) => {return "$" + rowData.soapPrice}}</Cell>
+                    <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
                     {/* <Cell dataKey="soapPrice" /> */}
                 </Column>
 
                 <Column width={200} align="center">
                     <HeaderCell>Total Price</HeaderCell>
-                    <Cell>{(rowData) => {return "$" + rowData.soapTotal}}</Cell>
+                    <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
                 </Column>
 
                 {/* <Column width={200}>
@@ -504,11 +471,11 @@ class Cart extends Component {
             </Table>
           </div>
           <div id='placeOrderRow' className="row">
-              <h2 id='placeOrderTotal'>Subtotal: ${this.state.cartTotal}</h2>
+              <h2 id='placeOrderTotal'>Subtotal: {this.formatMoney(this.state.cartTotal)}</h2>
               <Button id='emptyCartButton' onClick={this.emptyCart}>
                   Empty Cart <Icon icon='trash' />
               </Button>
-              <Button id='placeOrderButton' onClick={this.handleOrderSubmit}>
+              <Button id='placeOrderButton' onClick={this.handleOrderCheckout}>
                   Secure Checkout <Icon icon='lock' />
               </Button>
           </div>   

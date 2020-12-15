@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
+
 require('dotenv').config();
 
 var transport = {
@@ -30,8 +31,69 @@ router.post('/send', (req, res, next) => {
   var mail = {
     from: name,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
-    to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
+    // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
+    to: 'trimbledevelops@gmail.com',
     subject: 'New Message from Contact Form',
+    text: content
+  }
+
+  transporter.sendMail(mail, (err, data) => {
+    if (err) {
+      res.json({
+        msg: 'fail'
+      })
+    } else {
+      res.json({
+        msg: 'success'
+      })
+    }
+  })
+})
+
+router.post('/neworder', (req, res, next) => {
+  var firstName = req.body.firstName
+  var lastName = req.body.lastName
+  var email = req.body.email
+  var phoneNumber = req.body.phoneNumber
+  var details = req.body.details
+  var content = `Congratulations! A new order has just been submitted!\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nOrder Details: ${details}`
+
+  var mail = {
+    from: firstName + ' ' + lastName,
+    // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
+    // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
+    to: 'trimbledevelops@gmail.com',
+    subject: 'New Order Submitted!',
+    text: content
+  }
+
+  transporter.sendMail(mail, (err, data) => {
+    if (err) {
+      res.json({
+        msg: 'fail'
+      })
+    } else {
+      res.json({
+        msg: 'success'
+      })
+    }
+  })
+})
+
+router.post('/orderconfirmation', (req, res, next) => {
+  var firstName = req.body.firstName
+  var lastName = req.body.lastName
+  var email = req.body.email
+  var confirmationNumber = req.body.confirmationNumber
+  var confirmationUrl = req.body.confirmationUrl
+  var content = `Thank you ${firstName} ${lastName} for your order! Your order has been received!\nConfirmation #: ${confirmationNumber}\nView your receipt here: ${confirmationUrl}`
+
+  var mail = {
+    from: 'noreply.thursdaytherapy.com',
+    // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
+    // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
+    to: email,
+    subject: 'Order Confirmation!',
     text: content
   }
 

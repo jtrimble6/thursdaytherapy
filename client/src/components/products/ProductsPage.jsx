@@ -9,13 +9,23 @@ class ProductsPage extends Component {
         super(props);
 
         this.state = {
-      
+          cartCount: 0
         }
+        this.getCart = this.getCart.bind(this)
+        // this.updateCart = this.updateCart.bind(this)
 
     }
 
     componentDidMount() {
-        
+        this.getCart()
+      }
+
+    getCart = () => {
+        let cartCount = localStorage.length
+        console.log('CART COUNT: ', cartCount)
+        this.setState({
+            cartCount: cartCount
+        })
       }
     
     
@@ -24,8 +34,12 @@ class ProductsPage extends Component {
     render() {                                                       
         return (
           <div id='products'>
-            <NavbarHome />
-            <Products />
+            <NavbarHome 
+              cartCount={this.state.cartCount}
+            />
+            <Products 
+              updateCart={this.getCart}
+            />
           </div>
         )
     }

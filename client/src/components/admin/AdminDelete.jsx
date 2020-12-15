@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Form, FormGroup, ControlLabel, Dropdown, Button, Modal } from 'rsuite';
+import { Form, FormGroup, Dropdown, Button, Modal } from 'rsuite';
 import API from '../../utils/API'
 // import Navbar from '../../nav/Navbar'
 

@@ -9,6 +9,7 @@ import OurStory from './components/story/OurStory'
 import HowToBuy from './components/howToBuy/HowToBuy'
 import ContactUs from './components/contact/ContactUs'
 import CartPage from './components/cart/CartPage'
+import CheckoutPage from './components/cart/CheckoutPage'
 import AdminLogin from './components/admin/AdminLogin'
 import AdminPage from './components/admin/AdminPage'
 import Inventory from './components/admin/Inventory'
@@ -21,7 +22,7 @@ import './App.css';
 class App extends Component {
 
   state = {
-  
+    
   }
 
   componentDidMount() {
@@ -109,6 +110,11 @@ class App extends Component {
             <Route exact path='/cart'
               render={() =>
                 <CartPage />
+              }
+            />
+            <Route exact path='/checkout'
+              render={() =>
+                <CheckoutPage />
               }
             />
             <Route exact path='/login'

@@ -8,9 +8,13 @@ const purchaseSchema = new Schema({
     email: { type: String, required: true },
     phoneNumber: { type: String, required: false },
     purchaseId: { type: String, required: true },
+    purchaseOrderId: { type: String, required: true },
     confirmationNumber: { type: String, required: true },
     purchaseDate: { type: Date, required: true, default: Date.now},
-    purchaseDetails: { type: Array, required: true }
+    purchaseDetails: { type: Array, required: true },
+    purchaseAmount: { type: String, required: true },
+    purchaseCard: { type: Number, required: true },
+    purchaseReceiptUrl: { type: String, required: true }
 })
 
 const Purchase = mongoose.model('Purchase', purchaseSchema)

@@ -11,22 +11,16 @@ class NavbarHome extends Component {
         super(props);
 
         this.state = {
-            cartCount: 0
+           
         }
 
     }
 
     componentDidMount() {
-        this.getCart()
+
       }
     
-    getCart = () => {
-        let cartCount = localStorage.length
-        console.log('CART COUNT: ', cartCount)
-        this.setState({
-            cartCount: cartCount
-        })
-    }
+    
     
 
     render() {                                                       
@@ -43,7 +37,18 @@ class NavbarHome extends Component {
                     <Nav.Item className='navbarHomeItems' href='/ourstory'>Our Story</Nav.Item>
                     <Nav.Item className='navbarHomeItems' href='/howtobuy'>How to Buy</Nav.Item>
                     <Nav.Item className='navbarHomeItems' href='/contactus'>Contact Us</Nav.Item>
-                    <Nav.Item className='navbarHomeItems' id='navbarHomeCart' href='/cart'><Icon icon='shopping-cart' /><Badge id="cartCount" className="badge badge-warning" content={this.state.cartCount > 0 ? this.state.cartCount : ''}/></Nav.Item>
+                    <Nav.Item 
+                      className='navbarHomeItems' 
+                      id='navbarHomeCart' 
+                      href='/cart'
+                    >
+                        <Icon icon='shopping-cart' />
+                        <Badge 
+                          id="cartCount" 
+                          className="badge badge-warning" 
+                          content={this.props.cartCount > 0 ? this.props.cartCount : ''}
+                        />
+                    </Nav.Item>
                     {/* <Dropdown title="About">
                     <Dropdown.Item>Company</Dropdown.Item>
                     <Dropdown.Item>Team</Dropdown.Item>

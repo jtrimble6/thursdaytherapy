@@ -17,9 +17,13 @@ const sessionRoutes = require("./routes/API/sessionAPI");
 const contactRoutes = require('./routes/API/contactAPI')
 const purchaseRoutes = require('./routes/API/purchaseAPI')
 const productRoutes = require('./routes/API/productAPI')
-const cartRoutes = require('./src/app/Cart/routes');
-const { cart } = require('./src/app/Cart/repository');
+// const cartRoutes = require('./src/app/Cart/routes');
+// const { cart } = require('./src/app/Cart/repository');
+const { Client, Environment, ApiError } = require('square');
 const PORT = process.env.PORT || 5000;
+
+// Set the Access Token which is used to authorize to a merchant
+const accessToken = 'EAAAEE9dzaHn0vQMcZ1X7g7FoImy-euP0JKAdxWuA6W6xx0409Jxub1-OSpr1XEM';
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -57,6 +61,14 @@ app.use(
 	  saveUninitialized: false
 	})
   );
+
+// Initialized the Square api client:
+//   Set sandbox environment for testing purpose
+//   Set access token
+const client = new Client({
+	environment: Environment.Sandbox,
+	accessToken: accessToken,
+  });
   
 passport.serializeUser(function(user, done) {
 	done(null, user._id);
@@ -69,7 +81,6 @@ passport.deserializeUser(function(id, done) {
   });
 
 // Connect to the Mongo DB
-
 const promise = mongoose.connect("mongodb://localhost:27017/cart", { useNewUrlParser: true });
 
 var gfs;
@@ -268,6 +279,44 @@ app.delete('/uploads/:id', (req, res) => {
 	  }
 	})
   })
+
+
+// HANDLE SQUARE PAYMENTS
+
+app.post('/process-payment', async (req, res) => {
+	const requestParams = req.body;
+  
+	// Charge the customer's card
+	const paymentsApi = client.paymentsApi;
+	const requestBody = {
+	  sourceId: requestParams.nonce,
+	  amountMoney: {
+		amount: 100 * requestParams.paymentAmount, // $1.00 charge
+		currency: 'USD'
+	  },
+	  locationId: requestParams.location_id,
+	  idempotencyKey: requestParams.idempotency_key,
+	};
+  
+	try {
+	  const response = await paymentsApi.createPayment(requestBody);
+	  res.status(200).json({
+		'title': 'Payment Successful',
+		'result': response.result
+	  });
+	} catch(error) {
+	  let errorResult = null;
+	  if (error instanceof ApiError) {
+		errorResult = error.errors;
+	  } else {
+		errorResult = error;
+	  }
+	  res.status(500).json({
+		'title': 'Payment Failure',
+		'result': errorResult
+	  });
+	}
+  });
 
 app.get("*", (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

@@ -1,3 +1,4 @@
+/* NAVBAR BODY */
 #navbarHome {
     background-color: transparent;
     width: 100% !important;
@@ -17,6 +18,7 @@
     display: inline-block !important;
 }
 
+/* NAVBAR PAGES */
 #navbarHomeTabs {
     background-color: transparent;
     color: #929292;
@@ -34,7 +36,7 @@
 }
 
 .navbarHomeItems a {
-    font-size: 1.5vw !important;
+    font-size: 1.5vw;
 }
 
 .navbarHomeItems .rs-nav-item-content :hover {
@@ -42,6 +44,7 @@
     /* background-color: linear-gradient(green, red, yellow) !important; */
 }
 
+/* NAVBAR LOGO */
 #homeImagesRow {
     width: 80%;
     margin: 0 auto;
@@ -58,6 +61,8 @@
     height: auto;
 }
 
+
+/* SHOPPING CART */
 #navbarHomeCart .rs-icon {
     font-size: 1.5vw !important;
 }
@@ -85,7 +90,7 @@
     color: black;
     /* padding: 0 0.5vw 0 0.5vw; */
     vertical-align: top;
-}
+  }
 
 #cartCount :hover {
     font-size: 1vw;
@@ -93,4 +98,25 @@
     color: black;
     /* padding: 0 0.5vw 0 0.5vw; */
     vertical-align: top;
-}
+  }
+
+
+/* LAPTOPS */
+@media screen 
+    and (min-device-width: 700px) 
+    and (max-device-width: 800px)  { 
+        #navbarHomeLogo {
+            width: 23vw;
+        }
+        .navbarHomeItems a {
+            font-size: 1.5vw !important;
+            padding: 8px 6px !important;
+        }
+  }
+@media screen 
+    and (min-device-width: 800px) 
+    and (max-device-width: 1100px)  { 
+        #navbarHomeLogo {
+            width: 25vw;
+        }
+  }

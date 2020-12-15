@@ -1,0 +1,93 @@
+import React, { Component } from 'react'
+import { Table, Loader } from 'rsuite';
+
+// CSS
+import '../../css/cart/cartCheckout.css'
+
+
+class CheckoutOrderInfo extends Component {
+
+    componentDidMount() {
+        // console.log('Personal Info Ready')
+      }
+
+    formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        try {
+          decimalCount = Math.abs(decimalCount);
+          decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+      
+          const negativeSign = amount < 0 ? "-" : "";
+      
+          let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+          let j = (i.length > 3) ? i.length % 3 : 0;
+      
+          return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+          console.log(e)
+        }
+      };
+
+    render() {
+        // Verify this is current step
+        if (this.props.currentStep !== 1) {
+            return null
+        }
+        const { Column, HeaderCell, Cell } = Table;
+
+        return (
+            <div className='checkoutFormRow orderInfoStep'>
+              <h2 className='orderInfoTitle'>Your Order</h2>
+              <div id="orderInfoLoader" hidden={this.props.currentCart.length ? true : false}>
+                <Loader vertical center speed="slow" size="lg" content="Loading cart..." />
+              </div>
+              <Table
+                className='orderTable'
+                // height={400}
+                data={this.props.currentCart}
+                renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
+                onRowClick={data => {
+                    console.log(data);
+                }}
+              >
+                <Column width={70} align="left">
+                    <HeaderCell>Qty</HeaderCell>
+                    <Cell dataKey="soapQty" />
+                </Column>
+
+                <Column width={200} align="left">
+                    <HeaderCell>Name</HeaderCell>
+                    <Cell dataKey="soapName" />
+                    {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
+                </Column>
+
+                <Column width={200} align="left">
+                    <HeaderCell>Ingredients</HeaderCell>
+                    <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
+                    {/* <Cell dataKey="soapPrice" /> */}
+                </Column>
+
+                <Column width={200} align="right">
+                    <HeaderCell>Price</HeaderCell>
+                    <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
+                    {/* <Cell dataKey="soapPrice" /> */}
+                </Column>
+
+                <Column width={200} align="right">
+                    <HeaderCell>Total Price</HeaderCell>
+                    <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
+                </Column>
+
+                {/* <Column width={200}>
+                    <HeaderCell>Img</HeaderCell>
+                    <Cell dataKey="image" />
+                </Column> */}
+
+            </Table>
+                
+            </div>
+        )
+    };
+};
+
+export default CheckoutOrderInfo;
+       

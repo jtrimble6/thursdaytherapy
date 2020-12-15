@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon } from 'rsuite';
+import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon, Grid, Row, Col, Loader } from 'rsuite';
 import $ from 'jquery'
 import API from '../../utils/API'
 import '../../css/products/productsImages.css'
@@ -7,7 +7,6 @@ import '../../css/products/productsImages.css'
 class Products extends Component {
   constructor(props) {
       super(props);
-      
 
       this.state = {
         node_env: "PRODUCTION",
@@ -19,7 +18,7 @@ class Products extends Component {
         soapImageFile: '',
         soapId: '',
         error: '',
-        qty: 'qty',
+        qty: 'QTY',
         products: [],
         filteredProducts: []
       }
@@ -77,8 +76,9 @@ class Products extends Component {
                       filteredProducts: newProducts
                     })
                     productsData = newProducts
+                    document.getElementById('productsLoader').hidden = true
                   }
-                  
+                  this.props.updateCart()
                   // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
                 }
                 // this.setState({
@@ -121,7 +121,7 @@ class Products extends Component {
         return item.soapName === soapName
       })
 
-      if (itemAlreadyInCart) {
+      if (itemAlreadyInCart.length) {
         console.log('NEW CART: ', newCart)
         console.log('ITEM ALREADY IN CART: ', itemAlreadyInCart)
         let data = [...newCart];
@@ -198,7 +198,7 @@ class Products extends Component {
         show: false,
         qty: 'qty',
        });
-      window.location.reload()
+      this.fetchData()
     }
 
   open = (e) => {
@@ -247,6 +247,21 @@ class Products extends Component {
     })
     }
   
+  formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+      try {
+        decimalCount = Math.abs(decimalCount);
+        decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+    
+        const negativeSign = amount < 0 ? "-" : "";
+    
+        let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+        let j = (i.length > 3) ? i.length % 3 : 0;
+    
+        return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+      } catch (e) {
+        console.log(e)
+      }
+    }
   
 
   render() {                                                       
@@ -269,27 +284,39 @@ class Products extends Component {
               </Form>
             </div>
             <div id='productsImagesRow1' className="row">
+            <div id="productsLoader" hidden={false}>
+              <Loader vertical center speed="slow" size="lg" content="Loading products..." />
+            </div>
             <Modal show={this.state.show} onHide={this.close}>
               <Modal.Header>
                   <Modal.Title id='productsListingName'>{this.state.soapName}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                <Grid fluid>
+                  <Row className='show-grid'>
+                    <Col className='productListingDetailsCol' xs={12} xsPush={12}>
+                      <p className='productsListingIngredients'>Soap Ingredients: { this.state.soapIngredients ? this.state.soapIngredients : 'No ingredients listed' }</p>
+                        <br />
+                        <h5 className="productsListingPrice">
+                          {this.formatMoney(this.state.soapPrice)} 
+                          {/* /{" "} */}
+                          {/* <del className="text-muted line-through">$225</del> */}
+                        </h5>
+                    </Col>
+                    <Col className='productListingImageCol' xs={12} xsPull={12}>
+                    <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' onClick={this.open} className="productsImageModal" alt="peacockZ1" />
+                    </Col>
+                  </Row>
+                </Grid>
                 
                 
-                <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' onClick={this.open} className="productsImageModal" alt="peacockZ1" />
-                <br />
-                <h5 className="productsListingPrice">
-                  ${this.state.soapPrice} 
-                  {/* /{" "} */}
-                  {/* <del className="text-muted line-through">$225</del> */}
-                </h5>
-                <br />
-                <p>Soap Ingredients: { this.state.soapIngredients ? this.state.soapIngredients : 'No ingredients listed' }</p>
+                {/* <br /> */}
+                
                 
                 
               </Modal.Body>
               <Modal.Footer>
-                <Dropdown className='changeQtyDropdown' title={this.state.qty} placement="topStart">
+                <Dropdown className='changeQtyDropdown' title={this.state.qty} placement="leftStart">
                   <Dropdown.Item onClick={this.changeQty}>1</Dropdown.Item>
                   <Dropdown.Item onClick={this.changeQty}>2</Dropdown.Item>
                   <Dropdown.Item onClick={this.changeQty}>3</Dropdown.Item>
@@ -309,6 +336,7 @@ class Products extends Component {
                 </Button>
               </Modal.Footer>
             </Modal>
+            
             {this.state.filteredProducts.map((product, i) => (
               <span key={product._id}>
                 <Panel className='productsImagePanel' shaded bordered bodyFill={false} style={{ display: 'inline-block' }}>

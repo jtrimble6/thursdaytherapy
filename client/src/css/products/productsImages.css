@@ -29,8 +29,19 @@
     cursor: pointer;
 }
 
+.productListingDetailsCol {
+    text-align: center;
+}
+
+.productListingImageCol {
+    margin: 0 auto !important;
+}
+
 .productsImageModal {
-    width: 35%;
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     height: auto;
 }
 
@@ -58,9 +69,9 @@
     font-size: 3vw;
 }
 
-.productsListingPrice {
+.productsListingPrice, .productsListingIngredients {
     margin-top: 1vw;
-    font-size: 2vw;
+    font-size: 1vw;
     font-weight: bolder;
 }
 
@@ -85,11 +96,31 @@
 }
 
 #adminProductsSearchBarFormGroup .rs-form-control-wrapper {
-    max-width: 70% !important;
+    width: 70%;
 }
 
 .searchIcon {
     float: right;
     margin-top: 0.5vw;
     margin-right: 1vw;
+}
+
+/* LOADER */
+
+#productsLoader {
+    margin-top: 10vw;
+    height: 10vw;
+    position: relative;
+    top: 0;
+}
+
+@media screen 
+    and (min-device-width: 700px) 
+    and (max-device-width: 1100px)  { 
+        #searchEntry {
+            width: 100%;
+        }
+        #adminProductsSearchBarFormGroup .rs-form-control-wrapper {
+            width: 85%;
+        }
 }
