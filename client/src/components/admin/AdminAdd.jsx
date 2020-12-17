@@ -173,6 +173,7 @@ class AdminAdd extends Component {
                     })
                 }})
                 .catch(error => {
+                    Alert.error('There was an error adding admin. Please try again.', 5000)
                     console.log(error)
                 })
         }

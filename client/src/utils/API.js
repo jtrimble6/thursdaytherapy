@@ -64,4 +64,4 @@ export default {
     updateProduct: function(id, data) {
         return axios.put('/api/products/' + id, data)
     },
-}
+} 
