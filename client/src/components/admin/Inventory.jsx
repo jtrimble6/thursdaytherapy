@@ -113,6 +113,7 @@ class Inventory extends Component {
                   //   });
                 })
                 .catch(err => {
+                  Alert.error('There was an error getting products, please reload page.', 5000)
                   console.log('ERROR GETTING PRODUCTS: ', err)
                 })
           })
@@ -156,7 +157,7 @@ class Inventory extends Component {
                 }
               })
               Alert.success('New product successfully added!', 5000)
-              this.fetchData()
+              window.location.reload()
           })
           .catch(err => {
             Alert.error('There was an error adding product, please try again.', 5000)
