@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Modal, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button, Icon, Uploader } from 'rsuite';
+import { Panel, Modal, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button, Icon, Alert } from 'rsuite';
 import axios from 'axios';
 import API from '../../utils/API'
 import $ from 'jquery'
@@ -155,9 +155,11 @@ class Inventory extends Component {
                   'Content-Type': 'multipart/form-data'
                 }
               })
-              window.location.reload()
+              Alert.success('New product successfully added!', 5000)
+              this.fetchData()
           })
           .catch(err => {
+            Alert.error('There was an error adding product, please try again.', 5000)
             console.log('ERROR SAVING PRODUCT: ', err)
           })
 
