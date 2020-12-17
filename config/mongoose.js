@@ -3,7 +3,7 @@ require('dotenv').config();
 const connection = process.env.MONGO_URI;
 
 module.exports = app => {
-    mongoose.connect(process.env.NODE_ENV === "DEVELOPMENT" ? 'mongodb://localhost:27017/cart' : connection, {
+    mongoose.connect(process.env.NODE_ENV === "development" ? 'mongodb://localhost:27017/cart' : connection, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         useFindAndModify: false
