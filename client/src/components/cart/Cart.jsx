@@ -96,8 +96,8 @@ class Cart extends Component {
                       })
                       productsData = newProducts
                     }
-                    this.fetchCart(newProducts)
-                    // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+                    // this.fetchCart(newProducts)
+                    console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
                   }
                   // this.setState({
                   //     products: res.data,
