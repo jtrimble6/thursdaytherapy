@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Form, FormGroup, ControlLabel, FormControl, Button, Modal } from 'rsuite';
+import { Form, FormGroup, ControlLabel, FormControl, Button, Modal, Alert } from 'rsuite';
 import API from '../../utils/API'
 // import Navbar from '../../nav/Navbar'
 
@@ -144,21 +144,24 @@ class AdminAdd extends Component {
                         .then(res => {
                             console.log(res)
                             if (res.data) {
-                                console.log("Successful signup!")
+                                // console.log("Successful signup!")
+                                Alert.success('Admin successfully added!', 5000)
                                 this.setState({
                                     adminAddSuccess: true,
                                 })
                                 document.getElementById('adminAddForm').reset();
                                 // this.setRedirect();
                             } else {
-                                console.log("Signup error")
+                                // console.log("Signup error")
+                                Alert.error('There was an error adding admin. Please try again.', 5000)
                                 this.setState({
                                     adminAddError: true
                                 })
                             }
                         })
                         .catch(error => {
-                            console.log('Backend error: ', error)
+                            // console.log('Backend error: ', error)
+                            Alert.error('There was an error adding admin. Please try again.', 5000)
                             this.setState({
                                 adminAddError: true
                             })

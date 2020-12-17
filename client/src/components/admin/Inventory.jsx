@@ -66,7 +66,7 @@ class Inventory extends Component {
   
     async fetchData() {
       let productImages = []
-      const res = await fetch(process.env.NOD_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+      const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
         res.json()
           .then((res) => {
             // console.log('ALL IMAGES: ', res);
@@ -150,7 +150,7 @@ class Inventory extends Component {
       API.saveProduct(data)
           .then(res => {
               // console.log('SAVE PRODUCT RESULT: ', res)
-              axios.post(process.env.NOD_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload" + soapName, formData, {
+              axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload" + soapName, formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
@@ -192,12 +192,12 @@ class Inventory extends Component {
           .then(res => {
             // console.log('UPDATE PRODUCT RESULT: ', res)
             // this.closeEditModal()
-            axios.delete(process.env.NOD_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads" + soapImageId, {
+            axios.delete(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads" + soapImageId, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
               })
-            axios.post(process.env.NOD_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload" + soapName, formData, {
+            axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload" + soapName, formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
@@ -214,7 +214,7 @@ class Inventory extends Component {
         // console.log('DELETE THIS SOAP: ', soapEditId)
         
         // try {
-        //     const response = await fetch(process.env.NOD_ENV === "development" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
+        //     const response = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
         //       method: "DELETE",
         //     });
         //     let data = await response.json();
@@ -227,7 +227,7 @@ class Inventory extends Component {
         //   }
 
         // // ADD NEW SOAP PRODUCT
-        // axios.post(process.env.NOD_ENV = "development" ? this.state.developmentURL : this.state.productionURL, data, {
+        // axios.post(process.env.NODE_ENV = "development" ? this.state.developmentURL : this.state.productionURL, data, {
         //   headers: {'Content-Type': 'multipart/form-data' },
         // })
         // .then(res => { // then print response status
@@ -597,7 +597,7 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            // src={(process.env.NOD_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                            // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
                             src={`uploads/${product.soapImageFile}`}
                             data-soapname={product.name} 
                             data-soapprice={product.price} 

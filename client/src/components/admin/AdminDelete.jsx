@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Form, FormGroup, Dropdown, Button, Modal } from 'rsuite';
+import { Form, FormGroup, Dropdown, Button, Modal, Alert } from 'rsuite';
 import API from '../../utils/API'
 // import Navbar from '../../nav/Navbar'
 
@@ -124,9 +124,11 @@ class AdminDelete extends Component {
         API.deleteUser(this.state.selectAdminId)
             .then(res => {
                 console.log('DELETE ADMIN RESULT: ', res)
+                Alert.success('Admin was succesfully removed!', 5000)
                 window.location.reload()
             })
             .catch(err => {
+              Alert.error('There was an error removing admin. Please try again.', 5000)
                 console.log('ERROR DELETING ADMIN: ', err)
             })
         
