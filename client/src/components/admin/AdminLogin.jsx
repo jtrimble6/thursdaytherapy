@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import { Form, FormGroup, ControlLabel, FormControl, Button, Icon } from 'rsuite';
+import { Form, FormGroup, ControlLabel, FormControl, Button, Icon, Alert } from 'rsuite';
 import NavbarHome from '../nav/NavbarHome.jsx'
 import API from '../../utils/API'
 // import SignInError from "../../components/alerts/SignInError";
@@ -82,6 +82,7 @@ class AdminLogin extends Component {
               this.setState({
                   signInError: true
               })
+              Alert.error('Username or password is incorrect.', 10000)
               console.log('Admin Login Error: ', error)
           })
     }

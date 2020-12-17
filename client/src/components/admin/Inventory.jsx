@@ -12,7 +12,6 @@ class Inventory extends Component {
         super(props);
       
         this.state = {
-            node_env: "PRODUCTION",
             showEditModal: false,
             showAddModal: false,
             developmentURL: "http://localhost:3000/product",
@@ -43,7 +42,8 @@ class Inventory extends Component {
             products: [],
             filteredProducts: []
         }
-
+        this.closeAddModal = this.closeAddModal.bind(this)
+        this.openAddModal = this.openAddModal.bind(this)
         this.closeEditModal = this.closeEditModal.bind(this);
         this.openEditModal = this.openEditModal.bind(this);
         this.fetchData = this.fetchData.bind(this)
@@ -66,7 +66,7 @@ class Inventory extends Component {
   
     async fetchData() {
       let productImages = []
-      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+      const res = await fetch(process.env.NOD_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
         res.json()
           .then((res) => {
             // console.log('ALL IMAGES: ', res);
@@ -212,7 +212,7 @@ class Inventory extends Component {
         // console.log('DELETE THIS SOAP: ', soapEditId)
         
         // try {
-        //     const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
+        //     const response = await fetch(process.env.NOD_ENV === "development" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
         //       method: "DELETE",
         //     });
         //     let data = await response.json();
@@ -225,7 +225,7 @@ class Inventory extends Component {
         //   }
 
         // // ADD NEW SOAP PRODUCT
-        // axios.post(this.state.node_env = "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL, data, {
+        // axios.post(process.env.NOD_ENV = "development" ? this.state.developmentURL : this.state.productionURL, data, {
         //   headers: {'Content-Type': 'multipart/form-data' },
         // })
         // .then(res => { // then print response status
@@ -568,7 +568,7 @@ class Inventory extends Component {
                       </Form>
                       {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer id='adminEditInventoryModalFooter'>
                       <Button onClick={this.editInventory}>
                         Edit
                       </Button>
@@ -595,7 +595,7 @@ class Inventory extends Component {
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
                           <img 
-                            // src={(this.state.node_env === "DEVELOPMENT" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                            // src={(process.env.NOD_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
                             src={`uploads/${product.soapImageFile}`}
                             data-soapname={product.name} 
                             data-soapprice={product.price} 

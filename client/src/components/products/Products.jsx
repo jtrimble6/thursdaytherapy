@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon, Grid, Row, Col, Loader } from 'rsuite';
+import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon, Grid, Row, Col, Loader, Alert } from 'rsuite';
 import $ from 'jquery'
 import API from '../../utils/API'
 import '../../css/products/productsImages.css'
@@ -9,7 +9,6 @@ class Products extends Component {
       super(props);
 
       this.state = {
-        node_env: "PRODUCTION",
         show: false,
         soapName: '',
         soapIngredients: '',
@@ -39,7 +38,7 @@ class Products extends Component {
 
   async fetchData() {
     let productImages = []
-    const res = await fetch(this.state.node_env === "DEVELOPMENT" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+    const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
       res.json()
         .then((res) => {
           // console.log('ALL IMAGES: ', res);
@@ -87,6 +86,7 @@ class Products extends Component {
                 //   });
               })
               .catch(err => {
+                Alert.warning('There was an error loading the page. Please retry.', 10000)
                 console.log('ERROR GETTING PRODUCTS: ', err)
               })
         })
@@ -94,13 +94,14 @@ class Products extends Component {
           this.setState({
             error: error
           });
+          Alert.warning('There was an error loading the page. Please retry.', 10000)
       });
     }
 
   async addToCart(id) {
-    if (this.state.qty === 'qty') {
+    if (this.state.qty === 'QTY') {
       console.log('must set a valid qty')
-      // NEED TO ADD ALERT
+      Alert.warning('Please select qty.', 5000)
       return
     } else if (localStorage.getItem('item1')) {
       // localStorage.clear()
@@ -151,25 +152,6 @@ class Products extends Component {
       localStorage.setItem('item1', soapAddedString);
       console.log('LOCAL STORAGE: ', localStorage)
       this.close()
-    // try {
-    //     const response = await fetch("http://localhost:3000/cart", {
-    //       method: "POST",
-    //       body: JSON.stringify({
-    //         productId: id,
-    //         quantity: this.state.qty,
-    //       }),
-    //       headers: {
-    //         "Content-type": "application/json; charset=UTF-8",
-    //       },
-    //     });
-    //     let data = await response.json();
-    //     // alert("Item Added To Cart");
-    //     this.close()
-    //     console.log(data);
-    //   } catch (err) {
-    //     alert("Something Went Wrong");
-    //     console.log(err);
-    //   }
       }
     }
 
@@ -287,7 +269,7 @@ class Products extends Component {
             <div id="productsLoader" hidden={false}>
               <Loader vertical center speed="slow" size="lg" content="Loading products..." />
             </div>
-            <Modal show={this.state.show} onHide={this.close}>
+            <Modal id='productListingModal' show={this.state.show} onHide={this.close}>
               <Modal.Header>
                   <Modal.Title id='productsListingName'>{this.state.soapName}</Modal.Title>
               </Modal.Header>
@@ -308,12 +290,6 @@ class Products extends Component {
                     </Col>
                   </Row>
                 </Grid>
-                
-                
-                {/* <br /> */}
-                
-                
-                
               </Modal.Body>
               <Modal.Footer>
                 <Dropdown className='changeQtyDropdown' title={this.state.qty} placement="leftStart">

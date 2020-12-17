@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import API from '../../utils/API'
 import axios from 'axios'
-import { Loader } from 'rsuite';
+import { Loader, Alert } from 'rsuite';
 
 const styles = {
   name: {
@@ -45,7 +45,6 @@ export default class PaymentForm extends Component {
   constructor(props){
     super(props);
     this.state = {
-      env: 'PRODUCTION',
       cardBrand: "",
       nonce: undefined,
       googlePay: false,
@@ -143,13 +142,13 @@ export default class PaymentForm extends Component {
             countryCode: "US",
             total: {
               label: "MERCHANT NAME",
-              amount: JSON.stringify(100 * this.props.paymentAmount),
+              amount: JSON.stringify(this.props.paymentAmount),
               pending: false
             },
             lineItems: [
               {
                 label: "Subtotal",
-                amount: JSON.stringify(100 * this.props.paymentAmount),
+                amount: JSON.stringify(this.props.paymentAmount),
                 pending: false
               }
             ]
@@ -158,11 +157,13 @@ export default class PaymentForm extends Component {
         cardNonceResponseReceived: (errors, nonce, cardData) => {
           if (errors) {
             // Log errors from nonce generation to the Javascript console
+            Alert.error('There was an error processing payment. Please try again.', 10000)
+            document.getElementById('processingPaymentPayButton').hidden = false
+            document.getElementById('processingPaymentLoader').hidden = true
             console.log("Encountered errors:");
             errors.forEach(function(error) {
               console.log("  " + error.message);
             });
-
             return;
           }
           this.handleNonceReceived(nonce)
@@ -213,7 +214,30 @@ export default class PaymentForm extends Component {
 
   requestCardNonce = (e) => {
       e.preventDefault()
-      document.getElementById('processingPaymentPayButton').innerHtml = ''
+      let cardholderName = document.getElementById('name')
+      let cardholderNameValue = cardholderName.value
+      console.log('CARD HOLDER NAME: ', cardholderNameValue)
+      if (cardholderNameValue === '') {
+        Alert.warning('Please enter the cardholder full name.', 5000)
+        return;
+      }
+      if (this.props.firstName === '') {
+        Alert.warning('Please enter a first name.', 5000)
+        return;
+      }
+      if (this.props.lastName === '') {
+        Alert.warning('Please enter a last name.', 5000)
+        return;
+      }
+      if (this.props.emailError) {
+        Alert.warning('Please enter a valid email address.', 5000)
+        return;
+      }
+      if (this.props.phoneError) {
+        Alert.warning('Please enter a valid phone number.', 5000)
+        return;
+      }
+      document.getElementById('processingPaymentPayButton').hidden = true
       document.getElementById('processingPaymentLoader').hidden = false
       this.SqPaymentForm.requestCardNonce();
     }
@@ -245,7 +269,8 @@ export default class PaymentForm extends Component {
         })   
       })
       .catch(err => {
-        alert('Network error: ' + err);
+        // alert('Network error: ' + err);
+        Alert.error('Sorry, there was an error connecting to Square payment. Please try again.', 10000)
       })
       .then(response => {
         if (!response.ok) {
@@ -257,17 +282,18 @@ export default class PaymentForm extends Component {
       .then(data => {
         console.log(data);
         if (data.title === "Payment Successful") {
-            console.log('PAYMENT WAS A HUGE SUCCESS!')
-            console.log('PAYMENT RESULT: ', data.result.payment)
-            let paymentResult = data.result.payment
-            this.setState({
-                paymentStatus: paymentResult.status,
-                paymentCardLastFour: paymentResult.cardDetails.card.last4,
-                paymentAmount: paymentResult.amountMoney.amount,
-                paymentId: paymentResult.id,
-                paymentOrderId: paymentResult.orderId,
-                purchaseReceiptUrl: paymentResult.receiptUrl
-            })
+          Alert.success('Payment was a success!', 5000)
+          // console.log('PAYMENT WAS A HUGE SUCCESS!')
+          // console.log('PAYMENT RESULT: ', data.result.payment)
+          let paymentResult = data.result.payment
+          this.setState({
+              paymentStatus: paymentResult.status,
+              paymentCardLastFour: paymentResult.cardDetails.card.last4,
+              paymentAmount: paymentResult.amountMoney.amount,
+              paymentId: paymentResult.id,
+              paymentOrderId: paymentResult.orderId,
+              purchaseReceiptUrl: paymentResult.receiptUrl
+          })
 
         }
         // debugger;
@@ -276,7 +302,8 @@ export default class PaymentForm extends Component {
       })
       .catch(err => {
         console.error(err);
-        alert('Payment failed to complete!\nCheck browser developer console for more details');
+        Alert.error('Sorry, there was an error completing your payment. Please try again.', 10000)
+        // alert('Payment failed to complete!\nCheck browser developer console for more details');
       });
     }
 
@@ -294,7 +321,7 @@ export default class PaymentForm extends Component {
       } catch (e) {
         console.log(e)
       }
-    };
+    }
 
   handlePaymentConfirmation = () => {
     // SHOW ORDER CONFIRMATION FORM
@@ -313,7 +340,7 @@ export default class PaymentForm extends Component {
     // HIDE CHECKOUT STEP TITLE DIV
     let checkoutTitle = document.getElementById('checkoutTitle')
     checkoutTitle.innerHTML = 'Payment Complete'
-    let checkoutStepTitle = document.getElementById('checkoutTitleId')
+    let checkoutStepTitle = document.getElementById('checkoutStepTitle')
     checkoutStepTitle.innerHTML = ''
 
     // HIDE REQUIRED TEXT
@@ -334,17 +361,22 @@ export default class PaymentForm extends Component {
     orderConfirmationElement.classList.add('paymentConfirmationDiv')
 
     // ADD ORDER CONFIRMATION DATA TO DIV
+    // let lineBreak = document.createElement('br')
+
     let orderConfirmationStatus = document.createElement('p')
     orderConfirmationStatus.innerHTML = 'Payment Status: ' + this.state.paymentStatus
+    
     let orderCard = document.createElement('p')
-    orderCard.innerHTML = 'Payment Card: ' + this.state.paymentCardLastFour
+    orderCard.innerHTML = 'Payment Card: *' + this.state.paymentCardLastFour
+    
     let orderAmount = document.createElement('p')
-    let orderNumberInt = parseInt(this.state.paymentAmount)
-    let orderAmountFormatted = this.formatMoney(orderNumberInt)
-    console.log('ORDER AMOUNT FORMATTED: ', orderAmountFormatted)
+    let orderAmountInt = parseInt(this.props.paymentAmount)
+    let orderAmountFormatted = this.formatMoney(orderAmountInt)
     orderAmount.innerHTML = 'Payment Amount: ' + orderAmountFormatted
+    
     let orderConfirmationNumber = document.createElement('p')
     orderConfirmationNumber.innerHTML = 'Confirmation #: ' + this.state.paymentId
+    
     let orderEmailConfirmation = document.createElement('p')
     orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.props.email + '.'
     
@@ -375,7 +407,7 @@ export default class PaymentForm extends Component {
           purchaseReceiptUrl: this.state.purchaseReceiptUrl,
           confirmationNumber: this.state.paymentId,
           purchaseDetails: this.props.cart,
-          purchaseAmount: JSON.stringify(this.state.paymentAmount),
+          purchaseAmount: JSON.stringify(this.formatMoney(this.state.paymentAmount)),
           purchaseCard: this.state.paymentCardLastFour
       };
       console.log('ORDER DATA: ', orderData);
@@ -401,10 +433,10 @@ export default class PaymentForm extends Component {
         console.log('SOAP PRICE INT: ', soapPriceInt)
         let soapPriceFormatted = that.formatMoney(soapPriceInt)
         console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
-        let soapTotalInt = parseInt(element.soapTotal)
-        console.log('SOAP TOTAL INT: ', soapPriceInt)
-        let soapTotalFormatted = that.formatMoney(soapTotalInt)
-        console.log('SOAP TOTAL FORMATTED: ', soapPriceInt)
+        // let soapTotalInt = parseInt(element.soapTotal)
+        // console.log('SOAP TOTAL INT: ', soapPriceInt)
+        let soapTotalFormatted = that.formatMoney(element.soapTotal)
+        console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
         return `
         PRODUCT: ${ element.soapName }
         PRICE: ${ soapPriceFormatted }
@@ -422,12 +454,12 @@ export default class PaymentForm extends Component {
       const body = `
       ${ items }
 
-      Total Price: ${this.formatMoney(this.state.paymentAmount)}
+      Total Sale: ${that.formatMoney(this.props.paymentAmount)}
       `;
 
       axios({
           method: "POST", 
-          url: this.state.env === 'DEVELOPMENT' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
+          url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
           data: {
               firstName: firstName,   
               lastName: lastName,
@@ -437,13 +469,15 @@ export default class PaymentForm extends Component {
           }
       }).then((response)=> {
           if (response.data.msg === 'success'){
-              console.log("Message Sent."); 
+              // console.log("Message Sent."); 
+              Alert.success('Your order has been received!', 5000)
               this.setState({
                 contactSuccess: true
               })
               this.resetForm()
           } else if(response.data.msg === 'fail'){
-            console.log("Message failed to send.")
+            // console.log("Message failed to send.")
+            Alert.error('There was an error submitting your order. Please contact us to complete order.', 5000)
             this.setState({
               contactError: true
             })
@@ -455,7 +489,7 @@ export default class PaymentForm extends Component {
     console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
     axios({
         method: "POST", 
-        url: this.state.env === 'DEVELOPMENT' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+        url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
         data: {
             firstName: firstName,   
             lastName: lastName,
@@ -465,16 +499,18 @@ export default class PaymentForm extends Component {
         }
     }).then((response)=> {
         if (response.data.msg === 'success'){
-            console.log("Message Sent."); 
-            this.setState({
-              contactSuccess: true
-            })
-            this.resetForm()
+            // console.log("Message Sent."); 
+            Alert.success('Confirmation email sent!', 5000)
+            // this.setState({
+            //   contactSuccess: true
+            // })
+            // this.resetForm()
         } else if(response.data.msg === 'fail'){
-          console.log("Message failed to send.")
-          this.setState({
-            contactError: true
-          })
+          // console.log("Message failed to send.")
+          Alert.error('There was an error sending order confirmation. Please contact us to resend.', 5000)
+          // this.setState({
+          //   contactError: true
+          // })
         }
     })
     }
@@ -486,7 +522,7 @@ export default class PaymentForm extends Component {
 
   handleThirdParty = (e) => {
     e.preventDefault()
-  }
+    }
 
   setRedirect = () => {
       this.setState({
@@ -558,7 +594,7 @@ export default class PaymentForm extends Component {
             onClick={this.requestCardNonce}
             id='paymentFormSubmitButton'
           >
-            <p id="processingPaymentPayButton">Pay</p>
+            <span hidden={false} id="processingPaymentPayButton">Pay</span>
             <span id="processingPaymentLoader" hidden={true}>
               <Loader center speed="slow" size="xs" content="Processing..." />
             </span>

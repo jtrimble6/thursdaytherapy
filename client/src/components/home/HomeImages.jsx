@@ -3,7 +3,7 @@ import HomeImage1 from '../../css/images/homeImage1.jpg'
 import HomeImage2 from '../../css/images/homeImage2.jpg'
 import HomeImage3 from '../../css/images/homeImage3.jpg'
 
-import '../../css/home/footerHome.css'
+import '../../css/home/home.css'
 
 
 class HomeImages extends Component {

@@ -53,11 +53,11 @@ class Checkout extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          node_env: 'PRODUCTION',
           currentStep: 1, // Default is Step 1
           currentStepTitle: 'Order Details',
           currentCart: [],
           cartTotal: '',
+          cartLoaded: false,
           products: [],
           productImages: [],
           progressPct: 10,
@@ -125,7 +125,7 @@ class Checkout extends Component {
 
     async fetchData() {
         let productImages = []
-        const res = await fetch(this.state.node_env === "DEVELOPMENT" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+        const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
           res.json()
             .then((res) => {
               // console.log('ALL IMAGES: ', res);
@@ -231,12 +231,14 @@ class Checkout extends Component {
         
         this.setState({
           currentCart: cart,
-          cartTotal: cartTotal
+          cartTotal: cartTotal,
+          cartLoaded: true
         })
 
         // document.getElementById('orderInfoLoader').hidden = true
   
         console.log('CART: ', cart)
+        console.log('CART TOTAL: ', cartTotal)
   
       }
 
@@ -256,6 +258,7 @@ class Checkout extends Component {
         })    
         this.setState(prevState=> ({ phoneNumber: normalizeInput(value, prevState.phoneNumber) }));
         if (value.length !== 14) {
+          console.log('PHONE VALUE: ', value)
           this.setState({
             phoneError: true
           })
@@ -487,7 +490,7 @@ class Checkout extends Component {
         console.log(firstName, lastName, email, subscriptionStatus)
         axios({
             method: "POST", 
-            url: this.state.node_env === 'DEVELOPMENT' ? "http://localhost:3000/sendUserInfo" : "http://gfitwefit.com/sendUserInfo",
+            url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/sendUserInfo" : "http://gfitwefit.com/sendUserInfo",
             data: {
                 firstName: firstName,   
                 lastName: lastName,
@@ -516,7 +519,7 @@ class Checkout extends Component {
                 {/* <h2 className='checkoutTitle'>Secure Checkout</h2> */}
                 <div id='checkoutTitleDiv' className="checkoutTitleRow">
                   <h1 id='checkoutTitle' className='checkoutTitle'>Secure Checkout</h1>
-                  <p id='checkoutTitleId' className='checkoutStep'>
+                  <p id='checkoutStepTitle' className='checkoutStep'>
                     {this.state.currentStepTitle}
                   </p>
                   {/* <ProgressBar 
@@ -531,6 +534,7 @@ class Checkout extends Component {
                     currentStep={this.state.currentStep}
                     handleChange={this.handleChange}
                     currentCart={this.state.currentCart}
+                    cartLoaded={this.state.cartLoaded}
                   />
                 
                   <CheckoutPaymentInfo 

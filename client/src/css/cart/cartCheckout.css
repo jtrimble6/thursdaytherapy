@@ -110,7 +110,6 @@
     text-align: center;
 }
 
-
 .paymentInfoFormGroup {
     margin-bottom: 1vw;
 }
@@ -131,11 +130,18 @@
     margin-right: 1vw;
 }
 
+
 .paymentConfirmationDiv {
     width: 60%;
     margin: 0 auto;
+    margin-top: 5vw;
     margin-bottom: 5vw;
     text-align: center;
+    background-color: lightgreen;
+    border-radius: 1vw;
+    padding: 1vw;
+    font-size: 1.5vw;
+    font-weight: bold;
 }
 
 .checkoutConfirmationButton {
@@ -148,9 +154,13 @@
     /* margin-bottom: 2vw; */
 }
 
+#processingPaymentPayButton {
+  color: black;
+}
+
 /* LOADER */
 
-#orderInfoLoader, #checkoutPaymentInfoLoader {
+#orderInfoLoader, #checkoutPaymentInfoLoader, #processingPaymentLoader {
     margin-top: 10vw;
     height: 10vw;
     position: relative;
@@ -186,7 +196,7 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1;
     position: relative;
-    min-width: 315px;
+    width: 315px;
     border-radius: 10px;
     transition: all 400ms linear;
     width: 40vw;
@@ -287,8 +297,8 @@
   
   /* Customize the Google Pay button */
   #sq-google-pay {
-    min-width: 385px;
-    min-height: 40px;
+    width: 385px;
+    height: 40px;
     padding: 11px 24px;
     margin: 10px auto;
     background-color: #000;
@@ -315,3 +325,397 @@
   .sq-input--error {
     box-shadow: inset 0px 0px 0px 3px rgba(255,0,0,0.5);
   }
+
+
+  /* ----------- LAPTOPS ----------- */
+
+
+/* ----------- Non-Retina Screens ----------- */
+
+@media screen 
+and (min-device-height: 1000px)
+and (max-device-width: 699px) 
+and (-webkit-min-device-pixel-ratio: 1) { 
+  
+}
+
+@media screen 
+and (min-device-width: 700px) 
+and (max-device-width: 1200px) 
+and (-webkit-min-device-pixel-ratio: 1) { 
+  
+}
+
+@media screen 
+and (min-device-width: 1201px) 
+and (max-device-width: 1600px) 
+and (-webkit-min-device-pixel-ratio: 1) { 
+ 
+}
+
+@media screen 
+and (min-device-width: 1601px) 
+and (max-device-width: 1800px) 
+and (-webkit-min-device-pixel-ratio: 1) { 
+
+}
+
+@media screen 
+and (min-device-width: 1800px) 
+and (max-device-width: 2000px) 
+and (-webkit-min-device-pixel-ratio: 1) { 
+ 
+}
+
+@media screen 
+and (min-device-width: 2001px) 
+and (-webkit-min-device-pixel-ratio: 1) { 
+ 
+}
+
+/* ----------- iPads ----------- */
+
+/* ----------- iPad 1, 2, Mini and Air ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 768px) 
+and (max-device-width: 1024px) 
+and (-webkit-min-device-pixel-ratio: 1) {
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 768px) 
+and (max-device-width: 1024px) 
+and (orientation: portrait) 
+and (-webkit-min-device-pixel-ratio: 1) {
+  
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 768px) 
+and (max-device-width: 1024px) 
+and (orientation: landscape) 
+and (-webkit-min-device-pixel-ratio: 1) {
+
+}
+
+/* ----------- iPad 3, 4 and Pro 9.7" ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 768px) 
+and (max-device-width: 1024px) 
+and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 768px) 
+and (max-device-width: 1024px) 
+and (orientation: portrait) 
+and (-webkit-min-device-pixel-ratio: 2) {
+ 
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 768px) 
+and (max-device-width: 1024px) 
+and (orientation: landscape) 
+and (-webkit-min-device-pixel-ratio: 2) {
+  
+}
+
+/* ----------- iPad Pro 10.5" ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 834px) 
+and (max-device-width: 1112px)
+and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+and (min-device-width: 834px) 
+and (max-device-width: 834px) 
+and (orientation: portrait) 
+and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+and (min-device-width: 1112px) 
+and (max-device-width: 1112px) 
+and (orientation: landscape) 
+and (-webkit-min-device-pixel-ratio: 2) {
+  
+}
+
+/* ----------- iPad Pro 12.9" ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 1024px) 
+and (max-device-width: 1366px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  
+}
+
+/* Portrait */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+and (min-device-width: 1024px) 
+and (max-device-width: 1024px) 
+and (orientation: portrait) 
+and (-webkit-min-device-pixel-ratio: 2) {
+ 
+}
+
+/* Landscape */
+/* Declare the same value for min- and max-width to avoid colliding with desktops */
+/* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
+@media only screen 
+and (min-device-width: 1366px) 
+and (max-device-width: 1366px) 
+and (orientation: landscape) 
+and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* ----------- iPhones ----------- */
+
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) {
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 480px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: landscape) {
+
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 568px)
+and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 568px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) {
+    /* CHECKOUT HEADER */
+    #checkoutTitle {
+      font-size: 8vw;
+      margin-bottom: 10vw;
+    }
+    #checkoutStepTitle {
+      font-size: 6vw;
+    }
+    #checkoutRequiredSmall {
+      font-size: 3vw;
+    }
+    .orderInfoTitle {
+      font-size: 6vw;
+      font-weight: bold;
+    }
+    
+    /* ORDER DETAILS TABLE */
+    .rs-table-cell-group {
+      font-size: 3vw;
+      text-align: center;
+    }
+
+    /* PAYMENT DETAILS FORM */
+    .paymentInfoFormGroup .form-label {
+      width: 100%;
+      display: inline-block;
+      margin-top: 3vw;
+    }
+
+
+    /* CHECKOUT NAV */
+    .nextStep, .prevStep {
+      height: 10vw;
+    }
+    .sqPaymentCardInfo {
+      font-size: 3vw;
+    }
+    #checkoutPaymentInfoRow {
+      max-width: 100% !important;
+      margin: 1vw;
+    }
+    #paymentInfoSquareForm {
+      width: 90% !important;
+    }
+    #sq-walletbox, #sq-ccbox {
+      width: 100% !important;
+    }
+    #sq-masterpass, #sq-google-pay {
+      width: 100% !important;
+    }
+    #cc-field-wrapper {
+      display: inline-block;
+      padding-top: 0;
+    }
+    #processingPaymentPayButton {
+      font-size: 8vw; 
+    }
+    .paymentConfirmationDiv {
+      width: 90%;
+      font-size: 4vw;
+    }
+    .paymentConfirmationDiv p {
+      margin-top: 5vw;
+      margin-bottom: 5vw;
+    }
+    .checkoutConfirmationButton {
+      max-width: 100%;
+    }
+    #processingPaymentLoader .rs-loader-content {
+      font-size: 4vw !important;
+    }
+    #processingPaymentLoader .rs-loader-spin {
+      margin-right: 2vw !important;
+    }
+
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 320px) 
+and (max-device-width: 568px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: landscape) {
+  
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (-webkit-min-device-pixel-ratio: 2) { 
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 667px) 
+and (min-device-height: 365px)
+and (-webkit-min-device-pixel-ratio: 2)
+and (orientation: landscape) { 
+  
+
+}
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 414px) 
+and (max-device-width: 736px) 
+and (-webkit-min-device-pixel-ratio: 3) { 
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 414px) 
+and (max-device-width: 736px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 414px) 
+and (max-device-width: 736px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: landscape) { 
+  
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 812px) 
+and (-webkit-min-device-pixel-ratio: 3) { 
+
+}
+
+/* Portrait */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 812px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: portrait) { 
+  
+  
+}
+
+/* Landscape */
+@media only screen 
+and (min-device-width: 375px) 
+and (max-device-width: 812px) 
+and (-webkit-min-device-pixel-ratio: 3)
+and (orientation: landscape) { 
+  
+}
+
+
+
+
+
+

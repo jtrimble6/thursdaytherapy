@@ -32,6 +32,7 @@ class Purchases extends Component {
         this.handleUpdateOrder = this.handleUpdateOrder.bind(this)
         this.openDetails = this.openDetails.bind(this)
         this.closeDetails = this.closeDetails.bind(this)
+        this.closeEditDetails = this.closeEditDetails.bind(this)
         this.openEditDetails = this.openEditDetails.bind(this)
         this.handleEditDetails = this.handleEditDetails.bind(this)
         this.handleSearchEntry = this.handleSearchEntry.bind(this)
@@ -50,7 +51,7 @@ class Purchases extends Component {
                 let purchaseDate = purchases[p].purchaseDate
                 purchases[p].purchaseDate = moment(purchaseDate).format('MM/DD/YYYY')
             }
-            console.log('NEW PURCHASES: ', purchases)
+            // console.log('NEW PURCHASES: ', purchases)
             this.setState({
                 currentPurchases: purchases,
                 filteredPurchases: purchases
@@ -83,6 +84,11 @@ class Purchases extends Component {
     closeDetails() {
         this.getPurchases()
         this.setState({ showDetails: false });
+      }
+
+    closeEditDetails() {
+        this.getPurchases()
+        this.setState({ showEditDetails: false });
       }
 
     async handleEditDetails() {
@@ -332,24 +338,24 @@ class Purchases extends Component {
 
                             >
                         
-                            <Column width={200} resizable>
+                            <Column flexGrow={1} width={200} resizable>
                                 <HeaderCell>Product Name</HeaderCell>
                                 <Cell dataKey="soapName" />
                                 {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name}}</Cell> */}
                             </Column>
 
-                            <Column width={70}>
+                            <Column flexGrow={1} width={70}>
                                 <HeaderCell>Quanity</HeaderCell>
                                 <Cell dataKey="soapQty" />
                             </Column>
 
-                            <Column width={70}>
+                            <Column flexGrow={1} width={70}>
                                 <HeaderCell>Price</HeaderCell>
                                 <Cell>{(rowData) => {return "$" + rowData.soapPrice}}</Cell>
                                 {/* <Cell dataKey="soapPrice" /> */}
                             </Column>
 
-                            <Column width={70}>
+                            <Column flexGrow={1} width={70}>
                                 <HeaderCell>Total</HeaderCell>
                                 <Cell>{(rowData) => {return "$" + rowData.soapTotal}}</Cell>
                                 {/* <Cell dataKey="total" /> */}
@@ -360,11 +366,10 @@ class Purchases extends Component {
                                 <Cell dataKey="_id" />
                             </Column> */}
 
-                            <Column width={250} resizable>
+                            {/* <Column width={250} resizable>
                                 <HeaderCell>Product ID</HeaderCell>
                                 <Cell dataKey="soapId" />
-                                {/* <Cell>{(rowData, rowIndex) => {return rowData.productId._id}}</Cell> */}
-                            </Column>
+                            </Column> */}
 
                           </Table>
                         </FormGroup>
@@ -521,11 +526,10 @@ class Purchases extends Component {
                                 <Cell dataKey="_id" />
                             </Column> */}
 
-                            <Column width={250} resizable>
+                            {/* <Column width={250} resizable>
                                 <HeaderCell>Product ID</HeaderCell>
                                 <Cell dataKey="soapId" />
-                                {/* <Cell>{(rowData, rowIndex) => {return rowData.productId._id}}</Cell> */}
-                            </Column>
+                            </Column> */}
 
                           </Table>
                         </FormGroup>
@@ -552,13 +556,13 @@ class Purchases extends Component {
                     }}
 
                     >
-                    <Column width={100} align="center" fixed>
+                    <Column width={100} align="center">
                         <HeaderCell>First Name</HeaderCell>
                         <Cell dataKey="firstName" />
                         
                     </Column>
 
-                    <Column width={100} fixed>
+                    <Column width={100}>
                         <HeaderCell>Last Name</HeaderCell>
                         <Cell dataKey="lastName" />
                     </Column>

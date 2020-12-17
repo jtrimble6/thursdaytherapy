@@ -22,7 +22,7 @@ class ProductsPage extends Component {
 
     getCart = () => {
         let cartCount = localStorage.length
-        console.log('CART COUNT: ', cartCount)
+        // console.log('CART COUNT: ', cartCount)
         this.setState({
             cartCount: cartCount
         })

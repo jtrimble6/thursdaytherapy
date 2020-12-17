@@ -12,7 +12,7 @@ class Cart extends Component {
       
 
       this.state = {
-        node_env: "PRODUCTION",
+        node_env: "DEVELOPMENT",
         developmentURL: "http://localhost:3000/cart",
         productionURL: "https://thursdaytherapy.herokuapp.com/cart",
         redirect: false,
@@ -199,41 +199,13 @@ class Cart extends Component {
       }
 
     async removeItem(itemKey) {
-      localStorage.removeItem(itemKey)
-      window.location.reload()
-        // try {
-        //   const res = await fetch("http://localhost:3000/cart", {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       productId: id,
-        //       quantity: -1,
-        //     }),
-        //     headers: {
-        //       "Content-type": "application/json; charset=UTF-8",
-        //     },
-            
-        //   });
-        //   console.log(res);
-        //   this.fetchCart();
-        // //   alert("Item Increamented");
-        // } catch (err) {
-        //   console.log(err);
-        // }
+        localStorage.removeItem(itemKey)
+        window.location.reload()
       }
     
     async emptyCart() {
-      localStorage.clear()
-      window.location.reload()
-        // try {
-        //   const res = await fetch("http://localhost:3000/cart/empty-cart", {
-        //     method: "DELETE",
-        //   });
-        //   await res.json();
-        //   this.fetchCart();
-        //   this.props.history.push("/");
-        // } catch (err) {
-        //   console.log(err);
-        // }
+        localStorage.clear()
+        window.location.reload()
       }
 
     formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
@@ -415,7 +387,7 @@ class Cart extends Component {
               </Modal.Footer>
             </Modal>
 
-              <Table
+            <Table
                 className='cartTable'
                 // height={400}
                 data={this.state.carts}
@@ -424,24 +396,24 @@ class Cart extends Component {
                     console.log(data);
                 }}
               >
-                <Column width={70} align="center">
+                <Column flexGrow={1} id='cartSoapQtyCol' width={70} align="center">
                     <HeaderCell>Qty</HeaderCell>
                     <Cell dataKey="soapQty" />
                 </Column>
 
-                <Column width={200} align="center">
+                <Column flexGrow={1} id='cartSoapNameCol' width={200} align="center">
                     <HeaderCell>Name</HeaderCell>
                     <Cell dataKey="soapName" />
                     {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                 </Column>
 
-                <Column width={200} align="center">
+                <Column flexGrow={1} id='cartSoapPriceCol'width={200} align="center">
                     <HeaderCell>Price</HeaderCell>
                     <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
                     {/* <Cell dataKey="soapPrice" /> */}
                 </Column>
 
-                <Column width={200} align="center">
+                <Column flexGrow={1} id='cartSoapTotalCol' width={200} align="center">
                     <HeaderCell>Total Price</HeaderCell>
                     <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
                 </Column>

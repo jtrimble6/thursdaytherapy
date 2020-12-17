@@ -5,6 +5,8 @@
     margin: 0 auto;
     margin-top: 5vw;
     align-content: center;
+    position: relative;
+    bottom: 0;
 }
 
 .footerImagesCol {

@@ -37,7 +37,7 @@ class CheckoutOrderInfo extends Component {
         return (
             <div className='checkoutFormRow orderInfoStep'>
               <h2 className='orderInfoTitle'>Your Order</h2>
-              <div id="orderInfoLoader" hidden={this.props.currentCart.length ? true : false}>
+              <div id="orderInfoLoader" hidden={this.props.cartLoaded ? true : false}>
                 <Loader vertical center speed="slow" size="lg" content="Loading cart..." />
               </div>
               <Table
@@ -49,30 +49,30 @@ class CheckoutOrderInfo extends Component {
                     console.log(data);
                 }}
               >
-                <Column width={70} align="left">
+                <Column flexGrow={1} width={70} align="left">
                     <HeaderCell>Qty</HeaderCell>
                     <Cell dataKey="soapQty" />
                 </Column>
 
-                <Column width={200} align="left">
+                <Column flexGrow={1} width={200} align="left">
                     <HeaderCell>Name</HeaderCell>
                     <Cell dataKey="soapName" />
                     {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                 </Column>
 
-                <Column width={200} align="left">
+                <Column flexGrow={3} width={200} align="left">
                     <HeaderCell>Ingredients</HeaderCell>
                     <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
                     {/* <Cell dataKey="soapPrice" /> */}
                 </Column>
 
-                <Column width={200} align="right">
+                <Column flexGrow={1} width={200} align="right">
                     <HeaderCell>Price</HeaderCell>
                     <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
                     {/* <Cell dataKey="soapPrice" /> */}
                 </Column>
 
-                <Column width={200} align="right">
+                <Column flexGrow={1} width={200} align="right">
                     <HeaderCell>Total Price</HeaderCell>
                     <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
                 </Column>

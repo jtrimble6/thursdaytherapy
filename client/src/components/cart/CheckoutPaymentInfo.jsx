@@ -7,8 +7,8 @@ import { Loader } from 'rsuite';
 import '../../css/cart/cartCheckout.css'
 
 // ALERTS
-import EmailError from '../alerts/EmailError';
-import PhoneError from '../alerts/PhoneError'
+// import EmailError from '../alerts/EmailError';
+// import PhoneError from '../alerts/PhoneError'
 
 
 
@@ -127,9 +127,9 @@ class CheckoutPaymentInfo extends Component {
                         placeholder="Email" 
                         aria-label='Email'
                     />
-                    <EmailError 
+                    {/* <EmailError 
                         emailError={this.props.emailError}
-                    />
+                    /> */}
                   </Form.Group>
 
                   <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridPhoneNumber">
@@ -141,14 +141,14 @@ class CheckoutPaymentInfo extends Component {
                         placeholder="(___) ___-____" 
                         aria-label='Phone Number'
                     />
-                    <PhoneError 
+                    {/* <PhoneError 
                         phoneError={this.props.phoneError}
-                    />
+                    /> */}
                   </Form.Group>
 
                 </Form.Row>
 
-                <Form.Row>
+                <Form.Row id='checkoutPaymentInfoRow'>
                 <div id="checkoutPaymentInfoLoader" hidden={this.state.loaded}>
                   <Loader vertical center speed="slow" size="lg" content="Loading payment form..." />
                 </div>
@@ -161,6 +161,8 @@ class CheckoutPaymentInfo extends Component {
                     lastName={this.props.lastName}
                     email={this.props.email}
                     phoneNumber={this.props.phoneNumber}
+                    emailError={this.props.emailError}
+                    phoneError={this.props.phoneError}
                     // requestCardNonce={this.requestCardNonce}
                   />
                   // <Form.Group as={Col} controlId="formGridEmail">

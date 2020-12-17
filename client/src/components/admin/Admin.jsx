@@ -8,8 +8,7 @@ class Admin extends Component {
       super(props);
       
 
-      this.state = {
-        node_env: "PRODUCTION",
+      this.state = {        
         developmentURL: "http://localhost:3000/product",
         developmentCartURL: "http://localhost:3000/cart",
         productionCartURL: "https://thursdaytherapy.herokuapp.com/cart",
@@ -37,7 +36,7 @@ class Admin extends Component {
     }
 
   async fetchData() {
-      const res = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentURL : this.state.productionURL);
+      const res = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentURL : this.state.productionURL);
       res
         .json()
         .then((res) => {
@@ -57,7 +56,7 @@ class Admin extends Component {
       console.log('must set a valid qty')
       return
     } else try {
-        const response = await fetch(this.state.node_env === "DEVELOPMENT" ? this.state.developmentCartURL : this.state.productionCartURL, {
+        const response = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentCartURL : this.state.productionCartURL, {
           method: "POST",
           body: JSON.stringify({
             productId: id,

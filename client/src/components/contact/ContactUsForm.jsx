@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button } from 'rsuite';
+import { Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button, Alert } from 'rsuite';
 import axios from 'axios'
 
 import ContactUsImage from '../../css/images/contactUsImage.jpeg'
@@ -11,7 +11,7 @@ class ContactUsForm extends Component {
         super(props);
 
         this.state = {
-          env: 'PRODUCTION',
+          
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -36,7 +36,7 @@ class ContactUsForm extends Component {
         console.log(name, email, message)
         axios({
             method: "POST", 
-            url: this.state.env === 'DEVELOPMENT' ? "http://localhost:3000/send" : "https://thursdaytherapy.herokuapp.com/send",
+            url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/send" : "https://thursdaytherapy.herokuapp.com/send",
             data: {
                 name: name,   
                 email: email,  
@@ -44,13 +44,15 @@ class ContactUsForm extends Component {
             }
         }).then((response)=> {
             if (response.data.msg === 'success'){
-                console.log("Message Sent."); 
+                // console.log("Message Sent."); 
+                Alert.success('Your email has been sent!', 10000)
                 this.setState({
                   contactSuccess: true
                 })
                 this.resetForm()
             } else if(response.data.msg === 'fail'){
-              console.log("Message failed to send.")
+              // console.log("Message failed to send.")
+              Alert.error('Sorry, there was an error sending the email. Please try again.', 10000)
               this.setState({
                 contactError: true
               })
@@ -66,7 +68,7 @@ class ContactUsForm extends Component {
 
     render() {                                                       
         return (
-            <span>
+            // <div id='contactUsFormSpan'>
               <div id='contactUsImagesRow' className="row">
                 <div className="col-sm contactUsImagesCol">
                   <img src={ContactUsImage} className="contactUsImage" alt="image1" />
@@ -98,7 +100,7 @@ class ContactUsForm extends Component {
                   </Form>
                 </div>
               </div>
-            </span>
+            // </div>
         )
     }
 }
