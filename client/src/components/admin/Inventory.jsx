@@ -14,12 +14,12 @@ class Inventory extends Component {
         this.state = {
             showEditModal: false,
             showAddModal: false,
-            developmentURL: "http://localhost:3000/product",
+            developmentURL: "http://localhost:3000/product/",
             developmentImageURL: "http://localhost:3000/uploads/",
-            developmentPostImageURL: "http://localhost:3000/upload",
-            productionURL: "https://thursdaytherapy.herokuapp.com/product",
+            developmentPostImageURL: "http://localhost:3000/upload/",
+            productionURL: "https://thursdaytherapy.herokuapp.com/product/",
             productionImageURL: "https://thursdaytherapy.herokuapp.com/",
-            productionPostImageURL: "https://thursdaytherapy.herokuapp.com/upload",
+            productionPostImageURL: "https://thursdaytherapy.herokuapp.com/upload/",
             soapName: '',
             soapId: '',
             soapFile: '',
@@ -150,7 +150,7 @@ class Inventory extends Component {
       API.saveProduct(data)
           .then(res => {
               // console.log('SAVE PRODUCT RESULT: ', res)
-              axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload" + soapName, formData, {
+              axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload/" + soapName, formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
@@ -192,12 +192,12 @@ class Inventory extends Component {
           .then(res => {
             // console.log('UPDATE PRODUCT RESULT: ', res)
             // this.closeEditModal()
-            axios.delete(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads" + soapImageId, {
+            axios.delete(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapImageId, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }
               })
-            axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload" + soapName, formData, {
+            axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursdaytherapy.herokuapp.com/upload/" + soapName, formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data'
                 }

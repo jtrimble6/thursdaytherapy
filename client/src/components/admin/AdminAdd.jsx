@@ -285,7 +285,7 @@ class AdminAdd extends Component {
                         Create Admin
                       </Button>
                       <Button onClick={this.closeAdminAddModal}>
-                        Cancel
+                        Close
                       </Button>
                     </Modal.Footer>
                   </Modal>
