@@ -205,12 +205,12 @@ class Products extends Component {
     }
   
   changeQty = (e) => {
-    // console.log("Quantity change: ", e.target)
-    let newQty = $(e.target).text()
-    // console.log('New qty: ', newQty)
-    this.setState({
-      qty: newQty
-    })
+      // console.log("Quantity change: ", e.target)
+      let newQty = $(e.target).text()
+      // console.log('New qty: ', newQty)
+      this.setState({
+        qty: newQty
+      })
     }
 
   handleSearchEntry = event => {

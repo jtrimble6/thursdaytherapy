@@ -54,7 +54,7 @@ class NavbarHome extends Component {
                         <Badge 
                           id="cartCount" 
                           className="badge badge-warning" 
-                          content={this.props.cartCount > 0 ? this.props.cartCount : ''}
+                          content={this.state.cartCount > 0 ? this.state.cartCount : ''}
                         />
                     </Nav.Item>
                     {/* <Dropdown title="About">
