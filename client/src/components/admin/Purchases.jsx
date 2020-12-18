@@ -119,19 +119,19 @@ class Purchases extends Component {
         document.getElementById('email').disabled = false
       }
 
-    handleEditPurchases = event => {
-        // console.log(event)
-        // console.log('NEW ORDER FIRST NAME: ', event.firstName)
-        // console.log('NEW ORDER LAST NAME: ', event.lastName)
-        // console.log('NEW ORDER PHONE NUMBER: ', event.phoneNumber)
-        // console.log('NEW ORDER EMAIL: ', event.email)
-        this.setState({
-            firstName: event.firstName !== undefined ? event.firstName : this.state.firstName,
-            lastName: event.lastName !== undefined ? event.lastName : this.state.lastName,
-            phoneNumber: event.phoneNumber !== undefined ? event.phoneNumber : this.state.phoneNumber,
-            email: event.email !== undefined ? event.email : this.state.email
-        })
-      }
+    // handleEditPurchases = event => {
+    //     // console.log(event)
+    //     // console.log('NEW ORDER FIRST NAME: ', event.firstName)
+    //     // console.log('NEW ORDER LAST NAME: ', event.lastName)
+    //     // console.log('NEW ORDER PHONE NUMBER: ', event.phoneNumber)
+    //     // console.log('NEW ORDER EMAIL: ', event.email)
+    //     this.setState({
+    //         firstName: event.firstName !== undefined ? event.firstName : this.state.firstName,
+    //         lastName: event.lastName !== undefined ? event.lastName : this.state.lastName,
+    //         phoneNumber: event.phoneNumber !== undefined ? event.phoneNumber : this.state.phoneNumber,
+    //         email: event.email !== undefined ? event.email : this.state.email
+    //     })
+    //   }
 
     openEditDetails = (e) => {
         let targetPurchase = e.target
@@ -288,7 +288,7 @@ class Purchases extends Component {
                         <Modal.Title>{this.state.soapName}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                      <Form id='purchaseForm' onChange={(event) => this.handleEditPurchases(event)}>
+                      <Form id='purchaseForm'>
                         <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="firstName">First Name</Form.Label>
                             <Form.Control 
