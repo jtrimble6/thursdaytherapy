@@ -16,7 +16,7 @@ class CartPage extends Component {
     }
 
     componentDidMount() {
-        this.getCart()
+        // this.getCart()
       }
     
     getCart = () => {
