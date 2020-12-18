@@ -40,7 +40,9 @@ router.post('/send', (req, res, next) => {
   transporter.sendMail(mail, (err, data) => {
     if (err) {
       res.json({
-        msg: 'fail'
+        msg: 'fail',
+        err: err,
+        data: data
       })
     } else {
       res.json({
@@ -70,7 +72,9 @@ router.post('/neworder', (req, res, next) => {
   transporter.sendMail(mail, (err, data) => {
     if (err) {
       res.json({
-        msg: 'fail'
+        msg: 'fail',
+        err: err,
+        data: data
       })
     } else {
       res.json({
@@ -100,7 +104,9 @@ router.post('/orderconfirmation', (req, res, next) => {
   transporter.sendMail(mail, (err, data) => {
     if (err) {
       res.json({
-        msg: 'fail'
+        msg: 'fail',
+        err: err,
+        data: data
       })
     } else {
       res.json({
