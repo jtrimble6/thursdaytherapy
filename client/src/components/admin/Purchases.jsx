@@ -5,6 +5,19 @@ import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import moment from 'moment'
 import '../../css/admin/purchases.css'
 
+const normalizeInput = (value, previousValue) => {
+    // console.log('normalizing input')
+    if (!value) return value;
+    const currentValue = value.replace(/[^\d]/g, '');
+    const cvLength = currentValue.length;
+    
+    if (!previousValue || value.length > previousValue.length) {
+      if (cvLength < 4) return currentValue;
+      if (cvLength < 7) return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
+      return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`;
+    }
+  };
+
 
 class Purchases extends Component {
     constructor(props) {
@@ -18,6 +31,7 @@ class Purchases extends Component {
             firstName: '',
             lastName: '',
             phoneNumber: '',
+            phoneError: false,
             email: '',
             purchaseDate: '',
             confirmationNumber: '',
@@ -206,6 +220,24 @@ class Purchases extends Component {
         })
       }
 
+    handlePhoneChange({ target: { value } }) {
+        // this.setState({
+        //   stepOneFieldError: false,
+        //   changeStepError: false
+        // })    
+        this.setState(prevState=> ({ phoneNumber: normalizeInput(value, prevState.phoneNumber) }));
+        if (value.length !== 14) {
+          // console.log('PHONE VALUE: ', value)
+          this.setState({
+            phoneError: true
+          })
+        } else {
+          this.setState({
+            phoneError: false
+          })
+        }
+      }
+
     render() {            
         const { Column, HeaderCell, Cell } = Table;                                                                                             
         return (
@@ -275,7 +307,8 @@ class Purchases extends Component {
                                 // min={0}
                                 className="form-control purchaseFormEntry"
                                 id="phoneNumber"
-                                value={this.state.phoneNumber}                              
+                                value={this.state.phoneNumber}         
+                                onChange={this.handlePhoneChange}                     
                             />
                         </FormGroup>
                         <FormGroup className="purchaseFormGroup">
