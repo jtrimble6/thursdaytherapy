@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Modal, Form, FormGroup, ControlLabel, FormControl, Button, Table, Row, Icon, Alert } from 'rsuite';
-import { Form, Col } from 'react-bootstrap'
+import { Modal, FormGroup, ControlLabel, FormControl, Button, Table, Row, Icon, Alert } from 'rsuite';
+import { Form } from 'react-bootstrap'
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import moment from 'moment'
