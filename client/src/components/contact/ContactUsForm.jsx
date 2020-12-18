@@ -45,13 +45,15 @@ class ContactUsForm extends Component {
         }).then((response)=> {
             if (response.data.msg === 'success'){
                 // console.log("Message Sent."); 
+                
                 Alert.success('Your email has been sent!', 10000)
                 this.setState({
                   contactSuccess: true
                 })
                 this.resetForm()
             } else if(response.data.msg === 'fail'){
-              // console.log("Message failed to send.")
+              console.log("Message failed to send.")
+              console.log(response.data)
               Alert.error('Sorry, there was an error sending the email. Please try again.', 10000)
               this.setState({
                 contactError: true
