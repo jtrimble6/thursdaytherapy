@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Table, Row, Icon, Alert } from 'rsuite';
+import { Modal, Button, Table, Row, Icon, Alert, Loader } from 'rsuite';
 import { Form } from 'react-bootstrap'
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
@@ -276,6 +276,10 @@ class Purchases extends Component {
                 </div>
 
                 <div id='purchaseRow' className="row">
+
+                <div id="purchasesInfoLoader" hidden={this.state.purchaseDetails.length ? true : false}>
+                    <Loader vertical center speed="slow" size="lg" content="Loading purchases..." />
+                </div>
                 
                 {/* EDIT DETAILS MODAL */}
                 <Modal 
