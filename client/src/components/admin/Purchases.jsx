@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Form, FormGroup, ControlLabel, FormControl, Button, Table, Row, Icon, Alert } from 'rsuite';
+import { Form, Col } from 'react-bootstrap'
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import moment from 'moment'
@@ -304,7 +305,7 @@ class Purchases extends Component {
                         </FormGroup>
                         <FormGroup className="purchaseFormGroup">
                             <ControlLabel className='purchaseFormLabel' htmlFor="phoneNumber">Phone #</ControlLabel>
-                            <FormControl 
+                            <Form.Control  
                                 disabled
                                 name="phoneNumber"
                                 type="text"
