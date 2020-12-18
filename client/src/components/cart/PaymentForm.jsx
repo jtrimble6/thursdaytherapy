@@ -73,7 +73,7 @@ export default class PaymentForm extends Component {
 
   componentDidMount(){
     const config = {
-      applicationId: process.env.SQUARE_SANDBOX_APPLICATION_I,
+      applicationId: process.env.SQUARE_SANDBOX_APPLICATION_ID,
       locationId: process.env.LOCATION_ID,
       inputClass: "sq-input",
       autoBuild: false,
