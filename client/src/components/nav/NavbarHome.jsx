@@ -25,9 +25,12 @@ class NavbarHome extends Component {
     getCart = () => {
         let cartCount = localStorage.length
         // console.log('CART COUNT: ', cartCount)
-        this.setState({
-            cartCount: cartCount
-        })
+        if(cartCount > 0) {
+            this.setState({
+              cartCount: cartCount
+          })
+        }
+        
       }
     
 
