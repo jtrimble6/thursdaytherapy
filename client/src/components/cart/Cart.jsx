@@ -174,7 +174,7 @@ class Cart extends Component {
       // console.log('SOAP ITEM OBJ: ', soapItemObj)
       let newSoapItemObj = {
         'soapName': soapItemObj.soapName,
-        'soapQty': soapItemObj.soapQty + 1
+        'soapQty': soapItemObj.soapQty++
       }
       let newSoapItemString = JSON.stringify(newSoapItemObj)
       localStorage.setItem(item, newSoapItemString)
@@ -189,7 +189,7 @@ class Cart extends Component {
         // console.log('SOAP ITEM OBJ: ', soapItemObj)
         let newSoapItemObj = {
           'soapName': soapItemObj.soapName,
-          'soapQty': soapItemObj.soapQty - 1
+          'soapQty': soapItemObj.soapQty--
         }
         let newSoapItemString = JSON.stringify(newSoapItemObj)
         localStorage.setItem(item, newSoapItemString)
