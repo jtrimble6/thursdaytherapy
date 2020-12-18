@@ -294,7 +294,7 @@ class Purchases extends Component {
                             <Form.Control 
                                 disabled
                                 name="firstName"
-                                type="text"
+                                // type="text"
                                 className="form-control purchaseFormEntry"
                                 id="firstName"
                                 value={this.state.firstName}     
@@ -306,11 +306,12 @@ class Purchases extends Component {
                             <Form.Control 
                                 disabled
                                 name="lastName"
-                                type="text"
+                                // type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
                                 id="lastName"
-                                value={this.state.lastName}                              
+                                value={this.state.lastName} 
+                                onChange={this.handleChange}                              
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
@@ -318,7 +319,7 @@ class Purchases extends Component {
                             <Form.Control  
                                 disabled
                                 name="phoneNumber"
-                                type="text"
+                                // type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
                                 id="phoneNumber"
@@ -331,11 +332,12 @@ class Purchases extends Component {
                             <Form.Control 
                                 disabled
                                 name="email"
-                                type="text"
+                                // type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
                                 id="email"
-                                value={this.state.email}                              
+                                value={this.state.email}   
+                                onChange={this.handleChange}                            
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
