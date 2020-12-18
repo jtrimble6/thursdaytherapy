@@ -39,7 +39,8 @@ class Purchases extends Component {
             orderId: '',
             purchaseId: '',
             purchaseDetails: [],
-            purchaseTotal: ''
+            purchaseTotal: '',
+            purchasesLoaded: false,
 
         }
 
@@ -71,7 +72,8 @@ class Purchases extends Component {
             // console.log('NEW PURCHASES: ', purchases)
             this.setState({
                 currentPurchases: purchases,
-                filteredPurchases: purchases
+                filteredPurchases: purchases,
+                purchasesLoaded: true
             })
         })
         .catch(err => {
@@ -277,7 +279,7 @@ class Purchases extends Component {
 
                 <div id='purchaseRow' className="row">
 
-                <div id="purchasesInfoLoader" hidden={this.state.purchaseDetails.length ? true : false}>
+                <div id="purchasesInfoLoader" hidden={this.state.purchasesLoaded ? true : false}>
                     <Loader vertical center speed="slow" size="lg" content="Loading purchases..." />
                 </div>
                 
