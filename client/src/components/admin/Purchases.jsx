@@ -51,6 +51,7 @@ class Purchases extends Component {
         this.openEditDetails = this.openEditDetails.bind(this)
         this.handleEditDetails = this.handleEditDetails.bind(this)
         this.handleSearchEntry = this.handleSearchEntry.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.handlePhoneChange = this.handlePhoneChange.bind(this)
     }
 
@@ -225,12 +226,20 @@ class Purchases extends Component {
         })
       }
 
-    handlePhoneChange({ target: { value } }) {
+    handleChange(event) {
+        const {name, value} = event.target
+        this.setState({
+          [name]: value,
+        })    
+      }
+
+    handlePhoneChange(event) {
         // this.setState({
         //   stepOneFieldError: false,
         //   changeStepError: false
         // })    
-        this.setState(prevState=> ({ phoneNumber: normalizeInput(value, prevState.phoneNumber) }));
+        const {name, value} = event.target
+        this.setState(prevState => ( { [name]: normalizeInput(value, prevState.phoneNumber) }));
         if (value.length !== 14) {
           console.log('PHONE VALUE: ', value)
           this.setState({
@@ -288,7 +297,8 @@ class Purchases extends Component {
                                 type="text"
                                 className="form-control purchaseFormEntry"
                                 id="firstName"
-                                value={this.state.firstName}                                    
+                                value={this.state.firstName}     
+                                onChange={this.handleChange}                               
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
