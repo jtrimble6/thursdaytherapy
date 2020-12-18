@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, FormGroup, ControlLabel, FormControl, Button, Table, Row, Icon, Alert } from 'rsuite';
+import { Modal, Button, Table, Row, Icon, Alert } from 'rsuite';
 import { Form } from 'react-bootstrap'
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
@@ -253,8 +253,8 @@ class Purchases extends Component {
                   <p className='purchasesTitle'>Purchases</p>
                   {/* SEARCH BAR */}
                   <Form id='adminPurchasesSearchBarForm' onChange={(event) => this.handleSearchEntry(event)}>
-                    <FormGroup id='adminPurchasesSearchBarFormGroup'>
-                      <FormControl 
+                    <Form.Group id='adminPurchasesSearchBarFormGroup'>
+                      <Form.Control 
                         name="searchEntry"
                         type="text"
                         className="form-control purchasesSearchBarFromEntry"
@@ -262,7 +262,7 @@ class Purchases extends Component {
                         placeholder="Search by first or last name" 
                       />
                       <Icon className='searchIcon' icon='search' size="lg" />
-                    </FormGroup>
+                    </Form.Group>
                   </Form>
                 </div>
 
@@ -280,9 +280,9 @@ class Purchases extends Component {
                     </Modal.Header>
                     <Modal.Body>
                       <Form id='purchaseForm' onChange={(event) => this.handleEditPurchases(event)}>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="firstName">First Name</ControlLabel>
-                            <FormControl 
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="firstName">First Name</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="firstName"
                                 type="text"
@@ -290,10 +290,10 @@ class Purchases extends Component {
                                 id="firstName"
                                 value={this.state.firstName}                                    
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="lastName">Last Name</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="lastName">Last Name</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="lastName"
                                 type="text"
@@ -302,9 +302,9 @@ class Purchases extends Component {
                                 id="lastName"
                                 value={this.state.lastName}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="phoneNumber">Phone #</ControlLabel>
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="phoneNumber">Phone #</Form.Label>
                             <Form.Control  
                                 disabled
                                 name="phoneNumber"
@@ -315,10 +315,10 @@ class Purchases extends Component {
                                 value={this.state.phoneNumber}         
                                 onChange={this.handlePhoneChange}                     
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="email">Email</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="email">Email</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="email"
                                 type="text"
@@ -327,10 +327,10 @@ class Purchases extends Component {
                                 id="email"
                                 value={this.state.email}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="purchaseDate"
                                 type="text"
@@ -339,10 +339,10 @@ class Purchases extends Component {
                                 id="purchaseDate"
                                 value={this.state.purchaseDate}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="purchaseId">Purchase ID</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="purchaseId">Purchase ID</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="purchaseId"
                                 type="text"
@@ -351,10 +351,10 @@ class Purchases extends Component {
                                 id="purchaseId"
                                 value={this.state.purchaseId}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="confirmationNumber">Confirmation #</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="confirmationNumber">Confirmation #</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="confirmationNumber"
                                 type="text"
@@ -363,8 +363,8 @@ class Purchases extends Component {
                                 id="confirmationNumber"
                                 value={this.state.confirmationNumber}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
                           <Table
                             className='purchaseDetailsTable'
                             // height={400}
@@ -410,7 +410,7 @@ class Purchases extends Component {
                             </Column> */}
 
                           </Table>
-                        </FormGroup>
+                        </Form.Group>
                       </Form>
                       <Row>
                         <h2 id='purchaseDetailsTotal'>Grand Total: ${this.state.purchaseTotal}</h2>
@@ -441,9 +441,9 @@ class Purchases extends Component {
                     </Modal.Header>
                     <Modal.Body>
                       <Form id='purchaseForm'>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="firstName">First Name</ControlLabel>
-                            <FormControl 
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="firstName">First Name</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="firstName"
                                 type="text"
@@ -451,10 +451,10 @@ class Purchases extends Component {
                                 id="firstName"
                                 placeholder={this.state.firstName}                                    
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="lastName">Last Name</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="lastName">Last Name</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="lastName"
                                 type="text"
@@ -463,10 +463,10 @@ class Purchases extends Component {
                                 id="lastName"
                                 placeholder={this.state.lastName}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="phoneNumber">Phone #</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="phoneNumber">Phone #</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="phoneNumber"
                                 type="text"
@@ -475,10 +475,10 @@ class Purchases extends Component {
                                 id="phoneNumber"
                                 placeholder={this.state.phoneNumber}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="email">Email</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="email">Email</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="email"
                                 type="text"
@@ -487,10 +487,10 @@ class Purchases extends Component {
                                 id="email"
                                 placeholder={this.state.email}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="purchaseDate"
                                 type="text"
@@ -499,10 +499,10 @@ class Purchases extends Component {
                                 id="purchaseDate"
                                 placeholder={this.state.purchaseDate}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="purchaseId">Purchase ID</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="purchaseId">Purchase ID</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="purchaseId"
                                 type="text"
@@ -511,10 +511,10 @@ class Purchases extends Component {
                                 id="purchaseId"
                                 placeholder={this.state.purchaseId}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
-                            <ControlLabel className='purchaseFormLabel' htmlFor="confirmationNumber">Confirmation #</ControlLabel>
-                            <FormControl 
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
+                            <Form.Label className='purchaseFormLabel' htmlFor="confirmationNumber">Confirmation #</Form.Label>
+                            <Form.Control 
                                 disabled
                                 name="confirmationNumber"
                                 type="text"
@@ -523,8 +523,8 @@ class Purchases extends Component {
                                 id="confirmationNumber"
                                 placeholder={this.state.confirmationNumber}                              
                             />
-                        </FormGroup>
-                        <FormGroup className="purchaseFormGroup">
+                        </Form.Group>
+                        <Form.Group className="purchaseFormGroup">
                           <Table
                             className='purchaseDetailsTable'
                             // height={400}
@@ -570,7 +570,7 @@ class Purchases extends Component {
                             </Column> */}
 
                           </Table>
-                        </FormGroup>
+                        </Form.Group>
                       </Form>
                       <Row>
                         <h2 id='purchaseDetailsTotal'>Grand Total: ${this.state.purchaseTotal}</h2>
