@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Form, FormGroup, ControlLabel, FormControl, Button, Table, Row, Icon } from 'rsuite';
+import { Modal, Form, FormGroup, ControlLabel, FormControl, Button, Table, Row, Icon, Alert } from 'rsuite';
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import moment from 'moment'
@@ -50,6 +50,7 @@ class Purchases extends Component {
         this.openEditDetails = this.openEditDetails.bind(this)
         this.handleEditDetails = this.handleEditDetails.bind(this)
         this.handleSearchEntry = this.handleSearchEntry.bind(this)
+        this.handlePhoneChange = this.handlePhoneChange.bind(this)
     }
 
     componentDidMount() {
@@ -72,6 +73,7 @@ class Purchases extends Component {
             })
         })
         .catch(err => {
+            Alert.error('There was an error loading the purchases. Please reload page.', 10000)
             console.log('ERROR GETTING PURCHASES: ', err)
         })
       }
@@ -88,12 +90,15 @@ class Purchases extends Component {
       API.updateOrder(orderId, orderDetails)
         .then(res => {
             // console.log('UPDATE ORDER RESULT', res)
-            window.location.reload()
+            // window.location.reload()
+            Alert.success('Order was successfully updated!', 5000)
+            this.closeEditDetails()
         })
         .catch(err => {
+            Alert.error('There was an error updating the product. Please retry.', 10000)
             console.log('ERROR GETTING PURCHASES: ', err)
         })
-    }
+      }
 
     closeDetails() {
         this.getPurchases()
@@ -110,7 +115,7 @@ class Purchases extends Component {
         document.getElementById('lastName').disabled = false
         document.getElementById('phoneNumber').disabled = false
         document.getElementById('email').disabled = false
-    }
+      }
 
     handleEditPurchases = event => {
         // console.log(event)
@@ -164,8 +169,7 @@ class Purchases extends Component {
             purchaseTotal: purchaseTotal,
             showEditDetails: true
         })
-    }
-
+      }
 
     openDetails = (e) => {
         let targetPurchase = e.target
@@ -227,7 +231,7 @@ class Purchases extends Component {
         // })    
         this.setState(prevState=> ({ phoneNumber: normalizeInput(value, prevState.phoneNumber) }));
         if (value.length !== 14) {
-          // console.log('PHONE VALUE: ', value)
+          console.log('PHONE VALUE: ', value)
           this.setState({
             phoneError: true
           })
