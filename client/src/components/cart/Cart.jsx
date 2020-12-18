@@ -172,9 +172,10 @@ class Cart extends Component {
       let soapItem = localStorage.getItem(item)
       let soapItemObj = JSON.parse(soapItem)
       console.log('SOAP ITEM OBJ: ', soapItemObj)
+      let soapQty = parseInt(soapItemObj.soapQty)
       let newSoapItemObj = {
         'soapName': soapItemObj.soapName,
-        'soapQty': ( soapItemObj.soapQty + 1 )
+        'soapQty': ( soapQty + 1 )
       }
       let newSoapItemString = JSON.stringify(newSoapItemObj)
       localStorage.setItem(item, newSoapItemString)
@@ -187,9 +188,10 @@ class Cart extends Component {
         let soapItem = localStorage.getItem(item)
         let soapItemObj = JSON.parse(soapItem)
         console.log('SOAP ITEM OBJ: ', soapItemObj)
+        let soapQty = parseInt(soapItemObj.soapQty)
         let newSoapItemObj = {
           'soapName': soapItemObj.soapName,
-          'soapQty': ( soapItemObj.soapQty - 1 )
+          'soapQty': ( soapQty - 1 )
         }
         let newSoapItemString = JSON.stringify(newSoapItemObj)
         localStorage.setItem(item, newSoapItemString)
