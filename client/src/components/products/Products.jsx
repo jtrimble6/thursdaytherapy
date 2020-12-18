@@ -100,7 +100,7 @@ class Products extends Component {
 
   async addToCart(id) {
     if (this.state.qty === 'QTY') {
-      console.log('must set a valid qty')
+      // console.log('must set a valid qty')
       Alert.warning('Please select qty.', 5000)
       return
     } else if (localStorage.getItem('item1')) {
@@ -108,12 +108,12 @@ class Products extends Component {
       let soapName = id;
       let soapQty = this.state.qty;
       let newCart = []
-      console.log('CART EXISTS: ', localStorage.key(0))
+      // console.log('CART EXISTS: ', localStorage.key(0))
 
       for (let c=0; c<localStorage.length; c++) {
         let itemKey = localStorage.key(c)
         let item = localStorage.getItem(itemKey)
-        console.log('LOCAL STORAGE ITEM: ', item)
+        // console.log('LOCAL STORAGE ITEM: ', item)
         let itemObj = JSON.parse(item)
         newCart.push(itemObj)
       }
@@ -123,13 +123,13 @@ class Products extends Component {
       })
 
       if (itemAlreadyInCart.length) {
-        console.log('NEW CART: ', newCart)
-        console.log('ITEM ALREADY IN CART: ', itemAlreadyInCart)
+        // console.log('NEW CART: ', newCart)
+        // console.log('ITEM ALREADY IN CART: ', itemAlreadyInCart)
         let data = [...newCart];
         let index = data.findIndex(obj => obj.soapName === itemAlreadyInCart[0].soapName);
-        console.log('FOUND INDEX: ', index)
+        // console.log('FOUND INDEX: ', index)
         let newSoapQty = (parseInt(data[index].soapQty) + parseInt(soapQty))
-        console.log('NEW SOAP QTY: ', newSoapQty)
+        // console.log('NEW SOAP QTY: ', newSoapQty)
         data[index].soapQty = newSoapQty.toString();
         newCart = data
       } else {
@@ -138,7 +138,7 @@ class Products extends Component {
           'soapQty': soapQty,
         })
       }
-      console.log('NEW CART: ', newCart)
+      // console.log('NEW CART: ', newCart)
       this.updateExistingCart(newCart)
     } else {
       let soapName = id;
@@ -150,7 +150,7 @@ class Products extends Component {
       // localStorage.clear()
       let soapAddedString = JSON.stringify(soapAdded)
       localStorage.setItem('item1', soapAddedString);
-      console.log('LOCAL STORAGE: ', localStorage)
+      // console.log('LOCAL STORAGE: ', localStorage)
       this.close()
       }
     }
@@ -171,7 +171,7 @@ class Products extends Component {
       let itemString = JSON.stringify(item)
       localStorage.setItem('item' + (n+1), itemString);
     }
-    console.log('LOCAL STORAGE: ', localStorage)
+    // console.log('LOCAL STORAGE: ', localStorage)
     this.close()
     }
 
@@ -205,17 +205,17 @@ class Products extends Component {
     }
   
   changeQty = (e) => {
-    console.log("Quantity change: ", e.target)
+    // console.log("Quantity change: ", e.target)
     let newQty = $(e.target).text()
-    console.log('New qty: ', newQty)
+    // console.log('New qty: ', newQty)
     this.setState({
       qty: newQty
     })
     }
 
   handleSearchEntry = event => {
-    console.log(event)
-    console.log('NEW SEARCH ENTRY: ', event.searchEntry)
+    // console.log(event)
+    // console.log('NEW SEARCH ENTRY: ', event.searchEntry)
     let products = this.state.products
     let newSearchEntry = event.searchEntry
     if(newSearchEntry === '') {

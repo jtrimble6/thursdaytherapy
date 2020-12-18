@@ -42,11 +42,11 @@ class AdminAdd extends Component {
       }
 
     componentDidMount() {
-        console.log('Ready')
+        // console.log('Ready')
       }
 
     setRedirect = () => {
-        console.log("Redirect");
+        // console.log("Redirect");
         this.setState({
           redirect: true
         })
@@ -75,7 +75,7 @@ class AdminAdd extends Component {
          confirmPassword: password
         })
         if (this.state.password !== password) {
-            console.log('THE PASSWORDS DO NOT MATCH')
+            // console.log('THE PASSWORDS DO NOT MATCH')
             this.setState({
                 passwordError: 'PASSWORDS DO NOT MATCH'
             })
@@ -89,27 +89,27 @@ class AdminAdd extends Component {
 
     checkUserName = event => {
         const username = event.target.value;
-        console.log(username);
+        // console.log(username);
         this.setState({
             username: username
         });
         API.getUser(username)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             if (!res.data[0]) {
-                console.log("Username available");
+                // console.log("Username available");
                 this.setState({
                     nameTaken: "Username available"
                 })
             } else {
-                console.log("Username unavailable");
+                // console.log("Username unavailable");
                 this.setState({
                     nameTaken: "Username unavailable"
                 })
             }
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         })
       }
 
@@ -128,21 +128,21 @@ class AdminAdd extends Component {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
         };
-        console.log(userData);
+        // console.log(userData);
         if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
-            console.log('THE PASSWORDS DO NOT MATCH')
+            // console.log('THE PASSWORDS DO NOT MATCH')
             this.setState({
                 passwordError: true
             })
         } else {
           API.getUser(userData.username)
             .then(res => {
-                console.log(res)
+                // console.log(res)
                 if (!res.data[0]) {
-                    console.log("Username available");
+                    // console.log("Username available");
                     API.saveUser(userData)
                         .then(res => {
-                            console.log(res)
+                            // console.log(res)
                             if (res.data) {
                                 // console.log("Successful signup!")
                                 Alert.success('Admin successfully added!', 5000)
@@ -167,14 +167,14 @@ class AdminAdd extends Component {
                             })
                         })
                 } else {
-                    console.log("Username taken");
+                    // console.log("Username taken");
                     this.setState({
                         nameTaken: true
                     })
                 }})
                 .catch(error => {
                     Alert.error('There was an error adding admin. Please try again.', 5000)
-                    console.log(error)
+                    // console.log(error)
                 })
         }
         

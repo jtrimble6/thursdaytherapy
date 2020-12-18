@@ -73,7 +73,7 @@ class Purchases extends Component {
 
       API.updateOrder(orderId, orderDetails)
         .then(res => {
-            console.log('UPDATE ORDER RESULT', res)
+            // console.log('UPDATE ORDER RESULT', res)
             window.location.reload()
         })
         .catch(err => {
@@ -99,11 +99,11 @@ class Purchases extends Component {
     }
 
     handleEditPurchases = event => {
-        console.log(event)
-        console.log('NEW ORDER FIRST NAME: ', event.firstName)
-        console.log('NEW ORDER LAST NAME: ', event.lastName)
-        console.log('NEW ORDER PHONE NUMBER: ', event.phoneNumber)
-        console.log('NEW ORDER EMAIL: ', event.email)
+        // console.log(event)
+        // console.log('NEW ORDER FIRST NAME: ', event.firstName)
+        // console.log('NEW ORDER LAST NAME: ', event.lastName)
+        // console.log('NEW ORDER PHONE NUMBER: ', event.phoneNumber)
+        // console.log('NEW ORDER EMAIL: ', event.email)
         this.setState({
             firstName: event.firstName !== undefined ? event.firstName : this.state.firstName,
             lastName: event.lastName !== undefined ? event.lastName : this.state.lastName,
@@ -115,7 +115,7 @@ class Purchases extends Component {
     openEditDetails = (e) => {
         let targetPurchase = e.target
         let purchases = this.state.currentPurchases
-        console.log('CURRENT PURCHASES: ', purchases)
+        // console.log('CURRENT PURCHASES: ', purchases)
         let purchaseId = targetPurchase.dataset.product
         let purchase = purchases.filter(purchase => {
             return purchase._id === purchaseId
@@ -130,9 +130,9 @@ class Purchases extends Component {
         }
         // let soapProductId = soap[0].productId._id
         // let soapName = soap[0].productId.name
-        console.log('PURCHASE SELECTED: ', purchase)
-        console.log('PURCHASE DETAILS: ', purchaseDetails)
-        console.log('PURCHASE TOTAL: ', purchaseTotal)
+        // console.log('PURCHASE SELECTED: ', purchase)
+        // console.log('PURCHASE DETAILS: ', purchaseDetails)
+        // console.log('PURCHASE TOTAL: ', purchaseTotal)
         // document.getElementById('purchaseId').disabled = false
         // document.getElementById('phoneNumber').disabled = false
         // console.log('SOAP NAME: ', soapName)
@@ -156,7 +156,7 @@ class Purchases extends Component {
     openDetails = (e) => {
         let targetPurchase = e.target
         let purchases = this.state.currentPurchases
-        console.log('CURRENT PURCHASES: ', purchases)
+        // console.log('CURRENT PURCHASES: ', purchases)
         let purchaseId = targetPurchase.dataset.product
         let purchase = purchases.filter(purchase => {
             return purchase._id === purchaseId
@@ -170,9 +170,9 @@ class Purchases extends Component {
         }
         // let soapProductId = soap[0].productId._id
         // let soapName = soap[0].productId.name
-        console.log('PURCHASE SELECTED: ', purchase)
-        console.log('PURCHASE DETAILS: ', purchaseDetails)
-        console.log('PURCHASE TOTAL: ', purchaseTotal)
+        // console.log('PURCHASE SELECTED: ', purchase)
+        // console.log('PURCHASE DETAILS: ', purchaseDetails)
+        // console.log('PURCHASE TOTAL: ', purchaseTotal)
         // console.log('SOAP NAME: ', soapName)
         // console.log('TARGET PURCHASE: ', targetPurchase)
         this.setState({
@@ -191,8 +191,8 @@ class Purchases extends Component {
       }
 
     handleSearchEntry = event => {
-        console.log(event)
-        console.log('NEW SEARCH ENTRY: ', event.searchEntry)
+        // console.log(event)
+        // console.log('NEW SEARCH ENTRY: ', event.searchEntry)
         let purchases = this.state.currentPurchases
         let newSearchEntry = event.searchEntry
         if(newSearchEntry === '') {
@@ -333,7 +333,7 @@ class Purchases extends Component {
                             data={this.state.purchaseDetails}
                             renderEmpty={() => <div id='emptyPurchasesTitle'>No Matching Data</div>}
                             onRowClick={data => {
-                                console.log('PURCHASE TABLE DETAILS: ', data);
+                                // console.log('PURCHASE TABLE DETAILS: ', data);
                             }}
 
                             >
@@ -493,7 +493,7 @@ class Purchases extends Component {
                             data={this.state.purchaseDetails}
                             renderEmpty={() => <div id='emptyPurchasesTitle'>No Purchase Details</div>}
                             onRowClick={data => {
-                                console.log('PURCHASE TABLE DETAILS: ', data);
+                                // console.log('PURCHASE TABLE DETAILS: ', data);
                             }}
 
                             >
@@ -552,7 +552,7 @@ class Purchases extends Component {
                     data={this.state.filteredPurchases}
                     renderEmpty={() => <div id='emptyPurchasesTitle'>No Matching Data</div>}
                     onRowClick={data => {
-                        console.log('PURCHASES TABLE: ', data);
+                        // console.log('PURCHASES TABLE: ', data);
                     }}
 
                     >

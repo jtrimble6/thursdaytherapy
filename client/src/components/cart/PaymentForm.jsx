@@ -160,9 +160,9 @@ export default class PaymentForm extends Component {
             Alert.error('There was an error processing payment. Please try again.', 10000)
             document.getElementById('processingPaymentPayButton').hidden = false
             document.getElementById('processingPaymentLoader').hidden = true
-            console.log("Encountered errors:");
+            // console.log("Encountered errors:");
             errors.forEach(function(error) {
-              console.log("  " + error.message);
+              // console.log("  " + error.message);
             });
             return;
           }
@@ -216,7 +216,7 @@ export default class PaymentForm extends Component {
       e.preventDefault()
       let cardholderName = document.getElementById('name')
       let cardholderNameValue = cardholderName.value
-      console.log('CARD HOLDER NAME: ', cardholderNameValue)
+      // console.log('CARD HOLDER NAME: ', cardholderNameValue)
       if (cardholderNameValue === '') {
         Alert.warning('Please enter the cardholder full name.', 5000)
         return;
@@ -244,8 +244,8 @@ export default class PaymentForm extends Component {
 
   handleNonceReceived = (nonce) => {
     const idempotency_key = uuidv4();
-    console.log('nonce received in payment: ', nonce)
-    console.log('uuid created: ', idempotency_key)
+    // console.log('nonce received in payment: ', nonce)
+    // console.log('uuid created: ', idempotency_key)
     //Generate a random UUID as an idempotency key for the payment request
     // length of idempotency_key should be less than 45
     function uuidv4() {
@@ -280,7 +280,7 @@ export default class PaymentForm extends Component {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.title === "Payment Successful") {
           Alert.success('Payment was a success!', 5000)
           // console.log('PAYMENT WAS A HUGE SUCCESS!')
@@ -319,7 +319,7 @@ export default class PaymentForm extends Component {
     
         return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
       } catch (e) {
-        console.log(e)
+        // console.log(e)
       }
     }
 
@@ -396,7 +396,7 @@ export default class PaymentForm extends Component {
     }
 
   handleOrderSubmit = () => {
-      console.log('SUBMITTING ORDER')
+      // console.log('SUBMITTING ORDER')
       let orderData = { 
           firstName: this.props.firstName,
           lastName: this.props.lastName,
@@ -410,10 +410,10 @@ export default class PaymentForm extends Component {
           purchaseAmount: JSON.stringify(this.formatMoney(this.state.paymentAmount)),
           purchaseCard: this.state.paymentCardLastFour
       };
-      console.log('ORDER DATA: ', orderData);
+      // console.log('ORDER DATA: ', orderData);
       API.submitOrder(orderData)
         .then(res => {
-            console.log('ORDER SUBMIT RESULT: ', res) 
+            // console.log('ORDER SUBMIT RESULT: ', res) 
             let orderDetails = orderData.purchaseDetails
             this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
             this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl)
@@ -424,19 +424,19 @@ export default class PaymentForm extends Component {
     }
   
   sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
-      console.log(firstName, lastName, email, phoneNumber, details)
+      // console.log(firstName, lastName, email, phoneNumber, details)
       let cart = details
       let that = this
       // Format a string itemising cart by mapping elements to sub-strings and joining the result
       const items = cart.map(function(element) {
         let soapPriceInt = parseInt(element.soapPrice)
-        console.log('SOAP PRICE INT: ', soapPriceInt)
+        // console.log('SOAP PRICE INT: ', soapPriceInt)
         let soapPriceFormatted = that.formatMoney(soapPriceInt)
-        console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+        // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
         // let soapTotalInt = parseInt(element.soapTotal)
         // console.log('SOAP TOTAL INT: ', soapPriceInt)
         let soapTotalFormatted = that.formatMoney(element.soapTotal)
-        console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+        // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
         return `
         PRODUCT: ${ element.soapName }
         PRICE: ${ soapPriceFormatted }
@@ -486,7 +486,7 @@ export default class PaymentForm extends Component {
     }
 
   sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl) => {
-    console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
+    // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
     axios({
         method: "POST", 
         url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
@@ -516,7 +516,7 @@ export default class PaymentForm extends Component {
     }
 
   handleConfirmationComplete = () => {
-    console.log('CHECKOUT COMPLETE')
+    // console.log('CHECKOUT COMPLETE')
     this.setRedirect()
     }
 

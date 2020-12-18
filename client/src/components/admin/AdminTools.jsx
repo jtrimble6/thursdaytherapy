@@ -26,7 +26,7 @@ class AdminTools extends Component {
     
     openAddAdmin = (e) => {
         e.preventDefault()
-        console.log('SHOW ADMIN ADD')
+        // console.log('SHOW ADMIN ADD')
         this.setState({
           showAdminAddModal: true
         })
@@ -34,7 +34,7 @@ class AdminTools extends Component {
     
     openDeleteAdmin = (e) => {
         e.preventDefault()
-        console.log('SHOW ADMIN DELETE')
+        // console.log('SHOW ADMIN DELETE')
         this.setState({
           showAdminDeleteModal: true
         })

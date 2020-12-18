@@ -33,7 +33,7 @@ class ContactUsForm extends Component {
       }
     
     sendEmail = (name, email, message) => {
-        console.log(name, email, message)
+        // console.log(name, email, message)
         axios({
             method: "POST", 
             url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/send" : "https://thursdaytherapy.herokuapp.com/send",

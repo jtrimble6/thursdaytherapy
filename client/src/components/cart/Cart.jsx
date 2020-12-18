@@ -97,7 +97,7 @@ class Cart extends Component {
                       productsData = newProducts
                     }
                     this.fetchCart(newProducts)
-                    console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+                    // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
                   }
                   // this.setState({
                   //     products: res.data,
@@ -105,7 +105,7 @@ class Cart extends Component {
                   //   });
                 })
                 .catch(err => {
-                  console.log('ERROR GETTING PRODUCTS: ', err)
+                  // console.log('ERROR GETTING PRODUCTS: ', err)
                 })
           })
           .catch((error) => {
@@ -117,7 +117,7 @@ class Cart extends Component {
 
     async fetchCart(newProducts) {
       let cart = []
-      console.log('LOCAL STORAGE: ', localStorage)
+      // console.log('LOCAL STORAGE: ', localStorage)
       // console.log('PRODUCTS: ', products)
       let cartTotal = 0
       for (let c=0; c<localStorage.length; c++) {
@@ -163,7 +163,7 @@ class Cart extends Component {
         cartTotal: cartTotal
       })
 
-      console.log('CART: ', cart)
+      // console.log('CART: ', cart)
 
       }
 
@@ -186,7 +186,7 @@ class Cart extends Component {
         let item = itemKey
         let soapItem = localStorage.getItem(item)
         let soapItemObj = JSON.parse(soapItem)
-        console.log('SOAP ITEM OBJ: ', soapItemObj)
+        // console.log('SOAP ITEM OBJ: ', soapItemObj)
         let newSoapItemObj = {
           'soapName': soapItemObj.soapName,
           'soapQty': soapItemObj.soapQty - 1
@@ -219,7 +219,7 @@ class Cart extends Component {
       
           return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
         } catch (e) {
-          console.log(e)
+          // console.log(e)
         }
       }
   
@@ -278,7 +278,7 @@ class Cart extends Component {
         // let soapProductId = soap[0].soapId
         // let soapName = soap[0].soapName
         let itemKey = soap[0].itemKey
-        console.log('REMOVE THIS KEY: ', itemKey)
+        // console.log('REMOVE THIS KEY: ', itemKey)
         this.removeItem(itemKey)
         this.fetchData()
       }
@@ -392,7 +392,7 @@ class Cart extends Component {
                 data={this.state.carts}
                 renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
                 onRowClick={data => {
-                    console.log(data);
+                    // console.log(data);
                 }}
               >
                 <Column flexGrow={1} id='cartSoapQtyCol' width={70} align="center">

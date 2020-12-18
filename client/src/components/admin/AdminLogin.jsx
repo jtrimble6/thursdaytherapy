@@ -18,7 +18,7 @@ class AdminLogin extends Component {
     }
 
     componentDidMount() {
-        console.log('Ready')
+        // console.log('Ready')
     }
 
     setRedirect = () => {
@@ -52,7 +52,7 @@ class AdminLogin extends Component {
         API.loginUser(userData)
           .then(response => {
               if (response.status === 200) {
-                  console.log('Authenticated!')
+                //   console.log('Authenticated!')
                   let thisUser = response.data.username
                   this.props.updateUser({
                       loggedIn: true,
@@ -74,7 +74,7 @@ class AdminLogin extends Component {
                     })
                     API.getUser(thisUser)
                       .then(response => {
-                        console.log(response)
+                        // console.log(response)
                         this.setRedirect()
                       })
               }

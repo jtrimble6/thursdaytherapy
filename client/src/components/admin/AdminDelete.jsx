@@ -47,12 +47,12 @@ class AdminDelete extends Component {
       }
 
     componentDidMount() {
-        console.log('Ready')
+        // console.log('Ready')
         this.getAdmins()
       }
 
     setRedirect = () => {
-        console.log("Redirect");
+        // console.log("Redirect");
         this.setState({
           redirect: true
         })
@@ -81,7 +81,7 @@ class AdminDelete extends Component {
          confirmPassword: password
         })
         if (this.state.password !== password) {
-            console.log('THE PASSWORDS DO NOT MATCH')
+            // console.log('THE PASSWORDS DO NOT MATCH')
             this.setState({
                 passwordError: 'PASSWORDS DO NOT MATCH'
             })
@@ -95,20 +95,20 @@ class AdminDelete extends Component {
 
     checkUserName = event => {
         const username = event.target.value;
-        console.log(username);
+        // console.log(username);
         this.setState({
             username: username
         });
         API.getUser(username)
         .then(res => {
-            console.log(res)
+            // console.log(res)
             if (!res.data[0]) {
-                console.log("Username available");
+                // console.log("Username available");
                 this.setState({
                     nameTaken: "Username available"
                 })
             } else {
-                console.log("Username unavailable");
+                // console.log("Username unavailable");
                 this.setState({
                     nameTaken: "Username unavailable"
                 })
@@ -123,13 +123,13 @@ class AdminDelete extends Component {
         event.preventDefault()
         API.deleteUser(this.state.selectAdminId)
             .then(res => {
-                console.log('DELETE ADMIN RESULT: ', res)
+                // console.log('DELETE ADMIN RESULT: ', res)
                 Alert.success('Admin was succesfully removed!', 5000)
                 window.location.reload()
             })
             .catch(err => {
               Alert.error('There was an error removing admin. Please try again.', 5000)
-                console.log('ERROR DELETING ADMIN: ', err)
+              console.log('ERROR DELETING ADMIN: ', err)
             })
         
       }
@@ -141,7 +141,7 @@ class AdminDelete extends Component {
     getAdmins = () => {
         API.getUsers()
             .then(res => {
-                console.log('ADMINS: ', res.data)
+                // console.log('ADMINS: ', res.data)
                 this.setState({
                     admins: res.data
                 })
@@ -152,7 +152,7 @@ class AdminDelete extends Component {
       }
 
     selectAdmin = (e) => {
-        console.log('SELECTED THIS ADMIN: ', e.target.dataset.username )
+        // console.log('SELECTED THIS ADMIN: ', e.target.dataset.username )
         this.setState({
             selectAdminTitle: e.target.dataset.username,
             selectAdminId: e.target.dataset.adminid

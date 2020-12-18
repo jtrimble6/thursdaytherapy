@@ -40,7 +40,7 @@ class Admin extends Component {
       res
         .json()
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           this.setState({
             products: res.data
           });
@@ -53,7 +53,7 @@ class Admin extends Component {
     }
   async addToCart(id) {
     if (this.state.qty === 'qty') {
-      console.log('must set a valid qty')
+      // console.log('must set a valid qty')
       return
     } else try {
         const response = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentCartURL : this.state.productionCartURL, {
@@ -66,13 +66,13 @@ class Admin extends Component {
             "Content-type": "application/json; charset=UTF-8",
           },
         });
-        let data = await response.json();
+        // let data = await response.json();
         // alert("Item Added To Cart");
         this.close()
-        console.log(data);
+        // console.log(data);
       } catch (err) {
         alert("Something Went Wrong");
-        console.log(err);
+        // console.log(err);
       }
     }
 
@@ -84,13 +84,13 @@ class Admin extends Component {
     }
 
   open = (e) => {
-      console.log(e.target)
+      // console.log(e.target)
       let soap = e.target
       let soapName = soap.dataset.soapname
       let soapId = soap.dataset.soapid
       let soapImage = soap.dataset.soapimage
       let soapPrice = soap.dataset.soapprice
-      console.log("PRODUCT: ", soapName)
+      // console.log("PRODUCT: ", soapName)
       this.setState({ 
           soapImage: soapImage,
           soapId: soapId,
@@ -101,9 +101,9 @@ class Admin extends Component {
     }
   
   changeQty = (e) => {
-    console.log("Quantity change: ", e.target)
+    // console.log("Quantity change: ", e.target)
     let newQty = $(e.target).text()
-    console.log('New qty: ', newQty)
+    // console.log('New qty: ', newQty)
     this.setState({
       qty: newQty
     })

@@ -14,13 +14,21 @@ class NavbarHome extends Component {
            
         }
 
+        this.getCart = this.getCart.bind(this)
+
     }
 
     componentDidMount() {
-
+        this.getCart()
       }
     
-    
+    getCart = () => {
+        let cartCount = localStorage.length
+        // console.log('CART COUNT: ', cartCount)
+        this.setState({
+            cartCount: cartCount
+        })
+      }
     
 
     render() {                                                       

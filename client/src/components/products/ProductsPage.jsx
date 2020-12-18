@@ -27,9 +27,6 @@ class ProductsPage extends Component {
             cartCount: cartCount
         })
       }
-    
-    
-    
 
     render() {                                                       
         return (

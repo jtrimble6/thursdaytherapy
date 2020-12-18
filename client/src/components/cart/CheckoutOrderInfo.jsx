@@ -23,7 +23,7 @@ class CheckoutOrderInfo extends Component {
       
           return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
         } catch (e) {
-          console.log(e)
+          // console.log(e)
         }
       };
 
@@ -46,7 +46,7 @@ class CheckoutOrderInfo extends Component {
                 data={this.props.currentCart}
                 renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
                 onRowClick={data => {
-                    console.log(data);
+                    // console.log(data);
                 }}
               >
                 <Column flexGrow={1} width={70} align="left">

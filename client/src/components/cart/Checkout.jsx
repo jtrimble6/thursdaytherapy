@@ -140,7 +140,7 @@ class Checkout extends Component {
                   .then(res => {
                     // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
                     let productsData = res.data
-                    console.log('PRODUCTS: ', productsData)
+                    // console.log('PRODUCTS: ', productsData)
                     for (let p=0; p<productsData.length; p++) {
                       let product = productsData[p]
                       let productName = product.name
@@ -164,7 +164,7 @@ class Checkout extends Component {
                         productsData = newProducts
                       }
                       this.fetchCart(newProducts)
-                      console.log('NEW PRODUCTS WITH IMAGES: ', this.state.products)
+                      // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.products)
                     }
                     // this.setState({
                     //     products: res.data,
@@ -172,7 +172,7 @@ class Checkout extends Component {
                     //   });
                   })
                   .catch(err => {
-                    console.log('ERROR GETTING PRODUCTS: ', err)
+                    // console.log('ERROR GETTING PRODUCTS: ', err)
                   })
             })
             .catch((error) => {
@@ -185,7 +185,7 @@ class Checkout extends Component {
     async fetchCart(newProducts) {
         // document.getElementById('orderInfoLoader').hidden = false
         let cart = []
-        console.log('LOCAL STORAGE: ', localStorage)
+        // console.log('LOCAL STORAGE: ', localStorage)
         // console.log('PRODUCTS: ', products)
         let cartTotal = 0
         for (let c=0; c<localStorage.length; c++) {
@@ -237,8 +237,8 @@ class Checkout extends Component {
 
         // document.getElementById('orderInfoLoader').hidden = true
   
-        console.log('CART: ', cart)
-        console.log('CART TOTAL: ', cartTotal)
+        // console.log('CART: ', cart)
+        // console.log('CART TOTAL: ', cartTotal)
   
       }
 
@@ -258,7 +258,7 @@ class Checkout extends Component {
         })    
         this.setState(prevState=> ({ phoneNumber: normalizeInput(value, prevState.phoneNumber) }));
         if (value.length !== 14) {
-          console.log('PHONE VALUE: ', value)
+          // console.log('PHONE VALUE: ', value)
           this.setState({
             phoneError: true
           })
@@ -370,7 +370,7 @@ class Checkout extends Component {
     handleOrderSubmit = (e) => {
         e.preventDefault()
         this.scrollTop()
-        console.log('SUBMITTING ORDER')
+        // console.log('SUBMITTING ORDER')
         this.setState({
             currentStep: 3
         }, () => {
@@ -390,10 +390,10 @@ class Checkout extends Component {
         // console.log('ORDER DATA: ', orderData);
         API.submitOrder(orderData)
           .then(res => {
-              console.log('ORDER SUBMIT RESULT: ', res) 
+              // console.log('ORDER SUBMIT RESULT: ', res) 
             })
             .catch(error => {
-              console.log(error)
+              // console.log(error)
             })
       }
 
@@ -410,14 +410,14 @@ class Checkout extends Component {
 
       if ( re.test(value) ) {
         // VALID EMAIL
-        console.log('EMAIL VALUE: ', value)
+        // console.log('EMAIL VALUE: ', value)
         this.setState({
           emailError: false,
         })
       }
       else {
         // INVALID EMAIL
-        console.log('PLEASE ENTER A VALID EMAIL ADDRESS')
+        // console.log('PLEASE ENTER A VALID EMAIL ADDRESS')
         this.setState({
           emailError: true
         })
@@ -467,7 +467,7 @@ class Checkout extends Component {
             paymentCard: this.state.paymentComplete ? this.state.paymentCard : 'n/a',
             waiverSigned: this.state.waiverSigned
         };
-        console.log(userData);
+        // console.log(userData);
 
         // SAVE NEW USER
         // API.saveUser(userData)
@@ -487,7 +487,7 @@ class Checkout extends Component {
       }
 
     handleSendUserInfo = (firstName, lastName, email, subscriptionStatus) => {
-        console.log(firstName, lastName, email, subscriptionStatus)
+        // console.log(firstName, lastName, email, subscriptionStatus)
         axios({
             method: "POST", 
             url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/sendUserInfo" : "http://gfitwefit.com/sendUserInfo",
@@ -499,13 +499,13 @@ class Checkout extends Component {
             }
         }).then((response)=> {
             if (response.data.msg === 'success'){
-                console.log("Message Sent."); 
+                // console.log("Message Sent."); 
                 this.setState({
                   contactSuccess: true
                 })
                 this.handleFinalStep()
             } else if(response.data.msg === 'fail'){
-              console.log("Message failed to send.")
+              // console.log("Message failed to send.")
               this.setState({
                 contactError: true
               })
