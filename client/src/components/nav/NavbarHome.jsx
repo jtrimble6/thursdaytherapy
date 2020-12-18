@@ -40,7 +40,7 @@ class NavbarHome extends Component {
                     <Nav.Item 
                       className='navbarHomeItems' 
                       id='navbarHomeCart' 
-                      href='/cart'
+                      href='/shoppingcart'
                     >
                         <Icon icon='shopping-cart' />
                         <Badge 

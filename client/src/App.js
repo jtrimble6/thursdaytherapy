@@ -107,7 +107,7 @@ class App extends Component {
                 <ContactUs />
               }
             />
-            <Route exact path='/cart'
+            <Route exact path='/shoppingcart'
               render={() =>
                 <CartPage />
               }
