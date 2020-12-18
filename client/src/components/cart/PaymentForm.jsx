@@ -469,6 +469,7 @@ export default class PaymentForm extends Component {
               details: body
           }
       }).then((response)=> {
+        console.log('EMAIL ORDER RESPONSE: ', response)
           if (response.data.msg === 'success'){
               // console.log("Message Sent."); 
               Alert.success('Your order has been received!', 5000)
@@ -500,6 +501,7 @@ export default class PaymentForm extends Component {
             confirmationUrl: confirmationUrl
         }
     }).then((response)=> {
+        console.log('EMAIL CONF RESPONSE: ', response)
         if (response.data.msg === 'success'){
             // console.log("Message Sent."); 
             Alert.success('Confirmation email sent!', 5000)
