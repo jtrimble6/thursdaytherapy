@@ -11,7 +11,7 @@ class NavbarHome extends Component {
         super(props);
 
         this.state = {
-           
+           cartCount: ''
         }
 
         this.getCart = this.getCart.bind(this)
@@ -54,7 +54,7 @@ class NavbarHome extends Component {
                         <Badge 
                           id="cartCount" 
                           className="badge badge-warning" 
-                          content={this.state.cartCount > 0 ? this.state.cartCount : ''}
+                          content={this.props.cartCount > 0 ? this.props.cartCount : this.state.cartCount}
                         />
                     </Nav.Item>
                     {/* <Dropdown title="About">

@@ -151,6 +151,7 @@ class Products extends Component {
       let soapAddedString = JSON.stringify(soapAdded)
       localStorage.setItem('item1', soapAddedString);
       // console.log('LOCAL STORAGE: ', localStorage)
+      Alert.success('Item added to cart!', 5000)
       this.close()
       }
     }
@@ -172,6 +173,7 @@ class Products extends Component {
       localStorage.setItem('item' + (n+1), itemString);
     }
     // console.log('LOCAL STORAGE: ', localStorage)
+    Alert.success('Item added to cart!', 5000)
     this.close()
     }
 
