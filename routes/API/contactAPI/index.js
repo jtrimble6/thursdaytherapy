@@ -7,6 +7,7 @@ require('dotenv').config();
 var transport = {
   host: 'smtp.gmail.com',
   auth: {
+    port: 465,
     user: process.env.EMAIL_ADDRESS,
     pass: process.env.EMAIL_PASSWORD
   }
