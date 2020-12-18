@@ -376,7 +376,7 @@ class Purchases extends Component {
 
                             >
                         
-                            <Column flexGrow={1} width={200} resizable>
+                            <Column flexGrow={1} width={200}>
                                 <HeaderCell>Product Name</HeaderCell>
                                 <Cell dataKey="soapName" />
                                 {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name}}</Cell> */}
@@ -536,24 +536,24 @@ class Purchases extends Component {
 
                             >
                         
-                            <Column width={200} resizable>
+                            <Column flexGrow={1} width={200}>
                                 <HeaderCell>Product Name</HeaderCell>
                                 <Cell dataKey="soapName" />
                                 {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name}}</Cell> */}
                             </Column>
 
-                            <Column width={70}>
+                            <Column flexGrow={1} width={70}>
                                 <HeaderCell>Quanity</HeaderCell>
                                 <Cell dataKey="soapQty" />
                             </Column>
 
-                            <Column width={70}>
+                            <Column flexGrow={1} width={70}>
                                 <HeaderCell>Price</HeaderCell>
                                 <Cell>{(rowData) => {return "$" + rowData.soapPrice}}</Cell>
                                 {/* <Cell dataKey="soapPrice" /> */}
                             </Column>
 
-                            <Column width={70}>
+                            <Column flexGrow={1} width={70}>
                                 <HeaderCell>Total</HeaderCell>
                                 <Cell>{(rowData) => {return "$" + rowData.soapTotal}}</Cell>
                                 {/* <Cell dataKey="total" /> */}
