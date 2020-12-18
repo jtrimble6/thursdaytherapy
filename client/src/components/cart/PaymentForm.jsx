@@ -459,7 +459,8 @@ export default class PaymentForm extends Component {
 
       axios({
           method: "POST", 
-          url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
+          url: "https://thursdaytherapy.herokuapp.com/neworder",
+          // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
           data: {
               firstName: firstName,   
               lastName: lastName,
@@ -477,7 +478,7 @@ export default class PaymentForm extends Component {
               this.resetForm()
           } else if(response.data.msg === 'fail'){
             // console.log("Message failed to send.")
-            Alert.error('There was an error submitting your order. Please contact us to complete order.', 5000)
+            Alert.error('There was an error submitting your order. Please contact us to complete order.', 15000)
             this.setState({
               contactError: true
             })
@@ -489,7 +490,8 @@ export default class PaymentForm extends Component {
     // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
     axios({
         method: "POST", 
-        url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+        url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+        // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
         data: {
             firstName: firstName,   
             lastName: lastName,
@@ -507,7 +509,7 @@ export default class PaymentForm extends Component {
             // this.resetForm()
         } else if(response.data.msg === 'fail'){
           // console.log("Message failed to send.")
-          Alert.error('There was an error sending order confirmation. Please contact us to resend.', 5000)
+          Alert.error('There was an error sending order confirmation. Please contact us to resend.', 15000)
           // this.setState({
           //   contactError: true
           // })
