@@ -73,8 +73,8 @@ export default class PaymentForm extends Component {
 
   componentDidMount(){
     const config = {
-      applicationId: process.env.REACT_APP_SQUARE_SANDBOX_APPLICATION_ID,
-      locationId: process.env.REACT_APP_LOCATION_ID,
+      applicationId: "sandbox-sq0idb-r0EX7qY-zPL3PXaw54l0Hg",
+      locationId: "L04H83ZZ2XDWC",
       inputClass: "sq-input",
       autoBuild: false,
       inputStyles: [
@@ -264,7 +264,7 @@ export default class PaymentForm extends Component {
         body: JSON.stringify({
           nonce: nonce,
           idempotency_key: idempotency_key,
-          location_id: process.env.REACT_APP_LOCATION_ID,
+          location_id: "L04H83ZZ2XDWC",
           paymentAmount: this.props.paymentAmount
         })   
       })
