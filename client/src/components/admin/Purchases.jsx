@@ -216,7 +216,7 @@ class Purchases extends Component {
         // console.log(event)
         // console.log('NEW SEARCH ENTRY: ', event.searchEntry)
         let purchases = this.state.currentPurchases
-        let newSearchEntry = event.searchEntry
+        let newSearchEntry = event.target.value
         if(newSearchEntry === '') {
           this.getPurchases()
         }
@@ -263,14 +263,15 @@ class Purchases extends Component {
                 <div className="row purchasesTitleRow">
                   <p className='purchasesTitle'>Purchases</p>
                   {/* SEARCH BAR */}
-                  <Form id='adminPurchasesSearchBarForm' onChange={(event) => this.handleSearchEntry(event)}>
+                  <Form id='adminPurchasesSearchBarForm'>
                     <Form.Group id='adminPurchasesSearchBarFormGroup'>
                       <Form.Control 
                         name="searchEntry"
                         type="text"
                         className="form-control purchasesSearchBarFromEntry"
                         id="searchEntry"
-                        placeholder="Search by first or last name" 
+                        placeholder="Search by name" 
+                        onChange={this.handleSearchEntry}
                       />
                       <Icon className='searchIcon' icon='search' size="lg" />
                     </Form.Group>
