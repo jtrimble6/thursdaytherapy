@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Panel, Icon } from 'rsuite';
+import { Panel, Icon, Alert } from 'rsuite';
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
-// import Admin from './Admin.jsx'
+import API from '../../utils/API'
 import AdminAdd from './AdminAdd.jsx'
 import AdminDelete from './AdminDelete.jsx'
 import '../../css/admin/adminTools.css'
@@ -12,32 +12,54 @@ class AdminTools extends Component {
 
         this.state = {
           showAdminAddModal: false,
-          showAdminDeleteModal: false
+          showAdminDeleteModal: false,
+          admins: []
         }
         
         this.openAddAdmin = this.openAddAdmin.bind(this)
+        this.closeAddAdmin = this.closeAddAdmin.bind(this)
+        this.closeDeleteAdmin = this.closeDeleteAdmin.bind(this)
         this.openDeleteAdmin = this.openDeleteAdmin.bind(this)
+        this.getAdmins = this.getAdmins.bind(this)
 
     }
 
     componentDidMount() {
-        
+        this.getAdmins()
       }
-    
+
+    getAdmins = () => {
+        API.getUsers()
+            .then(res => {
+                // console.log('ADMINS: ', res.data)
+                this.setState({
+                    admins: res.data
+                })
+            })
+            .catch(err => {
+              Alert.error('There was an error loading admins. Please reload page.', 10000)
+              console.log('ERROR: ', err)
+            })
+      }
+
+    closeAddAdmin() {
+        this.getAdmins()
+        this.setState({ showAdminAddModal: false });
+      }
+      
+    closeDeleteAdmin() {
+        this.getAdmins()
+        this.setState({ showAdminAddModal: false });
+      }
+
     openAddAdmin = (e) => {
         e.preventDefault()
-        // console.log('SHOW ADMIN ADD')
-        this.setState({
-          showAdminAddModal: true
-        })
+        this.setState({ showAdminAddModal: true })
       }
     
     openDeleteAdmin = (e) => {
         e.preventDefault()
-        // console.log('SHOW ADMIN DELETE')
-        this.setState({
-          showAdminDeleteModal: true
-        })
+        this.setState({ showAdminDeleteModal: true })
       }
 
     render() {                                                       
@@ -62,11 +84,15 @@ class AdminTools extends Component {
               </Panel>
               
               <AdminAdd 
+                getAdmins={this.getAdmins}
                 showAdminAddModal={this.state.showAdminAddModal}
+                closeAdminAddModal={this.closeAddAdmin}
               />
 
               <AdminDelete
+              getAdmins={this.getAdmins}
                 showAdminDeleteModal={this.state.showAdminDeleteModal}
+                closeAdminDeleteModal={this.closeDeleteAdmin}
               />
 
             </div>

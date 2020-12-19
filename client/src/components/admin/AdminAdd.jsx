@@ -34,10 +34,9 @@ class AdminAdd extends Component {
         this.setRedirect = this.setRedirect.bind(this)
         this.renderRedirect = this.renderRedirect.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleFormSubmit = this.handleFormSubmit.bind(this)
+        this.handleAdminAdd = this.handleAdminAdd.bind(this)
         this.checkPassword = this.checkPassword.bind(this)
         this.checkUserName = this.checkUserName.bind(this)
-        this.closeAdminAddModal = this.closeAdminAddModal.bind(this)
       
       }
 
@@ -113,7 +112,7 @@ class AdminAdd extends Component {
         })
       }
 
-    handleFormSubmit = event => {
+    handleAdminAdd = event => {
         this.setState({
             passwordError: false,
             nameTaken: false,
@@ -150,6 +149,7 @@ class AdminAdd extends Component {
                                     adminAddSuccess: true,
                                 })
                                 document.getElementById('adminAddForm').reset();
+                                this.props.getAdmins()
                                 // this.setRedirect();
                             } else {
                                 // console.log("Signup error")
@@ -157,6 +157,7 @@ class AdminAdd extends Component {
                                 this.setState({
                                     adminAddError: true
                                 })
+                                this.props.getAdmins()
                             }
                         })
                         .catch(error => {
@@ -180,15 +181,11 @@ class AdminAdd extends Component {
         
       }
 
-    closeAdminAddModal = () => {
-        window.location.reload()
-      }
-
     render() {
         return (
             <div id="adminAddPage">
               {/* {this.renderRedirect()} */}
-                  <Modal id="adminAddModal" show={this.props.showAdminAddModal} onHide={this.closeAdminAddModal}>
+                  <Modal id="adminAddModal" show={this.props.showAdminAddModal} onHide={this.props.closeAdminAddModal}>
                     <Modal.Header>
                       <Modal.Title>Admin Add</Modal.Title>
                     </Modal.Header>
@@ -280,11 +277,13 @@ class AdminAdd extends Component {
                       <Button
                         type="submit"
                         className="adminSubmitButton"
-                        onClick={this.handleFormSubmit}
+                        onClick={this.handleAdminAdd}
                       >
                         Create Admin
                       </Button>
-                      <Button onClick={this.closeAdminAddModal}>
+                      <Button 
+                        onClick={this.props.closeAdminAddModal}
+                      >
                         Close
                       </Button>
                     </Modal.Footer>

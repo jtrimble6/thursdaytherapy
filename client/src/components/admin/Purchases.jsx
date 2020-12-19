@@ -216,7 +216,7 @@ class Purchases extends Component {
         // console.log(event)
         // console.log('NEW SEARCH ENTRY: ', event.searchEntry)
         let purchases = this.state.currentPurchases
-        let newSearchEntry = event.target.value
+        let newSearchEntry = event.searchEntry
         if(newSearchEntry === '') {
           this.getPurchases()
         }

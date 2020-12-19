@@ -33,7 +33,6 @@ class AdminDelete extends Component {
         passwordError: false,
         adminDeleteError: false,
         adminDeleteSuccess: false,
-        showAdminDeleteModal: this.props.showAdminDeleteModal,
       }
         this.setRedirect = this.setRedirect.bind(this)
         this.renderRedirect = this.renderRedirect.bind(this)
@@ -41,14 +40,11 @@ class AdminDelete extends Component {
         this.handleAdminDelete = this.handleAdminDelete.bind(this)
         this.checkPassword = this.checkPassword.bind(this)
         this.checkUserName = this.checkUserName.bind(this)
-        this.closeAdminDeleteModal = this.closeAdminDeleteModal.bind(this)
-        this.getAdmins = this.getAdmins.bind(this)
       
       }
 
     componentDidMount() {
         // console.log('Ready')
-        this.getAdmins()
       }
 
     setRedirect = () => {
@@ -125,30 +121,14 @@ class AdminDelete extends Component {
             .then(res => {
                 // console.log('DELETE ADMIN RESULT: ', res)
                 Alert.success('Admin was succesfully removed!', 5000)
-                window.location.reload()
+                this.props.getAdmins()
             })
             .catch(err => {
               Alert.error('There was an error removing admin. Please try again.', 5000)
               console.log('ERROR DELETING ADMIN: ', err)
+              this.props.getAdmins()
             })
         
-      }
-
-    closeAdminDeleteModal = () => {
-        window.location.reload()
-      }
-
-    getAdmins = () => {
-        API.getUsers()
-            .then(res => {
-                // console.log('ADMINS: ', res.data)
-                this.setState({
-                    admins: res.data
-                })
-            })
-            .catch(err => {
-                console.log('ERROR: ', err)
-            })
       }
 
     selectAdmin = (e) => {
@@ -163,7 +143,7 @@ class AdminDelete extends Component {
         return (
             <div id="adminDeletePage">
               {/* {this.renderRedirect()} */}
-                  <Modal id="adminDeleteModal" show={this.props.showAdminDeleteModal} onHide={this.closeAdminDeleteModal}>
+                  <Modal id="adminDeleteModal" show={this.props.showAdminDeleteModal} onHide={this.props.closeAdminDeleteModal}>
                     <Modal.Header>
                       <Modal.Title>Admin Delete</Modal.Title>
                     </Modal.Header>
@@ -189,7 +169,9 @@ class AdminDelete extends Component {
                       >
                         Delete Admin
                       </Button>
-                      <Button onClick={this.closeAdminDeleteModal}>
+                      <Button 
+                        onClick={this.props.closeAdminDeleteModal}
+                      >
                         Cancel
                       </Button>
                     </Modal.Footer>
