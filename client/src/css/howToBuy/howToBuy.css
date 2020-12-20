@@ -27,10 +27,9 @@
 .howToBuyText {
     padding: 1vw;
     text-align: center; 
-    font-family: 'Didot';
+    font-family: 'Didot', 'ComicSansMS','Comic Sans MS','Comic Sans MS', cursive;
     font-size: 2vw;
     vertical-align: top !important;
-    font-family: 'ComicSansMS','Comic Sans MS','Comic Sans MS',cursive;
 }
 
 .howToBuyImage {
@@ -39,8 +38,9 @@
 }
 
 .howToBuyCallButton {
-    font-family: 'Didot';
+    font-family: 'Didot', 'ComicSansMS','Comic Sans MS','Comic Sans MS', cursive;
     font-size: 2vw;
+    font-weight: bold;
     width: 40%; 
     color: white;
     background-color: #1675e0;
@@ -54,6 +54,7 @@
     font-size: 3vw;
     font-weight: bold;
     text-align: center;
+    margin-bottom: 5vw;
 }
 
 #contactUsPhoneNumber {
