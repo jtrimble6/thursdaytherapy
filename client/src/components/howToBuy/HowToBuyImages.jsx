@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Modal, Button} from 'rsuite';
 import HowToBuyImage1 from '../../css/images/howToBuyImage1.jpeg'
 import HowToBuyImage2 from '../../css/images/howToBuyImage2.jpeg'
 
@@ -10,7 +11,7 @@ class HowToBuy extends Component {
         super(props);
 
         this.state = {
-      
+          show: false
         }
 
     }
@@ -18,7 +19,19 @@ class HowToBuy extends Component {
     componentDidMount() {
         
       }
-    
+  
+    showPhoneModal = (e) => {
+      e.preventDefault()
+      this.setState({
+        show: true
+      })
+    }
+
+    close() {
+      this.setState({
+        show: false
+      })
+    }
     
     
 
@@ -37,7 +50,20 @@ class HowToBuy extends Component {
                       <a href='https://brossmansfarm.com/' rel='noreferrer' target='_blank' className='howToBuyText'>See our soaps at Brossman's Farm in Leesburg, VA</a>
                     </div> <hr />
                     <div className="row">
-                      <a href='#' className='howToBuyText'>Call us!</a>
+                    <Modal id='contactUsPhone' show={this.state.show} onHide={this.close}>
+                      {/* <Modal.Header>
+                          <Modal.Title id='productsListingName'>{this.state.soapName}</Modal.Title>
+                      </Modal.Header> */}
+                      <Modal.Body>
+                        <h2>Phone Number: <p>703-729-####</p></h2>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button onClick={this.close} appearance="subtle">
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+                      <Button onClick={this.showPhoneModal} className='howToBuyText'>Call us!</Button>
                     </div>
                 </div>
                 <div className="col-sm howToBuyImagesCol">
