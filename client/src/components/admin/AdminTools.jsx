@@ -90,7 +90,8 @@ class AdminTools extends Component {
               />
 
               <AdminDelete
-              getAdmins={this.getAdmins}
+                getAdmins={this.getAdmins}
+                admins={this.state.admins}
                 showAdminDeleteModal={this.state.showAdminDeleteModal}
                 closeAdminDeleteModal={this.closeDeleteAdmin}
               />
