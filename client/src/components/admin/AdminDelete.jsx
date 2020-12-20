@@ -126,6 +126,9 @@ class AdminDelete extends Component {
             .catch(err => {
               Alert.error('There was an error removing admin. Please try again.', 5000)
               console.log('ERROR DELETING ADMIN: ', err)
+              this.setState({
+                selectAdminTitle: 'Select Admin'
+              })
               this.props.getAdmins()
             })
         
