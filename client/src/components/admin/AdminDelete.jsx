@@ -153,7 +153,7 @@ class AdminDelete extends Component {
                         <FormGroup className="adminDeleteFormGroup">
                             {/* <ControlLabel className='adminDeleteFormLabel' htmlFor="adminUsername">First Name</ControlLabel> */}
                             <Dropdown id='selectAdminDropdown' title={this.state.selectAdminTitle} placement="bottomStart">
-                                {this.state.admins.map(admin => {
+                                {this.props.admins.map(admin => {
                                     return <Dropdown.Item key={admin._id} data-username={admin.username} data-adminid={admin._id} onClick={this.selectAdmin} value={admin.username}>{admin.username}</Dropdown.Item>
                                 })}
                             </Dropdown>
