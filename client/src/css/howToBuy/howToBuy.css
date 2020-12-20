@@ -38,6 +38,19 @@
     height: auto;
 }
 
+.howToBuyCallButton {
+    font-family: 'Didot';
+    font-size: 2vw;
+    width: 40%; 
+    color: blue;
+}
+
+#contactUsPhoneHeader {
+    font-size: 4vw;
+    font-weight: bold;
+    text-align: center;
+}
+
 /* ----------- LAPTOPS ----------- */
 
 
@@ -263,7 +276,9 @@ and (orientation: portrait) {
         margin-top: 5vw;
         margin-bottom: 5vw;
     }
-    
+    .rs-modal-body {
+        max-width: 100%;
+    }
 }
 
 /* Landscape */

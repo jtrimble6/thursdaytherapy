@@ -14,6 +14,9 @@ class HowToBuy extends Component {
           show: false
         }
 
+        this.showPhoneModal = this.showPhoneModal.bind(this)
+        this.close = this.close.bind(this)
+
     }
 
     componentDidMount() {
@@ -55,7 +58,7 @@ class HowToBuy extends Component {
                           <Modal.Title id='productsListingName'>{this.state.soapName}</Modal.Title>
                       </Modal.Header> */}
                       <Modal.Body>
-                        <h2>Phone Number: <p>703-729-####</p></h2>
+                        <h2 id='contactUsPhoneHeader'>Phone Number: <p>703-729-####</p></h2>
                       </Modal.Body>
                       <Modal.Footer>
                         <Button onClick={this.close} appearance="subtle">
@@ -63,7 +66,7 @@ class HowToBuy extends Component {
                         </Button>
                       </Modal.Footer>
                     </Modal>
-                      <Button onClick={this.showPhoneModal} className='howToBuyText'>Call us!</Button>
+                      <Button onClick={this.showPhoneModal} className='howToBuyCallButton'>Call us!</Button>
                     </div>
                 </div>
                 <div className="col-sm howToBuyImagesCol">
