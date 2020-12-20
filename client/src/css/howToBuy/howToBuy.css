@@ -42,13 +42,19 @@
     font-family: 'Didot';
     font-size: 2vw;
     width: 40%; 
-    color: blue;
+    color: white;
+    background-color: #1675e0;
 }
 
 #contactUsPhoneHeader {
-    font-size: 4vw;
+    font-size: 3vw;
     font-weight: bold;
     text-align: center;
+}
+
+#contactUsPhoneHeader p {
+    font-size: 2vw;
+    font-weight: normal;
 }
 
 /* ----------- LAPTOPS ----------- */
