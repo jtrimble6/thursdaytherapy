@@ -46,15 +46,20 @@
     background-color: #1675e0;
 }
 
+.howToBuyCallButton:hover {
+    color: #1675e0;
+}
+
 #contactUsPhoneHeader {
     font-size: 3vw;
     font-weight: bold;
     text-align: center;
 }
 
-#contactUsPhoneHeader p {
+#contactUsPhoneNumber {
     font-size: 2vw;
     font-weight: normal;
+    text-align: center;
 }
 
 /* ----------- LAPTOPS ----------- */

@@ -58,7 +58,8 @@ class HowToBuy extends Component {
                           <Modal.Title id='productsListingName'>{this.state.soapName}</Modal.Title>
                       </Modal.Header> */}
                       <Modal.Body>
-                        <h2 id='contactUsPhoneHeader'>Phone Number: <p>703-729-####</p></h2>
+                        <h2 id='contactUsPhoneHeader'>Phone Number:</h2>
+                        <p id='contactUsPhoneNumber'>703-729-####</p>
                       </Modal.Body>
                       <Modal.Footer>
                         <Button onClick={this.close} appearance="subtle">
