@@ -149,7 +149,7 @@ class AdminAdd extends Component {
             })
             return;
         } 
-        
+
         API.getUser(userData.username)
             .then(res => {
             // console.log(res)
@@ -186,6 +186,7 @@ class AdminAdd extends Component {
                     })
                 } else {
                     // console.log("Username taken");
+                    Alert.error('The username entered is already an admin!', 5000)
                     this.setState({
                         nameTaken: true
                     })
