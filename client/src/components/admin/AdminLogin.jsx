@@ -90,7 +90,7 @@ class AdminLogin extends Component {
     render() {
         return (
           <div>
-            <NavbarHome />
+            {/* <NavbarHome /> */}
             <div id="loginPage">
               {this.renderRedirect()}
                 <div className="formContainer"> 
