@@ -229,6 +229,7 @@ class Inventory extends Component {
           return soap.productId = this.state.soapName
         })
         let soapFileId = oldImageFile.filename
+        console.log('FILENAME FOUND: ', soapFileId)
         let newSoapData = {
           soapName: soapName
         }
