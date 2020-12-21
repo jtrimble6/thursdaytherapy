@@ -41,25 +41,25 @@ class AdminTools extends Component {
               console.log('ERROR: ', err)
             })
       }
-
-    closeAddAdmin() {
-        this.getAdmins()
-        this.setState({ showAdminAddModal: false });
-      }
       
-    closeDeleteAdmin() {
-        this.getAdmins()
-        this.setState({ showAdminAddModal: false });
-      }
-
     openAddAdmin = (e) => {
         e.preventDefault()
         this.setState({ showAdminAddModal: true })
+      }
+      
+    closeAddAdmin() {
+        this.getAdmins()
+        this.setState({ showAdminAddModal: false });
       }
     
     openDeleteAdmin = (e) => {
         e.preventDefault()
         this.setState({ showAdminDeleteModal: true })
+      }
+
+    closeDeleteAdmin() {
+        this.getAdmins()
+        this.setState({ showAdminDeleteModal: false });
       }
 
     render() {                                                       
