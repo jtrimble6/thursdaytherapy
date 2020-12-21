@@ -20,6 +20,7 @@ class Inventory extends Component {
             productionURL: "https://thursdaytherapy.herokuapp.com/product/",
             productionImageURL: "https://thursdaytherapy.herokuapp.com/",
             productionPostImageURL: "https://thursdaytherapy.herokuapp.com/upload/",
+            soapOriginalName: '',
             soapName: '',
             soapId: '',
             soapFile: '',
@@ -225,31 +226,39 @@ class Inventory extends Component {
             })
       } else {
         let soapImages = this.state.productImages
+        let soapName = this.state.soapOriginalName
+        console.log('PRODUCT IMAGES: ', soapImages)
         let oldImageFile = soapImages.filter(soap => {
-          return soap.productId = this.state.soapName
+          return soap.productId = soapName
         })
         let soapFileId = oldImageFile.filename
         console.log('FILENAME FOUND: ', soapFileId)
-        let newSoapData = {
-          soapName: soapName
+        if (soapFileId) {
+          let newSoapData = {
+            soapName: soapName
+          }
+          API.updateProduct(soapId, data)
+            .then(res => {
+              // console.log('UPDATE PRODUCT RESULT: ', res)
+              // this.closeEditModal()
+                axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapFileId, newSoapData, {
+                    headers: {
+                      'Content-Type': 'multipart/form-data'
+                    },
+                  })
+                Alert.success('Product successfully updated!', 5000)
+                this.fetchData()
+                this.closeEditModal()
+              })
+            .catch(err => {
+                Alert.error('There was an error updating the product. Please try again.', 10000)
+                console.log('ERROR UPDATING PRODUCT: ', err)
+              })
+        } else {
+          Alert.error('No matching images found.', 5000)
+          return;
         }
-        API.updateProduct(soapId, data)
-          .then(res => {
-            // console.log('UPDATE PRODUCT RESULT: ', res)
-            // this.closeEditModal()
-              axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapFileId, newSoapData, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data'
-                  },
-                })
-              Alert.success('Product successfully updated!', 5000)
-              this.fetchData()
-              this.closeEditModal()
-            })
-          .catch(err => {
-              Alert.error('There was an error updating the product. Please try again.', 10000)
-              console.log('ERROR UPDATING PRODUCT: ', err)
-            })
+        
       }
       
       // console.log('SOAP UPDATE ID: ', soapId)
@@ -315,6 +324,7 @@ class Inventory extends Component {
         this.setState({ 
             soapEditImage: soapImage,
             soapEditId: soapId,
+            soapOriginalName: soapName,
             soapEditName: soapName,
             soapEditPrice: soapPrice,
             soapEditIngredients: soapIngredients,
