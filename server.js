@@ -130,65 +130,6 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
-
-// const connection = process.env.MONGO_URI;
-// mongoose.connect(process.env.NODE_ENV === "DEVELOPMENT" ? 'mongodb://localhost:27017/cart' : connection, {
-//         useUnifiedTopology: true,
-//         useNewUrlParser: true,
-//         useFindAndModify: false
-//     }).then(res => console.log("connected")).catch(err => console.log(err))
-//     mongoose.Promise = global.Promise;
-//     // process.on("SIGINT", cleanup);
-//     // process.on("SIGTERM", cleanup);
-//     // process.on("SIGHUP", cleanup);
-//     if (app) {
-//         app.set("mongoose", mongoose);
-// 	}
-// function cleanup() {
-// 	mongoose.connection.close(function () {
-// 		process.exit(0);
-// 	});
-// }
-// mongoose.connect(
-// 	process.env.MONGODB_URI || "mongodb://localhost:27017/thursdaytherapy", 
-// 	{
-// 		useUnifiedTopology: true,
-// 		useNewUrlParser: true,
-// 		useFindAndModify: false
-// 	});
-// const conn = mongoose.createConnection(process.env.MONGODB_URI || "mongodb://localhost:27017/thursdaytherapy");
-
-// //Init gfs
-// let gfs;
-
-// conn.once('open', () => {
-//   // Init stream
-//   gfs = Grid(conn.db, mongoose.mongo)
-//   gfs.collection('uploads')
-// })
-
-// const storage = new GridFsStorage({
-// 	url: process.env.MONGODB_URI || "mongodb://localhost:27017/thursdaytherapy",
-// 	// url: process.env.MONGODB_URI || "http://localhost:3000/uploads",
-//     file: (req, file) => {
-//       return new Promise((resolve, reject) => {
-//         crypto.randomBytes(16, (err, buf) => {
-//           if (err) {
-//             return reject(err);
-//           }
-//           const filename = buf.toString('hex') + path.extname(file.originalname);
-//           const fileInfo = {
-//             filename: filename,
-//             bucketName: 'uploads',
-//           };
-//           resolve(fileInfo);
-//         });
-//       });
-//     }
-//   });
-  
-// const upload = multer({ storage });
-
 app.post("/upload/:productId", function (req, res, next) {
 	upload.single('file')(req, res, function (error) {
 	  if (error) {
@@ -207,24 +148,6 @@ app.post("/upload/:productId", function (req, res, next) {
 	})
   });
 
-//   app.put("/upload/:productId", function (req, res, next) {
-// 	upload.single('file')(req, res, function (error) {
-// 	  if (error) {
-// 		console.log(`upload.single error: ${error}`);
-// 		return res.sendStatus(500);
-// 	  } else {
-// 		console.log('UPLOAD UPDATED FILE: ', req.file)
-// 		gfs.files.update({'filename': req.body.filename}, 
-// 			{'$set': 
-// 				{
-// 				'productId': req.params.productId
-// 				},
-// 			})
-// 	  }
-// 	  // code
-// 	})
-//   });
-  
   // @route GET /files
   // @desc Display all files in JSON
   
@@ -257,10 +180,11 @@ app.get('/uploads/:filename', (req, res) => {
 	gfs.files.findOne({filename: req.params.filename}, (err, file) => {
 	  // Check if files exist
 	  if(!file || file.length === 0) {
+		console.log('NO IMAGES FOUND')
 		return res.status(404).json({
 		  err: 'No images exist'
 		})
-	  }
+	  } 
   
 	  // File exists
 	//   console.log('FILE EXISTS!!!! ', file)
@@ -278,6 +202,15 @@ app.get('/uploads/:filename', (req, res) => {
 	  }
 
 	})
+  })
+
+app.put('/uploads/:filename', (req, res) => {
+	gfs.files.update({'filename': req.params.filename}, 
+		{'$set': 
+			{
+			'productId': req.body.soapName
+			},
+		})
   })
 
 app.delete('/uploads/:id', (req, res) => {
