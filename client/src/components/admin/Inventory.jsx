@@ -115,7 +115,7 @@ class Inventory extends Component {
                   Alert.error('There was an error getting products, please reload page.', 5000)
                   console.log('ERROR GETTING PRODUCTS: ', err)
                 })
-          })
+            })
           .catch((error) => {
             this.setState({
               error: error
@@ -247,8 +247,8 @@ class Inventory extends Component {
                     },
                   })
                 Alert.success('Product successfully updated!', 5000)
-                this.fetchData()
                 this.closeEditModal()
+                window.location.reload()
               })
             .catch(err => {
                 Alert.error('There was an error updating the product. Please try again.', 10000)
