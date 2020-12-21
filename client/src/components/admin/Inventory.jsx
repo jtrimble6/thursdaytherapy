@@ -262,7 +262,7 @@ class Inventory extends Component {
       //     return;
       //   }
         
-      // }
+      }
       
       // console.log('SOAP UPDATE ID: ', soapId)
       // console.log('SOAP UPDATE DATA: ', data)
