@@ -127,8 +127,10 @@ class AdminDelete extends Component {
               Alert.error('There was an error removing admin. Please try again.', 5000)
               console.log('ERROR DELETING ADMIN: ', err)
               this.setState({
-                selectAdminTitle: 'Select Admin'
+                selectAdminTitle: 'Select Admin',
+                selectAdminId: '',
               })
+              this.props.closeAdminDeleteModal()
               this.props.getAdmins()
             })
         

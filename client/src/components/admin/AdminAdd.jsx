@@ -149,6 +149,7 @@ class AdminAdd extends Component {
                                     adminAddSuccess: true,
                                 })
                                 document.getElementById('adminAddForm').reset();
+                                this.props.closeAdminAddModal()
                                 this.props.getAdmins()
                                 // this.setRedirect();
                             } else {
