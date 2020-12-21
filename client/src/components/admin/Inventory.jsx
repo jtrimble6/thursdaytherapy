@@ -232,7 +232,9 @@ class Inventory extends Component {
         let oldImageFile = soapImages.filter(soap => {
           return soap.productId === soapName
         })
-        let soapFileId = oldImageFile.filename
+        let soapFile = oldImageFile
+        let soapFileId = oldImageFile[0].filename
+        console.log('soap file: ', soapFile)
         console.log('FILENAME FOUND: ', soapFileId)
         if (soapFileId) {
           let newSoapData = {
