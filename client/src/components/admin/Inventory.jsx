@@ -226,25 +226,22 @@ class Inventory extends Component {
             })
       } else {
         let soapImages = this.state.productImages
-        let soapName = this.state.soapOriginalName
+        let soapOriginalName = this.state.soapOriginalName
         console.log('PRODUCT IMAGES: ', soapImages)
-        console.log('SOAP SEARCH: ', soapName)
+        console.log('SOAP SEARCH: ', soapOriginalName)
         let oldImageFile = soapImages.filter(soap => {
-          return soap.productId === soapName
+          return soap.productId === soapOriginalName
         })
         let soapFile = oldImageFile
         let soapFileId = oldImageFile[0].filename
         console.log('soap file: ', soapFile)
         console.log('FILENAME FOUND: ', soapFileId)
         if (soapFileId) {
-          let newSoapData = {
-            soapName: soapName
-          }
           API.updateProduct(soapId, data)
             .then(res => {
               // console.log('UPDATE PRODUCT RESULT: ', res)
               // this.closeEditModal()
-                axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapFileId, newSoapData, {
+                axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapFileId + '/' + soapName, {
                     headers: {
                       'Content-Type': 'multipart/form-data'
                     },

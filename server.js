@@ -204,11 +204,11 @@ app.get('/uploads/:filename', (req, res) => {
 	})
   })
 
-app.put('/uploads/:filename', (req, res) => {
+app.put('/uploads/:filename/:soapname', (req, res) => {
 	gfs.files.update({'filename': req.params.filename}, 
 		{'$set': 
 			{
-			'productId': req.body.soapName
+			'productId': req.params.soapname
 			},
 		})
   })
