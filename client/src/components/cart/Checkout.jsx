@@ -398,34 +398,34 @@ class Checkout extends Component {
       }
 
     checkEmail = (event) => {
-      const {name, value} = event.target
+        const {name, value} = event.target
 
-      this.setState({
-        stepOneFieldError: false,
-        changeStepError: false
-      })    
-
-      // Verify email address is valid
-      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-      if ( re.test(value) ) {
-        // VALID EMAIL
-        // console.log('EMAIL VALUE: ', value)
         this.setState({
-          emailError: false,
-        })
-      }
-      else {
-        // INVALID EMAIL
-        // console.log('PLEASE ENTER A VALID EMAIL ADDRESS')
-        this.setState({
-          emailError: true
-        })
-      }
+          stepOneFieldError: false,
+          changeStepError: false
+        })    
 
-      this.setState({
-        [name]: value
-      })    
+        // Verify email address is valid
+        let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if ( re.test(value) ) {
+          // VALID EMAIL
+          // console.log('EMAIL VALUE: ', value)
+          this.setState({
+            emailError: false,
+          })
+        }
+        else {
+          // INVALID EMAIL
+          // console.log('PLEASE ENTER A VALID EMAIL ADDRESS')
+          this.setState({
+            emailError: true
+          })
+        }
+
+        this.setState({
+          [name]: value
+        })    
 
       }
 

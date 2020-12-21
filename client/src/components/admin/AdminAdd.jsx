@@ -37,6 +37,7 @@ class AdminAdd extends Component {
         this.handleAdminAdd = this.handleAdminAdd.bind(this)
         this.checkPassword = this.checkPassword.bind(this)
         this.checkUserName = this.checkUserName.bind(this)
+        this.checkEmail = this.checkEmail.bind(this)
       
       }
 
@@ -112,6 +113,30 @@ class AdminAdd extends Component {
         })
       }
 
+    checkEmail = (email) => {
+
+        // Verify email address is valid
+        let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if ( re.test(email) ) {
+          // VALID EMAIL
+          // console.log('EMAIL VALUE: ', value)
+          this.setState({
+            emailError: false,
+          })
+          return false
+        }
+        else {
+          // INVALID EMAIL
+          // console.log('PLEASE ENTER A VALID EMAIL ADDRESS')
+          this.setState({
+            emailError: true
+          })
+          return true
+        }   
+
+      }
+
     handleAdminAdd = event => {
         this.setState({
             passwordError: false,
@@ -127,12 +152,18 @@ class AdminAdd extends Component {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
         };
+        
         if (userData.firstName === '') {
             Alert.error('Please enter first name.', 5000)
             return;
         }
         if (userData.lastName === '') {
             Alert.error('Please enter last name.', 5000)
+            return;
+        }
+        let emailError = this.checkEmail(userData.email) 
+        if (emailError) {
+            Alert.error('Please enter a valid email address.', 5000)
             return;
         }
         if (userData.email === '') {
