@@ -121,7 +121,10 @@ class AdminDelete extends Component {
             .then(res => {
                 // console.log('DELETE ADMIN RESULT: ', res)
                 Alert.success('Admin was succesfully removed!', 5000)
-                document.getElementById('adminDeleteForm').reset();
+                this.setState({
+                  selectAdminTitle: 'Select Admin',
+                  selectAdminId: '',
+                })
                 this.props.closeAdminDeleteModal()
                 this.props.getAdmins()
             })
