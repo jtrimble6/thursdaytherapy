@@ -127,47 +127,63 @@ class AdminAdd extends Component {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
         };
+        if (userData.firstName === '') {
+            Alert.error('Please enter first name.', 5000)
+            return;
+        }
+        if (userData.lastName === '') {
+            Alert.error('Please enter last name.', 5000)
+            return;
+        }
+        if (userData.email === '') {
+            Alert.error('Please enter email address.', 5000)
+            return;
+        }
         // console.log(userData);
         if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
             // console.log('THE PASSWORDS DO NOT MATCH')
+            Alert.error('The passwords entered do not match!', 5000)
             this.setState({
-                passwordError: true
+                password: '',
+                confirmPassword: ''
             })
-        } else {
-          API.getUser(userData.username)
+            return;
+        } 
+        
+        API.getUser(userData.username)
             .then(res => {
-                // console.log(res)
-                if (!res.data[0]) {
-                    // console.log("Username available");
-                    API.saveUser(userData)
-                        .then(res => {
-                            // console.log(res)
-                            if (res.data) {
-                                // console.log("Successful signup!")
-                                Alert.success('Admin successfully added!', 5000)
-                                this.setState({
-                                    adminAddSuccess: true,
-                                })
-                                document.getElementById('adminAddForm').reset();
-                                this.props.closeAdminAddModal()
-                                this.props.getAdmins()
-                                // this.setRedirect();
-                            } else {
-                                // console.log("Signup error")
-                                Alert.error('There was an error adding admin. Please try again.', 5000)
-                                this.setState({
-                                    adminAddError: true
-                                })
-                                this.props.getAdmins()
-                            }
-                        })
-                        .catch(error => {
-                            // console.log('Backend error: ', error)
+            // console.log(res)
+            if (!res.data[0]) {
+                // console.log("Username available");
+                API.saveUser(userData)
+                    .then(res => {
+                        // console.log(res)
+                        if (res.data) {
+                            // console.log("Successful signup!")
+                            Alert.success('Admin successfully added!', 5000)
+                            this.setState({
+                                adminAddSuccess: true,
+                            })
+                            document.getElementById('adminAddForm').reset();
+                            this.props.closeAdminAddModal()
+                            this.props.getAdmins()
+                            // this.setRedirect();
+                        } else {
+                            // console.log("Signup error")
                             Alert.error('There was an error adding admin. Please try again.', 5000)
                             this.setState({
                                 adminAddError: true
                             })
+                            this.props.getAdmins()
+                        }
+                    })
+                    .catch(error => {
+                        // console.log('Backend error: ', error)
+                        Alert.error('There was an error adding admin. Please try again.', 5000)
+                        this.setState({
+                            adminAddError: true
                         })
+                    })
                 } else {
                     // console.log("Username taken");
                     this.setState({
@@ -178,7 +194,6 @@ class AdminAdd extends Component {
                     Alert.error('There was an error adding admin. Please try again.', 5000)
                     // console.log(error)
                 })
-        }
         
       }
 
