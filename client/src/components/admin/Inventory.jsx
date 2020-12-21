@@ -229,7 +229,7 @@ class Inventory extends Component {
         let soapName = this.state.soapOriginalName
         console.log('PRODUCT IMAGES: ', soapImages)
         let oldImageFile = soapImages.filter(soap => {
-          return soap.productId = soapName
+          return soap.productId === soapName
         })
         let soapFileId = oldImageFile.filename
         console.log('FILENAME FOUND: ', soapFileId)
@@ -320,7 +320,7 @@ class Inventory extends Component {
         let soapPrice = soap.dataset.soapprice
         let soapFile = soap.dataset.soapfile
         let soapImageId = soap.dataset.soapimageid
-        // console.log("PRODUCT: ", soap)
+        console.log("PRODUCT: ", soapName)
         this.setState({ 
             soapEditImage: soapImage,
             soapEditId: soapId,
