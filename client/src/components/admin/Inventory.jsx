@@ -132,6 +132,23 @@ class Inventory extends Component {
       let soapIngredients = document.getElementById('soapIngredients').value
       let imageFile = this.state.soapImageFile
 
+      if (soapName === '') {
+        Alert.error('Please enter a soap name.', 5000)
+        return;
+      }
+      if (soapPrice === '') {
+        Alert.error('Please enter a soap price.', 5000)
+        return;
+      }
+      if (soapIngredients === '') {
+        Alert.error('Please enter a soap ingredients.', 5000)
+        return;
+      }
+      if (imageFile === '') {
+        Alert.error('Please add an image.', 5000)
+        return;
+      }
+
       // console.log('IMAGE FILE: ', imageFile)
 
       let data = {
@@ -157,14 +174,14 @@ class Inventory extends Component {
                 }
               })
               Alert.success('New product successfully added!', 5000)
-              window.location.reload()
+              this.fetchData()
+              this.closeAddModal()
           })
           .catch(err => {
             Alert.error('There was an error adding product, please try again.', 5000)
             console.log('ERROR SAVING PRODUCT: ', err)
           })
-
-        this.closeAddModal()
+        
       }
 
     async submitEditInventory() {
@@ -203,43 +220,15 @@ class Inventory extends Component {
                   'Content-Type': 'multipart/form-data'
                 }
               })
-              window.location.reload()
+              Alert.success('Product successfully updated!', 5000)
+              this.fetchData()
+              this.closeEditModal()
           })
           .catch(err => {
+            Alert.error('There was an error updating the product. Please try again.', 10000)
             console.log('ERROR UPDATING PRODUCT: ', err)
           })
-       
-  
-        // REMOVE OLD PRODUCT
-        // let soapEditId = this.state.soapEditId
-        // console.log('DELETE THIS SOAP: ', soapEditId)
-        
-        // try {
-        //     const response = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentURL : this.state.productionURL + "/" + soapEditId, {
-        //       method: "DELETE",
-        //     });
-        //     let data = await response.json();
-        //     // alert("Item Added To Cart");
-        //     this.closeEditModal()
-        //     console.log('DELETE RESPONSE: ', data);
-        //   } catch (err) {
-        //     alert("Something Went Wrong");
-        //     console.log(err);
-        //   }
-
-        // // ADD NEW SOAP PRODUCT
-        // axios.post(process.env.NODE_ENV = "development" ? this.state.developmentURL : this.state.productionURL, data, {
-        //   headers: {'Content-Type': 'multipart/form-data' },
-        // })
-        // .then(res => { // then print response status
-        //   console.log('INVENTORY NEW POST RESULT: ', res.statusText)
-        //   this.closeAddModal()
-        // })
-        // .catch(err => {
-        //   console.log('ERROR ADDING PRODUCT: ', err)
-        // })
-        
-        
+          
       }
 
     async removeFromInventory() {
@@ -251,12 +240,14 @@ class Inventory extends Component {
         API.removeProduct(soapId)
           .then(res => {
               // console.log('REMOVE PRODUCT RESULT: ', res)
-              window.location.reload()
+              Alert.success('Product was successfully removed.', 5000)
+              this.closeEditModal()
+              this.fetchData()
           })
           .catch(err => {
-            console.log('ERROR SAVING PRODUCT: ', err)
+            console.log('ERROR REMOVING PRODUCT: ', err)
           })
-
+        
       }
 
     handleFileSelection = (e) => {

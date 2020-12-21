@@ -29,6 +29,7 @@
 }
 
 .adminToolsImage .rs-icon {
+    cursor: pointer;
     text-align: center !important;
 }
 
