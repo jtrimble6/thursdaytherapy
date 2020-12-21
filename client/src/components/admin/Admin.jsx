@@ -114,7 +114,7 @@ class Admin extends Component {
   render() {                                                       
       return (
           <span>
-            <h2 id='adminPageTitle'>Admin Page</h2>
+            <h2 id='adminPageTitle'>Welcome Admin!</h2>
           </span>
       )
   }
