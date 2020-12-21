@@ -233,36 +233,36 @@ class Inventory extends Component {
           return soap.productId === soapName
         })
         let soapFile = oldImageFile
-        let soapFileId = oldImageFile[0].filename
+        // let soapFileId = oldImageFile[0].filename
         console.log('soap file: ', soapFile)
-        console.log('FILENAME FOUND: ', soapFileId)
-        if (soapFileId) {
-          let newSoapData = {
-            soapName: soapName
-          }
-          API.updateProduct(soapId, data)
-            .then(res => {
-              // console.log('UPDATE PRODUCT RESULT: ', res)
-              // this.closeEditModal()
-                axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapFileId, newSoapData, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data'
-                    },
-                  })
-                Alert.success('Product successfully updated!', 5000)
-                this.fetchData()
-                this.closeEditModal()
-              })
-            .catch(err => {
-                Alert.error('There was an error updating the product. Please try again.', 10000)
-                console.log('ERROR UPDATING PRODUCT: ', err)
-              })
-        } else {
-          Alert.error('No matching images found.', 5000)
-          return;
-        }
+        // console.log('FILENAME FOUND: ', soapFileId)
+      //   if (soapFileId) {
+      //     let newSoapData = {
+      //       soapName: soapName
+      //     }
+      //     API.updateProduct(soapId, data)
+      //       .then(res => {
+      //         // console.log('UPDATE PRODUCT RESULT: ', res)
+      //         // this.closeEditModal()
+      //           axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursdaytherapy.herokuapp.com/uploads/" + soapFileId, newSoapData, {
+      //               headers: {
+      //                 'Content-Type': 'multipart/form-data'
+      //               },
+      //             })
+      //           Alert.success('Product successfully updated!', 5000)
+      //           this.fetchData()
+      //           this.closeEditModal()
+      //         })
+      //       .catch(err => {
+      //           Alert.error('There was an error updating the product. Please try again.', 10000)
+      //           console.log('ERROR UPDATING PRODUCT: ', err)
+      //         })
+      //   } else {
+      //     Alert.error('No matching images found.', 5000)
+      //     return;
+      //   }
         
-      }
+      // }
       
       // console.log('SOAP UPDATE ID: ', soapId)
       // console.log('SOAP UPDATE DATA: ', data)
