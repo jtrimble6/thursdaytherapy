@@ -143,10 +143,8 @@ class AdminAdd extends Component {
         if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
             // console.log('THE PASSWORDS DO NOT MATCH')
             Alert.error('The passwords entered do not match!', 5000)
-            this.setState({
-                password: '',
-                confirmPassword: ''
-            })
+            document.getElementById('password').value = ''
+            document.getElementById('confirmPassword').value = ''
             return;
         } 
 
