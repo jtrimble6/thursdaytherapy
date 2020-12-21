@@ -226,7 +226,7 @@ class Inventory extends Component {
             })
       } else {
         let soapImages = this.state.productImages
-        let soapName = JSON.stringify(this.state.soapOriginalName)
+        let soapName = this.state.soapOriginalName
         console.log('PRODUCT IMAGES: ', soapImages)
         console.log('SOAP SEARCH: ', soapName)
         let oldImageFile = soapImages.filter(soap => {
