@@ -173,8 +173,9 @@ class Inventory extends Component {
               }
             })
             Alert.success('New product successfully added!', 5000)
-            this.fetchData()
+            // this.fetchData()
             this.closeAddModal()
+            window.location.reload()
           })
           .catch(err => {
             Alert.error('There was an error adding product, please try again.', 5000)
