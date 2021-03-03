@@ -70,7 +70,7 @@ class Checkout extends Component {
           address2: '',
           addressZipCode: '',
           addressCity: '',
-          addressState: '',
+          addressState: 'Select State',
           paymentComplete: false,
           paymentRefNumber: '',
           paymentTxnId: '',

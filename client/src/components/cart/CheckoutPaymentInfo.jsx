@@ -147,7 +147,7 @@ class CheckoutPaymentInfo extends Component {
                     /> */}
                   </Form.Group>
                   <Form.Label>Shipping Address*</Form.Label>
-                  <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress">
+                  <Form.Group className='paymentInfoFormGroup paymentInfoShippingAddress' as={Col} controlId="formGridShippingAddress">
                     <Form.Label>Address Line 1</Form.Label>
                     <Form.Control
                         value={this.props.address1}
@@ -155,7 +155,7 @@ class CheckoutPaymentInfo extends Component {
                         onChange={this.props.handleChange}
                         placeholder="Street Address" 
                         aria-label='Street Address'
-                    />
+                    /> <br />
                     <Form.Label>Address Line 2 (optional)</Form.Label>
                     <Form.Control
                         value={this.props.address2}
@@ -163,7 +163,7 @@ class CheckoutPaymentInfo extends Component {
                         onChange={this.props.handleChange}
                         placeholder="Apt/Suite/Other" 
                         aria-label='Apt/Suite/Other'
-                    />
+                    /> <br />
                     <Form.Label>Zip Code</Form.Label>
                     <Form.Control
                         value={this.props.addressZipCode}
@@ -171,7 +171,7 @@ class CheckoutPaymentInfo extends Component {
                         onChange={this.props.handleChange}
                         placeholder="Zip Code" 
                         aria-label='Zip Code'
-                    />
+                    /> <br />
                     <Form.Label>City</Form.Label>
                     <Form.Control
                         value={this.props.addressCity}
@@ -179,11 +179,11 @@ class CheckoutPaymentInfo extends Component {
                         onChange={this.props.handleChange}
                         placeholder="City" 
                         aria-label='City'
-                    />
+                    /> <br />
                     <Form.Label>State</Form.Label>
                     <Dropdown 
                       className='changeQtyDropdown' 
-                      title={this.state.addressState} 
+                      title={this.props.addressState} 
                       placement="leftStart"
                       aria-label='State'
                     >
