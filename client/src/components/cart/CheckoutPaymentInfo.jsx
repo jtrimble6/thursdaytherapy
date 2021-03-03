@@ -146,9 +146,9 @@ class CheckoutPaymentInfo extends Component {
                         phoneError={this.props.phoneError}
                     /> */}
                   </Form.Group>
-
+                  <Form.Label>Shipping Address*</Form.Label>
                   <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress">
-                    <Form.Label>Shipping Address*</Form.Label>
+                    <Form.Label>Address Line 1</Form.Label>
                     <Form.Control
                         value={this.props.address1}
                         name="address1"
@@ -156,6 +156,7 @@ class CheckoutPaymentInfo extends Component {
                         placeholder="Street Address" 
                         aria-label='Street Address'
                     />
+                    <Form.Label>Address Line 2 (optional)</Form.Label>
                     <Form.Control
                         value={this.props.address2}
                         name="address2"
@@ -163,6 +164,7 @@ class CheckoutPaymentInfo extends Component {
                         placeholder="Apt/Suite/Other" 
                         aria-label='Apt/Suite/Other'
                     />
+                    <Form.Label>Zip Code</Form.Label>
                     <Form.Control
                         value={this.props.addressZipCode}
                         name="addressZipCode"
@@ -170,6 +172,7 @@ class CheckoutPaymentInfo extends Component {
                         placeholder="Zip Code" 
                         aria-label='Zip Code'
                     />
+                    <Form.Label>City</Form.Label>
                     <Form.Control
                         value={this.props.addressCity}
                         name="addressCity"
@@ -177,8 +180,9 @@ class CheckoutPaymentInfo extends Component {
                         placeholder="City" 
                         aria-label='City'
                     />
+                    <Form.Label>State</Form.Label>
                     <Dropdown 
-                      className='changeStateDropdown' 
+                      className='changeQtyDropdown' 
                       title={this.state.addressState} 
                       placement="leftStart"
                       aria-label='State'
