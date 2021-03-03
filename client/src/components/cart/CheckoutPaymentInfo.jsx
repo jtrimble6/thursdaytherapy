@@ -150,28 +150,28 @@ class CheckoutPaymentInfo extends Component {
                   <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress">
                     <Form.Label>Shipping Address*</Form.Label>
                     <Form.Control
-                        value={this.props.streetAddress}
+                        value={this.props.address1}
                         name="address1"
                         onChange={this.props.handleChange}
                         placeholder="Street Address" 
                         aria-label='Street Address'
                     />
                     <Form.Control
-                        value={this.props.streetAddress2}
+                        value={this.props.address2}
                         name="address2"
                         onChange={this.props.handleChange}
                         placeholder="Apt/Suite/Other" 
                         aria-label='Apt/Suite/Other'
                     />
                     <Form.Control
-                        value={this.props.zipCode}
+                        value={this.props.addressZipCode}
                         name="addressZipCode"
                         onChange={this.props.handleChange}
                         placeholder="Zip Code" 
                         aria-label='Zip Code'
                     />
                     <Form.Control
-                        value={this.props.city}
+                        value={this.props.addressCity}
                         name="addressCity"
                         onChange={this.props.handleChange}
                         placeholder="City" 
@@ -179,7 +179,7 @@ class CheckoutPaymentInfo extends Component {
                     />
                     <Dropdown 
                       className='changeStateDropdown' 
-                      title={this.state.qty} 
+                      title={this.state.addressState} 
                       placement="leftStart"
                       aria-label='State'
                     >
