@@ -161,7 +161,7 @@ class Inventory extends Component {
       let imagefile = document.querySelector('#fileAdd');
       formData.append("file", imagefile.files[0]);
      
-      // console.log('DATA TO UPLOAD: ', data)
+      console.log('DATA TO UPLOAD: ', data)
 
       // ADD NEW SOAP PRODUCT
       API.saveProduct(data)
@@ -175,7 +175,7 @@ class Inventory extends Component {
             Alert.success('New product successfully added!', 5000)
             // this.fetchData()
             this.closeAddModal()
-            window.location.reload()
+            // window.location.reload()
           })
           .catch(err => {
             Alert.error('There was an error adding product, please try again.', 5000)

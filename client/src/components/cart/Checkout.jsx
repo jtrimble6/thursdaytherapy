@@ -4,6 +4,7 @@ import axios from 'axios'
 import API from '../../utils/API'
 // import { NavLink } from 'reactstrap';
 import { Form, Button } from 'react-bootstrap'
+import $ from 'jquery'
 
 
 // CSS
@@ -65,6 +66,11 @@ class Checkout extends Component {
           lastName: '',
           email: '',
           phoneNumber: '',
+          address1: '',
+          address2: '',
+          addressZipCode: '',
+          addressCity: '',
+          addressState: '',
           paymentComplete: false,
           paymentRefNumber: '',
           paymentTxnId: '',
@@ -97,7 +103,7 @@ class Checkout extends Component {
         this.handleNextStep = this.handleNextStep.bind(this)
         this.handlePrevStep = this.handlePrevStep.bind(this)
         this.handleFinalStep = this.handleFinalStep.bind(this)
-        // this.handleFinalStepNoPay = this.handleFinalStepNoPay.bind(this)
+        this.changeState = this.changeState.bind(this)
         this.handleStepTitleChange = this.handleStepTitleChange.bind(this)
         this.scrollTop = this.scrollTop.bind(this)
         this.validStepOne = this.validStepOne.bind(this)
@@ -250,6 +256,15 @@ class Checkout extends Component {
           changeStepError: false
         })    
       }
+
+    changeState = (e) => {
+        // console.log("Quantity change: ", e.target)
+        let addressState = $(e.target).text()
+        // console.log('New qty: ', newQty)
+        this.setState({
+          qty: addressState
+        })
+      }
     
     handlePhoneChange({ target: { value } }) {
         this.setState({
@@ -383,6 +398,11 @@ class Checkout extends Component {
             lastName: this.state.lastName,
             email: this.state.email,
             phoneNumber: this.state.phoneNumber,
+            address1: this.state.address1,
+            address2: this.state.address2,
+            addressCity: this.state.addressCity,
+            addressZipCode: this.state.addressZipCode,
+            addressState: this.state.addressState,
             purchaseId: 'testId',
             confirmationNumber: '1234',
             purchaseDetails: cart
@@ -545,6 +565,11 @@ class Checkout extends Component {
                     lastName={this.state.lastName}
                     email={this.state.email}
                     phoneNumber={this.state.phoneNumber}
+                    address1={this.state.address1}
+                    address2={this.state.address2}
+                    addressZipCode={this.state.addressZipCode}
+                    addressCity={this.state.addressCity}
+                    addressState={this.state.addressState}
                     checkEmail={this.checkEmail}
                     emailError={this.state.emailError}
                     phoneError={this.state.phoneError}
