@@ -260,7 +260,7 @@ class Checkout extends Component {
     changeState = (e) => {
         // console.log("Quantity change: ", e.target)
         let addressState = $(e.target).text()
-        // console.log('New qty: ', newQty)
+        console.log('New state: ', addressState)
         this.setState({
           addressState: addressState
         })

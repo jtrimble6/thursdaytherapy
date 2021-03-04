@@ -147,10 +147,10 @@ class CheckoutPaymentInfo extends Component {
                     /> */}
                   </Form.Group>
                   <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress">
-                    <Form.Label>Shipping Address*</Form.Label>
-                    
+                    {/* <Form.Label>Shipping Address*</Form.Label> */}
+
                     <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress1">
-                      <Form.Label>Address Line 1</Form.Label>
+                      <Form.Label>Address Line 1*</Form.Label>
                       <Form.Control
                           value={this.props.address1}
                           name="address1"
@@ -170,7 +170,7 @@ class CheckoutPaymentInfo extends Component {
                       /> 
                     </Form.Group>
                     <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingZipCode">
-                      <Form.Label>Zip Code</Form.Label>
+                      <Form.Label>Zip Code*</Form.Label>
                       <Form.Control
                           value={this.props.addressZipCode}
                           name="addressZipCode"
@@ -180,7 +180,7 @@ class CheckoutPaymentInfo extends Component {
                       /> 
                     </Form.Group>
                     <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingCity">
-                      <Form.Label>City</Form.Label>
+                      <Form.Label>City*</Form.Label>
                       <Form.Control
                           value={this.props.addressCity}
                           name="addressCity"
@@ -190,7 +190,7 @@ class CheckoutPaymentInfo extends Component {
                       /> 
                     </Form.Group>
                     <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingState">
-                      <Form.Label>State</Form.Label>
+                      <Form.Label>State*</Form.Label>
                       <Dropdown 
                         className='changeQtyDropdown' 
                         title={this.props.addressState} 
