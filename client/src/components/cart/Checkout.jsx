@@ -262,7 +262,7 @@ class Checkout extends Component {
         let addressState = $(e.target).text()
         // console.log('New qty: ', newQty)
         this.setState({
-          qty: addressState
+          addressState: addressState
         })
       }
     

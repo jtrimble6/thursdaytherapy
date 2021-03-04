@@ -146,101 +146,112 @@ class CheckoutPaymentInfo extends Component {
                         phoneError={this.props.phoneError}
                     /> */}
                   </Form.Group>
-                  <Form.Label>Shipping Address*</Form.Label>
-                  <Form.Group className='paymentInfoFormGroup paymentInfoShippingAddress' as={Col} controlId="formGridShippingAddress">
-                    <Form.Label>Address Line 1</Form.Label>
-                    <Form.Control
-                        value={this.props.address1}
-                        name="address1"
-                        onChange={this.props.handleChange}
-                        placeholder="Street Address" 
-                        aria-label='Street Address'
-                    /> <br />
-                    <Form.Label>Address Line 2 (optional)</Form.Label>
-                    <Form.Control
-                        value={this.props.address2}
-                        name="address2"
-                        onChange={this.props.handleChange}
-                        placeholder="Apt/Suite/Other" 
-                        aria-label='Apt/Suite/Other'
-                    /> <br />
-                    <Form.Label>Zip Code</Form.Label>
-                    <Form.Control
-                        value={this.props.addressZipCode}
-                        name="addressZipCode"
-                        onChange={this.props.handleChange}
-                        placeholder="Zip Code" 
-                        aria-label='Zip Code'
-                    /> <br />
-                    <Form.Label>City</Form.Label>
-                    <Form.Control
-                        value={this.props.addressCity}
-                        name="addressCity"
-                        onChange={this.props.handleChange}
-                        placeholder="City" 
-                        aria-label='City'
-                    /> <br />
-                    <Form.Label>State</Form.Label>
-                    <Dropdown 
-                      className='changeQtyDropdown' 
-                      title={this.props.addressState} 
-                      placement="leftStart"
-                      aria-label='State'
-                    >
-                      <Dropdown.Item onClick={this.props.changeState}>Alabama</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Alaska</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Arizona</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Arkansas</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>California</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Colorado</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Connecticut</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Delaware</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Florida</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Georgia</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Hawaii</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Idaho</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Illinois</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Indiana</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Iowa</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Kansas</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Kentucky</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Louisiana</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Maine</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Maryland</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Massachusetts</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Michigan</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Minnesota</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Mississippi</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Missouri</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Montana</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Nebraska</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Nevada</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>New Hampshire</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>New Jersey</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>New Mexico</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>New York</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>North Carolina</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>North Dakota</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Ohio</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Oklahoma</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Oregon</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Pennsylvania</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Rhode Island</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>South Carolina</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>South Dakota</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Tennessee</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Texas</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Utah</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Vermont</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Virginia</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Washington</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>West Virginia</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Wisconsin</Dropdown.Item>
-                      <Dropdown.Item onClick={this.props.changeState}>Wyoming</Dropdown.Item>
-                    </Dropdown>
-                    {/* <EmailError 
-                        emailError={this.props.emailError}
-                    /> */}
+                  <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress">
+                    <Form.Label>Shipping Address*</Form.Label>
+                    
+                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress1">
+                      <Form.Label>Address Line 1</Form.Label>
+                      <Form.Control
+                          value={this.props.address1}
+                          name="address1"
+                          onChange={this.props.handleChange}
+                          placeholder="Street Address" 
+                          aria-label='Street Address'
+                      /> 
+                    </Form.Group>
+                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingAddress2">
+                      <Form.Label>Address Line 2 (optional)</Form.Label>
+                      <Form.Control
+                          value={this.props.address2}
+                          name="address2"
+                          onChange={this.props.handleChange}
+                          placeholder="Apt/Suite/Other" 
+                          aria-label='Apt/Suite/Other'
+                      /> 
+                    </Form.Group>
+                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingZipCode">
+                      <Form.Label>Zip Code</Form.Label>
+                      <Form.Control
+                          value={this.props.addressZipCode}
+                          name="addressZipCode"
+                          onChange={this.props.handleChange}
+                          placeholder="Zip Code" 
+                          aria-label='Zip Code'
+                      /> 
+                    </Form.Group>
+                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingCity">
+                      <Form.Label>City</Form.Label>
+                      <Form.Control
+                          value={this.props.addressCity}
+                          name="addressCity"
+                          onChange={this.props.handleChange}
+                          placeholder="City" 
+                          aria-label='City'
+                      /> 
+                    </Form.Group>
+                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingState">
+                      <Form.Label>State</Form.Label>
+                      <Dropdown 
+                        className='changeQtyDropdown' 
+                        title={this.props.addressState} 
+                        placement="leftStart"
+                        aria-label='State'
+                      >
+                        <Dropdown.Item onClick={this.props.changeState}>Alabama</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Alaska</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Arizona</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Arkansas</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>California</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Colorado</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Connecticut</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Delaware</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Florida</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Georgia</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Hawaii</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Idaho</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Illinois</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Indiana</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Iowa</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Kansas</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Kentucky</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Louisiana</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Maine</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Maryland</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Massachusetts</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Michigan</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Minnesota</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Mississippi</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Missouri</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Montana</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Nebraska</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Nevada</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>New Hampshire</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>New Jersey</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>New Mexico</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>New York</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>North Carolina</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>North Dakota</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Ohio</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Oklahoma</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Oregon</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Pennsylvania</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Rhode Island</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>South Carolina</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>South Dakota</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Tennessee</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Texas</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Utah</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Vermont</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Virginia</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Washington</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>West Virginia</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Wisconsin</Dropdown.Item>
+                        <Dropdown.Item onClick={this.props.changeState}>Wyoming</Dropdown.Item>
+                      </Dropdown>
+                      {/* <EmailError 
+                          emailError={this.props.emailError}
+                      /> */}
+                    </Form.Group>
                   </Form.Group>
 
                 </Form.Row>
