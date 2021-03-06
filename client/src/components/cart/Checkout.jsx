@@ -258,7 +258,7 @@ class Checkout extends Component {
       }
 
     changeState = (e) => {
-        // console.log("Quantity change: ", e.target)
+        console.log("State change: ", e.target)
         let addressState = $(e.target).text()
         console.log('New state: ', addressState)
         this.setState({
@@ -578,6 +578,7 @@ class Checkout extends Component {
                     formLoaded={this.state.loaded}
                     paymentAmount={this.state.cartTotal}
                     cart={this.state.currentCart}
+                    changeState={this.changeState}
                   />
                   
                   <CheckoutConfirmation 
