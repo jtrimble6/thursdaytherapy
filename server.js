@@ -42,11 +42,11 @@ require('./src/routeHandler')(app)
 
 
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "PRODUCTION") {
 	app.use(express.static(path.join(__dirname, "client", "build")));
-  } else {
-	app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
-  }
+  } 
+
+app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
   
   
   
