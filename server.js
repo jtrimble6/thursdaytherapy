@@ -42,18 +42,20 @@ require('./src/routeHandler')(app)
 
 
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === "PRODUCTION") {
+if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "client", "build")));
+  } else {
+	app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
   }
   
-//   app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
+  
   
 
 app.use(express.static('client/build'));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes, productRoutes)
-app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
+// app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
 app.use(
 	session({
 	  secret: 'fraggle-rock',
@@ -131,21 +133,26 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 app.post("/upload/:productId", function (req, res, next) {
-	upload.single('file')(req, res, function (error) {
-	  if (error) {
-		console.log(`upload.single error: ${error}`);
-		return res.sendStatus(500);
-	  } else {
-		console.log('UPLOAD FILE: ', req.file)
-		gfs.files.update({'filename': req.file.filename}, 
-			{'$set': 
-				{
-				'productId': req.params.productId
-				},
-			})
+	try {
+		upload.single('file')(req, res, function (error) {
+			if (error) {
+			  console.log(`upload.single error: ${error}`);
+			  return res.sendStatus(500);
+			} else {
+			  console.log('UPLOAD FILE: ', req.file)
+			  gfs.files.update({'filename': req.file.filename}, 
+				  {'$set': 
+					  {
+					  'productId': req.params.productId
+					  },
+				  })
+			}
+			// code
+		  })
+	  } catch (error) {
+		return res.status(400).json({ error: error.toString() });
 	  }
-	  // code
-	})
+	
   });
 
   // @route GET /files

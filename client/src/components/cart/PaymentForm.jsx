@@ -402,6 +402,11 @@ export default class PaymentForm extends Component {
           lastName: this.props.lastName,
           email: this.props.email,
           phoneNumber: this.props.phoneNumber,
+          address1: this.props.address1,
+          address2: this.props.address2,
+          addressZipCode: this.props.addressZipCode,
+          addressCity: this.props.addressCity,
+          addressState: this.props.addressState,
           purchaseId: this.state.paymentId,
           purchaseOrderId: this.state.paymentOrderId,
           purchaseReceiptUrl: this.state.purchaseReceiptUrl,
@@ -416,7 +421,7 @@ export default class PaymentForm extends Component {
             // console.log('ORDER SUBMIT RESULT: ', res) 
             let orderDetails = orderData.purchaseDetails
             this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
-            this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl)
+            this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
           })
           .catch(error => {
             console.log(error)
@@ -487,8 +492,39 @@ export default class PaymentForm extends Component {
       })
     }
 
-  sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl) => {
+  sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
     // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
+    let cart = details
+      let that = this
+      // Format a string itemising cart by mapping elements to sub-strings and joining the result
+      const items = cart.map(function(element) {
+        let soapPriceInt = parseInt(element.soapPrice)
+        // console.log('SOAP PRICE INT: ', soapPriceInt)
+        let soapPriceFormatted = that.formatMoney(soapPriceInt)
+        // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+        // let soapTotalInt = parseInt(element.soapTotal)
+        // console.log('SOAP TOTAL INT: ', soapPriceInt)
+        let soapTotalFormatted = that.formatMoney(element.soapTotal)
+        // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+        return `
+        PRODUCT: ${ element.soapName }
+        PRICE: ${ soapPriceFormatted }
+        QUANTITY: ${ element.soapQty }
+        PRODUCT TOTAL: ${ soapTotalFormatted }
+        `;
+      }).join('\n');
+
+      // Calculate total price via reduction, and format to a number to 2dp
+      // const totalPrice = this.state.cart.reduce(function(sum, element) {
+      //   return sum + (element.soapQuantity * element.soapPrice);
+      // }, 0.0);
+
+      // Format body string with itemised cart, total price, etc
+      const orderDetails = `
+      ${ items }
+
+      Total Sale: ${that.formatMoney(this.props.paymentAmount)}
+      `;
     axios({
         method: "POST", 
         url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
@@ -498,7 +534,8 @@ export default class PaymentForm extends Component {
             lastName: lastName,
             email: email,  
             confirmationNumber: confirmationNumber,
-            confirmationUrl: confirmationUrl
+            confirmationUrl: confirmationUrl,
+            orderDetails: orderDetails
         }
     }).then((response)=> {
         console.log('EMAIL CONF RESPONSE: ', response)

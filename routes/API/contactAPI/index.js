@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
-// import NavbarHeaderImage from './emailImage.png'
+// var NavbarHeaderImage = require('./emailImage')
 
 require('dotenv').config();
 
@@ -29,15 +29,27 @@ router.post('/send', (req, res, next) => {
   var email = req.body.email
   var message = req.body.message
   var content = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
-  // var html = `Embedded image: <img src=${NavbarHeaderImage}/>`
+  var html = 
+      `<img src="cid:logo"/>\n
+      <p>Dear ${name},</p>\n
+      <p>Purchase Confirmation</p>\n
+      <p>Your full billing details will be forwarded to you as soon as your order has been packaged and shipping cost has been finalized...</p>\n
+      <p>If you have any questions, just respond to this email. We're happy to help.</p>\n
+      <p>Thanks for trusting us with your soap purchase! We look forward to having you as a customer for many years to come.\n
+      <p>All the best,</p>
+      <p>Thursday Therapy</p>`
 
   var mail = {
     from: name,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
-    // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
-    to: 'hkopciak@gmail.com',
+    to: 'trimbledevelops@gmail.com',
     subject: 'New Message from Contact Form',
-    text: content
+    attachments: [{
+      filename: 'emailImage.png',
+      path: __dirname + '/emailImage.png',
+      cid: 'logo' //my mistake was putting "cid:logo@cid" here! 
+    }],
+    html: html
   }
 
   transporter.sendMail(mail, (err, data) => {
@@ -68,7 +80,7 @@ router.post('/neworder', (req, res, next) => {
     from: firstName + ' ' + lastName,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
     // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
-    to: 'hkopciak@gmail.com',
+    to: 'trimbledevelops@gmail.com',
     subject: 'New Order Submitted!',
     text: content
   }
@@ -94,7 +106,18 @@ router.post('/orderconfirmation', (req, res, next) => {
   var email = req.body.email
   var confirmationNumber = req.body.confirmationNumber
   var confirmationUrl = req.body.confirmationUrl
+  var orderDetails = req.body.orderDetails
   var content = `Thank you ${firstName} ${lastName} for your order! Your order has been received!\nConfirmation #: ${confirmationNumber}\nView your receipt here: ${confirmationUrl}`
+  var html = 
+      `<img src="cid:logo"/>\n
+      <p>Dear ${firstName},</p>\n
+      <p>Purchase Confirmation</p>\n
+      <p>${orderDetails}</p>
+      <p>Your full billing details will be forwarded to you as soon as your order has been packaged and shipping cost has been finalized...</p>\n
+      <p>If you have any questions, just respond to this email. We're happy to help.</p>\n
+      <p>Thanks for trusting us with your soap purchase! We look forward to having you as a customer for many years to come.\n
+      <p>All the best,</p>
+      <p>Thursday Therapy</p>`
 
   var mail = {
     from: 'noreply.thursdaytherapy.com',
@@ -102,7 +125,7 @@ router.post('/orderconfirmation', (req, res, next) => {
     // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
     to: email,
     subject: 'Order Confirmation!',
-    text: content
+    html: html
   }
 
   transporter.sendMail(mail, (err, data) => {

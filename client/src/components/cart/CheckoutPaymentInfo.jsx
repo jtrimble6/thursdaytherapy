@@ -268,10 +268,14 @@ class CheckoutPaymentInfo extends Component {
                     firstName={this.props.firstName}
                     lastName={this.props.lastName}
                     email={this.props.email}
-                    address1={this.props.address1}
                     phoneNumber={this.props.phoneNumber}
                     emailError={this.props.emailError}
                     phoneError={this.props.phoneError}
+                    address1={this.props.address1}
+                    address2={this.props.address2}
+                    addressZipCode={this.props.addressZipCode}
+                    addressCity={this.props.addressCity}
+                    addressState={this.props.addressState}
                     // requestCardNonce={this.requestCardNonce}
                   />
                   // <Form.Group as={Col} controlId="formGridEmail">
