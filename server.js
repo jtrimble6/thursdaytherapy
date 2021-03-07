@@ -259,11 +259,64 @@ app.post('/process-payment', async (req, res) => {
 	}
   });
 
-app.get("*", (req, res) => {
+app.get("/", (req, res, next) => {
 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
 	// res.sendFile(path.join(__dirname, "client/build/index.html"));
 	// const index = path.join(__dirname, 'build', 'index.html');
   	// res.sendFile(index);
+  });
+
+app.get("/products", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/ourstory", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/howtobuy", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/contactus", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/shoppingcart", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/checkout", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/login", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/admin", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/inventory", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/purchases", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/tools", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("/signout", (req, res, next) => {
+	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+
+app.get("*", (req, res, next) => {
+	// console.error(error); // log an error
+	res.render('errorPage') // Renders an error page to user!
   });
 
 // Bootstrap server

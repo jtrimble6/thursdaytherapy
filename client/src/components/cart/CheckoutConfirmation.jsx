@@ -20,6 +20,7 @@ class CheckoutConfirmation extends Component {
         return (
             <div className='checkoutFormRow orderInfoStep'>
               <h2 className='orderInfoTitle'>Order Confirmation</h2>
+              <p>A confirmation email has been sent to the email provided (It may be sent to your spam folder).</p>
               
                 
             </div>

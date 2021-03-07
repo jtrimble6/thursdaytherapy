@@ -69,7 +69,9 @@ class NavbarHome extends Component {
                 {/* <Nav pullRight>
                     <Nav.Item>Settings</Nav.Item>
                 </Nav> */}
+                
                 </Navbar.Body>
+                <p className='disclaimer'>Sorry for the inconvenience while our website is under construction, if you have any questions send us a note <a href='/contactus'>here</a>.</p>
             </Navbar>
         )
     }

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
+// import NavbarHeaderImage from './emailImage.png'
 
 require('dotenv').config();
 
@@ -28,6 +29,7 @@ router.post('/send', (req, res, next) => {
   var email = req.body.email
   var message = req.body.message
   var content = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+  // var html = `Embedded image: <img src=${NavbarHeaderImage}/>`
 
   var mail = {
     from: name,
@@ -60,12 +62,13 @@ router.post('/neworder', (req, res, next) => {
   var phoneNumber = req.body.phoneNumber
   var details = req.body.details
   var content = `Congratulations! A new order has just been submitted!\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nOrder Details: ${details}`
+  
 
   var mail = {
     from: firstName + ' ' + lastName,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
     // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
-    to: 'trimbledevelops@gmail.com',
+    to: 'hkopciak@gmail.com',
     subject: 'New Order Submitted!',
     text: content
   }

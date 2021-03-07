@@ -18,6 +18,12 @@
     display: inline-block !important;
 }
 
+.disclaimer {
+    text-align: center;
+    margin-top: 2vw;
+    font-size: 1vw;
+}
+
 /* NAVBAR PAGES */
 #navbarHomeTabs {
     background-color: transparent;
