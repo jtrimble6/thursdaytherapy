@@ -29,27 +29,13 @@ router.post('/send', (req, res, next) => {
   var email = req.body.email
   var message = req.body.message
   var content = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
-  var html = 
-      `<img src="cid:logo"/>\n
-      <p>Dear ${name},</p>\n
-      <p>Purchase Confirmation</p>\n
-      <p>Your full billing details will be forwarded to you as soon as your order has been packaged and shipping cost has been finalized...</p>\n
-      <p>If you have any questions, just respond to this email. We're happy to help.</p>\n
-      <p>Thanks for trusting us with your soap purchase! We look forward to having you as a customer for many years to come.\n
-      <p>All the best,</p>
-      <p>Thursday Therapy</p>`
 
   var mail = {
     from: name,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
     to: 'trimbledevelops@gmail.com',
     subject: 'New Message from Contact Form',
-    attachments: [{
-      filename: 'emailImage.png',
-      path: __dirname + '/emailImage.png',
-      cid: 'logo' //my mistake was putting "cid:logo@cid" here! 
-    }],
-    html: html
+    text: content
   }
 
   transporter.sendMail(mail, (err, data) => {
