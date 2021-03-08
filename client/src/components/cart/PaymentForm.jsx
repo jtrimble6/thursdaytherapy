@@ -406,7 +406,7 @@ export default class PaymentForm extends Component {
           address2: this.props.address2,
           addressZipCode: this.props.addressZipCode,
           addressCity: this.props.addressCity,
-          addressState: this.props.addressState,
+          addressState: this.state.addressState,
           purchaseId: this.state.paymentId,
           purchaseOrderId: this.state.paymentOrderId,
           purchaseReceiptUrl: this.state.purchaseReceiptUrl,
@@ -431,21 +431,24 @@ export default class PaymentForm extends Component {
   sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
       // console.log(firstName, lastName, email, phoneNumber, details)
       let cart = details
-      // let that = this
+      let that = this
       // Format a string itemising cart by mapping elements to sub-strings and joining the result
       const items = cart.map(function(element) {
-        // let soapPriceInt = parseInt(element.soapPrice)
+        let soapPriceInt = parseInt(element.soapPrice)
         // console.log('SOAP PRICE INT: ', soapPriceInt)
-        // let soapPriceFormatted = that.formatMoney(soapPriceInt)
+        let soapPriceFormatted = that.formatMoney(soapPriceInt)
         // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
         // let soapTotalInt = parseInt(element.soapTotal)
         // console.log('SOAP TOTAL INT: ', soapPriceInt)
-        // let soapTotalFormatted = that.formatMoney(element.soapTotal)
+        let soapTotalFormatted = that.formatMoney(element.soapTotal)
         // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
         return `
-        (${ element.soapQty }) ${ element.soapName } 
+        PRODUCT: ${ element.soapName }
+        PRICE: ${ soapPriceFormatted }
+        QUANTITY: ${ element.soapQty }
+        PRODUCT TOTAL: ${ soapTotalFormatted }
         `;
-      }).join(' | ');
+      }).join('\n');
 
       // Calculate total price via reduction, and format to a number to 2dp
       // const totalPrice = this.state.cart.reduce(function(sum, element) {
@@ -455,6 +458,8 @@ export default class PaymentForm extends Component {
       // Format body string with itemised cart, total price, etc
       const body = `
       ${ items }
+
+      Total Sale: ${that.formatMoney(this.props.paymentAmount)}
       `;
 
       axios({
@@ -490,24 +495,22 @@ export default class PaymentForm extends Component {
   sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
     // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
     let cart = details
-      let that = this
+      // let that = this
       // Format a string itemising cart by mapping elements to sub-strings and joining the result
       const items = cart.map(function(element) {
-        let soapPriceInt = parseInt(element.soapPrice)
+        // let soapPriceInt = parseInt(element.soapPrice)
         // console.log('SOAP PRICE INT: ', soapPriceInt)
-        let soapPriceFormatted = that.formatMoney(soapPriceInt)
+        // let soapPriceFormatted = that.formatMoney(soapPriceInt)
         // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
         // let soapTotalInt = parseInt(element.soapTotal)
         // console.log('SOAP TOTAL INT: ', soapPriceInt)
-        let soapTotalFormatted = that.formatMoney(element.soapTotal)
+        // let soapTotalFormatted = that.formatMoney(element.soapTotal)
         // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
         return `
-        PRODUCT: ${ element.soapName }
-        PRICE: ${ soapPriceFormatted }
-        QUANTITY: ${ element.soapQty }
-        PRODUCT TOTAL: ${ soapTotalFormatted }
+        (${ element.soapQty }) ${ element.soapName }
+        
         `;
-      }).join('\n');
+      }).join(' | ');
 
       // Calculate total price via reduction, and format to a number to 2dp
       // const totalPrice = this.state.cart.reduce(function(sum, element) {
@@ -517,8 +520,6 @@ export default class PaymentForm extends Component {
       // Format body string with itemised cart, total price, etc
       const orderDetails = `
       ${ items }
-
-      Total Sale: ${that.formatMoney(this.props.paymentAmount)}
       `;
     axios({
         method: "POST", 
