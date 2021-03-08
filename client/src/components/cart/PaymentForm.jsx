@@ -406,7 +406,7 @@ export default class PaymentForm extends Component {
           address2: this.props.address2,
           addressZipCode: this.props.addressZipCode,
           addressCity: this.props.addressCity,
-          addressState: this.state.addressState,
+          addressState: this.props.addressState,
           purchaseId: this.state.paymentId,
           purchaseOrderId: this.state.paymentOrderId,
           purchaseReceiptUrl: this.state.purchaseReceiptUrl,
@@ -415,7 +415,7 @@ export default class PaymentForm extends Component {
           purchaseAmount: JSON.stringify(this.formatMoney(this.state.paymentAmount)),
           purchaseCard: this.state.paymentCardLastFour
       };
-      // console.log('ORDER DATA: ', orderData);
+      console.log('ORDER DATA: ', orderData);
       API.submitOrder(orderData)
         .then(res => {
             // console.log('ORDER SUBMIT RESULT: ', res) 
