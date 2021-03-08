@@ -21,7 +21,7 @@
 .disclaimer {
     text-align: center;
     margin-top: 2vw;
-    font-size: 2vw;
+    font-size: 1vw;
 }
 
 /* NAVBAR PAGES */
@@ -313,7 +313,9 @@ and (orientation: landscape) {
 and (min-device-width: 320px) 
 and (max-device-width: 568px)
 and (-webkit-min-device-pixel-ratio: 2) {
-
+    .disclaimer {
+        font-size: 2vw;
+    }
 }
 
 /* Portrait */
