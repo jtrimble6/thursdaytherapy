@@ -1,5 +1,7 @@
 // server.js
 const express = require('express');
+const http = require('http');
+const enforce = require('express-sslify');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -31,6 +33,9 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/files', express.static("files"));
 
+//force HTTPS
+app.use(enforce.HTTPS());
+// app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
 // configure body parser for AJAX requests
 app.use(express.urlencoded({ extended: true }));
@@ -327,6 +332,13 @@ app.get("*", (req, res, next) => {
   });
 
 // Bootstrap server
-app.listen(PORT, () => {
-	console.log(`Server now listening on port ${PORT}.`);
-});
+
+if (process.env.NODE_ENV === "test") {
+	app.listen(PORT, () => {
+		console.log(`Server now listening on port ${PORT}.`);
+	});
+  } else {
+	http.createServer(app).listen(PORT, function() {
+		console.log(`Express server listening on port ${PORT}`);
+	});
+  }
