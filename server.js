@@ -339,6 +339,6 @@ if (process.env.NODE_ENV === "test") {
 	});
   } else {
 	http.createServer(app).listen(PORT, function() {
-		console.log(`Express server listening on port ${PORT}`);
+		console.log(`Express server now listening on port ${PORT}`);
 	});
   }
