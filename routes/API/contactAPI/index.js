@@ -29,11 +29,11 @@ router.post('/send', (req, res, next) => {
   var email = req.body.email
   var message = req.body.message
   var content = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
-
+  let toEmail = process.env.NODE_ENV === 'production' ? 'hkopciak@gmail.com' : 'trimbledevelops@gmail.com' 
   var mail = {
     from: name,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
-    to: 'trimbledevelops@gmail.com',
+    to: toEmail,
     subject: 'New Message from Contact Form',
     text: content
   }
@@ -60,13 +60,13 @@ router.post('/neworder', (req, res, next) => {
   var phoneNumber = req.body.phoneNumber
   var details = req.body.details
   var content = `Congratulations! A new order has just been submitted!\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nOrder Details: ${details}`
-  
+  var toEmail = process.env.NODE_ENV === 'production' ? 'hkopciak@gmail.com' : 'trimbledevelops@gmail.com' 
 
   var mail = {
     from: firstName + ' ' + lastName,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
     // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
-    to: 'trimbledevelops@gmail.com',
+    to: toEmail,
     subject: 'New Order Submitted!',
     text: content
   }
@@ -97,8 +97,10 @@ router.post('/orderconfirmation', (req, res, next) => {
   var html = 
       `<img src="cid:logo"/>\n
       <p>Dear ${firstName},</p>\n
-      <p>Purchase Confirmation</p>\n
+      <p>Purchase Confirmation</p>\n 
+      <hr />
       <p>${orderDetails}</p>
+      <hr />
       <p>Your full billing details will be forwarded to you as soon as your order has been packaged and shipping cost has been finalized...</p>\n
       <p>If you have any questions, just respond to this email. We're happy to help.</p>\n
       <p>Thanks for trusting us with your soap purchase! We look forward to having you as a customer for many years to come.\n
