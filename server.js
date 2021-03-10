@@ -103,10 +103,10 @@ wwwRedirect = (req, res, next) => {
     next();
 };
 app.use(wwwRedirect);
-app.use(forceDomain({
-	hostname: 'thursday-therapy.com',
-	protocol: 'https'
-  }));
+// app.use(forceDomain({
+// 	hostname: 'thursday-therapy.com',
+// 	protocol: 'https'
+//   }));
 
 // Connect to the Mongo DB
 const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? "mongodb://localhost:27017/cart" : process.env.MONGO_URI, { useNewUrlParser: true });
