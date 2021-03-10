@@ -2,7 +2,7 @@
 const express = require('express');
 const http = require('http');
 // const enforce = require('express-sslify');
-import sslRedirect from 'heroku-ssl-redirect';
+const { forceDomain } = require('forcedomain');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -35,7 +35,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/files', express.static("files"));
 
 //force HTTPS and redirect WWW
-app.use(sslRedirect());
+app.use(forceDomain({
+	hostname: 'thursday-therapy.com',
+	protocol: 'https'
+  }));
 // app.use(enforce.HTTPS({ trustProtoHeader: true }))
 // wwwRedirect = (req, res, next) => {
 //     if (req.headers.host.slice(0, 4) === 'www.') {
