@@ -333,12 +333,12 @@ app.get("*", (req, res, next) => {
 
 // Bootstrap server
 
-if (process.env.NODE_ENV === "test") {
+if (process.env.NODE_ENV === "development") {
 	app.listen(PORT, () => {
 		console.log(`Server now listening on port ${PORT}.`);
 	});
   } else {
-	http.createServer(app).listen(PORT, function() {
+	app.listen(PORT, () => {
 		console.log(`Express server now listening on port ${PORT}`);
 	});
   }
