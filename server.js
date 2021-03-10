@@ -33,9 +33,16 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/files', express.static("files"));
 
-//force HTTPS
-// app.use(enforce.HTTPS());
+//force HTTPS and redirect WWW
 app.use(enforce.HTTPS({ trustProtoHeader: true }))
+function wwwRedirect(req, res, next) {
+    if (req.headers.host.slice(0, 4) === 'www.') {
+        var newHost = req.headers.host.slice(4);
+        return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+    }
+    next();
+};
+app.use(wwwRedirect);
 
 // configure body parser for AJAX requests
 app.use(express.urlencoded({ extended: true }));
@@ -330,14 +337,6 @@ app.get("*", (req, res, next) => {
 	// console.error(error); // log an error
 	res.render('errorPage') // Renders an error page to user!
   });
-
-app.get('/*', function(req, res, next) {
-	if (req.headers.host.match(/^www/) !== null ) {
-	  res.redirect('http://' + req.headers.host.replace(/^www\./, '') + req.url);
-	} else {
-	  next();     
-	}
-  })
 
 // Bootstrap server
 
