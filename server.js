@@ -34,21 +34,6 @@ app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/files', express.static("files"));
 
-//force HTTPS and redirect WWW
-app.use(forceDomain({
-	hostname: 'thursday-therapy.com',
-	protocol: 'https'
-  }));
-// app.use(enforce.HTTPS({ trustProtoHeader: true }))
-// wwwRedirect = (req, res, next) => {
-//     if (req.headers.host.slice(0, 4) === 'www.') {
-//         var newHost = req.headers.host.slice(4);
-//         return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
-//     }
-//     next();
-// };
-// app.use(wwwRedirect);
-
 // configure body parser for AJAX requests
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -106,6 +91,21 @@ app.use(function(req, res, next) { //allow cross origin requests
 	res.header("Access-Control-Allow-Credentials", true);
 	next();
   });
+
+//force HTTPS and redirect WWW
+app.use(forceDomain({
+	hostname: 'thursday-therapy.com',
+	protocol: 'https'
+  }));
+// app.use(enforce.HTTPS({ trustProtoHeader: true }))
+// wwwRedirect = (req, res, next) => {
+//     if (req.headers.host.slice(0, 4) === 'www.') {
+//         var newHost = req.headers.host.slice(4);
+//         return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+//     }
+//     next();
+// };
+// app.use(wwwRedirect);
 
 // Connect to the Mongo DB
 const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? "mongodb://localhost:27017/cart" : process.env.MONGO_URI, { useNewUrlParser: true });
