@@ -4,7 +4,7 @@ const http = require('http');
 // const enforce = require('express-sslify');
 // const { forceDomain } = require('forcedomain');
 // const sslRedirect = require('heroku-ssl-redirect');
-var secure = require('ssl-express-www');
+// var secure = require('ssl-express-www');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -52,8 +52,7 @@ if (process.env.NODE_ENV === "PRODUCTION") {
 
 app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
   
-  
-  
+// app.use(secure);
 
 app.use(express.static('client/build'));
 app.use(passport.initialize());
@@ -96,7 +95,20 @@ app.use(function(req, res, next) { //allow cross origin requests
 
 //force HTTPS and redirect WWW
 
-app.use(secure);
+app.use(function (req, res, next) {
+	if (req.header('x-forwarded-proto') === 'http') {
+	  res.redirect(301, 'https://' + req.hostname + req.url);
+	  return
+	}
+	next()
+  });
+
+// app.get('*',function(req,res,next){
+// 	if(req.headers['x-forwarded-proto']!='https')
+// 	  res.redirect('https://thursday-therapy.com'+req.url)
+// 	else
+// 	  next() /* Continue to other routes if we're not redirecting */
+//   })
 
 // app.use(enforce.HTTPS({ trustProtoHeader: true }))
 // app.use('*', (req, res, next) => {
