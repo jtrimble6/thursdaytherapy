@@ -102,7 +102,7 @@ app.use(enforce.HTTPS({ trustProtoHeader: true }))
 // 	res.redirect(`https://${req.hostname}${req.url}`);
 //   });
 
-app.use('*',function(req,res,next){
+app.get('*',function(req,res,next){
 	if(req.headers['x-forwarded-proto']!='https')
 	  res.redirect('https://thursday-therapy.com'+req.url)
 	else
@@ -353,10 +353,10 @@ app.get("/signout", (req, res, next) => {
 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 
-app.get("*", (req, res, next) => {
-	// console.error(error); // log an error
-	res.render('errorPage') // Renders an error page to user!
-  });
+// app.get("*", (req, res, next) => {
+// 	// console.error(error); // log an error
+// 	res.render('errorPage') // Renders an error page to user!
+//   });
 
 
 // Bootstrap server
