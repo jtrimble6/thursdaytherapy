@@ -34,8 +34,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/files', express.static("files"));
 
 //force HTTPS
-app.use(enforce.HTTPS());
-// app.use(enforce.HTTPS({ trustProtoHeader: true }))
+// app.use(enforce.HTTPS());
+app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
 // configure body parser for AJAX requests
 app.use(express.urlencoded({ extended: true }));
