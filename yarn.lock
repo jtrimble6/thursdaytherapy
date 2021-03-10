@@ -368,6 +368,11 @@ has-own-prop@^2.0.0:
   resolved "https://registry.yarnpkg.com/has-own-prop/-/has-own-prop-2.0.0.tgz#f0f95d58f65804f5d218db32563bb85b8e0417af"
   integrity sha512-Pq0h+hvsVm6dDEa8x82GnLSYHOzNDt7f0ddFa3FqcQlgzEiptPqL+XrOJNavjOzSYiYWIrgeVYYgGlLmnxwilQ==
 
+heroku-ssl-redirect@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/heroku-ssl-redirect/-/heroku-ssl-redirect-0.1.1.tgz#c55d60c0ec4473358ead66c75e8c7e99d9e8a689"
+  integrity sha512-kL/DvLR2J53iB3TXasQlo5JwF/j2L2zkala6Ddk9o6JwIPeDvbTGT9Aty8WElxcF389ObICCeyf2m7RKpCg5Bg==
+
 http-errors@1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.2.tgz#4f5029cf13239f31036e5b2e55292bcfbcc85c8f"

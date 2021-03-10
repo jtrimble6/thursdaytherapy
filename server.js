@@ -1,7 +1,8 @@
 // server.js
 const express = require('express');
 const http = require('http');
-const enforce = require('express-sslify');
+// const enforce = require('express-sslify');
+import sslRedirect from 'heroku-ssl-redirect';
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -34,15 +35,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/files', express.static("files"));
 
 //force HTTPS and redirect WWW
-app.use(enforce.HTTPS({ trustProtoHeader: true }))
-wwwRedirect = (req, res, next) => {
-    if (req.headers.host.slice(0, 4) === 'www.') {
-        var newHost = req.headers.host.slice(4);
-        return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
-    }
-    next();
-};
-app.use(wwwRedirect);
+app.use(sslRedirect());
+// app.use(enforce.HTTPS({ trustProtoHeader: true }))
+// wwwRedirect = (req, res, next) => {
+//     if (req.headers.host.slice(0, 4) === 'www.') {
+//         var newHost = req.headers.host.slice(4);
+//         return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+//     }
+//     next();
+// };
+// app.use(wwwRedirect);
 
 // configure body parser for AJAX requests
 app.use(express.urlencoded({ extended: true }));
