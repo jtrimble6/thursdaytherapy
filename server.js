@@ -95,6 +95,13 @@ app.use(function(req, res, next) { //allow cross origin requests
 //force HTTPS and redirect WWW
 
 app.use(enforce.HTTPS({ trustProtoHeader: true }))
+app.use('*', (req, res, next) => {
+	if (req.secure) {
+	  return next();
+	}
+	res.redirect(`https://${req.hostname}${req.url}`);
+  });
+
 // wwwRedirect = (req, res, next) => {
 //     if (req.headers.host.slice(0, 4) === 'www.') {
 //         var newHost = req.headers.host.slice(4);
@@ -344,12 +351,6 @@ app.get("*", (req, res, next) => {
 	res.render('errorPage') // Renders an error page to user!
   });
 
-app.use('*', (req, res, next) => {
-	if (req.secure) {
-	  return next();
-	}
-	res.redirect(`https://${req.hostname}${req.url}`);
-  });
 
 // Bootstrap server
 
