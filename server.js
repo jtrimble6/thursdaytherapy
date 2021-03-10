@@ -344,6 +344,13 @@ app.get("*", (req, res, next) => {
 	res.render('errorPage') // Renders an error page to user!
   });
 
+app.use('*', (req, res, next) => {
+	if (req.secure) {
+	  return next();
+	}
+	res.redirect(`https://${req.hostname}${req.url}`);
+  });
+
 // Bootstrap server
 
 if (process.env.NODE_ENV === "development") {
