@@ -1,9 +1,10 @@
 // server.js
 const express = require('express');
 const http = require('http');
-const enforce = require('express-sslify');
-const { forceDomain } = require('forcedomain');
-const sslRedirect = require('heroku-ssl-redirect');
+// const enforce = require('express-sslify');
+// const { forceDomain } = require('forcedomain');
+// const sslRedirect = require('heroku-ssl-redirect');
+var secure = require('ssl-express-www');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -28,8 +29,6 @@ const PORT = process.env.PORT || 5000;
 
 // Set the Access Token which is used to authorize to a merchant
 const accessToken = 'EAAAEE9dzaHn0vQMcZ1X7g7FoImy-euP0JKAdxWuA6W6xx0409Jxub1-OSpr1XEM';
-
-app.use(sslRedirect());
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -97,7 +96,9 @@ app.use(function(req, res, next) { //allow cross origin requests
 
 //force HTTPS and redirect WWW
 
-app.use(enforce.HTTPS({ trustProtoHeader: true }))
+app.use(secure);
+
+// app.use(enforce.HTTPS({ trustProtoHeader: true }))
 // app.use('*', (req, res, next) => {
 // 	if (req.secure) {
 // 	  return next();
