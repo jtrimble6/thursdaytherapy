@@ -95,12 +95,19 @@ app.use(function(req, res, next) { //allow cross origin requests
 //force HTTPS and redirect WWW
 
 app.use(enforce.HTTPS({ trustProtoHeader: true }))
-app.use('*', (req, res, next) => {
-	if (req.secure) {
-	  return next();
-	}
-	res.redirect(`https://${req.hostname}${req.url}`);
-  });
+// app.use('*', (req, res, next) => {
+// 	if (req.secure) {
+// 	  return next();
+// 	}
+// 	res.redirect(`https://${req.hostname}${req.url}`);
+//   });
+
+app.use('*',function(req,res,next){
+	if(req.headers['x-forwarded-proto']!='https')
+	  res.redirect('https://thursday-therapy.com'+req.url)
+	else
+	  next() /* Continue to other routes if we're not redirecting */
+  })
 
 // wwwRedirect = (req, res, next) => {
 //     if (req.headers.host.slice(0, 4) === 'www.') {
