@@ -331,6 +331,14 @@ app.get("*", (req, res, next) => {
 	res.render('errorPage') // Renders an error page to user!
   });
 
+app.get('/*', function(req, res, next) {
+	if (req.headers.host.match(/^www/) !== null ) {
+	  res.redirect('http://' + req.headers.host.replace(/^www\./, '') + req.url);
+	} else {
+	  next();     
+	}
+  })
+
 // Bootstrap server
 
 if (process.env.NODE_ENV === "development") {
