@@ -95,14 +95,14 @@ app.use(function(req, res, next) { //allow cross origin requests
 //force HTTPS and redirect WWW
 
 app.use(enforce.HTTPS({ trustProtoHeader: true }))
-wwwRedirect = (req, res, next) => {
-    if (req.headers.host.slice(0, 4) === 'www.') {
-        var newHost = req.headers.host.slice(4);
-        return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
-    }
-    next();
-};
-app.use(wwwRedirect);
+// wwwRedirect = (req, res, next) => {
+//     if (req.headers.host.slice(0, 4) === 'www.') {
+//         var newHost = req.headers.host.slice(4);
+//         return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+//     }
+//     next();
+// };
+// app.use(wwwRedirect);
 // app.use(forceDomain({
 // 	hostname: 'thursday-therapy.com',
 // 	protocol: 'https'
