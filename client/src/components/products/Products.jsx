@@ -280,7 +280,7 @@ class Products extends Component {
                   <Row className='show-grid'>
                     <Col className='productListingDetailsCol' xs={12} xsPush={12}>
                       {/* <h2>Soap Description:</h2> */}
-                      <p className='productsListingIngredients'>{ this.state.soapIngredients ? this.state.soapIngredients : 'No description listed' }</p>
+                      <textarea className='productsListingIngredients'>{ this.state.soapIngredients ? this.state.soapIngredients : 'No description listed' }</textarea>
                         <br />
                         <h5 className="productsListingPrice">
                           {this.formatMoney(this.state.soapPrice)} 
