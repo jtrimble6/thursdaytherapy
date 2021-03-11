@@ -137,7 +137,7 @@ app.use(function(req, res, next) { //allow cross origin requests
 //   }));
 
 // Connect to the Mongo DB
-const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? "mongodb://localhost:27017/cart" : process.env.MONGO_URI, { useNewUrlParser: true });
+const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? "mongodb://localhost:27017/cart" : process.env.MONGO_URI, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 var gfs;
 var connection = mongoose.connection;

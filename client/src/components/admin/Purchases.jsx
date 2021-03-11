@@ -65,7 +65,8 @@ class Purchases extends Component {
         this.handlePhoneChange = this.handlePhoneChange.bind(this)
         this.changeState = this.changeState.bind(this)
         this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
-        this.handleResendConfirmationEmail = this.handleResendConfirmationEmail.bind(this)
+        this.sendNewOrderEmail = this.sendNewOrderEmail.bind(this)
+        this.handleResendEmails = this.handleResendEmails.bind(this)
         this.formatMoney = this.formatMoney.bind(this)
     }
 
@@ -316,7 +317,7 @@ class Purchases extends Component {
         }
       }
 
-    handleResendConfirmationEmail = (e) => {
+    handleResendEmails = (e) => {
       let targetPurchase = e.target
         let purchases = this.state.currentPurchases
         // console.log('CURRENT PURCHASES: ', purchases)
@@ -353,6 +354,7 @@ class Purchases extends Component {
         };
         console.log('ORDER DATA: ', orderData);
         let orderDetails = orderData.purchaseDetails
+        this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
         this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
       }
 
@@ -387,7 +389,7 @@ class Purchases extends Component {
           `;
           axios({
               method: "POST", 
-              url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+              url: "https://thursday-therapy.com/orderconfirmation",
               // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
               data: {
                   firstName: firstName,   
@@ -414,6 +416,70 @@ class Purchases extends Component {
                 // })
               }
           })
+      }
+
+    sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
+        // console.log(firstName, lastName, email, phoneNumber, details)
+        let cart = details
+        let that = this
+        // Format a string itemising cart by mapping elements to sub-strings and joining the result
+        const items = cart.map(function(element) {
+          let soapPriceInt = parseInt(element.soapPrice)
+          // console.log('SOAP PRICE INT: ', soapPriceInt)
+          let soapPriceFormatted = that.formatMoney(soapPriceInt)
+          // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+          // let soapTotalInt = parseInt(element.soapTotal)
+          // console.log('SOAP TOTAL INT: ', soapPriceInt)
+          let soapTotalFormatted = that.formatMoney(element.soapTotal)
+          // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+          return `
+          PRODUCT: ${ element.soapName }
+          PRICE: ${ soapPriceFormatted }
+          QUANTITY: ${ element.soapQty }
+          PRODUCT TOTAL: ${ soapTotalFormatted }
+          `;
+        }).join('\n');
+  
+        // Calculate total price via reduction, and format to a number to 2dp
+        // const totalPrice = this.state.cart.reduce(function(sum, element) {
+        //   return sum + (element.soapQuantity * element.soapPrice);
+        // }, 0.0);
+  
+        // Format body string with itemised cart, total price, etc
+        const body = `
+        ${ items }
+  
+        Total Sale: ${that.formatMoney(this.props.paymentAmount)}
+        `;
+  
+        axios({
+            method: "POST", 
+            url: "https://thursday-therapy.com/neworder",
+            // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
+            data: {
+                firstName: firstName,   
+                lastName: lastName,
+                email: email,  
+                phoneNumber: phoneNumber,
+                details: body
+            }
+        }).then((response)=> {
+          console.log('EMAIL ORDER RESPONSE: ', response)
+            if (response.data.msg === 'success'){
+                // console.log("Message Sent."); 
+                Alert.success('Your order has been received!', 5000)
+                this.setState({
+                  contactSuccess: true
+                })
+                this.resetForm()
+            } else if(response.data.msg === 'fail'){
+              // console.log("Message failed to send.")
+              Alert.error('There was an error submitting your order. Please contact us to complete order.', 15000)
+              this.setState({
+                contactError: true
+              })
+            }
+        })
       }
 
     render() {            
@@ -1049,7 +1115,7 @@ class Purchases extends Component {
                           <span>
                               <Button className='purchaseEditButtons' onClick={this.openEditDetails} data-product={rowData._id}> Edit </Button> |{' '}
                               <Button className='purchaseEditButtons' onClick={this.openDetails} data-product={rowData._id}> Details </Button> |{' '}
-                              <Button className='purchaseEditButtons' onClick={this.handleResendConfirmationEmail} data-product={rowData._id}> Resend Emails </Button>
+                              <Button className='purchaseEditButtons' onClick={this.handleResendEmails} data-product={rowData._id}> Resend Emails </Button>
                           </span>
                           );
                       }}
