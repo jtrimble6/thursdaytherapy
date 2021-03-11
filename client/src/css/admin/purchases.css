@@ -12,6 +12,11 @@
     font-family: 'Didot';
 }
 
+.purchasesTable {
+    min-height: 50vh;
+    width: auto;
+}
+
 #adminPurchasesSearchBarForm {
     float: right;
     width: 30%;

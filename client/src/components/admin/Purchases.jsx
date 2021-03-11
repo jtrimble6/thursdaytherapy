@@ -1060,7 +1060,6 @@ class Purchases extends Component {
                   hidden={this.state.purchasesLoaded ? false : true}
                   className='purchasesTable'
                   // height={400}
-                  width={1000}
                   data={this.state.filteredPurchases}
                   renderEmpty={() => <div id='emptyPurchasesTitle'>No Matching Data</div>}
                   onRowClick={data => {
@@ -1105,7 +1104,7 @@ class Purchases extends Component {
                   </Column> */}
 
 
-                  <Column id='actionColumn' width={250} align="right">
+                  <Column id='actionColumn' width={250} fixed="right" align="right">
                       <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
                       <Cell>
                       {rowData => {
@@ -1124,12 +1123,7 @@ class Purchases extends Component {
                   </Column>
                 </Table>
             </div>
-            <div id='placeOrderRow' className="row">
-                {/* <h2 id='placeOrderTotal'>Grand Total: ${this.state.purchaseTotal}</h2> */}
-                {/* <Button id='placeOrderButton'>
-                    Secure Checkout <Icon icon='lock' />
-                </Button> */}
-            </div>   
+            
             </span>
           </div>
         )
