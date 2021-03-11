@@ -1038,7 +1038,7 @@ class Purchases extends Component {
                   </Column> */}
 
 
-                  <Column id='actionColumn' width={200} fixed="right" align="center">
+                  <Column id='actionColumn' width={200} align="right">
                       <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
                       <Cell>
                       {rowData => {
