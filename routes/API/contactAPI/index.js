@@ -88,12 +88,12 @@ router.post('/neworder', (req, res, next) => {
 
 router.post('/orderconfirmation', (req, res, next) => {
   var firstName = req.body.firstName
-  var lastName = req.body.lastName
+  // var lastName = req.body.lastName
   var email = req.body.email
-  var confirmationNumber = req.body.confirmationNumber
-  var confirmationUrl = req.body.confirmationUrl
+  // var confirmationNumber = req.body.confirmationNumber
+  // var confirmationUrl = req.body.confirmationUrl
   var orderDetails = req.body.orderDetails
-  var content = `Thank you ${firstName} ${lastName} for your order! Your order has been received!\nConfirmation #: ${confirmationNumber}\nView your receipt here: ${confirmationUrl}`
+  // var content = `Thank you ${firstName} ${lastName} for your order! Your order has been received!\nConfirmation #: ${confirmationNumber}\nView your receipt here: ${confirmationUrl}`
   var html = 
       `<img src="cid:logo"/>\n
       <p>Dear ${firstName},</p>\n
@@ -102,10 +102,11 @@ router.post('/orderconfirmation', (req, res, next) => {
       <p>${orderDetails}</p>
       <hr />
       <p>Your full billing details will be forwarded to you as soon as your order has been packaged and shipping cost has been finalized...</p>\n
-      <p>If you have any questions, just respond to this email. We're happy to help.</p>\n
+      <p>If you have any questions, just respond to sales@thursday-therapy.com. We're happy to help.</p>\n
       <p>Thanks for trusting us with your soap purchase! We look forward to having you as a customer for many years to come.\n
       <p>All the best,</p>
-      <p>Thursday Therapy</p>`
+      <p>Thursday Therapy</p>\n
+      <p>sales@thursday-therapy.com | www.thursday-therapy.com</p>`
 
   var mail = {
     from: 'noreply.thursdaytherapy.com',
