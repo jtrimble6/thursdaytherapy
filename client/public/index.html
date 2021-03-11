@@ -30,6 +30,14 @@
     <title>Thursday Therapy</title>
     <!-- link to the SqPaymentForm library -->
     <!-- <script src=”https://js.squareup.com/v2/paymentform”></script> -->
+    <script>
+      const domain1 = "www.thursday-therapy.com";
+      const domain2 = "thursday-therapy.com";
+      const host = window.location.host;
+      if ((domain === host || domain2 === host) && (window.location.protocol !== "https:")){
+        window.location.href = "https://thursday-therapy.com";
+      }
+      </script>
     <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform">
     </script>
 
