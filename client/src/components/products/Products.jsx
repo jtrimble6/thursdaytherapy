@@ -283,7 +283,7 @@ class Products extends Component {
                       <p className='productsListingIngredients'>{ this.state.soapIngredients ? this.state.soapIngredients : 'No description listed' }</p>
                         <br />
                         <h5 className="productsListingPrice">
-                          {this.state.soapPrice} 
+                          {this.formatMoney(this.state.soapPrice)} 
                           {/* /{" "} */}
                           {/* <del className="text-muted line-through">$225</del> */}
                         </h5>
