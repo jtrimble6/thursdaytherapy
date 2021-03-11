@@ -53,7 +53,7 @@ class Products extends Component {
               .then(res => {
                 // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
                 let productsData = res.data
-                // console.log('PRODUCTS: ', productsData)
+                console.log('PRODUCTS: ', productsData)
                 for (let p=0; p<productsData.length; p++) {
                   let product = productsData[p]
                   let productName = product.name
