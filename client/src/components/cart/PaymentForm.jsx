@@ -71,7 +71,7 @@ export default class PaymentForm extends Component {
     this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const config = {
       applicationId: "sandbox-sq0idb-r0EX7qY-zPL3PXaw54l0Hg",
       locationId: "L04H83ZZ2XDWC",
@@ -378,7 +378,7 @@ export default class PaymentForm extends Component {
     orderConfirmationNumber.innerHTML = 'Confirmation #: ' + this.state.paymentId
     
     let orderEmailConfirmation = document.createElement('p')
-    orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.props.email + '.'
+    orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.props.email + ' (It may be sent to your spam folder).'
     
     // APPEND ORDER CONFIRMATION DIV TO PAGE
     orderConfirmationElement.appendChild(orderConfirmationStatus)

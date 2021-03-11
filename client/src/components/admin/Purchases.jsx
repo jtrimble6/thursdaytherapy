@@ -697,10 +697,10 @@ class Purchases extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleEditDetails}>
-                            Edit
+                          Edit
                         </Button>
                         <Button onClick={this.handleUpdateOrder}>
-                            Submit Changes
+                          Submit Changes
                         </Button>
                         <Button onClick={this.closeEditDetails} appearance="subtle">
                           Close
@@ -1004,7 +1004,7 @@ class Purchases extends Component {
                         <Cell dataKey="purchaseDate" />
                     </Column>
 
-                    <Column width={100}>
+                    <Column width={250}>
                         <HeaderCell>Confirmation #</HeaderCell>
                         <Cell dataKey="confirmationNumber" />
                     </Column>
@@ -1020,7 +1020,7 @@ class Purchases extends Component {
                     </Column> */}
 
 
-                    <Column id='actionColumn' width={120} fixed="right" align="center">
+                    <Column id='actionColumn' width={200} fixed="right" align="center">
                         <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
                         <Cell>
                         {rowData => {

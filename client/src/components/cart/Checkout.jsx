@@ -458,53 +458,6 @@ class Checkout extends Component {
           Password: ${password}`)
       }
 
-    handleFormSubmit = () => {
-        
-        let dob = this.state.day + '/' + this.state.month + '/' + this.state.year
-        //console.log(this.state)
-        let userData = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            phoneNumber: this.state.phoneNumber,
-            username: this.state.email,
-            password: this.state.password,
-            height: this.state.height,
-            weight: this.state.weight,
-            gender: this.state.gender,
-            dob: dob,
-            medicalConditions: this.state.medicalConditions,
-            familyHistory: this.state.familyHistory,
-            personalHistory: this.state.personalHistory,
-            fitnessGoals: this.state.fitnessGoals ? this.state.fitnessGoals : 'n/a',
-            activityLevel: this.state.activityLevel ? this.state.activityLevel : 'n/a',
-            exercisePlan: this.state.exercisePlan ? this.state.exercisePlan : 'n/a',
-            gymEquipment: this.state.gymEquipment ? this.state.gymEquipment : 'n/a',
-            paymentComplete: this.state.paymentComplete,
-            paymentRefNumber: this.state.paymentComplete ? this.state.paymentRefNumber : 'n/a',
-            paymentTxnId: this.state.paymentComplete ? this.state.paymentTxnId : 'n/a',
-            paymentDate: this.state.paymentComplete ? this.state.paymentDate : 'n/a',
-            paymentCard: this.state.paymentComplete ? this.state.paymentCard : 'n/a',
-            waiverSigned: this.state.waiverSigned
-        };
-        // console.log(userData);
-
-        // SAVE NEW USER
-        // API.saveUser(userData)
-        //   .then(res => {
-        //       console.log(res)
-        //       if (res.data) {
-        //           console.log("Successful checkout!")
-        //           this.handleSendUserInfo(userData.firstName, userData.lastName, userData.email, userData.paymentComplete)
-        //       } else {
-        //           console.log("checkout error")
-        //       }
-        //   })
-        //   .catch(error => {
-        //       console.log(error)
-        //   })
-        
-      }
 
     handleSendUserInfo = (firstName, lastName, email, subscriptionStatus) => {
         // console.log(firstName, lastName, email, subscriptionStatus)
