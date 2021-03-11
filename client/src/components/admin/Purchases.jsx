@@ -1073,12 +1073,12 @@ class Purchases extends Component {
                       
                   </Column>
 
-                  <Column flexGrow={1}>
+                  <Column flexGrow={2}>
                       <HeaderCell>Last Name</HeaderCell>
                       <Cell dataKey="lastName" />
                   </Column>
 
-                  <Column flexGrow={1}>
+                  <Column flexGrow={3}>
                       <HeaderCell>Phone #</HeaderCell>
                       <Cell dataKey="phoneNumber" />
                   </Column>
@@ -1088,7 +1088,7 @@ class Purchases extends Component {
                       <Cell dataKey="purchaseDate" />
                   </Column>
 
-                  <Column flexGrow={2}>
+                  <Column flexGrow={4}>
                       <HeaderCell>Confirmation #</HeaderCell>
                       <Cell dataKey="confirmationNumber" />
                   </Column>
@@ -1104,7 +1104,7 @@ class Purchases extends Component {
                   </Column> */}
 
 
-                  <Column id='actionColumn' flex-grow={2}>
+                  <Column id='actionColumn' flex-grow={4}>
                       <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
                       <Cell>
                       {rowData => {
