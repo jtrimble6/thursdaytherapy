@@ -279,11 +279,11 @@ class Products extends Component {
                 <Grid fluid>
                   <Row className='show-grid'>
                     <Col className='productListingDetailsCol' xs={12} xsPush={12}>
-                      <h2>Soap Description:</h2>
+                      {/* <h2>Soap Description:</h2> */}
                       <p className='productsListingIngredients'>{ this.state.soapIngredients ? this.state.soapIngredients : 'No description listed' }</p>
                         <br />
                         <h5 className="productsListingPrice">
-                          {this.formatMoney(this.state.soapPrice)} 
+                          {this.state.soapPrice} 
                           {/* /{" "} */}
                           {/* <del className="text-muted line-through">$225</del> */}
                         </h5>
