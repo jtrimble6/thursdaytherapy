@@ -34,7 +34,10 @@
       const domain1 = "www.thursday-therapy.com";
       const domain2 = "thursday-therapy.com";
       const host = window.location.host;
-      if ((domain === host || domain2 === host) && (window.location.protocol !== "https:")){
+      if(domain1 === host) {
+        window.location.href = "https://thursday-therapy.com";
+      }
+      if ((domain2 === host) && (window.location.protocol !== "https:")){
         window.location.href = "https://thursday-therapy.com";
       }
       </script>
