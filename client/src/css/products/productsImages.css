@@ -83,6 +83,10 @@
     line-height: 1.6;
 }
 
+.productsListingPrice {
+    text-align: center;
+}
+
 .productsTitleRow {
     width: 100%;
     display: inline-block !important;

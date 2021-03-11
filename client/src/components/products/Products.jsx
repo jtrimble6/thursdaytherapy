@@ -282,14 +282,13 @@ class Products extends Component {
                       {/* <h2>Soap Description:</h2> */}
                       <textarea rows={10} className='productsListingIngredients'>{ this.state.soapIngredients ? this.state.soapIngredients : 'No description listed' }</textarea>
                         <br />
-                        <h5 className="productsListingPrice">
-                          {this.formatMoney(this.state.soapPrice)} 
-                          {/* /{" "} */}
-                          {/* <del className="text-muted line-through">$225</del> */}
-                        </h5>
+                        
                     </Col>
                     <Col className='productListingImageCol' xs={12} xsPull={12}>
-                    <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' onClick={this.open} className="productsImageModal" alt="peacockZ1" />
+                      <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' className="productsImageModal" alt="peacockZ1" />
+                      <h2 className="productsListingPrice">
+                        {this.formatMoney(this.state.soapPrice)} 
+                      </h2>
                     </Col>
                   </Row>
                 </Grid>
