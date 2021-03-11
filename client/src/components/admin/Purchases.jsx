@@ -1073,22 +1073,22 @@ class Purchases extends Component {
                       
                   </Column>
 
-                  <Column flexGrow={1} width={100}>
+                  <Column flexGrow={1}>
                       <HeaderCell>Last Name</HeaderCell>
                       <Cell dataKey="lastName" />
                   </Column>
 
-                  <Column flexGrow={1} width={150}>
+                  <Column flexGrow={1}>
                       <HeaderCell>Phone #</HeaderCell>
                       <Cell dataKey="phoneNumber" />
                   </Column>
 
-                  <Column flexGrow={1} width={150}>
+                  <Column flexGrow={1}>
                       <HeaderCell>Purchase Date</HeaderCell>
                       <Cell dataKey="purchaseDate" />
                   </Column>
 
-                  <Column flexGrow={2} width={250}>
+                  <Column flexGrow={2}>
                       <HeaderCell>Confirmation #</HeaderCell>
                       <Cell dataKey="confirmationNumber" />
                   </Column>
@@ -1104,7 +1104,7 @@ class Purchases extends Component {
                   </Column> */}
 
 
-                  <Column id='actionColumn' flex-grow={2} fixed="right">
+                  <Column id='actionColumn' flex-grow={2}>
                       <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
                       <Cell>
                       {rowData => {

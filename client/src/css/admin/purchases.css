@@ -62,7 +62,7 @@
 }
 
 .rs-table-body-row-wrapper {
-    height: 50vh;
+    height: 50vh !important;
     /* max-height: 50vw; */
 }
 
@@ -108,7 +108,7 @@
 }
 
 .purchaseDetailsTable {
-    overflow-x: scroll !important;
+    /* overflow-x: scroll !important; */
 }
 
 #purchaseDetailsTotal {
