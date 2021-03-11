@@ -521,35 +521,35 @@ export default class PaymentForm extends Component {
       const orderDetails = `
       ${ items }
       `;
-    axios({
-        method: "POST", 
-        url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
-        // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
-        data: {
-            firstName: firstName,   
-            lastName: lastName,
-            email: email,  
-            confirmationNumber: confirmationNumber,
-            confirmationUrl: confirmationUrl,
-            orderDetails: orderDetails
-        }
-    }).then((response)=> {
-        console.log('EMAIL CONF RESPONSE: ', response)
-        if (response.data.msg === 'success'){
-            // console.log("Message Sent."); 
-            Alert.success('Confirmation email sent!', 5000)
+      axios({
+          method: "POST", 
+          url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+          // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+          data: {
+              firstName: firstName,   
+              lastName: lastName,
+              email: email,  
+              confirmationNumber: confirmationNumber,
+              confirmationUrl: confirmationUrl,
+              orderDetails: orderDetails
+          }
+      }).then((response)=> {
+          console.log('EMAIL CONF RESPONSE: ', response)
+          if (response.data.msg === 'success'){
+              // console.log("Message Sent."); 
+              Alert.success('Confirmation email sent!', 5000)
+              // this.setState({
+              //   contactSuccess: true
+              // })
+              // this.resetForm()
+          } else if(response.data.msg === 'fail'){
+            // console.log("Message failed to send.")
+            Alert.error('There was an error sending order confirmation. Please contact us to resend.', 15000)
             // this.setState({
-            //   contactSuccess: true
+            //   contactError: true
             // })
-            // this.resetForm()
-        } else if(response.data.msg === 'fail'){
-          // console.log("Message failed to send.")
-          Alert.error('There was an error sending order confirmation. Please contact us to resend.', 15000)
-          // this.setState({
-          //   contactError: true
-          // })
-        }
-    })
+          }
+      })
     }
 
   handleConfirmationComplete = () => {

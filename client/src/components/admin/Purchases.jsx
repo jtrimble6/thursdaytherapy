@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap'
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import moment from 'moment'
+import axios from 'axios'
 import $ from 'jquery'
 import '../../css/admin/purchases.css'
 
@@ -47,6 +48,8 @@ class Purchases extends Component {
             purchaseDetails: [],
             purchaseTotal: '',
             purchasesLoaded: false,
+            purchaseReceiptUrl: '',
+            purchaseCardLastFour: ''
 
         }
 
@@ -61,6 +64,8 @@ class Purchases extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handlePhoneChange = this.handlePhoneChange.bind(this)
         this.changeState = this.changeState.bind(this)
+        this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
+        this.handleResendConfirmationEmail = this.handleResendConfirmationEmail.bind(this)
     }
 
     componentDidMount() {
@@ -193,6 +198,8 @@ class Purchases extends Component {
             purchaseDate: purchase[0].purchaseDate,
             purchaseDetails: purchaseDetails,
             purchaseTotal: purchaseTotal,
+            purchaseReceiptUrl: purchase[0].purchaseReceiptUrl,
+            purchaseCardLastFour: purchase[0].purchaseCardLastFour,
             showEditDetails: true
         })
       }
@@ -234,6 +241,8 @@ class Purchases extends Component {
             purchaseDate: purchase[0].purchaseDate,
             purchaseDetails: purchaseDetails,
             purchaseTotal: purchaseTotal,
+            purchaseReceiptUrl: purchase[0].purchaseReceiptUrl,
+            purchaseCardLastFour: purchase[0].purchaseCardLastFour,
             showDetails: true
         })
         
@@ -288,6 +297,106 @@ class Purchases extends Component {
         this.setState({
           addressState: addressState
         })
+      }
+
+    handleResendConfirmationEmail = (e) => {
+      let targetPurchase = e.target
+        let purchases = this.state.currentPurchases
+        // console.log('CURRENT PURCHASES: ', purchases)
+        let purchaseId = targetPurchase.dataset.product
+        let purchase = purchases.filter(purchase => {
+            return purchase._id === purchaseId
+        })
+        let purchaseDetails = purchase[0].purchaseDetails
+        let purchaseTotal = 0
+        for (let i=0; i<purchaseDetails.length; i++) {
+            let purchaseItem = purchaseDetails[i]
+            let purchaseItemTotal = purchaseItem.soapTotal
+            purchaseTotal = purchaseTotal + purchaseItemTotal
+        }
+       
+        // console.log('SUBMITTING ORDER')
+        let orderData = { 
+            purchaseId: purchase[0].purchaseId,
+            confirmationNumber: purchase[0].confirmationNumber,
+            firstName: purchase[0].firstName,
+            lastName: purchase[0].lastName,
+            phoneNumber: purchase[0].phoneNumber,
+            email: purchase[0].email,
+            address1: purchase[0].address1,
+            address2: purchase[0].address2,
+            addressZipCode: purchase[0].addressZipCode,
+            addressCity: purchase[0].addressCity,
+            addressState: purchase[0].addressState,
+            purchaseDate: purchase[0].purchaseDate,
+            purchaseDetails: purchaseDetails,
+            purchaseAmount: JSON.stringify(this.formatMoney(purchaseTotal)),
+            purchaseReceiptUrl: purchase[0].purchaseReceiptUrl,
+            purchaseCard: purchase[0].purchaseCardLastFour
+        };
+        console.log('ORDER DATA: ', orderData);
+        let orderDetails = orderData.purchaseDetails
+        this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
+      }
+
+    sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
+        // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
+        let cart = details
+          // let that = this
+          // Format a string itemising cart by mapping elements to sub-strings and joining the result
+          const items = cart.map(function(element) {
+            // let soapPriceInt = parseInt(element.soapPrice)
+            // console.log('SOAP PRICE INT: ', soapPriceInt)
+            // let soapPriceFormatted = that.formatMoney(soapPriceInt)
+            // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+            // let soapTotalInt = parseInt(element.soapTotal)
+            // console.log('SOAP TOTAL INT: ', soapPriceInt)
+            // let soapTotalFormatted = that.formatMoney(element.soapTotal)
+            // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+            return `
+            (${ element.soapQty }) ${ element.soapName }
+            
+            `;
+          }).join(' | ');
+    
+          // Calculate total price via reduction, and format to a number to 2dp
+          // const totalPrice = this.state.cart.reduce(function(sum, element) {
+          //   return sum + (element.soapQuantity * element.soapPrice);
+          // }, 0.0);
+    
+          // Format body string with itemised cart, total price, etc
+          const orderDetails = `
+          ${ items }
+          `;
+          axios({
+              method: "POST", 
+              url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+              data: {
+                  firstName: firstName,   
+                  lastName: lastName,
+                  email: email,  
+                  confirmationNumber: confirmationNumber,
+                  confirmationUrl: confirmationUrl,
+                  orderDetails: orderDetails
+              }
+          }).then((response)=> {
+              console.log('EMAIL CONF RESPONSE: ', response)
+              if (response.data.msg === 'success'){
+                  // console.log("Message Sent."); 
+                  Alert.success('Confirmation email sent!', 5000)
+                  // this.setState({
+                  //   contactSuccess: true
+                  // })
+                  // this.resetForm()
+              } else if(response.data.msg === 'fail'){
+                // console.log("Message failed to send.")
+                Alert.error('There was an error sending order confirmation. Please contact us to resend.', 15000)
+                // this.setState({
+                //   contactError: true
+                // })
+              }
+          })
       }
 
     render() {            
@@ -436,10 +545,11 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className='purchaseFormGroup' controlId="formGridShippingState">
-                          <Form.Label className='purchaseFormLabel' htmlFor="addressState">State</Form.Label>
+                          <Form.Label className='purchaseFormLabel' htmlFor="addressState">Address State</Form.Label>
                           <Dropdown 
                             disabled
                             name="addressState"
+                            id='addressState'
                             className='changeQtyDropdown' 
                             title={this.state.addressState} 
                             placement="leftStart"
@@ -706,7 +816,7 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className='purchaseFormGroup' controlId="formGridShippingState">
-                          <Form.Label className='purchaseFormLabel' htmlFor="addressState">State*</Form.Label>
+                          <Form.Label className='purchaseFormLabel' htmlFor="addressState">Address State</Form.Label>
                           <Dropdown 
                             disabled
                             name="addressState"
@@ -920,7 +1030,8 @@ class Purchases extends Component {
                             return (
                             <span>
                                 <Button className='purchaseEditButtons' onClick={this.openEditDetails} data-product={rowData._id}> Edit </Button> |{' '}
-                                <Button className='purchaseEditButtons' onClick={this.openDetails} data-product={rowData._id}> Details </Button>
+                                <Button className='purchaseEditButtons' onClick={this.openDetails} data-product={rowData._id}> Details </Button> |{' '}
+                                <Button className='purchaseEditButtons' onClick={this.handleResendConfirmationEmail} data-product={rowData._id}> Resend Confirmation Email </Button>
                             </span>
                             );
                         }}
