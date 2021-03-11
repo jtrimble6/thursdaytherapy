@@ -14,7 +14,7 @@
 
 .purchasesTable {
     min-height: 50vh;
-    width: auto;
+    max-width: 100%;
 }
 
 #adminPurchasesSearchBarForm {
@@ -62,6 +62,7 @@
 }
 
 .rs-table-body-row-wrapper {
+    height: 50vh;
     /* max-height: 50vw; */
 }
 

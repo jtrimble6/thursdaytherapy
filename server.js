@@ -143,7 +143,7 @@ var gfs;
 var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function() {
-  console.log("Connected!")
+  console.log("Connected to MongoDB!")
   var mongoDriver = mongoose.mongo;
   gfs = Grid(connection.db, mongoDriver);
   gfs.collection('uploads');
