@@ -37,7 +37,7 @@
 
 .productListingImageCol {
   margin: 0 auto !important;
-  margin-top: 3vw !important;
+  margin-top: 1vw !important;
 }
 
 /* PRODUCT MODALS */
@@ -78,15 +78,15 @@
 .productsListingIngredients {
   font-size: 1vw;
   font-weight: bolder;
-  text-align: left;
-  width: 90%;
-  resize: none;
   line-height: 1.6;
 }
 
 .productsListingIngredients {
-    border: none;
-    padding: 1vw;
+  border: none;
+  text-align: left;
+  resize: none;
+  padding: 1vw;
+  width: 90%;
 }
 
 .productsListingPrice {
