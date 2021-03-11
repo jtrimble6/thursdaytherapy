@@ -78,7 +78,9 @@
     font-size: 1vw;
     font-weight: bolder;
     text-align: left;
-    width: auto;
+    width: 90%;
+    resize: none;
+    line-height: 1.6;
 }
 
 .productsTitleRow {
