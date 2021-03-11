@@ -26,12 +26,14 @@ const productRoutes = require('./routes/API/productAPI')
 // const { cart } = require('./src/app/Cart/repository');
 const { Client, Environment, ApiError } = require('square');
 const PORT = process.env.PORT || 5000;
+require('dotenv').config();
+require('./src/routeHandler')(app)
 
 // Set the Access Token which is used to authorize to a merchant
 const accessToken = 'EAAAEE9dzaHn0vQMcZ1X7g7FoImy-euP0JKAdxWuA6W6xx0409Jxub1-OSpr1XEM';
 
 app.use(function (req, res, next) {
-	if (req.header('x-forwarded-proto') === 'http') {
+	if (req.header('x-forwarded-proto') === 'http' && process.env.NODE_ENV === 'production') {
 	  res.redirect(301, 'https://' + req.hostname + req.url);
 	  return
 	}
@@ -47,14 +49,6 @@ app.use('/files', express.static("files"));
 // configure body parser for AJAX requests
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-require('dotenv').config();
-// require("./config/mongoose.js")(app);
-require('./src/routeHandler')(app)
-
-
-
-
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "PRODUCTION") {

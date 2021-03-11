@@ -66,6 +66,7 @@ class Purchases extends Component {
         this.changeState = this.changeState.bind(this)
         this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
         this.handleResendConfirmationEmail = this.handleResendConfirmationEmail.bind(this)
+        this.formatMoney = this.formatMoney.bind(this)
     }
 
     componentDidMount() {
@@ -297,6 +298,22 @@ class Purchases extends Component {
         this.setState({
           addressState: addressState
         })
+      }
+
+    formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+        try {
+          decimalCount = Math.abs(decimalCount);
+          decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+      
+          const negativeSign = amount < 0 ? "-" : "";
+      
+          let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+          let j = (i.length > 3) ? i.length % 3 : 0;
+      
+          return '$' + negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+        } catch (e) {
+          // console.log(e)
+        }
       }
 
     handleResendConfirmationEmail = (e) => {
@@ -974,69 +991,70 @@ class Purchases extends Component {
 
                 {/* PURCHASES TABLE */}
                 <Table
-                    className='purchasesTable'
-                    // height={400}
-                    data={this.state.filteredPurchases}
-                    renderEmpty={() => <div id='emptyPurchasesTitle'>No Matching Data</div>}
-                    onRowClick={data => {
-                        // console.log('PURCHASES TABLE: ', data);
-                    }}
+                  hidden={this.state.purchasesLoaded ? false : true}
+                  className='purchasesTable'
+                  // height={400}
+                  data={this.state.filteredPurchases}
+                  renderEmpty={() => <div id='emptyPurchasesTitle'>No Matching Data</div>}
+                  onRowClick={data => {
+                      // console.log('PURCHASES TABLE: ', data);
+                  }}
 
-                    >
-                    <Column width={100} align="center">
-                        <HeaderCell>First Name</HeaderCell>
-                        <Cell dataKey="firstName" />
-                        
-                    </Column>
+                  >
+                  <Column width={100} align="center">
+                      <HeaderCell>First Name</HeaderCell>
+                      <Cell dataKey="firstName" />
+                      
+                  </Column>
 
-                    <Column width={100}>
-                        <HeaderCell>Last Name</HeaderCell>
-                        <Cell dataKey="lastName" />
-                    </Column>
+                  <Column width={100}>
+                      <HeaderCell>Last Name</HeaderCell>
+                      <Cell dataKey="lastName" />
+                  </Column>
 
-                    <Column width={150}>
-                        <HeaderCell>Phone #</HeaderCell>
-                        <Cell dataKey="phoneNumber" />
-                    </Column>
+                  <Column width={150}>
+                      <HeaderCell>Phone #</HeaderCell>
+                      <Cell dataKey="phoneNumber" />
+                  </Column>
 
-                    <Column width={150}>
-                        <HeaderCell>Purchase Date</HeaderCell>
-                        <Cell dataKey="purchaseDate" />
-                    </Column>
+                  <Column width={150}>
+                      <HeaderCell>Purchase Date</HeaderCell>
+                      <Cell dataKey="purchaseDate" />
+                  </Column>
 
-                    <Column width={250}>
-                        <HeaderCell>Confirmation #</HeaderCell>
-                        <Cell dataKey="confirmationNumber" />
-                    </Column>
+                  <Column width={250}>
+                      <HeaderCell>Confirmation #</HeaderCell>
+                      <Cell dataKey="confirmationNumber" />
+                  </Column>
 
-                    {/* <Column width={200}>
-                        <HeaderCell>Purchase Details</HeaderCell>
-                        <Cell>
-                        {rowData.purchaseDetails.map((purchase, i) => {
-                            return <p>{purchase}</p>
-                        })}
-                            
-                        </Cell>
-                    </Column> */}
+                  {/* <Column width={200}>
+                      <HeaderCell>Purchase Details</HeaderCell>
+                      <Cell>
+                      {rowData.purchaseDetails.map((purchase, i) => {
+                          return <p>{purchase}</p>
+                      })}
+                          
+                      </Cell>
+                  </Column> */}
 
 
-                    <Column id='actionColumn' width={200} fixed="right" align="center">
-                        <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
-                        <Cell>
-                        {rowData => {
-                            // function handleAction() {
-                            // alert(`id:${rowData.id}`);
-                            // }
-                            return (
-                            <span>
-                                <Button className='purchaseEditButtons' onClick={this.openEditDetails} data-product={rowData._id}> Edit </Button> |{' '}
-                                <Button className='purchaseEditButtons' onClick={this.openDetails} data-product={rowData._id}> Details </Button> |{' '}
-                                <Button className='purchaseEditButtons' onClick={this.handleResendConfirmationEmail} data-product={rowData._id}> Resend Confirmation Email </Button>
-                            </span>
-                            );
-                        }}
-                        </Cell>
-                    </Column>
+                  <Column id='actionColumn' width={200} fixed="right" align="center">
+                      <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
+                      <Cell>
+                      {rowData => {
+                          // function handleAction() {
+                          // alert(`id:${rowData.id}`);
+                          // }
+                          return (
+                          <span>
+                              <Button className='purchaseEditButtons' onClick={this.openEditDetails} data-product={rowData._id}> Edit </Button> |{' '}
+                              <Button className='purchaseEditButtons' onClick={this.openDetails} data-product={rowData._id}> Details </Button> |{' '}
+                              <Button className='purchaseEditButtons' onClick={this.handleResendConfirmationEmail} data-product={rowData._id}> Resend Emails </Button>
+                          </span>
+                          );
+                      }}
+                      </Cell>
+                  </Column>
                 </Table>
             </div>
             <div id='placeOrderRow' className="row">
