@@ -41,7 +41,7 @@ const styles = {
   },
   addressValidationButton: {
     width: '60%',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'gold',
     fontSize: '2vw',
     marginBottom: '2vw'
   }

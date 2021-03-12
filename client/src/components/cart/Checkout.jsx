@@ -487,7 +487,8 @@ class Checkout extends Component {
     confirmAddress = (e) => {
       e.preventDefault()
       this.setState({
-        showAddressModal: false
+        showAddressModal: false,
+        showNonceModal: true
       })
       let address = e.target
       console.log('SELECTED ADDRESS BUTTON: ', address)
