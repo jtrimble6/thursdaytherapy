@@ -120,6 +120,7 @@ class Checkout extends Component {
         this.openNonceModal = this.openNonceModal.bind(this)
         this.hideNonceModal = this.hideNonceModal.bind(this)
         this.confirmAddress = this.confirmAddress.bind(this)
+        this.renderCreditCardForm = this.renderCreditCardForm.bind(this)
         
     
     }
@@ -131,7 +132,139 @@ class Checkout extends Component {
         
       }
 
-    
+    renderCreditCardForm = () => {
+      const config = {
+        applicationId: "sandbox-sq0idb-r0EX7qY-zPL3PXaw54l0Hg",
+        locationId: "L04H83ZZ2XDWC",
+        inputClass: "sq-input",
+        autoBuild: false,
+        inputStyles: [
+          {
+            fontSize: "16px",
+            fontFamily: "Helvetica Neue",
+            padding: "16px",
+            color: "#373F4A",
+            backgroundColor: "transparent",
+            lineHeight: "1.15em",
+            placeholderColor: "#000",
+            _webkitFontSmoothing: "antialiased",
+            _mozOsxFontSmoothing: "grayscale"
+          }
+        ],
+        cardNumber: {
+          elementId: "sq-card-number",
+          placeholder: "• • • •  • • • •  • • • •  • • • •"
+        },
+        cvv: {
+          elementId: "sq-cvv",
+          placeholder: "CVV"
+        },
+        expirationDate: {
+          elementId: "sq-expiration-date",
+          placeholder: "MM/YY"
+        },
+        postalCode: {
+          elementId: "sq-postal-code",
+          placeholder: "Zip"
+        },
+        callbacks: {
+          methodsSupported: (methods) => {
+            if(methods.googlePay){
+              this.setState({
+                googlePay: methods.googlePay
+              })
+            }
+            if(methods.applePay){
+              this.setState({
+                applePay: methods.applePay
+              })
+            }
+            if(methods.masterpass){
+              this.setState({
+                masterpass: methods.masterpass
+              })
+            }
+            return;
+          },
+          createPaymentRequest: () => {
+            return {
+              requestShippingAddress: false,
+              requestBillingInfo: true,
+              currencyCode: "USD",
+              countryCode: "US",
+              total: {
+                label: "MERCHANT NAME",
+                amount: JSON.stringify(this.props.paymentAmount),
+                pending: false
+              },
+              lineItems: [
+                {
+                  label: "Subtotal",
+                  amount: JSON.stringify(this.props.paymentAmount),
+                  pending: false
+                }
+              ]
+            };
+          },
+          cardNonceResponseReceived: (errors, nonce, cardData) => {
+            if (errors) {
+              // Log errors from nonce generation to the Javascript console
+              Alert.error('There was an error processing payment. Please try again.', 10000)
+              document.getElementById('processingPaymentPayButton').hidden = false
+              document.getElementById('processingPaymentLoader').hidden = true
+              // console.log("Encountered errors:");
+              errors.forEach(function(error) {
+                // console.log("  " + error.message);
+              });
+              return;
+            }
+            this.handleNonceReceived(nonce)
+            this.setState({
+              nonce: nonce
+            })
+          },
+          unsupportedBrowserDetected: () => {
+          },
+          inputEventReceived: (inputEvent) => {
+            switch (inputEvent.eventType) {
+              case "focusClassAdded":
+                break;
+              case "focusClassRemoved":
+                break;
+              case "errorClassAdded":
+                document.getElementById("error").innerHTML =
+                  "Please fix card information errors before continuing.";
+                break;
+              case "errorClassRemoved":
+                document.getElementById("error").style.display = "none";
+                break;
+              case "cardBrandChanged":
+                if(inputEvent.cardBrand !== "unknown"){
+                  this.setState({
+                    cardBrand: inputEvent.cardBrand
+                  })
+                } else {
+                  this.setState({
+                    cardBrand: ""
+                  })
+                }
+                break;
+              case "postalCodeChanged":
+                break;
+              default:
+                break;
+            }
+          },
+          paymentFormLoaded: function() {
+            document.getElementById('name').style.display = "inline-flex";
+          }
+        }
+      };
+      this.SqPaymentForm = new window.paymentForm(config);
+      this.SqPaymentForm.build();
+      let creditCardForm = document.getElementById('creditCardForm')
+      creditCardForm.hidden = false
+      }
 
     scrollTop() {
         window.scrollTo({
@@ -509,12 +642,13 @@ class Checkout extends Component {
         this.setState({
           showAddressModal: false,
         })
+
+        this.renderCreditCardForm()
+
         let addressValidationButton = document.getElementById('addressValidationButtonDiv')
         addressValidationButton.hidden = true
         let paymentInfo = document.getElementById('paymentInfoFormRow')
         paymentInfo.hidden = true
-        let creditCardForm = document.getElementById('creditCardForm')
-        creditCardForm.hidden = false
 
         let address = e.target
         console.log('SELECTED ADDRESS BUTTON: ', address)
