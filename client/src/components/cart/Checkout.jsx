@@ -463,13 +463,6 @@ class Checkout extends Component {
     validateAddress = (e) => {
       e.preventDefault()
 
-      let cardholderName = document.getElementById('name')
-      let cardholderNameValue = cardholderName.value
-      // console.log('CARD HOLDER NAME: ', cardholderNameValue)
-      if (cardholderNameValue === '') {
-        Alert.warning('Please enter the cardholder full name.', 5000)
-        return;
-      }
       if (this.state.firstName === '') {
         Alert.warning('Please enter a first name.', 5000)
         return;
@@ -516,7 +509,7 @@ class Checkout extends Component {
         this.setState({
           showAddressModal: false,
         })
-        let addressValidationButton = document.getElementById('addressValidationButton')
+        let addressValidationButton = document.getElementById('addressValidationButtonDiv')
         addressValidationButton.hidden = true
         let paymentInfo = document.getElementById('paymentInfoFormRow')
         paymentInfo.hidden = true

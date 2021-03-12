@@ -220,7 +220,14 @@ export default class PaymentForm extends Component {
 
   requestCardNonce = (e) => {
       e.preventDefault()
-      this.props.hideNonceModal()
+      let cardholderName = document.getElementById('name')
+      let cardholderNameValue = cardholderName.value
+      // console.log('CARD HOLDER NAME: ', cardholderNameValue)
+      if (cardholderNameValue === '') {
+        Alert.warning('Please enter the cardholder full name.', 5000)
+        return;
+      }
+      // this.props.hideNonceModal()
       document.getElementById('processingPaymentPayButton').hidden = true
       document.getElementById('processingPaymentLoader').hidden = false
       this.SqPaymentForm.requestCardNonce();
@@ -671,14 +678,16 @@ export default class PaymentForm extends Component {
             </Button>
           </Modal.Footer>
         </Modal> */}
-        <Button 
-          style={styles.addressValidationButton}
-          onClick={this.props.validateAddress}
-          id='addressValidationButton'
-          hidden={false}
-        >
-          Continue to Payment
-        </Button>
+        <div id='addressValidationButtonDiv' hidden={false}>
+          <Button 
+            style={styles.addressValidationButton}
+            onClick={this.props.validateAddress}
+            id='addressValidationButton'
+          >
+            Continue to Payment
+          </Button>
+        </div>
+        
       </div>
     )
   }
