@@ -274,6 +274,9 @@ class CheckoutPaymentInfo extends Component {
                     addressCity={this.props.addressCity}
                     addressState={this.props.addressState}
                     validateAddress={this.props.validateAddress}
+                    showAddressModal={this.props.showAddressModal}
+                    openAddressModal={this.props.openAddressModal}
+                    hideAddressModal={this.props.hideAddressModal}
                     // requestCardNonce={this.requestCardNonce}
                   />
                   // <Form.Group as={Col} controlId="formGridEmail">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import API from '../../utils/API'
 import axios from 'axios'
-import { Loader, Alert } from 'rsuite';
+import { Loader, Alert, Modal, Button } from 'rsuite';
 
 const styles = {
   name: {
@@ -584,6 +584,31 @@ export default class PaymentForm extends Component {
     return (
       <div id='paymentInfoSquareForm' className="container">
         {this.renderRedirect()}
+        {/* ADD INVENTORY MODAL */}
+        <Modal show={this.props.showAddressModal} onHide={this.props.hideAddressModal}>
+          <Modal.Header>
+            <Modal.Title>Address Verification</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h2>Address Entered: </h2>
+            <p>{this.props.address1} {this.props.address2} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
+            <hr />
+            {
+              this.props.addressSuggestions.length ? this.props.addressSuggestions.map(suggestion => {
+                return <p>{suggestion}</p>
+              }) 
+              : <p>No suggestions found.</p>
+            }
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.openAddressModal}>
+              Confirm Address
+            </Button>
+            <Button onClick={this.props.hideAddressModal}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <div id="form-container">
           {/* <div id="sq-walletbox">
               <button 

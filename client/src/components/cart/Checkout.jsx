@@ -76,6 +76,8 @@ class Checkout extends Component {
           paymentTxnId: '',
           paymentDate: '',
           paymentCard: '',
+          addressSuggestions: [],
+          showAddressModal: false,
           emailError: false,
           passwordError: false,
           phoneError: false,
@@ -110,6 +112,8 @@ class Checkout extends Component {
         this.checkEmail = this.checkEmail.bind(this)
         this.validateAddress = this.validateAddress.bind(this)
         this.handleSendUserInfo = this.handleSendUserInfo.bind(this)
+        this.openAddressModal = this.showAddressModal.bind(this)
+        this.hideAddressModal = this.hideAddressModal.bind(this)
         
     
     }
@@ -462,12 +466,31 @@ class Checkout extends Component {
         })
         .then(res => {
           console.log('GOT A RESPONSE ADDRESS VERF: ', res)
+          let lookup = res.data.lookups[0]
+          let lookupResult = lookup.result
+          console.log('LOOKUP RESULT: ', lookupResult)
+          this.setState({
+            addressSuggestions: lookupResult
+          })
         })
         .catch(err => {
           console.log('GOT AN ERROR ADDRESS VERF: ', err)
         })
       
-    }
+      }
+
+    openAddressModal = (e) => {
+        // console.log(e.target)
+        this.setState({ 
+            showAddressModal: true
+        });
+      }
+
+    hideAddressModal() {
+        this.setState({ 
+            showAddressModal: false
+          });
+      }
 
     handleSubmit = (event) => {
         event.preventDefault()
@@ -552,6 +575,10 @@ class Checkout extends Component {
                     cart={this.state.currentCart}
                     changeState={this.changeState}
                     validateAddress={this.validateAddress}
+                    showAddressModal={this.state.showAddressModal}
+                    openAddressModal={this.openAddressModal}
+                    hideAddressModal={this.hideAddressModal}
+                    addressSuggestions={this.state.addressSuggestions}
                   />
                   
                   <CheckoutConfirmation 
