@@ -112,7 +112,7 @@ class Checkout extends Component {
         this.checkEmail = this.checkEmail.bind(this)
         this.validateAddress = this.validateAddress.bind(this)
         this.handleSendUserInfo = this.handleSendUserInfo.bind(this)
-        this.openAddressModal = this.showAddressModal.bind(this)
+        this.openAddressModal = this.openAddressModal.bind(this)
         this.hideAddressModal = this.hideAddressModal.bind(this)
         
     
