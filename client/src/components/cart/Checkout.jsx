@@ -108,6 +108,7 @@ class Checkout extends Component {
         this.scrollTop = this.scrollTop.bind(this)
         this.validStepOne = this.validStepOne.bind(this)
         this.checkEmail = this.checkEmail.bind(this)
+        this.validateAddress = this.validateAddress.bind(this)
         this.handleSendUserInfo = this.handleSendUserInfo.bind(this)
         
     
@@ -449,6 +450,22 @@ class Checkout extends Component {
 
       }
 
+    validateAddress = (e) => {
+      e.preventDefault()
+      let address1 = this.state.address1
+      let address2 = this.state.address2
+      let addressCity = this.state.addressCity
+      let addressState = this.state.addressState
+      let addressZipCode = this.state.addressZipCode
+      
+      axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/addressverf/" : "https://thursday-therapy.com.com/addressverf/" + address1 + "/" + address2 + "/" + addressCity + "/" + addressState + "/" + addressZipCode, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+      
+    }
+
     handleSubmit = (event) => {
         event.preventDefault()
         const { email, username, password } = this.state
@@ -457,7 +474,6 @@ class Checkout extends Component {
           Username: ${username} \n
           Password: ${password}`)
       }
-
 
     handleSendUserInfo = (firstName, lastName, email, subscriptionStatus) => {
         // console.log(firstName, lastName, email, subscriptionStatus)
@@ -532,6 +548,7 @@ class Checkout extends Component {
                     paymentAmount={this.state.cartTotal}
                     cart={this.state.currentCart}
                     changeState={this.changeState}
+                    validateAddress={this.validateAddress}
                   />
                   
                   <CheckoutConfirmation 

@@ -579,7 +579,7 @@ export default class PaymentForm extends Component {
       <div id='paymentInfoSquareForm' className="container">
         {this.renderRedirect()}
         <div id="form-container">
-          <div id="sq-walletbox">
+          {/* <div id="sq-walletbox">
               <button 
                 style={{display: (this.state.applePay) ? 'inherit': 'none'}}
                 className="wallet-button"
@@ -602,7 +602,7 @@ export default class PaymentForm extends Component {
               >
               </button>
             <hr />
-          </div>
+          </div> */}
 
           <div id="sq-ccbox">
             <p className='sqPaymentCardInfo'>
@@ -625,6 +625,7 @@ export default class PaymentForm extends Component {
               <div id="sq-postal-code"></div>
             </div>
           </div>
+          <button onClick={this.props.validateAddress}>Validate Address</button>
           <button 
             style={styles.submitButton}
             className="button-credit-card"

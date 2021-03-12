@@ -29,6 +29,7 @@
   margin: 0 auto !important;
   height: auto;
   cursor: pointer;
+  border-radius: 6px;
 }
 
 .productListingDetailsCol {
@@ -86,6 +87,8 @@
   text-align: left;
   resize: none;
   padding: 1vw;
+  padding-right: 2vw;
+  padding-left: 0;
   width: 90%;
 }
 

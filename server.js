@@ -1,10 +1,9 @@
 // server.js
 const express = require('express');
 const http = require('http');
-// const enforce = require('express-sslify');
-// const { forceDomain } = require('forcedomain');
-// const sslRedirect = require('heroku-ssl-redirect');
-// var secure = require('ssl-express-www');
+const SmartyStreetsSDK = require("smartystreets-javascript-sdk");
+const SmartyStreetsCore = SmartyStreetsSDK.core;
+const Lookup = SmartyStreetsSDK.usStreet.Lookup;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -311,6 +310,42 @@ app.post('/process-payment', async (req, res) => {
 	  });
 	}
   });
+
+// HANDLE ADDRESS VERIFICATION
+
+app.post('/addressverf/:address1/:address2/:addressCity/:addressState/:addressZipCode', async(req, res) => {
+	function handleSuccess(response) {
+		console.log(response)
+		res.send(response)
+	}
+	
+	function handleError(response) {
+		console.log(response);
+		res.send(response)
+	}
+	// for client-side requests (browser/mobile), use this code:
+	let key = process.env.SMARTY_WEBSITE_KEY;
+	const credentials = new SmartyStreetsCore.SharedCredentials(key);
+	let client = SmartyStreetsCore.buildClient.usStreet(credentials);
+	// .withLicenses(["us-rooftop-geo-cloud"]);
+
+	let lookup1 = new Lookup();
+	lookup1.street = req.params.address1;
+	lookup1.secondary = req.params.address2;
+	lookup1.city = req.params.addressCity;
+	lookup1.state = req.params.addressState;
+	lookup1.zipCode = req.params.addressZipCode;
+	lookup1.maxCandidates = 3;
+	lookup1.match = "invalid"; // "invalid" is the most permissive match,
+							// this will always return at least one result even if the address is invalid.
+							// Refer to the documentation for additional MatchStrategy options.
+
+	client.send(lookup1)
+		.then(handleSuccess)
+		.catch(handleError);
+
+})
+
 
 app.get("/", (req, res, next) => {
 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));

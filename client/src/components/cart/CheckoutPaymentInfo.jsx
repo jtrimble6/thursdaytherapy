@@ -276,6 +276,7 @@ class CheckoutPaymentInfo extends Component {
                     addressZipCode={this.props.addressZipCode}
                     addressCity={this.props.addressCity}
                     addressState={this.props.addressState}
+                    validateAddress={this.props.validateAddress}
                     // requestCardNonce={this.requestCardNonce}
                   />
                   // <Form.Group as={Col} controlId="formGridEmail">

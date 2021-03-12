@@ -287,7 +287,7 @@ class Products extends Component {
                     <Col className='productListingImageCol' xs={12} xsPull={12}>
                       <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' className="productsImageModal" alt="peacockZ1" />
                       <h2 className="productsListingPrice">
-                        {this.formatMoney(this.state.soapPrice)} 
+                        {this.formatMoney(this.state.soapPrice)}
                       </h2>
                     </Col>
                   </Row>
