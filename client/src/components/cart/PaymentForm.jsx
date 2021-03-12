@@ -96,15 +96,6 @@ export default class PaymentForm extends Component {
           _mozOsxFontSmoothing: "grayscale"
         }
       ],
-      // applePay: {
-      //   elementId: 'sq-apple-pay'
-      // },
-      // masterpass: {
-      //   elementId: 'sq-masterpass'
-      // },
-      // googlePay: {
-      //   elementId: 'sq-google-pay'
-      // },
       cardNumber: {
         elementId: "sq-card-number",
         placeholder: "• • • •  • • • •  • • • •  • • • •"
@@ -369,15 +360,20 @@ export default class PaymentForm extends Component {
     orderConfirmationNumber.innerHTML = 'Confirmation #: ' + this.state.paymentId
     
     let orderEmailConfirmation = document.createElement('p')
-    orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.props.email + ' (It may be sent to your spam folder).'
+    orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.props.email 
     
+    let orderEmailDisclaimer = document.createElement('p')
+    orderEmailDisclaimer.innerHTML = '(Email may be sent to your spam folder).'
+
     // APPEND ORDER CONFIRMATION DIV TO PAGE
     orderConfirmationElement.appendChild(orderConfirmationStatus)
     orderConfirmationElement.appendChild(orderCard)
     orderConfirmationElement.appendChild(orderAmount)
     orderConfirmationElement.appendChild(orderConfirmationNumber)
     orderConfirmationElement.appendChild(orderEmailConfirmation)
+    orderConfirmationElement.appendChild(orderEmailDisclaimer)
     orderConfirmationForm.appendChild(orderConfirmationElement)
+
 
     // EMPTY LOCAL STORAGE
     localStorage.clear()
@@ -610,10 +606,10 @@ export default class PaymentForm extends Component {
                 />
               <div id="cc-field-wrapper">
                 <input type="hidden" id="card-nonce" name="nonce" />
-                <div id="sq-card-number" style={styles.center} placeholder="• • • •  • • • •  • • • •  • • • •"></div>
-                <div id="sq-expiration-date" style={styles.center} placeholder="MM/YY"></div>
-                <div id="sq-cvv" style={styles.center} placeholder="CVV"></div>
-                <div id="sq-postal-code" placeholder="ZIP"></div>
+                <div id="sq-card-number" style={styles.center}>• • • •  • • • •  • • • •  • • • •</div>
+                <div id="sq-expiration-date" style={styles.center}>MM/YY</div>
+                <div id="sq-cvv" style={styles.center}>CVV</div>
+                <div id="sq-postal-code">ZIP</div>
               </div>
             </div>
           </div>
