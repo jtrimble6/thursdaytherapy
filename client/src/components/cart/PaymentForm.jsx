@@ -612,7 +612,44 @@ export default class PaymentForm extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-        <Modal show={this.props.showNonceModal} onHide={this.props.hideNonceModal}>
+        <div id='creditCardForm' hidden={true}>
+          <div id="form-container">
+            <div id="sq-ccbox">
+              <p className='sqPaymentCardInfo'>
+                <span style={styles.leftCenter}>Enter Card Info Below </span>
+                <span style={styles.blockRight}>
+                  {this.state.cardBrand.toUpperCase()}
+                </span>
+              </p>
+                <input
+                  id="name"
+                  style={styles.name}
+                  type="text"
+                  placeholder="Name on Card"
+                />
+              <div id="cc-field-wrapper">
+                <input type="hidden" id="card-nonce" name="nonce" />
+                <div id="sq-card-number" style={styles.center}></div>
+                <div id="sq-expiration-date" style={styles.center}></div>
+                <div id="sq-cvv" style={styles.center}></div>
+                <div id="sq-postal-code"></div>
+              </div>
+            </div>
+          </div>
+          <p style={styles.center} id="error"></p>
+          <Button 
+            style={styles.submitButton}
+            className="button-credit-card"
+            onClick={this.requestCardNonce}
+            id='paymentFormSubmitButton'
+          >
+            <span hidden={false} id="processingPaymentPayButton">Pay</span>
+            <span id="processingPaymentLoader" hidden={true}>
+              <Loader center speed="slow" size="xs" content="Processing..." />
+            </span>
+          </Button>
+        </div>
+        {/* <Modal show={this.props.showNonceModal} onHide={this.props.hideNonceModal}>
           <Modal.Header>
             <Modal.Title>Payment Information</Modal.Title>
           </Modal.Header>
@@ -659,10 +696,12 @@ export default class PaymentForm extends Component {
               Cancel
             </Button>
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
         <Button 
           style={styles.addressValidationButton}
           onClick={this.props.validateAddress}
+          id='addressValidationButton'
+          hidden={false}
         >
           Continue to Payment
         </Button>

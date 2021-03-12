@@ -488,8 +488,14 @@ class Checkout extends Component {
       e.preventDefault()
       this.setState({
         showAddressModal: false,
-        showNonceModal: true
       })
+      let addressValidationButton = document.getElementById('addressValidationButton')
+      addressValidationButton.hidden = true
+      let paymentInfo = document.getElementById('paymentInfoFormRow')
+      paymentInfo.hidden = true
+      let creditCardForm = document.getElementById('creditCardForm')
+      creditCardForm.hidden = false
+
       let address = e.target
       console.log('SELECTED ADDRESS BUTTON: ', address)
       let addressLine1 = address.dataset.addressline1

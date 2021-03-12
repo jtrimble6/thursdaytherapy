@@ -92,7 +92,7 @@ class CheckoutPaymentInfo extends Component {
               
             </div>
             <div hidden={false} id='paymentInfoForm' className='checkoutFormRow paymentInfoStep'>
-              <Form.Row id='paymentInfoFormRow'>
+              <Form.Row hidden={false} id='paymentInfoFormRow'>
                   <p className='sqPaymentCardInfo'>
                     <span style={styles.leftCenter}>Enter Contact Info Below </span>
                   </p>
