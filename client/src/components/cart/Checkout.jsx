@@ -490,8 +490,9 @@ class Checkout extends Component {
         showAddressModal: false
       })
       let address = e.target
-      let addressLine1 = address.dataset.addressLine1
-      let addressLine2 = address.dataset.addressLine2
+      console.log('SELECTED ADDRESS BUTTON: ', address)
+      let addressLine1 = address.dataset.addressline1
+      let addressLine2 = address.dataset.addressline2
       console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
     }
 

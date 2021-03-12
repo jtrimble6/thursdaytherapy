@@ -595,16 +595,16 @@ export default class PaymentForm extends Component {
             <h2>Address Entered: </h2><br />
             <p>{this.props.address1} {this.props.address2} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
             <hr />
-            <h2>Address Suggestions: </h2>
+            <h2>Address Suggestions: </h2><br />
             {
               this.props.addressSuggestions.length ? this.props.addressSuggestions.map(suggestion => {
-                return <span><p>{suggestion.deliveryLine1} {suggestion.lastLine}</p> <Button onClick={this.props.confirmAddress} data-addressLine1={suggestion.deliveryLine1} data-addressLine2={suggestion.lastLine}>Select address</Button></span>
+                return <span>{suggestion.deliveryLine1} {suggestion.lastLine} <Button onClick={this.props.confirmAddress} data-addressline1={suggestion.deliveryLine1} data-addressline2={suggestion.lastLine}>Select address</Button></span>
               }) 
               : <p>No suggestions found.</p>
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.props.confirmAddress} data-addressLine1={this.props.address1 + ' ' + this.props.address2} data-addressLine2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
+            <Button onClick={this.props.confirmAddress} data-addressline1={this.props.address1 + ' ' + this.props.address2} data-addressline2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
               Confirm Address
             </Button>
             <Button onClick={this.props.hideAddressModal}>
