@@ -78,6 +78,7 @@ class Checkout extends Component {
           paymentCard: '',
           addressSuggestions: [],
           showAddressModal: false,
+          showNonceModal: false,
           emailError: false,
           passwordError: false,
           phoneError: false,
@@ -114,6 +115,9 @@ class Checkout extends Component {
         this.handleSendUserInfo = this.handleSendUserInfo.bind(this)
         this.openAddressModal = this.openAddressModal.bind(this)
         this.hideAddressModal = this.hideAddressModal.bind(this)
+        this.openNonceModal = this.openNonceModal.bind(this)
+        this.hideNonceModal = this.hideNonceModal.bind(this)
+        this.confirmAddress = this.confirmAddress.bind(this)
         
     
     }
@@ -480,6 +484,17 @@ class Checkout extends Component {
       
       }
 
+    confirmAddress = (e) => {
+      e.preventDefault()
+      this.setState({
+        showAddressModal: false
+      })
+      let address = e.target
+      let addressLine1 = address.dataset.addressLine1
+      let addressLine2 = address.dataset.addressLine2
+      console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
+    }
+
     openAddressModal = (e) => {
         // console.log(e.target)
         this.setState({ 
@@ -490,6 +505,19 @@ class Checkout extends Component {
     hideAddressModal = (e) => {
         this.setState({ 
             showAddressModal: false
+          });
+      }
+
+    openNonceModal = (e) => {
+        // console.log(e.target)
+        this.setState({ 
+            showNonceModal: true
+        });
+      }
+
+    hideNonceModal = (e) => {
+        this.setState({ 
+            showNonceModal: false
           });
       }
 
@@ -579,7 +607,11 @@ class Checkout extends Component {
                     showAddressModal={this.state.showAddressModal}
                     openAddressModal={this.openAddressModal}
                     hideAddressModal={this.hideAddressModal}
+                    showNonceModal={this.state.showNonceModal}
+                    openNonceModal={this.openNonceModal}
+                    hideNonceModal={this.hideNonceModal}
                     addressSuggestions={this.state.addressSuggestions}
+                    confirmAddress={this.confirmAddress}
                   />
                   
                   <CheckoutConfirmation 

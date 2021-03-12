@@ -220,6 +220,7 @@ export default class PaymentForm extends Component {
 
   requestCardNonce = (e) => {
       e.preventDefault()
+      this.props.hideNonceModal()
       let cardholderName = document.getElementById('name')
       let cardholderNameValue = cardholderName.value
       // console.log('CARD HOLDER NAME: ', cardholderNameValue)
@@ -590,18 +591,20 @@ export default class PaymentForm extends Component {
             <Modal.Title>Address Verification</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h2>Address Entered: </h2>
+            <hr />
+            <h2>Address Entered: </h2><br />
             <p>{this.props.address1} {this.props.address2} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
             <hr />
+            <h2>Address Suggestions: </h2>
             {
               this.props.addressSuggestions.length ? this.props.addressSuggestions.map(suggestion => {
-                return <p>{suggestion.deliveryLine1}</p>
+                return <span><p>{suggestion.deliveryLine1} {suggestion.lastLine}</p> <Button onClick={this.props.confirmAddress} data-addressLine1={suggestion.deliveryLine1} data-addressLine2={suggestion.lastLine}>Select address</Button></span>
               }) 
               : <p>No suggestions found.</p>
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.props.openAddressModal}>
+            <Button onClick={this.props.confirmAddress} data-addressLine1={this.props.address1 + ' ' + this.props.address2} data-addressLine2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
               Confirm Address
             </Button>
             <Button onClick={this.props.hideAddressModal}>
@@ -609,72 +612,60 @@ export default class PaymentForm extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-        <div id="form-container">
-          {/* <div id="sq-walletbox">
-              <button 
-                style={{display: (this.state.applePay) ? 'inherit': 'none'}}
-                className="wallet-button"
-                id="sq-apple-pay"
-                onClick={this.handleThirdParty}
-              >
-              </button>
-              <button 
-                style={{display: (this.state.masterpass) ? 'inherit': 'none'}}
-                className="wallet-button"
-                id="sq-masterpass"
-                onClick={this.handleThirdParty}
-              >
-              </button>
-              <button 
-                style={{display: (this.state.googlePay) ? 'inherit': 'none'}}
-                className="wallet-button"
-                id="sq-google-pay"
-                onClick={this.handleThirdParty}
-              >
-              </button>
-            <hr />
-          </div> */}
-
-          <div id="sq-ccbox">
-            <p className='sqPaymentCardInfo'>
-              <span style={styles.leftCenter}>Enter Card Info Below </span>
-              <span style={styles.blockRight}>
-                {this.state.cardBrand.toUpperCase()}
-              </span>
-            </p>
-              <input
-                id="name"
-                style={styles.name}
-                type="text"
-                placeholder="Name on Card"
-              />
-            <div id="cc-field-wrapper">
-              <input type="hidden" id="card-nonce" name="nonce" />
-              <div id="sq-card-number" style={styles.center}></div>
-              <div id="sq-expiration-date" style={styles.center}></div>
-              <div id="sq-cvv" style={styles.center}></div>
-              <div id="sq-postal-code"></div>
+        <Modal show={this.props.showNonceModal} onHide={this.props.hideNonceModal}>
+          <Modal.Header>
+            <Modal.Title>Payment Information</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+          <div id="form-container">
+            <div id="sq-ccbox">
+              <p className='sqPaymentCardInfo'>
+                <span style={styles.leftCenter}>Enter Card Info Below </span>
+                <span style={styles.blockRight}>
+                  {this.state.cardBrand.toUpperCase()}
+                </span>
+              </p>
+                <input
+                  id="name"
+                  style={styles.name}
+                  type="text"
+                  placeholder="Name on Card"
+                />
+              <div id="cc-field-wrapper">
+                <input type="hidden" id="card-nonce" name="nonce" />
+                <div id="sq-card-number" style={styles.center}></div>
+                <div id="sq-expiration-date" style={styles.center}></div>
+                <div id="sq-cvv" style={styles.center}></div>
+                <div id="sq-postal-code"></div>
+              </div>
             </div>
           </div>
-          <button 
-            style={styles.addressValidationButton}
-            onClick={this.props.validateAddress}
-          >
-              Validate Address
-          </button>
-          <button 
-            style={styles.submitButton}
-            className="button-credit-card"
-            onClick={this.requestCardNonce}
-            id='paymentFormSubmitButton'
-          >
-            <span hidden={false} id="processingPaymentPayButton">Pay</span>
-            <span id="processingPaymentLoader" hidden={true}>
-              <Loader center speed="slow" size="xs" content="Processing..." />
-            </span>
-          </button>
-        </div>
-        <p style={styles.center} id="error"></p>
+          <p style={styles.center} id="error"></p>
+        
+          </Modal.Body>
+          <Modal.Footer>
+            <Button 
+              style={styles.submitButton}
+              className="button-credit-card"
+              onClick={this.requestCardNonce}
+              id='paymentFormSubmitButton'
+            >
+              <span hidden={false} id="processingPaymentPayButton">Pay</span>
+              <span id="processingPaymentLoader" hidden={true}>
+                <Loader center speed="slow" size="xs" content="Processing..." />
+              </span>
+            </Button>
+            <Button onClick={this.props.hideNonceModal}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Button 
+          style={styles.addressValidationButton}
+          onClick={this.props.validateAddress}
+        >
+          Continue to Payment
+        </Button>
       </div>
     )
   }
