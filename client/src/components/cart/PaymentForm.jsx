@@ -595,13 +595,13 @@ export default class PaymentForm extends Component {
             <hr />
             {
               this.props.addressSuggestions.length ? this.props.addressSuggestions.map(suggestion => {
-                return <p>{suggestion}</p>
+                return <p>{suggestion.deliveryLine1}</p>
               }) 
               : <p>No suggestions found.</p>
             }
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.openAddressModal}>
+            <Button onClick={this.props.openAddressModal}>
               Confirm Address
             </Button>
             <Button onClick={this.props.hideAddressModal}>
