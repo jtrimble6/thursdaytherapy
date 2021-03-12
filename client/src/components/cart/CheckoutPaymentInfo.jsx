@@ -169,16 +169,6 @@ class CheckoutPaymentInfo extends Component {
                           aria-label='Apt/Suite/Other'
                       /> 
                     </Form.Group>
-                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingZipCode">
-                      <Form.Label>Zip Code*</Form.Label>
-                      <Form.Control
-                          value={this.props.addressZipCode}
-                          name="addressZipCode"
-                          onChange={this.props.handleChange}
-                          placeholder="Zip Code" 
-                          aria-label='Zip Code'
-                      /> 
-                    </Form.Group>
                     <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingCity">
                       <Form.Label>City*</Form.Label>
                       <Form.Control
@@ -248,9 +238,16 @@ class CheckoutPaymentInfo extends Component {
                         <Dropdown.Item onClick={this.props.changeState}>Wisconsin</Dropdown.Item>
                         <Dropdown.Item onClick={this.props.changeState}>Wyoming</Dropdown.Item>
                       </Dropdown>
-                      {/* <EmailError 
-                          emailError={this.props.emailError}
-                      /> */}
+                    </Form.Group>
+                    <Form.Group className='paymentInfoFormGroup' as={Col} controlId="formGridShippingZipCode">
+                      <Form.Label>Zip Code*</Form.Label>
+                      <Form.Control
+                          value={this.props.addressZipCode}
+                          name="addressZipCode"
+                          onChange={this.props.handleChange}
+                          placeholder="Zip Code" 
+                          aria-label='Zip Code'
+                      /> 
                     </Form.Group>
                   </Form.Group>
 

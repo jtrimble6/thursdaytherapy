@@ -38,6 +38,12 @@ const styles = {
     backgroundColor: 'lightgreen',
     fontSize: '2vw',
     marginBottom: '2vw'
+  },
+  addressValidationButton: {
+    width: '60%',
+    backgroundColor: 'lightgray',
+    fontSize: '2vw',
+    marginBottom: '2vw'
   }
 }
 
@@ -90,15 +96,15 @@ export default class PaymentForm extends Component {
           _mozOsxFontSmoothing: "grayscale"
         }
       ],
-      applePay: {
-        elementId: 'sq-apple-pay'
-      },
-      masterpass: {
-        elementId: 'sq-masterpass'
-      },
-      googlePay: {
-        elementId: 'sq-google-pay'
-      },
+      // applePay: {
+      //   elementId: 'sq-apple-pay'
+      // },
+      // masterpass: {
+      //   elementId: 'sq-masterpass'
+      // },
+      // googlePay: {
+      //   elementId: 'sq-google-pay'
+      // },
       cardNumber: {
         elementId: "sq-card-number",
         placeholder: "• • • •  • • • •  • • • •  • • • •"
@@ -625,7 +631,12 @@ export default class PaymentForm extends Component {
               <div id="sq-postal-code"></div>
             </div>
           </div>
-          <button onClick={this.props.validateAddress}>Validate Address</button>
+          <button 
+            style={styles.addressValidationButton}
+            onClick={this.props.validateAddress}
+          >
+              Validate Address
+          </button>
           <button 
             style={styles.submitButton}
             className="button-credit-card"

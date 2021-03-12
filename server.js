@@ -323,9 +323,13 @@ app.post('/addressverf/:address1/:address2/:addressCity/:addressState/:addressZi
 		console.log(response);
 		return res.sendStatus(500);
 	}
+	let authId = process.env.SMARTY_AUTH_ID;
+	let authToken = process.env.SMARTY_AUTH_TOKEN;
+	const credentials = new SmartyStreetsCore.StaticCredentials(authId, authToken);
+
 	// for client-side requests (browser/mobile), use this code:
-	let key = process.env.SMARTY_WEBSITE_KEY;
-	const credentials = new SmartyStreetsCore.SharedCredentials(key);
+	// let key = process.env.SMARTY_WEBSITE_KEY;
+	// const credentials = new SmartyStreetsCore.SharedCredentials(key);
 	let client = SmartyStreetsCore.buildClient.usStreet(credentials);
 	// .withLicenses(["us-rooftop-geo-cloud"]);
 
