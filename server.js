@@ -321,7 +321,7 @@ app.post('/addressverf/:address1/:address2/:addressCity/:addressState/:addressZi
 	
 	function handleError(response) {
 		console.log(response);
-		res.send(response)
+		return res.sendStatus(500);
 	}
 	// for client-side requests (browser/mobile), use this code:
 	let key = process.env.SMARTY_WEBSITE_KEY;
