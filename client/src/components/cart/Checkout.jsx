@@ -459,9 +459,6 @@ class Checkout extends Component {
       let addressZipCode = this.state.addressZipCode
       
       axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/addressverf/" : "https://thursday-therapy.com/addressverf/" + address1 + "/" + address2 + "/" + addressCity + "/" + addressState + "/" + addressZipCode, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
         })
         .then(res => {
           console.log('GOT A RESPONSE ADDRESS VERF: ', res)
