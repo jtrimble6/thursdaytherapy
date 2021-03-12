@@ -470,7 +470,8 @@ class Checkout extends Component {
           let lookupResult = lookup.result
           console.log('LOOKUP RESULT: ', lookupResult)
           this.setState({
-            addressSuggestions: lookupResult
+            addressSuggestions: lookupResult,
+            showAddressModal: true
           })
         })
         .catch(err => {
