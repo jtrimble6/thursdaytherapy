@@ -463,6 +463,12 @@ class Checkout extends Component {
             'Content-Type': 'multipart/form-data'
           }
         })
+        .then(res => {
+          console.log('GOT A RESPONSE ADDRESS VERF: ', res)
+        })
+        .catch(err => {
+          console.log('GOT AN ERROR ADDRESS VERF: ', err)
+        })
       
     }
 
