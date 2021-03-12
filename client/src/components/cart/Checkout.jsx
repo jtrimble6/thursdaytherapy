@@ -486,7 +486,7 @@ class Checkout extends Component {
         });
       }
 
-    hideAddressModal() {
+    hideAddressModal = (e) => {
         this.setState({ 
             showAddressModal: false
           });
