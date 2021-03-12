@@ -260,7 +260,7 @@ class Checkout extends Component {
           }
         }
       };
-      this.SqPaymentForm = new window.paymentForm(config);
+      this.SqPaymentForm = new window.SqPaymentForm(config);
       this.SqPaymentForm.build();
       let creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false

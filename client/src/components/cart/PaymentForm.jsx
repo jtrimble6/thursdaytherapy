@@ -565,13 +565,9 @@ export default class PaymentForm extends Component {
         {/* ADD INVENTORY MODAL */}
         <Modal show={this.props.showAddressModal} onHide={this.props.hideAddressModal}>
           <Modal.Header>
-            <Modal.Title>Address Verification</Modal.Title>
+            <Modal.Title styles={'text-align: center'}>Address Verification</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <hr />
-            <h2>Address Entered: </h2><br />
-            <p>{this.props.address1} {this.props.address2} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
-            <hr />
             <h2>Address Suggestions: </h2><br />
             {
               this.props.addressSuggestions.length ? this.props.addressSuggestions.map(suggestion => {
@@ -579,6 +575,10 @@ export default class PaymentForm extends Component {
               }) 
               : <p>No suggestions found.</p>
             }
+            <hr />
+            <h2>Address Entered: </h2><br />
+            <p>{this.props.address1} {this.props.address2} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
+            
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.props.confirmAddress} data-addressline1={this.props.address1 + ' ' + this.props.address2} data-addressline2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
