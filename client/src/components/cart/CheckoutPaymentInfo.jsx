@@ -268,6 +268,8 @@ class CheckoutPaymentInfo extends Component {
                     phoneNumber={this.props.phoneNumber}
                     emailError={this.props.emailError}
                     phoneError={this.props.phoneError}
+                    addressLine1={this.props.addressLine1}
+                    addressLine2={this.props.addressLine2}
                     address1={this.props.address1}
                     address2={this.props.address2}
                     addressZipCode={this.props.addressZipCode}

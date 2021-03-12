@@ -221,29 +221,6 @@ export default class PaymentForm extends Component {
   requestCardNonce = (e) => {
       e.preventDefault()
       this.props.hideNonceModal()
-      let cardholderName = document.getElementById('name')
-      let cardholderNameValue = cardholderName.value
-      // console.log('CARD HOLDER NAME: ', cardholderNameValue)
-      if (cardholderNameValue === '') {
-        Alert.warning('Please enter the cardholder full name.', 5000)
-        return;
-      }
-      if (this.props.firstName === '') {
-        Alert.warning('Please enter a first name.', 5000)
-        return;
-      }
-      if (this.props.lastName === '') {
-        Alert.warning('Please enter a last name.', 5000)
-        return;
-      }
-      if (this.props.emailError) {
-        Alert.warning('Please enter a valid email address.', 5000)
-        return;
-      }
-      if (this.props.phoneError) {
-        Alert.warning('Please enter a valid phone number.', 5000)
-        return;
-      }
       document.getElementById('processingPaymentPayButton').hidden = true
       document.getElementById('processingPaymentLoader').hidden = false
       this.SqPaymentForm.requestCardNonce();
@@ -409,11 +386,8 @@ export default class PaymentForm extends Component {
           lastName: this.props.lastName,
           email: this.props.email,
           phoneNumber: this.props.phoneNumber,
-          address1: this.props.address1,
-          address2: this.props.address2,
-          addressZipCode: this.props.addressZipCode,
-          addressCity: this.props.addressCity,
-          addressState: this.props.addressState,
+          addressLine1: this.props.addressLine1,
+          addressLine2: this.props.addressLine2,
           purchaseId: this.state.paymentId,
           purchaseOrderId: this.state.paymentOrderId,
           purchaseReceiptUrl: this.state.purchaseReceiptUrl,
@@ -625,7 +599,7 @@ export default class PaymentForm extends Component {
                   id="name"
                   style={styles.name}
                   type="text"
-                  placeholder="Name on Card"
+                  placeholder="Full Name on Card"
                 />
               <div id="cc-field-wrapper">
                 <input type="hidden" id="card-nonce" name="nonce" />

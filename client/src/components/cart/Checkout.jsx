@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 // import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import API from '../../utils/API'
-// import { NavLink } from 'reactstrap';
+import { Alert } from 'rsuite';
 import { Form, Button } from 'react-bootstrap'
 import $ from 'jquery'
 
@@ -66,6 +66,8 @@ class Checkout extends Component {
           lastName: '',
           email: '',
           phoneNumber: '',
+          addressLine1: '',
+          addressLine2: '',
           address1: '',
           address2: '',
           addressZipCode: '',
@@ -460,6 +462,31 @@ class Checkout extends Component {
 
     validateAddress = (e) => {
       e.preventDefault()
+
+      let cardholderName = document.getElementById('name')
+      let cardholderNameValue = cardholderName.value
+      // console.log('CARD HOLDER NAME: ', cardholderNameValue)
+      if (cardholderNameValue === '') {
+        Alert.warning('Please enter the cardholder full name.', 5000)
+        return;
+      }
+      if (this.state.firstName === '') {
+        Alert.warning('Please enter a first name.', 5000)
+        return;
+      }
+      if (this.state.lastName === '') {
+        Alert.warning('Please enter a last name.', 5000)
+        return;
+      }
+      if (this.state.emailError) {
+        Alert.warning('Please enter a valid email address.', 5000)
+        return;
+      }
+      if (this.state.phoneError) {
+        Alert.warning('Please enter a valid phone number.', 5000)
+        return;
+      }
+
       let address1 = this.state.address1
       let address2 = this.state.address2
       let addressCity = this.state.addressCity
@@ -485,23 +512,27 @@ class Checkout extends Component {
       }
 
     confirmAddress = (e) => {
-      e.preventDefault()
-      this.setState({
-        showAddressModal: false,
-      })
-      let addressValidationButton = document.getElementById('addressValidationButton')
-      addressValidationButton.hidden = true
-      let paymentInfo = document.getElementById('paymentInfoFormRow')
-      paymentInfo.hidden = true
-      let creditCardForm = document.getElementById('creditCardForm')
-      creditCardForm.hidden = false
+        e.preventDefault()
+        this.setState({
+          showAddressModal: false,
+        })
+        let addressValidationButton = document.getElementById('addressValidationButton')
+        addressValidationButton.hidden = true
+        let paymentInfo = document.getElementById('paymentInfoFormRow')
+        paymentInfo.hidden = true
+        let creditCardForm = document.getElementById('creditCardForm')
+        creditCardForm.hidden = false
 
-      let address = e.target
-      console.log('SELECTED ADDRESS BUTTON: ', address)
-      let addressLine1 = address.dataset.addressline1
-      let addressLine2 = address.dataset.addressline2
-      console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
-    }
+        let address = e.target
+        console.log('SELECTED ADDRESS BUTTON: ', address)
+        let addressLine1 = address.dataset.addressline1
+        let addressLine2 = address.dataset.addressline2
+        console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
+        this.setState({
+          addressLine1: addressLine1,
+          addressLine2: addressLine2
+        })
+      }
 
     openAddressModal = (e) => {
         // console.log(e.target)
@@ -597,6 +628,8 @@ class Checkout extends Component {
                     lastName={this.state.lastName}
                     email={this.state.email}
                     phoneNumber={this.state.phoneNumber}
+                    addressLine1={this.state.addressLine1}
+                    addressLine2={this.state.addressLine2}
                     address1={this.state.address1}
                     address2={this.state.address2}
                     addressZipCode={this.state.addressZipCode}
