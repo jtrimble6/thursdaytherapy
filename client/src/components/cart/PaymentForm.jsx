@@ -587,7 +587,7 @@ export default class PaymentForm extends Component {
             }
             <hr />
             <h2>Address Entered: </h2><br />
-            <p>{this.props.address1} {this.props.address2} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
+            <p>{this.props.address1} {this.props.address2 !== null ? this.props.address2 : ''} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
             
           </Modal.Body>
           <Modal.Footer>
