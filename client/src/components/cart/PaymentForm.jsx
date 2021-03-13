@@ -157,9 +157,10 @@ export default class PaymentForm extends Component {
             Alert.error('There was an error processing payment. Please try again.', 10000)
             document.getElementById('processingPaymentPayButton').hidden = false
             document.getElementById('processingPaymentLoader').hidden = true
+            this.props.handleCardError()
             // console.log("Encountered errors:");
             errors.forEach(function(error) {
-              // console.log("  " + error.message);
+              console.log("  " + error.message);
             });
             return;
           }

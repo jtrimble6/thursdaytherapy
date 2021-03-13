@@ -780,6 +780,7 @@ class Checkout extends Component {
                     hideNonceModal={this.hideNonceModal}
                     addressSuggestions={this.state.addressSuggestions}
                     confirmAddress={this.confirmAddress}
+                    handleCardError={this.renderCreditCardForm}
                   />
                   
                   <CheckoutConfirmation 

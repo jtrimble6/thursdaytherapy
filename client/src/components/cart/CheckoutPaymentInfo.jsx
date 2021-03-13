@@ -284,6 +284,7 @@ class CheckoutPaymentInfo extends Component {
                     hideNonceModal={this.props.hideNonceModal}
                     addressSuggestions={this.props.addressSuggestions}
                     confirmAddress={this.props.confirmAddress}
+                    handleCardError={this.props.handleCardError}
                     // requestCardNonce={this.requestCardNonce}
                   />
                   // <Form.Group as={Col} controlId="formGridEmail">
