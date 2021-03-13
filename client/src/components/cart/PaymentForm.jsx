@@ -67,7 +67,7 @@ export default class PaymentForm extends Component {
     }
     this.setRedirect = this.setRedirect.bind(this)
     this.renderRedirect = this.renderRedirect.bind(this)
-    this.requestCardNonce = this.requestCardNonce.bind(this);
+    // this.requestCardNonce = this.requestCardNonce.bind(this);
     this.handleThirdParty = this.handleThirdParty.bind(this)
     this.handleNonceReceived = this.handleNonceReceived.bind(this)
     this.handlePaymentConfirmation = this.handlePaymentConfirmation.bind(this)
