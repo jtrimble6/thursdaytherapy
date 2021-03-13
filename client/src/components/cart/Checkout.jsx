@@ -199,13 +199,13 @@ class Checkout extends Component {
               countryCode: "US",
               total: {
                 label: "MERCHANT NAME",
-                amount: JSON.stringify(this.state.paymentAmount),
+                amount: JSON.stringify(this.state.cartTotal),
                 pending: false
               },
               lineItems: [
                 {
                   label: "Subtotal",
-                  amount: JSON.stringify(this.state.paymentAmount),
+                  amount: JSON.stringify(this.state.cartTotal),
                   pending: false
                 }
               ]
@@ -310,7 +310,7 @@ class Checkout extends Component {
               nonce: nonce,
               idempotency_key: idempotency_key,
               location_id: "L04H83ZZ2XDWC",
-              paymentAmount: this.state.paymentAmount
+              paymentAmount: this.state.cartTotal
             })   
           })
           .catch(err => {
@@ -348,6 +348,8 @@ class Checkout extends Component {
           .catch(err => {
             console.error(err);
             Alert.error('Sorry, there was an error completing your payment. Please try again.', 10000)
+            document.getElementById('processingPaymentPayButton').hidden = false
+            document.getElementById('processingPaymentLoader').hidden = true
             // alert('Payment failed to complete!\nCheck browser developer console for more details');
           });
       }
@@ -399,7 +401,7 @@ class Checkout extends Component {
         orderCard.innerHTML = 'Payment Card: *' + this.state.paymentCardLastFour
         
         let orderAmount = document.createElement('p')
-        let orderAmountInt = parseInt(this.state.paymentAmount)
+        let orderAmountInt = parseInt(this.state.cartTotal)
         let orderAmountFormatted = this.formatMoney(orderAmountInt)
         orderAmount.innerHTML = 'Payment Amount: ' + orderAmountFormatted
         
@@ -443,7 +445,7 @@ class Checkout extends Component {
               purchaseReceiptUrl: this.state.purchaseReceiptUrl,
               confirmationNumber: this.state.paymentId,
               purchaseDetails: this.state.currentCart,
-              purchaseAmount: JSON.stringify(this.formatMoney(this.state.paymentAmount)),
+              purchaseAmount: JSON.stringify(this.formatMoney(this.state.cartTotal)),
               purchaseCard: this.state.paymentCardLastFour
           };
           console.log('ORDER DATA: ', orderData);
@@ -499,7 +501,7 @@ class Checkout extends Component {
           const body = `
           ${ items }
     
-          Total Sale: ${that.formatMoney(this.state.paymentAmount)}
+          Total Sale: ${that.formatMoney(this.state.cartTotal)}
           `;
     
           axios({
