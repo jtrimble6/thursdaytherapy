@@ -285,7 +285,7 @@ class CheckoutPaymentInfo extends Component {
                     addressSuggestions={this.props.addressSuggestions}
                     confirmAddress={this.props.confirmAddress}
                     handleCardError={this.props.handleCardError}
-                    // requestCardNonce={this.requestCardNonce}
+                    requestCardNonce={this.props.requestCardNonce}
                   />
                   // <Form.Group as={Col} controlId="formGridEmail">
                   //   <span style={styles.leftCenter}>Enter Card Info Below </span>

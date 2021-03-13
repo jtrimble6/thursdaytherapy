@@ -847,6 +847,7 @@ class Checkout extends Component {
                     addressSuggestions={this.state.addressSuggestions}
                     confirmAddress={this.confirmAddress}
                     handleCardError={this.renderCreditCardForm}
+                    requestCardNonce={this.requestCardNonce}
                   />
                   
                   <CheckoutConfirmation 
