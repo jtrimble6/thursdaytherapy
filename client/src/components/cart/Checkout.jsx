@@ -70,7 +70,7 @@ class Checkout extends Component {
           addressLine1: '',
           addressLine2: '',
           address1: '',
-          address2: '',
+          address2: null,
           addressZipCode: '',
           addressCity: '',
           addressState: 'Select State',
@@ -796,9 +796,9 @@ class Checkout extends Component {
         this.setState(prevState=> ({ phoneNumber: normalizeInput(value, prevState.phoneNumber) }));
         if (value.length !== 14) {
           // console.log('PHONE VALUE: ', value)
-          this.setState({
-            phoneError: true
-          })
+          this.setState(prevState=> ({
+            phoneNumber: prevState.phoneNumber.substring(0,14)
+          }))
         } else {
           this.setState({
             phoneError: false
@@ -992,7 +992,7 @@ class Checkout extends Component {
       }
 
       let address1 = this.state.address1
-      let address2 = this.state.address2 !== '' ? this.state.address2 : null
+      let address2 = this.state.address2 !== '' && this.state.address2 !== null ? this.state.address2 : null
       let addressCity = this.state.addressCity
       let addressState = this.state.addressState
       let addressZipCode = this.state.addressZipCode
