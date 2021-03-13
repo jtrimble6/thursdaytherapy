@@ -122,6 +122,10 @@ class Checkout extends Component {
         this.confirmAddress = this.confirmAddress.bind(this)
         this.renderCreditCardForm = this.renderCreditCardForm.bind(this)
         this.handleNonceReceived = this.handleNonceReceived.bind(this)
+        this.handlePaymentConfirmation = this.handlePaymentConfirmation.bind(this)
+        this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
+        this.sendNewOrderEmail = this.sendNewOrderEmail.bind(this)
+        this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
     
     }
 
@@ -194,13 +198,13 @@ class Checkout extends Component {
               countryCode: "US",
               total: {
                 label: "MERCHANT NAME",
-                amount: JSON.stringify(this.props.paymentAmount),
+                amount: JSON.stringify(this.state.paymentAmount),
                 pending: false
               },
               lineItems: [
                 {
                   label: "Subtotal",
-                  amount: JSON.stringify(this.props.paymentAmount),
+                  amount: JSON.stringify(this.state.paymentAmount),
                   pending: false
                 }
               ]
@@ -289,7 +293,7 @@ class Checkout extends Component {
               nonce: nonce,
               idempotency_key: idempotency_key,
               location_id: "L04H83ZZ2XDWC",
-              paymentAmount: this.props.paymentAmount
+              paymentAmount: this.state.paymentAmount
             })   
           })
           .catch(err => {
@@ -329,8 +333,248 @@ class Checkout extends Component {
             Alert.error('Sorry, there was an error completing your payment. Please try again.', 10000)
             // alert('Payment failed to complete!\nCheck browser developer console for more details');
           });
+      }
+    
+      handlePaymentConfirmation = () => {
+        // SHOW ORDER CONFIRMATION FORM
+        let orderConfirmationForm = document.getElementById('paymentConfirmationForm')
+        orderConfirmationForm.hidden = false
+    
+        // HIDE PAYMENT INFO FORM
+        let orderFormContainer = document.getElementById('paymentInfoForm')
+        orderFormContainer.hidden = true
+    
+        // HIDE ORDER FORM NAV BUTTONS
+        let checkoutFormNav = document.getElementById('checkoutFormNav')
+        checkoutFormNav.innerHTML = ''
+    
+        // CHANGE CHECKOUT TITLE
+        // HIDE CHECKOUT STEP TITLE DIV
+        let checkoutTitle = document.getElementById('checkoutTitle')
+        checkoutTitle.innerHTML = 'Payment Complete'
+        let checkoutStepTitle = document.getElementById('checkoutStepTitle')
+        checkoutStepTitle.innerHTML = ''
+    
+        // HIDE REQUIRED TEXT
+        let requiredText = document.getElementById('checkoutRequiredSmall')
+        requiredText.hidden = true
+    
+        // CREATE CHECKOUT CONFIRMATION BUTTON
+        let checkoutConfirmationButton = document.createElement('button')
+        // checkoutConfirmationButton.innerHTML = '<button className="checkoutConfirmationButton" onclick='+ this.handleConfirmationComplete +'" />';
+        checkoutConfirmationButton.innerHTML = 'Back to home'
+        checkoutConfirmationButton.classList.add('checkoutConfirmationButton')
+        checkoutConfirmationButton.classList.add('button-credit-card')
+        checkoutConfirmationButton.onclick = this.handleConfirmationComplete
+        checkoutFormNav.appendChild(checkoutConfirmationButton)
+    
+        // CREATE ORDER CONFIRMATION DIV
+        let orderConfirmationElement = document.createElement('div')
+        orderConfirmationElement.classList.add('paymentConfirmationDiv')
+    
+        // ADD ORDER CONFIRMATION DATA TO DIV
+        // let lineBreak = document.createElement('br')
+    
+        let orderConfirmationStatus = document.createElement('p')
+        orderConfirmationStatus.innerHTML = 'Payment Status: ' + this.state.paymentStatus
+        
+        let orderCard = document.createElement('p')
+        orderCard.innerHTML = 'Payment Card: *' + this.state.paymentCardLastFour
+        
+        let orderAmount = document.createElement('p')
+        let orderAmountInt = parseInt(this.state.paymentAmount)
+        let orderAmountFormatted = this.formatMoney(orderAmountInt)
+        orderAmount.innerHTML = 'Payment Amount: ' + orderAmountFormatted
+        
+        let orderConfirmationNumber = document.createElement('p')
+        orderConfirmationNumber.innerHTML = 'Confirmation #: ' + this.state.paymentId
+        
+        let orderEmailConfirmation = document.createElement('p')
+        orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.state.email 
+        
+        let orderEmailDisclaimer = document.createElement('p')
+        orderEmailDisclaimer.innerHTML = '(Email may be sent to your spam folder).'
+    
+        // APPEND ORDER CONFIRMATION DIV TO PAGE
+        orderConfirmationElement.appendChild(orderConfirmationStatus)
+        orderConfirmationElement.appendChild(orderCard)
+        orderConfirmationElement.appendChild(orderAmount)
+        orderConfirmationElement.appendChild(orderConfirmationNumber)
+        orderConfirmationElement.appendChild(orderEmailConfirmation)
+        orderConfirmationElement.appendChild(orderEmailDisclaimer)
+        orderConfirmationForm.appendChild(orderConfirmationElement)
+    
+    
+        // EMPTY LOCAL STORAGE
+        localStorage.clear()
+    
+        this.handleOrderSubmit()
+          
         }
     
+      handleOrderSubmit = () => {
+          // console.log('SUBMITTING ORDER')
+          let orderData = { 
+              firstName: this.state.firstName,
+              lastName: this.state.lastName,
+              email: this.state.email,
+              phoneNumber: this.state.phoneNumber,
+              addressLine1: this.state.addressLine1,
+              addressLine2: this.state.addressLine2,
+              purchaseId: this.state.paymentId,
+              purchaseOrderId: this.state.paymentOrderId,
+              purchaseReceiptUrl: this.state.purchaseReceiptUrl,
+              confirmationNumber: this.state.paymentId,
+              purchaseDetails: this.state.currentCart,
+              purchaseAmount: JSON.stringify(this.formatMoney(this.state.paymentAmount)),
+              purchaseCard: this.state.paymentCardLastFour
+          };
+          console.log('ORDER DATA: ', orderData);
+          API.submitOrder(orderData)
+            .then(res => {
+                // console.log('ORDER SUBMIT RESULT: ', res) 
+                let orderDetails = orderData.purchaseDetails
+                this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
+                this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
+              })
+              .catch(error => {
+                console.log(error)
+              })
+        }
+      
+      sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
+          // console.log(firstName, lastName, email, phoneNumber, details)
+          let cart = details
+          let that = this
+          // Format a string itemising cart by mapping elements to sub-strings and joining the result
+          const items = cart.map(function(element) {
+            let soapPriceFormatted = ''
+            let soapTotalFormatted = ''
+            if (element.soapPrice % 1 === 0) {
+              let soapPriceInt = parseInt(element.soapPrice)
+              console.log('SOAP PRICE: ', element.soapPrice)
+              console.log('SOAP PRICE INT: ', soapPriceInt)
+              soapPriceFormatted = that.formatMoney(soapPriceInt)
+              // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+              // let soapTotalInt = parseInt(element.soapTotal)
+              // console.log('SOAP TOTAL INT: ', soapPriceInt)
+              soapTotalFormatted = that.formatMoney(element.soapTotal)
+              // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+            } else {
+              soapPriceFormatted = that.formatMoney(element.soapPrice)
+              soapTotalFormatted = that.formatMoney(element.soapTotal)
+            }
+            
+            return `
+            PRODUCT: ${ element.soapName }
+            PRICE: ${ soapPriceFormatted }
+            QUANTITY: ${ element.soapQty }
+            PRODUCT TOTAL: ${ soapTotalFormatted }
+            `;
+          }).join('\n');
+    
+          // Calculate total price via reduction, and format to a number to 2dp
+          // const totalPrice = this.state.cart.reduce(function(sum, element) {
+          //   return sum + (element.soapQuantity * element.soapPrice);
+          // }, 0.0);
+    
+          // Format body string with itemised cart, total price, etc
+          const body = `
+          ${ items }
+    
+          Total Sale: ${that.formatMoney(this.state.paymentAmount)}
+          `;
+    
+          axios({
+              method: "POST", 
+              url: "https://thursdaytherapy.herokuapp.com/neworder",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
+              data: {
+                  firstName: firstName,   
+                  lastName: lastName,
+                  email: email,  
+                  phoneNumber: phoneNumber,
+                  details: body
+              }
+          }).then((response)=> {
+            console.log('EMAIL ORDER RESPONSE: ', response)
+              if (response.data.msg === 'success'){
+                  // console.log("Message Sent."); 
+                  Alert.success('Your order has been received!', 5000)
+                  this.setState({
+                    contactSuccess: true
+                  })
+                  this.resetForm()
+              } else if(response.data.msg === 'fail'){
+                // console.log("Message failed to send.")
+                Alert.error('There was an error submitting your order. Please contact us to complete order.', 15000)
+                this.setState({
+                  contactError: true
+                })
+              }
+          })
+        }
+    
+      sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
+        // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
+        let cart = details
+          // let that = this
+          // Format a string itemising cart by mapping elements to sub-strings and joining the result
+          const items = cart.map(function(element) {
+            // let soapPriceInt = parseInt(element.soapPrice)
+            // console.log('SOAP PRICE INT: ', soapPriceInt)
+            // let soapPriceFormatted = that.formatMoney(soapPriceInt)
+            // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+            // let soapTotalInt = parseInt(element.soapTotal)
+            // console.log('SOAP TOTAL INT: ', soapPriceInt)
+            // let soapTotalFormatted = that.formatMoney(element.soapTotal)
+            // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+            return `
+            (${ element.soapQty }) ${ element.soapName }
+            
+            `;
+          }).join(' | ');
+    
+          // Calculate total price via reduction, and format to a number to 2dp
+          // const totalPrice = this.state.cart.reduce(function(sum, element) {
+          //   return sum + (element.soapQuantity * element.soapPrice);
+          // }, 0.0);
+    
+          // Format body string with itemised cart, total price, etc
+          const orderDetails = `
+          ${ items }
+          `;
+          axios({
+              method: "POST", 
+              url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+              data: {
+                  firstName: firstName,   
+                  lastName: lastName,
+                  email: email,  
+                  confirmationNumber: confirmationNumber,
+                  confirmationUrl: confirmationUrl,
+                  orderDetails: orderDetails
+              }
+          }).then((response)=> {
+              console.log('EMAIL CONF RESPONSE: ', response)
+              if (response.data.msg === 'success'){
+                  // console.log("Message Sent."); 
+                  Alert.success('Confirmation email sent!', 5000)
+                  // this.setState({
+                  //   contactSuccess: true
+                  // })
+                  // this.resetForm()
+              } else if(response.data.msg === 'fail'){
+                // console.log("Message failed to send.")
+                Alert.error('There was an error sending order confirmation. Please contact us to resend.', 15000)
+                // this.setState({
+                //   contactError: true
+                // })
+              }
+          })
+        }
+  
 
     scrollTop() {
         window.scrollTo({
