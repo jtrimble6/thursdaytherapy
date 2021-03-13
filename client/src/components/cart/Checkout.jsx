@@ -121,6 +121,7 @@ class Checkout extends Component {
         this.hideNonceModal = this.hideNonceModal.bind(this)
         this.confirmAddress = this.confirmAddress.bind(this)
         this.renderCreditCardForm = this.renderCreditCardForm.bind(this)
+        this.requestCardNonce = this.requestCardNonce.bind(this)
         this.handleNonceReceived = this.handleNonceReceived.bind(this)
         this.handlePaymentConfirmation = this.handlePaymentConfirmation.bind(this)
         this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
@@ -266,9 +267,26 @@ class Checkout extends Component {
       };
       this.SqPaymentForm = new window.SqPaymentForm(config);
       this.SqPaymentForm.build();
+      this.requestCardNonce()
       let creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false
+    }
+
+    requestCardNonce = (e) => {
+        e.preventDefault()
+        let cardholderName = document.getElementById('name')
+        let cardholderNameValue = cardholderName.value
+        // console.log('CARD HOLDER NAME: ', cardholderNameValue)
+        if (cardholderNameValue === '') {
+          Alert.warning('Please enter the cardholder full name.', 5000)
+          return;
+        }
+        // this.props.hideNonceModal()
+        document.getElementById('processingPaymentPayButton').hidden = true
+        document.getElementById('processingPaymentLoader').hidden = false
+        this.SqPaymentForm.requestCardNonce();
       }
+    
 
     handleNonceReceived = (nonce) => {
         const idempotency_key = uuidv4();
@@ -335,7 +353,7 @@ class Checkout extends Component {
           });
       }
     
-      handlePaymentConfirmation = () => {
+    handlePaymentConfirmation = () => {
         // SHOW ORDER CONFIRMATION FORM
         let orderConfirmationForm = document.getElementById('paymentConfirmationForm')
         orderConfirmationForm.hidden = false
@@ -412,7 +430,7 @@ class Checkout extends Component {
           
         }
     
-      handleOrderSubmit = () => {
+    handleOrderSubmit = () => {
           // console.log('SUBMITTING ORDER')
           let orderData = { 
               firstName: this.state.firstName,
@@ -442,7 +460,7 @@ class Checkout extends Component {
               })
         }
       
-      sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
+    sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
           // console.log(firstName, lastName, email, phoneNumber, details)
           let cart = details
           let that = this
@@ -515,7 +533,7 @@ class Checkout extends Component {
           })
         }
     
-      sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
+    sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
         // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
         let cart = details
           // let that = this
