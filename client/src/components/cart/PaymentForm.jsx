@@ -616,10 +616,10 @@ export default class PaymentForm extends Component {
                 />
               <div id="cc-field-wrapper">
                 <input type="hidden" id="card-nonce" name="nonce" />
-                <div id="sq-card-number" style={styles.center}>• • • •  • • • •  • • • •  • • • •</div>
-                <div id="sq-expiration-date" style={styles.center}>MM/YY</div>
-                <div id="sq-cvv" style={styles.center}>CVV</div>
-                <div id="sq-postal-code">ZIP</div>
+                <div id="sq-card-number" style={styles.center}></div>
+                <div id="sq-expiration-date" style={styles.center}></div>
+                <div id="sq-cvv" style={styles.center}></div>
+                <div id="sq-postal-code"></div>
               </div>
             </div>
           </div>
