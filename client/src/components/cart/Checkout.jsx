@@ -54,6 +54,7 @@ class Checkout extends Component {
     constructor(props) {
         super(props)
         this.state = {
+          sqPaymentForm: '',
           currentStep: 1, // Default is Step 1
           currentStepTitle: 'Order Details',
           currentCart: [],
@@ -79,6 +80,17 @@ class Checkout extends Component {
           paymentDate: '',
           paymentCard: '',
           addressSuggestions: [],
+          cardBrand: "",
+          nonce: undefined,
+          googlePay: false,
+          applePay: false,
+          masterpass: false,
+          paymentStatus: '',
+          paymentCardLastFour: '',
+          paymentAmount: '',
+          paymentId: '',
+          paymentOrderId: '',
+          purchaseReceiptUrl: '',
           showAddressModal: false,
           showNonceModal: false,
           emailError: false,
@@ -269,6 +281,9 @@ class Checkout extends Component {
       this.SqPaymentForm.build();
       let creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false
+      this.setState({
+        sqPaymentForm: this.SqPaymentForm
+      })
     }
 
     requestCardNonce = (e) => {
@@ -283,7 +298,7 @@ class Checkout extends Component {
         // this.props.hideNonceModal()
         document.getElementById('processingPaymentPayButton').hidden = true
         document.getElementById('processingPaymentLoader').hidden = false
-        this.SqPaymentForm.requestCardNonce();
+        this.state.sqPaymentForm.requestCardNonce();
       }
     
 
@@ -316,6 +331,8 @@ class Checkout extends Component {
           .catch(err => {
             // alert('Network error: ' + err);
             Alert.error('Sorry, there was an error connecting to Square payment. Please try again.', 10000)
+            document.getElementById('processingPaymentPayButton').hidden = false
+            document.getElementById('processingPaymentLoader').hidden = true
           })
           .then(response => {
             if (!response.ok) {
