@@ -419,8 +419,21 @@ class Checkout extends Component {
         orderCard.innerHTML = 'Payment Card: *' + this.state.paymentCardLastFour
         
         let orderAmount = document.createElement('p')
-        let orderAmountInt = parseInt(this.state.cartTotal)
-        let orderAmountFormatted = this.formatMoney(orderAmountInt)
+        let orderAmountInt = ''
+        let orderAmountFormatted = ''
+
+        if (this.state.cartTotal % 1 === 0) {
+          orderAmountInt = parseInt(this.state.cartTotal)
+          console.log('ORDER TOTAL: ', orderAmountInt)
+          orderAmountFormatted = this.formatMoney(orderAmountInt)
+          
+        } else {
+          orderAmountInt = this.state.cartTotal
+          console.log('ORDER TOTAL: ', orderAmountInt)
+          orderAmountFormatted = this.formatMoney(orderAmountInt)
+        }
+
+        // let orderAmountFormatted = this.formatMoney(orderAmountInt)
         orderAmount.innerHTML = 'Payment Amount: ' + orderAmountFormatted
         
         let orderConfirmationNumber = document.createElement('p')
@@ -463,7 +476,7 @@ class Checkout extends Component {
               purchaseReceiptUrl: this.state.purchaseReceiptUrl,
               confirmationNumber: this.state.paymentId,
               purchaseDetails: this.state.currentCart,
-              purchaseAmount: JSON.stringify(this.formatMoney(this.state.cartTotal)),
+              purchaseAmount: this.formatMoney(this.state.cartTotal),
               purchaseCard: this.state.paymentCardLastFour
           };
           console.log('ORDER DATA: ', orderData);
