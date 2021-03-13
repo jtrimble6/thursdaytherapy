@@ -888,40 +888,40 @@ class Checkout extends Component {
         })
       }
 
-    handleOrderSubmit = (e) => {
-        e.preventDefault()
-        this.scrollTop()
-        // console.log('SUBMITTING ORDER')
-        this.setState({
-            currentStep: 3
-        }, () => {
-          this.handleStepTitleChange()
-        })
-        // console.log('CURRENT CART: ', this.state.carts)
-        let cart = this.state.currentCart
-        let orderData = { 
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            email: this.state.email,
-            phoneNumber: this.state.phoneNumber,
-            address1: this.state.address1,
-            address2: this.state.address2,
-            addressCity: this.state.addressCity,
-            addressZipCode: this.state.addressZipCode,
-            addressState: this.state.addressState,
-            purchaseId: 'testId',
-            confirmationNumber: '1234',
-            purchaseDetails: cart
-        };
-        // console.log('ORDER DATA: ', orderData);
-        API.submitOrder(orderData)
-          .then(res => {
-              // console.log('ORDER SUBMIT RESULT: ', res) 
-            })
-            .catch(error => {
-              // console.log(error)
-            })
-      }
+    // handleOrderSubmit = (e) => {
+    //     e.preventDefault()
+    //     this.scrollTop()
+    //     // console.log('SUBMITTING ORDER')
+    //     this.setState({
+    //         currentStep: 3
+    //     }, () => {
+    //       this.handleStepTitleChange()
+    //     })
+    //     // console.log('CURRENT CART: ', this.state.carts)
+    //     let cart = this.state.currentCart
+    //     let orderData = { 
+    //         firstName: this.state.firstName,
+    //         lastName: this.state.lastName,
+    //         email: this.state.email,
+    //         phoneNumber: this.state.phoneNumber,
+    //         address1: this.state.address1,
+    //         address2: this.state.address2,
+    //         addressCity: this.state.addressCity,
+    //         addressZipCode: this.state.addressZipCode,
+    //         addressState: this.state.addressState,
+    //         purchaseId: 'testId',
+    //         confirmationNumber: '1234',
+    //         purchaseDetails: cart
+    //     };
+    //     // console.log('ORDER DATA: ', orderData);
+    //     API.submitOrder(orderData)
+    //       .then(res => {
+    //           // console.log('ORDER SUBMIT RESULT: ', res) 
+    //         })
+    //         .catch(error => {
+    //           // console.log(error)
+    //         })
+    //   }
 
     checkEmail = (event) => {
         const {name, value} = event.target
