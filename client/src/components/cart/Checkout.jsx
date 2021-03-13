@@ -325,7 +325,7 @@ class Checkout extends Component {
               nonce: nonce,
               idempotency_key: idempotency_key,
               location_id: "L04H83ZZ2XDWC",
-              paymentAmount: this.state.cartTotal
+              paymentAmount: parseInt(this.state.cartTotal)
             })   
           })
           .catch(err => {
@@ -734,7 +734,7 @@ class Checkout extends Component {
         // document.getElementById('orderInfoLoader').hidden = true
   
         // console.log('CART: ', cart)
-        // console.log('CART TOTAL: ', cartTotal)
+        console.log('CART TOTAL: ', cartTotal)
   
       }
 
