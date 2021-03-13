@@ -418,14 +418,23 @@ export default class PaymentForm extends Component {
       let that = this
       // Format a string itemising cart by mapping elements to sub-strings and joining the result
       const items = cart.map(function(element) {
-        let soapPriceInt = parseInt(element.soapPrice)
-        // console.log('SOAP PRICE INT: ', soapPriceInt)
-        let soapPriceFormatted = that.formatMoney(soapPriceInt)
-        // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
-        // let soapTotalInt = parseInt(element.soapTotal)
-        // console.log('SOAP TOTAL INT: ', soapPriceInt)
-        let soapTotalFormatted = that.formatMoney(element.soapTotal)
-        // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+        let soapPriceFormatted = ''
+        let soapTotalFormatted = ''
+        if (element.soapPrice % 1 === 0) {
+          let soapPriceInt = parseInt(element.soapPrice)
+          console.log('SOAP PRICE: ', element.soapPrice)
+          console.log('SOAP PRICE INT: ', soapPriceInt)
+          soapPriceFormatted = that.formatMoney(soapPriceInt)
+          // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
+          // let soapTotalInt = parseInt(element.soapTotal)
+          // console.log('SOAP TOTAL INT: ', soapPriceInt)
+          soapTotalFormatted = that.formatMoney(element.soapTotal)
+          // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
+        } else {
+          soapPriceFormatted = that.formatMoney(element.soapPrice)
+          soapTotalFormatted = that.formatMoney(element.soapTotal)
+        }
+        
         return `
         PRODUCT: ${ element.soapName }
         PRICE: ${ soapPriceFormatted }
