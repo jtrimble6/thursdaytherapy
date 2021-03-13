@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 import API from '../../utils/API'
 import { Alert } from 'rsuite';
@@ -140,6 +140,9 @@ class Checkout extends Component {
         this.sendNewOrderEmail = this.sendNewOrderEmail.bind(this)
         this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
         this.formatMoney = this.formatMoney.bind(this)
+        this.setRedirect = this.setRedirect.bind(this)
+        this.renderRedirect = this.renderRedirect.bind(this)
+        this.handleConfirmationComplete = this.handleConfirmationComplete.bind(this)
     
     }
 
@@ -1098,9 +1101,28 @@ class Checkout extends Component {
         })
       }
 
+    handleConfirmationComplete = () => {
+        // console.log('CHECKOUT COMPLETE')
+        this.setRedirect()
+        }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+      }
+  
+    renderRedirect = () => {
+        if (this.state.redirect === true) {
+          return <Redirect to='/' />
+        }
+        else {}
+      }
+
     render() {
         return (
             <span>
+              {this.renderRedirect()}
                 {/* <h2 className='checkoutTitle'>Secure Checkout</h2> */}
                 <div id='checkoutTitleDiv' className="checkoutTitleRow">
                   <h1 id='checkoutTitle' className='checkoutTitle'>Secure Checkout</h1>
