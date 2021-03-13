@@ -70,7 +70,7 @@ class Checkout extends Component {
           addressLine1: '',
           addressLine2: '',
           address1: '',
-          address2: null,
+          address2: 'empty',
           addressZipCode: '',
           addressCity: '',
           addressState: 'Select State',
@@ -992,7 +992,7 @@ class Checkout extends Component {
       }
 
       let address1 = this.state.address1
-      let address2 = this.state.address2 !== '' && this.state.address2 !== null ? this.state.address2 : null
+      let address2 = this.state.address2 !== '' ? this.state.address2 : 'empty'
       let addressCity = this.state.addressCity
       let addressState = this.state.addressState
       let addressZipCode = this.state.addressZipCode
@@ -1000,7 +1000,7 @@ class Checkout extends Component {
       axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/addressverf/" : "https://thursday-therapy.com/addressverf/" + address1 + "/" + address2 + "/" + addressCity + "/" + addressState + "/" + addressZipCode, {
         })
         .then(res => {
-          console.log('GOT A RESPONSE ADDRESS VERF: ', res)
+          // console.log('GOT A RESPONSE ADDRESS VERF: ', res)
           let lookup = res.data.lookups[0]
           let lookupResult = lookup.result
           console.log('LOOKUP RESULT: ', lookupResult)
