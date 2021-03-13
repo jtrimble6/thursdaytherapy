@@ -267,7 +267,6 @@ class Checkout extends Component {
       };
       this.SqPaymentForm = new window.SqPaymentForm(config);
       this.SqPaymentForm.build();
-      this.requestCardNonce()
       let creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false
     }
