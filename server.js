@@ -335,7 +335,7 @@ app.post('/addressverf/:address1/:address2/:addressCity/:addressState/:addressZi
 
 	let lookup1 = new Lookup();
 	lookup1.street = req.params.address1;
-	lookup1.secondary = req.params.address2;
+	lookup1.secondary = req.params.address2 !== '' ? req.params.address2 : null;
 	lookup1.city = req.params.addressCity;
 	lookup1.state = req.params.addressState;
 	lookup1.zipCode = req.params.addressZipCode;

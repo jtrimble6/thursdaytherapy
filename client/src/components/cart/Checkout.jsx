@@ -121,7 +121,7 @@ class Checkout extends Component {
         this.hideNonceModal = this.hideNonceModal.bind(this)
         this.confirmAddress = this.confirmAddress.bind(this)
         this.renderCreditCardForm = this.renderCreditCardForm.bind(this)
-        
+        this.handleNonceReceived = this.handleNonceReceived.bind(this)
     
     }
 
@@ -265,6 +265,72 @@ class Checkout extends Component {
       let creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false
       }
+
+    handleNonceReceived = (nonce) => {
+        const idempotency_key = uuidv4();
+        // console.log('nonce received in payment: ', nonce)
+        // console.log('uuid created: ', idempotency_key)
+        //Generate a random UUID as an idempotency key for the payment request
+        // length of idempotency_key should be less than 45
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+            });
+        }
+    
+        fetch('process-payment', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              nonce: nonce,
+              idempotency_key: idempotency_key,
+              location_id: "L04H83ZZ2XDWC",
+              paymentAmount: this.props.paymentAmount
+            })   
+          })
+          .catch(err => {
+            // alert('Network error: ' + err);
+            Alert.error('Sorry, there was an error connecting to Square payment. Please try again.', 10000)
+          })
+          .then(response => {
+            if (!response.ok) {
+              return response.json().then(
+                errorInfo => Promise.reject(errorInfo));
+            }
+            return response.json();
+          })
+          .then(data => {
+            // console.log(data);
+            if (data.title === "Payment Successful") {
+              Alert.success('Payment was a success!', 5000)
+              // console.log('PAYMENT WAS A HUGE SUCCESS!')
+              // console.log('PAYMENT RESULT: ', data.result.payment)
+              let paymentResult = data.result.payment
+              this.setState({
+                  paymentStatus: paymentResult.status,
+                  paymentCardLastFour: paymentResult.cardDetails.card.last4,
+                  paymentAmount: paymentResult.amountMoney.amount,
+                  paymentId: paymentResult.id,
+                  paymentOrderId: paymentResult.orderId,
+                  purchaseReceiptUrl: paymentResult.receiptUrl
+              })
+    
+            }
+            // debugger;
+            // alert('Payment complete successfully!\nCheck browser developer console for more details');
+            this.handlePaymentConfirmation()
+          })
+          .catch(err => {
+            console.error(err);
+            Alert.error('Sorry, there was an error completing your payment. Please try again.', 10000)
+            // alert('Payment failed to complete!\nCheck browser developer console for more details');
+          });
+        }
+    
 
     scrollTop() {
         window.scrollTo({
@@ -614,7 +680,7 @@ class Checkout extends Component {
       }
 
       let address1 = this.state.address1
-      let address2 = this.state.address2
+      let address2 = this.state.address2 !== '' ? this.state.address2 : null
       let addressCity = this.state.addressCity
       let addressState = this.state.addressState
       let addressZipCode = this.state.addressZipCode
