@@ -70,7 +70,7 @@ class Checkout extends Component {
           addressLine1: '',
           addressLine2: '',
           address1: '',
-          address2: 'empty',
+          address2: '',
           addressZipCode: '',
           addressCity: '',
           addressState: 'Select State',
