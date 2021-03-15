@@ -716,10 +716,9 @@ class Checkout extends Component {
       }
   
     async fetchCart(newProducts) {
-        // document.getElementById('orderInfoLoader').hidden = false
+
+        // FIND CART ITEMS AND CALCULATE TOTALS
         let cart = []
-        // console.log('LOCAL STORAGE: ', localStorage)
-        // console.log('PRODUCTS: ', products)
         let cartTotal = 0
         let cartItemQty = 0
         for (let c=0; c<localStorage.length; c++) {
@@ -727,8 +726,6 @@ class Checkout extends Component {
           let itemKey = localStorage.key(c)
           let item = localStorage.getItem(itemKey)
           let itemObj = JSON.parse(item)
-          // console.log('LOCAL STORAGE ITEM: ', itemObj)
-  
           let itemLookup = ''
           let itemName = ''
           let itemPrice = ''
@@ -738,13 +735,13 @@ class Checkout extends Component {
           itemLookup = products.filter(product => {
             return (product._id === itemObj.soapName)
           })
-          // console.log('ITEM LOOKUP: ', itemLookup)
           itemName = itemLookup[0].name
           itemPrice = itemLookup[0].price
           itemQty = itemObj.soapQty
           itemId = itemLookup[0]._id
           itemIngredients = itemLookup[0].ingredients
   
+          // REMOVING ITEMS FROM CART W/ QTY < 0
           if (itemQty > 0) {
             let newCartItem = {
               'itemKey': itemKey,
@@ -768,13 +765,9 @@ class Checkout extends Component {
         // CALCULATE SHIPPING COST
         let orderShippingCost = 7.95
         if (cartItemQty > 10) {
-          console.log('Order Shipping Cost: ', orderShippingCost)
           let multiplier = cartItemQty/100
-          console.log('Multiplier: ', multiplier)
-          let orderShippingAddon = (cartItemQty/100) * orderShippingCost
-          console.log('Order shipping added: ', orderShippingAddon)
+          let orderShippingAddon = multiplier * orderShippingCost
           orderShippingCost = orderShippingCost + orderShippingAddon
-          console.log('New shipping cost: ', orderShippingCost)
         }
 
         // CALCULATE GRAND TOTAL
@@ -1146,119 +1139,119 @@ class Checkout extends Component {
       }
 
     render() {
-        return (
-            <span>
-              {this.renderRedirect()}
-                {/* <h2 className='checkoutTitle'>Secure Checkout</h2> */}
-                <div id='checkoutTitleDiv' className="checkoutTitleRow">
-                  <h1 id='checkoutTitle' className='checkoutTitle'>Secure Checkout</h1>
-                  <p id='checkoutStepTitle' className='checkoutStep'>
-                    {this.state.currentStepTitle}
-                  </p>
-                  {/* <ProgressBar 
-                    now={this.state.progressPct}
-                  /> */}
-                  <small id='checkoutRequiredSmall' className='checkoutRequired'>*Required</small>
-                </div>
+      return (
+          <span>
+            {this.renderRedirect()}
+              {/* <h2 className='checkoutTitle'>Secure Checkout</h2> */}
+              <div id='checkoutTitleDiv' className="checkoutTitleRow">
+                <h1 id='checkoutTitle' className='checkoutTitle'>Secure Checkout</h1>
+                <p id='checkoutStepTitle' className='checkoutStep'>
+                  {this.state.currentStepTitle}
+                </p>
+                {/* <ProgressBar 
+                  now={this.state.progressPct}
+                /> */}
+                <small id='checkoutRequiredSmall' className='checkoutRequired'>*Required</small>
+              </div>
 
-                <Form className='checkoutForm'>
+              <Form className='checkoutForm'>
 
-                  <CheckoutOrderInfo 
-                    currentStep={this.state.currentStep}
-                    handleChange={this.handleChange}
-                    currentCart={this.state.currentCart}
-                    cartLoaded={this.state.cartLoaded}
-                    orderSubTotal={this.state.orderSubTotal}
-                    orderShippingCost={this.state.orderShippingCost}
-                    orderGrandTotal={this.state.orderGrandTotal}
-                  />
+                <CheckoutOrderInfo 
+                  currentStep={this.state.currentStep}
+                  handleChange={this.handleChange}
+                  currentCart={this.state.currentCart}
+                  cartLoaded={this.state.cartLoaded}
+                  orderSubTotal={this.state.orderSubTotal}
+                  orderShippingCost={this.state.orderShippingCost}
+                  orderGrandTotal={this.state.orderGrandTotal}
+                />
+              
+                <CheckoutPaymentInfo 
+                  currentStep={this.state.currentStep}
+                  handleChange={this.handleChange}
+                  handlePhoneChange={this.handlePhoneChange}
+                  firstName={this.state.firstName}
+                  lastName={this.state.lastName}
+                  email={this.state.email}
+                  phoneNumber={this.state.phoneNumber}
+                  addressLine1={this.state.addressLine1}
+                  addressLine2={this.state.addressLine2}
+                  address1={this.state.address1}
+                  address2={this.state.address2}
+                  addressZipCode={this.state.addressZipCode}
+                  addressCity={this.state.addressCity}
+                  addressState={this.state.addressState}
+                  checkEmail={this.checkEmail}
+                  emailError={this.state.emailError}
+                  phoneError={this.state.phoneError}
+                  cartTotal={this.state.orderGrandTotal}
+                  paymentForm={window.SqPaymentForm}
+                  formLoaded={this.state.loaded}
+                  paymentAmount={this.state.orderGrandTotal}
+                  cart={this.state.currentCart}
+                  changeState={this.changeState}
+                  validateAddress={this.validateAddress}
+                  showAddressModal={this.state.showAddressModal}
+                  openAddressModal={this.openAddressModal}
+                  hideAddressModal={this.hideAddressModal}
+                  showNonceModal={this.state.showNonceModal}
+                  openNonceModal={this.openNonceModal}
+                  hideNonceModal={this.hideNonceModal}
+                  addressSuggestions={this.state.addressSuggestions}
+                  confirmAddress={this.confirmAddress}
+                  handleCardError={this.renderCreditCardForm}
+                  requestCardNonce={this.requestCardNonce}
+                />
                 
-                  <CheckoutPaymentInfo 
-                    currentStep={this.state.currentStep}
-                    handleChange={this.handleChange}
-                    handlePhoneChange={this.handlePhoneChange}
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    email={this.state.email}
-                    phoneNumber={this.state.phoneNumber}
-                    addressLine1={this.state.addressLine1}
-                    addressLine2={this.state.addressLine2}
-                    address1={this.state.address1}
-                    address2={this.state.address2}
-                    addressZipCode={this.state.addressZipCode}
-                    addressCity={this.state.addressCity}
-                    addressState={this.state.addressState}
-                    checkEmail={this.checkEmail}
-                    emailError={this.state.emailError}
-                    phoneError={this.state.phoneError}
-                    cartTotal={this.state.orderGrandTotal}
-                    paymentForm={window.SqPaymentForm}
-                    formLoaded={this.state.loaded}
-                    paymentAmount={this.state.orderGrandTotal}
-                    cart={this.state.currentCart}
-                    changeState={this.changeState}
-                    validateAddress={this.validateAddress}
-                    showAddressModal={this.state.showAddressModal}
-                    openAddressModal={this.openAddressModal}
-                    hideAddressModal={this.hideAddressModal}
-                    showNonceModal={this.state.showNonceModal}
-                    openNonceModal={this.openNonceModal}
-                    hideNonceModal={this.hideNonceModal}
-                    addressSuggestions={this.state.addressSuggestions}
-                    confirmAddress={this.confirmAddress}
-                    handleCardError={this.renderCreditCardForm}
-                    requestCardNonce={this.requestCardNonce}
-                  />
-                  
-                  <CheckoutConfirmation 
-                    currentStep={this.state.currentStep}
-                  />
+                <CheckoutConfirmation 
+                  currentStep={this.state.currentStep}
+                />
 
 
-                  <Form.Row className="formNav" id='checkoutFormNav'>
-                    { 
-                      (this.state.currentStep === 1) ? 
-                      
-                      <Button onClick={this.handleNextStep} variant="primary" className="nextStep">
-                        Confirm Order
-                      </Button>
-                      
-                      :
-
-                      (this.state.currentStep < 2) ?
+                <Form.Row className="formNav" id='checkoutFormNav'>
+                  { 
+                    (this.state.currentStep === 1) ? 
                     
-                      <span className='stepButtonSpan'>
-                        <Button onClick={this.handlePrevStep} variant="warning" className="prevStep" aria-label='Previous Step'>
-                            Prev
-                        </Button> 
+                    <Button onClick={this.handleNextStep} variant="primary" className="nextStep">
+                      Confirm Order
+                    </Button>
+                    
+                    :
 
-                        <Button onClick={this.handleNextStep} variant="primary" className="nextStep" aria-label='Next Step'>
-                            Next
-                        </Button>
-                      </span>
+                    (this.state.currentStep < 2) ?
+                  
+                    <span className='stepButtonSpan'>
+                      <Button onClick={this.handlePrevStep} variant="warning" className="prevStep" aria-label='Previous Step'>
+                          Prev
+                      </Button> 
 
-                      :
+                      <Button onClick={this.handleNextStep} variant="primary" className="nextStep" aria-label='Next Step'>
+                          Next
+                      </Button>
+                    </span>
 
-                      (this.state.currentStep === 2) ?
+                    :
 
-                        <Button onClick={this.handlePrevStep} variant="warning" id='finalStepPrev' className="prevStep" aria-label='Previous Step'>
-                            Prev
-                        </Button> 
+                    (this.state.currentStep === 2) ?
 
-                      :
+                      <Button onClick={this.handlePrevStep} variant="warning" id='finalStepPrev' className="prevStep" aria-label='Previous Step'>
+                          Prev
+                      </Button> 
 
-                      <span></span>
+                    :
 
-                    }
-                    <ChangeStepError 
-                      changeStepError={this.state.changeStepError}
-                      stepOneFieldError={this.state.stepOneFieldError}
-                    />
-                  </Form.Row>
+                    <span></span>
 
-                </Form>
-                
-            </span>
+                  }
+                  <ChangeStepError 
+                    changeStepError={this.state.changeStepError}
+                    stepOneFieldError={this.state.stepOneFieldError}
+                  />
+                </Form.Row>
+
+              </Form>
+              
+          </span>
             
         
         )
