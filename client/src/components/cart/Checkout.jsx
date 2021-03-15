@@ -60,6 +60,9 @@ class Checkout extends Component {
           currentCart: [],
           cartTotal: '',
           cartLoaded: false,
+          orderSubTotal: '',
+          orderShippingCost: '',
+          orderGrandTotal: '',
           products: [],
           productImages: [],
           progressPct: 10,
@@ -215,13 +218,13 @@ class Checkout extends Component {
               countryCode: "US",
               total: {
                 label: "MERCHANT NAME",
-                amount: JSON.stringify(this.state.cartTotal),
+                amount: JSON.stringify(this.state.orderGrandTotal),
                 pending: false
               },
               lineItems: [
                 {
                   label: "Subtotal",
-                  amount: JSON.stringify(this.state.cartTotal),
+                  amount: JSON.stringify(this.state.orderGrandTotal),
                   pending: false
                 }
               ]
@@ -288,7 +291,7 @@ class Checkout extends Component {
       this.setState({
         sqPaymentForm: this.SqPaymentForm
       })
-    }
+      }
 
     requestCardNonce = (e) => {
         e.preventDefault()
@@ -329,7 +332,7 @@ class Checkout extends Component {
               nonce: nonce,
               idempotency_key: idempotency_key,
               location_id: "L04H83ZZ2XDWC",
-              paymentAmount: parseInt(this.state.cartTotal)
+              paymentAmount: parseInt(this.state.orderGrandTotal)
             })   
           })
           .catch(err => {
@@ -425,13 +428,13 @@ class Checkout extends Component {
         let orderAmountInt = ''
         let orderAmountFormatted = ''
 
-        if (this.state.cartTotal % 1 === 0) {
-          orderAmountInt = parseInt(this.state.cartTotal)
+        if (this.state.orderGrandTotal % 1 === 0) {
+          orderAmountInt = parseInt(this.state.orderGrandTotal)
           console.log('ORDER TOTAL: ', orderAmountInt)
           orderAmountFormatted = this.formatMoney(orderAmountInt)
           
         } else {
-          orderAmountInt = this.state.cartTotal
+          orderAmountInt = this.state.orderGrandTotal
           console.log('ORDER TOTAL: ', orderAmountInt)
           orderAmountFormatted = this.formatMoney(orderAmountInt)
         }
@@ -463,7 +466,7 @@ class Checkout extends Component {
     
         this.handleOrderSubmit()
           
-        }
+      }
     
     handleOrderSubmit = () => {
           // console.log('SUBMITTING ORDER')
@@ -479,7 +482,7 @@ class Checkout extends Component {
               purchaseReceiptUrl: this.state.purchaseReceiptUrl,
               confirmationNumber: this.state.paymentId,
               purchaseDetails: this.state.currentCart,
-              purchaseAmount: this.formatMoney(this.state.cartTotal),
+              purchaseAmount: this.formatMoney(this.state.orderGrandTotal),
               purchaseCard: this.state.paymentCardLastFour
           };
           console.log('ORDER DATA: ', orderData);
@@ -493,7 +496,7 @@ class Checkout extends Component {
               .catch(error => {
                 console.log(error)
               })
-        }
+      }
       
     sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
           // console.log(firstName, lastName, email, phoneNumber, details)
@@ -535,13 +538,13 @@ class Checkout extends Component {
           const body = `
           ${ items }
     
-          Total Sale: ${that.formatMoney(this.state.cartTotal)}
+          Total Sale: ${that.formatMoney(this.state.orderGrandTotal)}
           `;
     
           axios({
               method: "POST", 
-              url: "https://thursdaytherapy.herokuapp.com/neworder",
-              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
+              url: "https://thursday-therapy.com/neworder",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursday-therapy.com/neworder",
               data: {
                   firstName: firstName,   
                   lastName: lastName,
@@ -566,7 +569,7 @@ class Checkout extends Component {
                 })
               }
           })
-        }
+      }
     
     sendOrderConfirmationEmail = (firstName, lastName, email, confirmationNumber, confirmationUrl, details) => {
         // console.log(firstName, lastName, email, confirmationNumber, confirmationUrl)
@@ -599,8 +602,8 @@ class Checkout extends Component {
           `;
           axios({
               method: "POST", 
-              url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
-              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+              url: "https://thursday-therapy.com/orderconfirmation",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursday-therapy.com/orderconfirmation",
               data: {
                   firstName: firstName,   
                   lastName: lastName,
@@ -626,7 +629,7 @@ class Checkout extends Component {
                 // })
               }
           })
-        }
+      }
   
     formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
           try {
@@ -642,7 +645,7 @@ class Checkout extends Component {
           } catch (e) {
             // console.log(e)
           }
-        }
+      }
     
     scrollTop() {
         window.scrollTo({
@@ -653,7 +656,7 @@ class Checkout extends Component {
 
     async fetchData() {
         let productImages = []
-        const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+        const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursday-therapy.com/uploads");
           res.json()
             .then((res) => {
               // console.log('ALL IMAGES: ', res);
@@ -756,17 +759,31 @@ class Checkout extends Component {
           }
           
         }
+
+
+        // CALCULATE SHIPPING COST
+        let orderShippingCost = 7.95
+        let cartItemQty = cart.length
+        if (cartItemQty > 10) {
+          orderShippingCost = orderShippingCost + (cartItemQty/100 * orderShippingCost)
+        }
+
+        // CALCULATE GRAND TOTAL
+        let orderGrandTotal = cartTotal + orderShippingCost
         
         this.setState({
           currentCart: cart,
           cartTotal: cartTotal,
+          orderSubTotal: cartTotal,
+          orderShippingCost: orderShippingCost,
+          orderGrandTotal: orderGrandTotal,
           cartLoaded: true
         })
 
         // document.getElementById('orderInfoLoader').hidden = true
   
         // console.log('CART: ', cart)
-        console.log('CART TOTAL: ', cartTotal)
+        console.log('CART TOTAL: ', orderGrandTotal)
   
       }
 
@@ -1104,7 +1121,7 @@ class Checkout extends Component {
     handleConfirmationComplete = () => {
         // console.log('CHECKOUT COMPLETE')
         this.setRedirect()
-        }
+      }
 
     setRedirect = () => {
         this.setState({
@@ -1142,6 +1159,9 @@ class Checkout extends Component {
                     handleChange={this.handleChange}
                     currentCart={this.state.currentCart}
                     cartLoaded={this.state.cartLoaded}
+                    orderSubTotal={this.state.orderSubTotal}
+                    orderShippingCost={this.state.orderShippingCost}
+                    orderGrandTotal={this.state.orderGrandTotal}
                   />
                 
                   <CheckoutPaymentInfo 
@@ -1162,10 +1182,10 @@ class Checkout extends Component {
                     checkEmail={this.checkEmail}
                     emailError={this.state.emailError}
                     phoneError={this.state.phoneError}
-                    cartTotal={this.state.cartTotal}
+                    cartTotal={this.state.orderGrandTotal}
                     paymentForm={window.SqPaymentForm}
                     formLoaded={this.state.loaded}
-                    paymentAmount={this.state.cartTotal}
+                    paymentAmount={this.state.orderGrandTotal}
                     cart={this.state.currentCart}
                     changeState={this.changeState}
                     validateAddress={this.validateAddress}

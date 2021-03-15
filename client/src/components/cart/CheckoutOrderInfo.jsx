@@ -40,49 +40,57 @@ class CheckoutOrderInfo extends Component {
               <div id="orderInfoLoader" hidden={this.props.cartLoaded ? true : false}>
                 <Loader vertical center speed="slow" size="lg" content="Loading cart..." />
               </div>
-              <Table
-                className='orderTable'
-                // height={400}
-                data={this.props.currentCart}
-                renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
-                onRowClick={data => {
-                    // console.log(data);
-                }}
-              >
-                <Column flexGrow={1} width={70} align="left">
-                    <HeaderCell>Qty</HeaderCell>
-                    <Cell dataKey="soapQty" />
-                </Column>
+              <div id="orderInfoTableDiv" hidden={this.props.cartLoaded ? false : true}>
+                <Table
+                  className='orderTable'
+                  // height={400}
+                  data={this.props.currentCart}
+                  renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
+                  onRowClick={data => {
+                      // console.log(data);
+                  }}
+                >
+                  <Column flexGrow={1} width={70} align="left">
+                      <HeaderCell>Qty</HeaderCell>
+                      <Cell dataKey="soapQty" />
+                  </Column>
 
-                <Column flexGrow={1} width={200} align="left">
-                    <HeaderCell>Name</HeaderCell>
-                    <Cell dataKey="soapName" />
-                    {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
-                </Column>
+                  <Column flexGrow={1} width={200} align="left">
+                      <HeaderCell>Name</HeaderCell>
+                      <Cell dataKey="soapName" />
+                      {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
+                  </Column>
 
-                <Column flexGrow={3} width={200} align="left">
-                    <HeaderCell>Ingredients</HeaderCell>
-                    <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
-                    {/* <Cell dataKey="soapPrice" /> */}
-                </Column>
+                  <Column flexGrow={3} width={200} align="left">
+                      <HeaderCell>Ingredients</HeaderCell>
+                      <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
+                      {/* <Cell dataKey="soapPrice" /> */}
+                  </Column>
 
-                <Column flexGrow={1} width={200} align="right">
-                    <HeaderCell>Price</HeaderCell>
-                    <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
-                    {/* <Cell dataKey="soapPrice" /> */}
-                </Column>
+                  <Column flexGrow={1} width={200} align="right">
+                      <HeaderCell>Price</HeaderCell>
+                      <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
+                      {/* <Cell dataKey="soapPrice" /> */}
+                  </Column>
 
-                <Column flexGrow={1} width={200} align="right">
-                    <HeaderCell>Total Price</HeaderCell>
-                    <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
-                </Column>
+                  <Column flexGrow={1} width={200} align="right">
+                      <HeaderCell>Total Price</HeaderCell>
+                      <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
+                  </Column>
 
-                {/* <Column width={200}>
-                    <HeaderCell>Img</HeaderCell>
-                    <Cell dataKey="image" />
-                </Column> */}
+                  {/* <Column width={200}>
+                      <HeaderCell>Img</HeaderCell>
+                      <Cell dataKey="image" />
+                  </Column> */}
 
-            </Table>
+              </Table>
+              </div>
+              <div id='orderInfoTotalDiv'>
+                  <h2 className='orderInfoTitle'>Subtotal: {this.props.orderSubTotal}</h2>
+                  <h2 className='orderInfoTitle'>Shipping & Handling: {this.props.orderShippingCost}</h2>
+                  <h2 className='orderInfoTitle'>Grand Total: {this.props.orderGrandTotal}</h2>
+              </div>
+              
                 
             </div>
         )
