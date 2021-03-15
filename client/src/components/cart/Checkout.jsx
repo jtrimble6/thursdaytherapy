@@ -757,7 +757,7 @@ class Checkout extends Component {
             }
             cart.push(newCartItem)
             cartTotal = cartTotal + (itemPrice * itemQty)
-            cartItemQty = cartItemQty + itemQty
+            cartItemQty = parseInt(cartItemQty) + parseInt(itemQty)
           } else {
             this.removeItem(itemKey)
           }
