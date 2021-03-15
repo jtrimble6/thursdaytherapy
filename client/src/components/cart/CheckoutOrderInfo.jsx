@@ -86,9 +86,9 @@ class CheckoutOrderInfo extends Component {
               </Table>
               </div>
               <div id='orderInfoTotalDiv'>
-                  <h2 className='orderInfoTitle'>Subtotal: {this.props.orderSubTotal}</h2>
-                  <h2 className='orderInfoTitle'>Shipping & Handling: {this.props.orderShippingCost}</h2>
-                  <h2 className='orderInfoTitle'>Grand Total: {this.props.orderGrandTotal}</h2>
+                  <h2 id='orderSubtotal' className='orderInfoTitle'>Subtotal: {this.formatMoney(this.props.orderSubTotal)}</h2>
+                  <h2 id='orderShippingCost' className='orderInfoTitle'>Shipping & Handling: {this.formatMoney(this.props.orderShippingCost)}</h2>
+                  <h2 id='orderGrandTotal' className='orderInfoTitle'>Grand Total: {this.formatMoney(this.props.orderGrandTotal)}</h2>
               </div>
               
                 
