@@ -480,6 +480,18 @@ input::placeholder {
     font-weight: bold;
   }
 
+  #orderSubtotal {
+    width: 50vw;
+  }
+
+  #orderShippingCost {
+    width: 50vw;
+  }
+
+  #orderGrandTotal {
+    width: 50vw;
+  }
+
   /* ORDER DETAILS TABLE */
   .rs-table-cell-group {
     font-size: 3vw;

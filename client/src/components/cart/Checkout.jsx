@@ -721,6 +721,7 @@ class Checkout extends Component {
         // console.log('LOCAL STORAGE: ', localStorage)
         // console.log('PRODUCTS: ', products)
         let cartTotal = 0
+        let cartItemQty = 0
         for (let c=0; c<localStorage.length; c++) {
           let products = newProducts
           let itemKey = localStorage.key(c)
@@ -756,6 +757,7 @@ class Checkout extends Component {
             }
             cart.push(newCartItem)
             cartTotal = cartTotal + (itemPrice * itemQty)
+            cartItemQty = cartItemQty + itemQty
           } else {
             this.removeItem(itemKey)
           }
@@ -765,7 +767,6 @@ class Checkout extends Component {
 
         // CALCULATE SHIPPING COST
         let orderShippingCost = 7.95
-        let cartItemQty = cart.length
         if (cartItemQty > 10) {
           orderShippingCost = orderShippingCost + (cartItemQty/100 * orderShippingCost)
         }
