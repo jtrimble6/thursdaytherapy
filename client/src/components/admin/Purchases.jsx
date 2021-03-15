@@ -36,11 +36,8 @@ class Purchases extends Component {
             phoneNumber: '',
             phoneError: false,
             email: '',
-            address1: '',
-            address2: '',
-            addressZipCode: '',
-            addressCity: '',
-            addressState: '',
+            addressLine1: '',
+            addressLine2: '',
             purchaseDate: '',
             confirmationNumber: '',
             orderId: '',
@@ -103,11 +100,8 @@ class Purchases extends Component {
           'lastName': this.state.lastName,
           'email': this.state.email,
           'phoneNumber': this.state.phoneNumber,
-          'address1': this.state.address1,
-          'address2': this.state.address2,
-          'addressZipCode': this.state.addressZipCode,
-          'addressCity': this.state.addressCity,
-          'addressState': this.state.addressState
+          'addressLine1': this.state.addressLine1,
+          'addressLine2': this.state.addressLine2,
       }
 
       API.updateOrder(orderId, orderDetails)
@@ -138,11 +132,8 @@ class Purchases extends Component {
         document.getElementById('lastName').disabled = false
         document.getElementById('phoneNumber').disabled = false
         document.getElementById('email').disabled = false
-        document.getElementById('address1').disabled = false
-        document.getElementById('address2').disabled = false
-        document.getElementById('addressZipCode').disabled = false
-        document.getElementById('addressCity').disabled = false
-        document.getElementById('addressState').disabled = false
+        document.getElementById('addressLine1').disabled = false
+        document.getElementById('addressLine2').disabled = false
       }
 
     // handleEditPurchases = event => {
@@ -192,11 +183,8 @@ class Purchases extends Component {
             lastName: purchase[0].lastName,
             phoneNumber: purchase[0].phoneNumber,
             email: purchase[0].email,
-            address1: purchase[0].address1,
-            address2: purchase[0].address2,
-            addressZipCode: purchase[0].addressZipCode,
-            addressCity: purchase[0].addressCity,
-            addressState: purchase[0].addressState,
+            addressLine1: purchase[0].addressLine1,
+            addressLine2: purchase[0].addressLine2,
             purchaseDate: purchase[0].purchaseDate,
             purchaseDetails: purchaseDetails,
             purchaseTotal: purchaseTotal,
@@ -235,11 +223,8 @@ class Purchases extends Component {
             lastName: purchase[0].lastName,
             phoneNumber: purchase[0].phoneNumber,
             email: purchase[0].email,
-            address1: purchase[0].address1,
-            address2: purchase[0].address2,
-            addressZipCode: purchase[0].addressZipCode,
-            addressCity: purchase[0].addressCity,
-            addressState: purchase[0].addressState,
+            addressLine1: purchase[0].addressLine1,
+            addressLine2: purchase[0].addressLine2,
             purchaseDate: purchase[0].purchaseDate,
             purchaseDetails: purchaseDetails,
             purchaseTotal: purchaseTotal,
@@ -341,11 +326,8 @@ class Purchases extends Component {
             lastName: purchase[0].lastName,
             phoneNumber: purchase[0].phoneNumber,
             email: purchase[0].email,
-            address1: purchase[0].address1,
-            address2: purchase[0].address2,
-            addressZipCode: purchase[0].addressZipCode,
-            addressCity: purchase[0].addressCity,
-            addressState: purchase[0].addressState,
+            addressLine1: purchase[0].addressLine1,
+            addressLine2: purchase[0].addressLine2,
             purchaseDate: purchase[0].purchaseDate,
             purchaseDetails: purchaseDetails,
             purchaseAmount: JSON.stringify(this.formatMoney(purchaseTotal)),
@@ -576,32 +558,32 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="address1">Address 1</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine1">Address Line 1</Form.Label>
                             <Form.Control 
                                 disabled
-                                name="address1"
+                                name="addressLine1"
                                 // type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
-                                id="address1"
-                                value={this.state.address1}   
+                                id="addressLine1"
+                                value={this.state.addressLine1}   
                                 onChange={this.handleChange}                            
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="address2">Address 2</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine2">Address 2</Form.Label>
                             <Form.Control 
                                 disabled
-                                name="address2"
+                                name="addressLine2"
                                 // type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
-                                id="address2"
-                                value={this.state.address2}   
+                                id="addressLine2"
+                                value={this.state.addressLine2}   
                                 onChange={this.handleChange}                            
                             />
                         </Form.Group>
-                        <Form.Group className="purchaseFormGroup">
+                        {/* <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="addressZipCode">Address Zip Code</Form.Label>
                             <Form.Control 
                                 disabled
@@ -689,7 +671,7 @@ class Purchases extends Component {
                             <Dropdown.Item onClick={this.changeState}>Wisconsin</Dropdown.Item>
                             <Dropdown.Item onClick={this.changeState}>Wyoming</Dropdown.Item>
                           </Dropdown>
-                        </Form.Group>
+                        </Form.Group> */}
                         <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</Form.Label>
                             <Form.Control 
@@ -851,30 +833,30 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="address1">Address 1</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine1">Address 1</Form.Label>
                             <Form.Control 
                                 disabled
-                                name="address1"
+                                name="addressLine1"
                                 type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
-                                id="address1"
-                                placeholder={this.state.address1}                              
+                                id="addressLine1"
+                                placeholder={this.state.addressLine1}                              
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="address2">Address 2</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine2">Address 2</Form.Label>
                             <Form.Control 
                                 disabled
-                                name="address2"
+                                name="addressLine2"
                                 type="text"
                                 // min={0}
                                 className="form-control purchaseFormEntry"
-                                id="address2"
-                                placeholder={this.state.address2}                              
+                                id="addressLine2"
+                                placeholder={this.state.addressLine2}                              
                             />
                         </Form.Group>
-                        <Form.Group className="purchaseFormGroup">
+                        {/* <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="addressZipCode">Address Zip Code</Form.Label>
                             <Form.Control 
                                 disabled
@@ -959,7 +941,7 @@ class Purchases extends Component {
                             <Dropdown.Item onClick={this.changeState}>Wisconsin</Dropdown.Item>
                             <Dropdown.Item onClick={this.changeState}>Wyoming</Dropdown.Item>
                           </Dropdown>
-                        </Form.Group>
+                        </Form.Group> */}
                         <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</Form.Label>
                             <Form.Control 
