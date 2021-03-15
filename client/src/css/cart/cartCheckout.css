@@ -45,14 +45,20 @@
 
 #orderSubtotal {
   background-color: lightgray;
+  width: 30vw;
+  margin: 0 auto;
 }
 
 #orderShippingCost {
   background-color: darkgray;
+  width: 30vw;
+  margin: 0 auto;
 }
 
 #orderGrandTotal {
   background-color: gold;
+  width: 30vw;
+  margin: 0 auto;
 }
 
 .orderTable {
