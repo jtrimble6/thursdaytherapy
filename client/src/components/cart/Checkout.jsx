@@ -769,7 +769,9 @@ class Checkout extends Component {
         let orderShippingCost = 7.95
         if (cartItemQty > 10) {
           console.log('Order Shipping Cost: ', orderShippingCost)
-          let orderShippingAddon = (cartItemQty/100 * orderShippingCost)
+          let multiplier = cartItemQty/100
+          console.log('Multiplier: ', multiplier)
+          let orderShippingAddon = (cartItemQty/100) * orderShippingCost
           console.log('Order shipping added: ', orderShippingAddon)
           orderShippingCost = orderShippingCost + orderShippingAddon
           console.log('New shipping cost: ', orderShippingCost)
