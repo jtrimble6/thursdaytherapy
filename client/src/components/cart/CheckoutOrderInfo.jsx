@@ -50,30 +50,30 @@ class CheckoutOrderInfo extends Component {
                       // console.log(data);
                   }}
                 >
-                  <Column flexGrow={1} minWidth={70} align="left">
+                  <Column flexGrow={1} width={70} align="left">
                       <HeaderCell>Qty</HeaderCell>
                       <Cell dataKey="soapQty" />
                   </Column>
 
-                  <Column flexGrow={2} minWidth={200} align="left">
+                  <Column flexGrow={2} width={200} align="left">
                       <HeaderCell>Name</HeaderCell>
                       <Cell dataKey="soapName" />
                       {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                   </Column>
 
-                  <Column flexGrow={3} minWidth={300} align="left">
+                  <Column flexGrow={3} width={300} align="left">
                       <HeaderCell>Description</HeaderCell>
                       <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
                       {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
-                  <Column flexGrow={1} minWidth={500} align="right">
+                  <Column flexGrow={1} width={500} align="right">
                       <HeaderCell>Price</HeaderCell>
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
                       {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
-                  <Column flexGrow={1} minWidth={200} align="right">
+                  <Column flexGrow={1} width={200} align="right">
                       <HeaderCell>Total Price</HeaderCell>
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
                   </Column>
