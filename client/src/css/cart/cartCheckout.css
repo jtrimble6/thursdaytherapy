@@ -47,18 +47,21 @@
   background-color: lightgray;
   width: 30vw;
   margin: 0 auto;
+  margin-bottom: 1vw;
 }
 
 #orderShippingCost {
   background-color: darkgray;
   width: 30vw;
   margin: 0 auto;
+  margin-bottom: 1vw;
 }
 
 #orderGrandTotal {
   background-color: gold;
   width: 30vw;
   margin: 0 auto;
+  margin-bottom: 1vw;
 }
 
 .orderTable {

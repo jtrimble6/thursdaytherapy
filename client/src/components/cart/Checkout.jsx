@@ -537,7 +537,9 @@ class Checkout extends Component {
           // Format body string with itemised cart, total price, etc
           const body = `
           ${ items }
-    
+          
+          Subtotal: ${that.formatMoney(this.state.orderSubTotal)}
+          Shipping & Handling: ${that.formatMoney(this.state.orderShippingCost)}
           Total Sale: ${that.formatMoney(this.state.orderGrandTotal)}
           `;
     
