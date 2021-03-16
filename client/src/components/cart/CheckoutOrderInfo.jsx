@@ -61,13 +61,13 @@ class CheckoutOrderInfo extends Component {
                       {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                   </Column>
 
-                  <Column flexGrow={3} width={300} align="left">
+                  <Column flexGrow={3} width={250} align="left">
                       <HeaderCell>Description</HeaderCell>
                       <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
                       {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
-                  <Column flexGrow={1} width={500} align="right">
+                  <Column flexGrow={1} width={250} align="right">
                       <HeaderCell>Price</HeaderCell>
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
                       {/* <Cell dataKey="soapPrice" /> */}
