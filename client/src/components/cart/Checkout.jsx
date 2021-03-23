@@ -763,11 +763,12 @@ class Checkout extends Component {
 
 
         // CALCULATE SHIPPING COST
-        let orderShippingCost = 7.95
-        if (cartItemQty > 10) {
-          let multiplier = cartItemQty/100
-          let orderShippingAddon = multiplier * orderShippingCost
-          orderShippingCost = orderShippingCost + orderShippingAddon
+        let orderShippingCost = 9.50
+        if (cartItemQty > 6 && cartItemQty < 24) {
+          orderShippingCost = 16.95
+        } 
+        if (cartItemQty > 24) {
+          orderShippingCost = 24.45
         }
 
         // CALCULATE GRAND TOTAL
