@@ -32,9 +32,9 @@
     "@types/node" "*"
 
 "@types/express-serve-static-core@^4.17.18":
-  version "4.17.18"
-  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.18.tgz#8371e260f40e0e1ca0c116a9afcd9426fa094c40"
-  integrity sha512-m4JTwx5RUBNZvky/JJ8swEJPKFd8si08pPF2PfizYjGZOKr/svUWPcoUmLow6MmPzhasphB7gSTINY67xn3JNA==
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.19.tgz#00acfc1632e729acac4f1530e9e16f6dd1508a1d"
+  integrity sha512-DJOSHzX7pCiSElWaGR8kCprwibCB/3yW6vcT8VG3P0SJjnv19gnWG/AZMfM60Xj/YJIp/YCaDHyvzsFVeniARA==
   dependencies:
     "@types/node" "*"
     "@types/qs" "*"
@@ -56,17 +56,17 @@
   integrity sha512-YATxVxgRqNH6nHEIsvg6k2Boc1JHI9ZbH5iWFFv/MTkchz3b1ieGDa5T0a9RznNdI0KhVbdbWSN+KWWrQZRxTw==
 
 "@types/mongodb@^3.5.27":
-  version "3.6.9"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.9.tgz#55f7e5b04f33904a12d6f0ab4f5d119a5062ade4"
-  integrity sha512-2XSGr/+IOKeFQ5tU9ATcIiIr7bpHqWyOXNGLOOhp0kg2NnfEvoKZF1SZ25j4zvJRqM2WeSUjfWSvymFJ3HBGJQ==
+  version "3.6.10"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.10.tgz#80cceaabeec9f460e5b46844e938e8eba74f9266"
+  integrity sha512-BkwAHFiZSSWdTIqbUVGmgvIsiXXjqAketeK7Izy7oSs6G3N8Bn993tK9eq6QEovQDx6OQ2FGP2KWDDxBzdlJ6Q==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
 
 "@types/node@*":
-  version "14.14.33"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.33.tgz#9e4f8c64345522e4e8ce77b334a8aaa64e2b6c78"
-  integrity sha512-oJqcTrgPUF29oUP8AsUqbXGJNuPutsetaa9kTQAQce5Lx5dTYWV02ScBiT/k1BX/Z7pKeqedmvp39Wu4zR7N7g==
+  version "14.14.35"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.35.tgz#42c953a4e2b18ab931f72477e7012172f4ffa313"
+  integrity sha512-Lt+wj8NVPx0zUmUwumiVXapmaLUcAk3yPuHCFVXras9k5VT9TdhJqKqGVUQCD60OTMCl0qxJ57OiTL0Mic3Iag==
 
 "@types/qs@*":
   version "6.9.6"
@@ -178,9 +178,9 @@ body-parser@1.19.0, body-parser@^1.19.0:
     type-is "~1.6.17"
 
 bson@^1.1.4:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.5.tgz#2aaae98fcdf6750c0848b0cba1ddec3c73060a34"
-  integrity sha512-kDuEzldR21lHciPQAIulLs1LZlCXdLziXI6Mb/TDkwXhb//UORJNPXgcRs2CuO4H0DcMkpfT3/ySsP3unoZjBg==
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/bson/-/bson-1.1.6.tgz#fb819be9a60cd677e0853aee4ca712a785d6618a"
+  integrity sha512-EvVNVeGo4tHxwi8L6bPj3y3itEvStdwvvlojVxxbyYfoaxJ6keLgrTuKdyfEAszFK+H3olzBuafE0yoh0D1gdg==
 
 buffer-from@^1.0.0:
   version "1.1.1"
@@ -292,9 +292,9 @@ destroy@~1.0.4:
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
 detect-node@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
-  integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.5.tgz#9d270aa7eaa5af0b72c4c9d9b814e7f4ce738b79"
+  integrity sha512-qi86tE6hRcFHy8jI1m2VG+LaPUR1LhqDa5G8tVjuUXmOrpuAgqsA1pN0+ldgr3aKUH+QLI9hCY/OcRYisERejw==
 
 dicer@0.2.5:
   version "0.2.5"
@@ -606,10 +606,10 @@ mongodb-uri@^0.9.7:
   resolved "https://registry.yarnpkg.com/mongodb-uri/-/mongodb-uri-0.9.7.tgz#0f771ad16f483ae65f4287969428e9fbc4aa6181"
   integrity sha1-D3ca0W9IOuZfQoeWlCjp+8SqYYE=
 
-mongodb@3.6.4, mongodb@>=2:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.4.tgz#ca59fd65b06831308262372ef9df6b78f9da97be"
-  integrity sha512-Y+Ki9iXE9jI+n9bVtbTOOdK0B95d6wVGSucwtBkvQ+HIvVdTCfpVRp01FDC24uhC/Q2WXQ8Lpq3/zwtB5Op9Qw==
+mongodb@3.6.5, mongodb@>=2:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.5.tgz#c27d786fd4d3c83dc19302483707d12a9d2aee5f"
+  integrity sha512-mQlYKw1iGbvJJejcPuyTaytq0xxlYbIoVDm2FODR+OHxyEiMR021vc32bTvamgBjCswsD54XIRwhg3yBaWqJjg==
   dependencies:
     bl "^2.2.1"
     bson "^1.1.4"
@@ -625,14 +625,14 @@ mongoose-legacy-pluralize@1.0.2:
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
 mongoose@^5.11.2:
-  version "5.11.19"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.11.19.tgz#fb20ee6145f4ca9bd757f87ed3ae9e13e92effde"
-  integrity sha512-+oMf4XVg+j7ygnALi7K5vWZfKvC9gs9jdN/6Y1GV5OUAc7KQWoa6hzFO7nSj5jMJlhHNvC6tcS2uU7BV5aH8Lg==
+  version "5.12.2"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.12.2.tgz#3274630dfb9a8e63dbda0c6e7124fd475623c6ff"
+  integrity sha512-kT9t6Nvu9WPsfssn7Gzke446Il8UdMilY7Sa5vALtwoOoNOGtZEVjekZBFwsBFzTWtBA/x5gBmJoYFP+1LeDlg==
   dependencies:
     "@types/mongodb" "^3.5.27"
     bson "^1.1.4"
     kareem "2.3.2"
-    mongodb "3.6.4"
+    mongodb "3.6.5"
     mongoose-legacy-pluralize "1.0.2"
     mpath "0.8.3"
     mquery "3.2.4"
@@ -951,9 +951,9 @@ sliced@1.0.1:
   integrity sha1-CzpmK10Ewxd7GSa+qCsD+Dei70E=
 
 smartystreets-javascript-sdk@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/smartystreets-javascript-sdk/-/smartystreets-javascript-sdk-1.7.1.tgz#d3ef1f72c714b4b695bfd65b8374f14412a94999"
-  integrity sha512-GDxT795WY4trCo5XdSuWxPbgXo7h0ZlV8VV4JVWpiojhEJOilSCJM3O7nNXVkkx9ZX9Io8g0gKXdQcf37KigTg==
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/smartystreets-javascript-sdk/-/smartystreets-javascript-sdk-1.7.2.tgz#797b16b47bc1067902cff3da777946186d190b7c"
+  integrity sha512-6G9yLe+Bu9dWsnxh+pYR0yFR/qhT+SfH+4JXyCWg0Eb8nrsvXFjiQ+oXksmxkBhJj0UXfZI+mlmsFjKmXzo6pQ==
   dependencies:
     axios-proxy-fix "^0.16.3"
     axios-retry "^3.1.9"
