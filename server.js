@@ -29,7 +29,7 @@ require('dotenv').config();
 require('./src/routeHandler')(app)
 
 // Set the Access Token which is used to authorize to a merchant
-const accessToken = 'EAAAEE9dzaHn0vQMcZ1X7g7FoImy-euP0JKAdxWuA6W6xx0409Jxub1-OSpr1XEM';
+const accessToken = process.env.NODE_ENV === 'production' ? process.env.SQUARE_PRODUCTION_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
 
 app.use(function (req, res, next) {
 	if (req.header('x-forwarded-proto') === 'http' && process.env.NODE_ENV === 'production') {

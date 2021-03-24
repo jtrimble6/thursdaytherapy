@@ -158,8 +158,8 @@ class Checkout extends Component {
 
     renderCreditCardForm = () => {
       const config = {
-        applicationId: "sandbox-sq0idb-r0EX7qY-zPL3PXaw54l0Hg",
-        locationId: "L04H83ZZ2XDWC",
+        applicationId: process.env.REACT_APP_SQUARE_SANDBOX_ACCESS_TOKEN,
+        locationId: process.env.REACT_APP_LOCATION_ID,
         inputClass: "sq-input",
         autoBuild: false,
         inputStyles: [
