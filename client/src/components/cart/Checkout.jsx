@@ -5,24 +5,14 @@ import API from '../../utils/API'
 import { Alert } from 'rsuite';
 import { Form, Button } from 'react-bootstrap'
 import $ from 'jquery'
-
-
 // CSS
 import '../../css/cart/cartCheckout.css'
-
 // SIGN UP PAGES
 import CheckoutOrderInfo from './CheckoutOrderInfo'
 import CheckoutPaymentInfo from './CheckoutPaymentInfo'
 import CheckoutConfirmation from './CheckoutConfirmation'
-
 // ALERTS 
 import ChangeStepError from '../alerts/ChangeStepError'
-
-// SCRIPTS
-// import ScriptTag from 'react-script-tag';
-
-// import ExistingAccount from "../../alerts/ExistingAccount";
-// import PasswordError from '../../alerts/PasswordError';
 
 const normalizeInput = (value, previousValue) => {
   // console.log('normalizing input')
@@ -146,6 +136,7 @@ class Checkout extends Component {
         this.setRedirect = this.setRedirect.bind(this)
         this.renderRedirect = this.renderRedirect.bind(this)
         this.handleConfirmationComplete = this.handleConfirmationComplete.bind(this)
+        this.handleResendConfirmationEmail = this.handleResendConfirmationEmail.bind(this)
     
     }
 
@@ -308,7 +299,6 @@ class Checkout extends Component {
         this.state.sqPaymentForm.requestCardNonce();
       }
     
-
     handleNonceReceived = (nonce) => {
         const idempotency_key = uuidv4();
         // console.log('nonce received in payment: ', nonce)
@@ -394,22 +384,31 @@ class Checkout extends Component {
         // CHANGE CHECKOUT TITLE
         // HIDE CHECKOUT STEP TITLE DIV
         let checkoutTitle = document.getElementById('checkoutTitle')
-        checkoutTitle.innerHTML = 'Payment Complete'
+        checkoutTitle.innerHTML = 'Order Complete'
         let checkoutStepTitle = document.getElementById('checkoutStepTitle')
         checkoutStepTitle.innerHTML = ''
     
         // HIDE REQUIRED TEXT
         let requiredText = document.getElementById('checkoutRequiredSmall')
         requiredText.hidden = true
+
+         // CREATE RESEND CONFIRMATION EMAIL BUTTON
+         let checkoutResendEmailButton = document.createElement('button')
+         checkoutResendEmailButton.innerHTML = 'Resend Confirmation Email'
+         checkoutResendEmailButton.classList.add('checkoutResendEmailButton')
+         checkoutResendEmailButton.classList.add('button-credit-card')
+         checkoutResendEmailButton.onclick = this.handleResendConfirmationEmail
+         checkoutFormNav.appendChild(checkoutResendEmailButton)
     
         // CREATE CHECKOUT CONFIRMATION BUTTON
         let checkoutConfirmationButton = document.createElement('button')
-        // checkoutConfirmationButton.innerHTML = '<button className="checkoutConfirmationButton" onclick='+ this.handleConfirmationComplete +'" />';
-        checkoutConfirmationButton.innerHTML = 'Back to home'
+        checkoutConfirmationButton.innerHTML = 'Back to Home'
         checkoutConfirmationButton.classList.add('checkoutConfirmationButton')
         checkoutConfirmationButton.classList.add('button-credit-card')
         checkoutConfirmationButton.onclick = this.handleConfirmationComplete
         checkoutFormNav.appendChild(checkoutConfirmationButton)
+
+       
     
         // CREATE ORDER CONFIRMATION DIV
         let orderConfirmationElement = document.createElement('div')
@@ -449,7 +448,7 @@ class Checkout extends Component {
         orderEmailConfirmation.innerHTML = 'Thank you for your order! A confirmation email has been sent to: ' + this.state.email 
         
         let orderEmailDisclaimer = document.createElement('p')
-        orderEmailDisclaimer.innerHTML = '(Email may be sent to your spam folder).'
+        orderEmailDisclaimer.innerHTML = '(Email may be sent to your spam folder)'
     
         // APPEND ORDER CONFIRMATION DIV TO PAGE
         orderConfirmationElement.appendChild(orderConfirmationStatus)
@@ -459,43 +458,42 @@ class Checkout extends Component {
         orderConfirmationElement.appendChild(orderEmailConfirmation)
         orderConfirmationElement.appendChild(orderEmailDisclaimer)
         orderConfirmationForm.appendChild(orderConfirmationElement)
-    
-    
-        // EMPTY LOCAL STORAGE
-        localStorage.clear()
-    
+  
         this.handleOrderSubmit()
           
       }
     
     handleOrderSubmit = () => {
-          // console.log('SUBMITTING ORDER')
-          let orderData = { 
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              email: this.state.email,
-              phoneNumber: this.state.phoneNumber,
-              addressLine1: this.state.addressLine1,
-              addressLine2: this.state.addressLine2,
-              purchaseId: this.state.paymentId,
-              purchaseOrderId: this.state.paymentOrderId,
-              purchaseReceiptUrl: this.state.purchaseReceiptUrl,
-              confirmationNumber: this.state.paymentId,
-              purchaseDetails: this.state.currentCart,
-              purchaseAmount: this.formatMoney(this.state.orderGrandTotal),
-              purchaseCard: this.state.paymentCardLastFour
-          };
-          console.log('ORDER DATA: ', orderData);
-          API.submitOrder(orderData)
-            .then(res => {
-                // console.log('ORDER SUBMIT RESULT: ', res) 
-                let orderDetails = orderData.purchaseDetails
-                this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
-                this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
-              })
-              .catch(error => {
-                console.log(error)
-              })
+        // console.log('SUBMITTING ORDER')
+        let orderData = { 
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            phoneNumber: this.state.phoneNumber,
+            addressLine1: this.state.addressLine1,
+            addressLine2: this.state.addressLine2,
+            purchaseId: this.state.paymentId,
+            purchaseOrderId: this.state.paymentOrderId,
+            purchaseReceiptUrl: this.state.purchaseReceiptUrl,
+            confirmationNumber: this.state.paymentId,
+            purchaseDetails: this.state.currentCart,
+            purchaseAmount: this.formatMoney(this.state.orderGrandTotal),
+            purchaseCard: this.state.paymentCardLastFour
+        };
+        console.log('ORDER DATA: ', orderData);
+        API.submitOrder(orderData)
+          .then(res => {
+            // console.log('ORDER SUBMIT RESULT: ', res) 
+            let orderDetails = orderData.purchaseDetails
+            this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
+            this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
+            // EMPTY CART
+            localStorage.clear()
+            this.fetchCart()
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
       
     sendNewOrderEmail = (firstName, lastName, email, phoneNumber, details) => {
@@ -924,41 +922,6 @@ class Checkout extends Component {
         })
       }
 
-    // handleOrderSubmit = (e) => {
-    //     e.preventDefault()
-    //     this.scrollTop()
-    //     // console.log('SUBMITTING ORDER')
-    //     this.setState({
-    //         currentStep: 3
-    //     }, () => {
-    //       this.handleStepTitleChange()
-    //     })
-    //     // console.log('CURRENT CART: ', this.state.carts)
-    //     let cart = this.state.currentCart
-    //     let orderData = { 
-    //         firstName: this.state.firstName,
-    //         lastName: this.state.lastName,
-    //         email: this.state.email,
-    //         phoneNumber: this.state.phoneNumber,
-    //         address1: this.state.address1,
-    //         address2: this.state.address2,
-    //         addressCity: this.state.addressCity,
-    //         addressZipCode: this.state.addressZipCode,
-    //         addressState: this.state.addressState,
-    //         purchaseId: 'testId',
-    //         confirmationNumber: '1234',
-    //         purchaseDetails: cart
-    //     };
-    //     // console.log('ORDER DATA: ', orderData);
-    //     API.submitOrder(orderData)
-    //       .then(res => {
-    //           // console.log('ORDER SUBMIT RESULT: ', res) 
-    //         })
-    //         .catch(error => {
-    //           // console.log(error)
-    //         })
-    //   }
-
     checkEmail = (event) => {
         const {name, value} = event.target
 
@@ -1124,6 +1087,27 @@ class Checkout extends Component {
     handleConfirmationComplete = () => {
         // console.log('CHECKOUT COMPLETE')
         this.setRedirect()
+      }
+
+    handleResendConfirmationEmail = (e) => {
+          e.preventDefault()
+          let orderData = { 
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            phoneNumber: this.state.phoneNumber,
+            addressLine1: this.state.addressLine1,
+            addressLine2: this.state.addressLine2,
+            purchaseId: this.state.paymentId,
+            purchaseOrderId: this.state.paymentOrderId,
+            purchaseReceiptUrl: this.state.purchaseReceiptUrl,
+            confirmationNumber: this.state.paymentId,
+            purchaseDetails: this.state.currentCart,
+            purchaseAmount: this.formatMoney(this.state.orderGrandTotal),
+            purchaseCard: this.state.paymentCardLastFour
+        };
+        let orderDetails = orderData.purchaseDetails
+        this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
       }
 
     setRedirect = () => {

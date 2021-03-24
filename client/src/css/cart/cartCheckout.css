@@ -171,13 +171,19 @@
 }
 
 .checkoutConfirmationButton {
-  /* width: 40%;
-    margin: 0 auto; */
   align-content: center !important;
   background-color: gold;
   color: black;
   font-size: 2vw;
-  /* margin-bottom: 2vw; */
+  margin-bottom: 1vw;
+}
+
+.checkoutResendEmailButton {
+  align-content: center !important;
+  background-color: gold !important;
+  color: black !important;
+  font-size: 2vw;
+  margin-bottom: 1vw !important;
 }
 
 #processingPaymentPayButton {
@@ -548,7 +554,8 @@ input::placeholder {
     margin-top: 5vw;
     margin-bottom: 5vw;
   }
-  .checkoutConfirmationButton {
+  .checkoutConfirmationButton,
+  .checkoutResendEmailButton {
     max-width: 100%;
   }
   #processingPaymentLoader .rs-loader-content {
