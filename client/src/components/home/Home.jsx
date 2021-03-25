@@ -15,7 +15,10 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        
+        let localSessionID = localStorage.getItem('sessionID')
+        if (localSessionID) {
+          localStorage.clear()
+        }
       }
     
     
