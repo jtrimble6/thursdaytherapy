@@ -571,7 +571,7 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine2">Address 2</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine2">Address Line 2</Form.Label>
                             <Form.Control 
                                 disabled
                                 name="addressLine2"
@@ -739,7 +739,7 @@ class Purchases extends Component {
 
                             <Column flexGrow={1} width={70}>
                                 <HeaderCell>Total</HeaderCell>
-                                <Cell>{(rowData) => {return "$" + rowData.soapTotal}}</Cell>
+                                <Cell>{(rowData) => {return "$" + Number(rowData.soapTotal)toFixed(2)}}</Cell>
                                 {/* <Cell dataKey="total" /> */}
                             </Column>
 
@@ -833,7 +833,7 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine1">Address 1</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine1">Address Line 1</Form.Label>
                             <Form.Control 
                                 disabled
                                 name="addressLine1"
@@ -845,7 +845,7 @@ class Purchases extends Component {
                             />
                         </Form.Group>
                         <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine2">Address 2</Form.Label>
+                            <Form.Label className='purchaseFormLabel' htmlFor="addressLine2">Address Line 2</Form.Label>
                             <Form.Control 
                                 disabled
                                 name="addressLine2"
@@ -1060,12 +1060,12 @@ class Purchases extends Component {
                       <Cell dataKey="lastName" />
                   </Column>
 
-                  <Column flexGrow={3} width={250}>
+                  <Column flexGrow={2} width={125}>
                       <HeaderCell>Phone #</HeaderCell>
                       <Cell dataKey="phoneNumber" />
                   </Column>
 
-                  <Column flexGrow={2}>
+                  <Column flexGrow={2} width={125}>
                       <HeaderCell>Purchase Date</HeaderCell>
                       <Cell dataKey="purchaseDate" />
                   </Column>
