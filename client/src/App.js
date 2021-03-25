@@ -75,7 +75,19 @@ class App extends Component {
           })
         })
     }
-  }
+    }
+
+  requireAuth = (nextState, replace, next) => {
+    console.log('REQUIRES AUTH')
+    console.log('Logged In?? ', this.state.loggedIn)
+      if (!this.state.loggedIn) {
+        replace({
+          pathname: "/login",
+          state: {nextPathname: nextState.location.pathname}
+        });
+      }
+      next();
+    }
 
   render() {
     return (
@@ -125,57 +137,36 @@ class App extends Component {
                 
               }
             />
-            <Route exact path='/admin'
+            <Route exact path='/admin' onEnter={this.requireAuth}
               render={() =>
                 
-                {
-                  this.state.loggedIn === true ? 
-                  <AdminPage 
-                    updateUser={this.updateUser}
-                  />
-                 : 
-                  <Redirect to='/login' />
-                }
+                <AdminPage 
+                  updateUser={this.updateUser}
+                />
                 
                 }
             />
-            <Route exact path='/inventory'
+            <Route exact path='/inventory' onEnter={this.requireAuth}
               render={() =>
-                
-                {
-                  this.state.loggedIn === true ? 
-                  <Inventory 
-                    updateUser={this.updateUser}
-                  />
-                 : 
-                  <Redirect to='/login' />
-                }
+                <Inventory 
+                  updateUser={this.updateUser}
+                />
               }
             />
-            <Route exact path='/purchases'
+            <Route exact path='/purchases' onEnter={this.requireAuth}
               render={() =>
                 
-                {
-                  this.state.loggedIn === true ? 
-                  <Purchases 
-                    updateUser={this.updateUser}
-                  />
-                 : 
-                  <Redirect to='/login' />
-                }
+                <Purchases 
+                  updateUser={this.updateUser}
+                />
 
               }
             />
-            <Route exact path='/tools'
+            <Route exact path='/tools' onEnter={this.requireAuth}
               render={() =>
-                {
-                  this.state.loggedIn === true ? 
-                  <AdminTools 
-                    updateUser={this.updateUser}
-                  />
-                 : 
-                  <Redirect to='/login' />
-                }
+                <AdminTools 
+                  updateUser={this.updateUser}
+                />
               }
             />
             <Route exact path='/signout'
