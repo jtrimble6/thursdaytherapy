@@ -38,7 +38,7 @@ class App extends Component {
     localStorage.setItem('sessionID', this.state.sessionID)
     // console.log('LOCAL STORAGE: ', localStorage)
     // debugger;
-  }
+    }
 
   getUser = () => {
     let localSessionID = localStorage.getItem('sessionID')
@@ -77,6 +77,13 @@ class App extends Component {
     }
     }
 
+  clearLocalStorage = () => {
+    let localSessionID = localStorage.getItem('sessionID')
+    if (localSessionID) {
+      localStorage.clear()
+    }
+  }
+
   requireAuth = (nextState, replace, next) => {
     console.log('REQUIRES AUTH')
     console.log('Logged In?? ', this.state.loggedIn)
@@ -94,32 +101,32 @@ class App extends Component {
       <Router>
         <div id='appRoot' className="App">
           <Switch>
-            <Route exact path='/'
+            <Route exact path='/' onEnter={this.clearLocalStorage}
               render={() =>
                 <Home />
               }
             />
-            <Route exact path='/products'
+            <Route exact path='/products' onEnter={this.clearLocalStorage}
               render={() =>
                 <ProductsPage />
               }
             />
-            <Route exact path='/ourstory'
+            <Route exact path='/ourstory' onEnter={this.clearLocalStorage}
               render={() =>
                 <OurStory />
               }
             />
-            <Route exact path='/howtobuy'
+            <Route exact path='/howtobuy' onEnter={this.clearLocalStorage}
               render={() =>
                 <HowToBuy />
               }
             />
-            <Route exact path='/contactus'
+            <Route exact path='/contactus' onEnter={this.clearLocalStorage}
               render={() =>
                 <ContactUs />
               }
             />
-            <Route exact path='/shoppingcart'
+            <Route exact path='/shoppingcart' onEnter={this.clearLocalStorage}
               render={() =>
                 <CartPage />
               }
