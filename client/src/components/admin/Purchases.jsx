@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Table, Row, Icon, Alert, Loader, Dropdown } from 'rsuite';
+import { Modal, Button, Table, Row, Icon, Alert, Loader } from 'rsuite';
 import { Form } from 'react-bootstrap'
 import API from '../../utils/API'
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
