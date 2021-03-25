@@ -11,8 +11,8 @@ class Admin extends Component {
       this.state = {        
         developmentURL: "http://localhost:3000/product",
         developmentCartURL: "http://localhost:3000/cart",
-        productionCartURL: "https://thursdaytherapy.herokuapp.com/cart",
-        productionURL: "https://thursdaytherapy.herokuapp.com/product",
+        productionCartURL: "https://thursday-therapy.com.com/cart",
+        productionURL: "https://thursday-therapy.com.com/product",
         show: false,
         soapName: '',
         soapIngredients: '',
@@ -114,7 +114,7 @@ class Admin extends Component {
   render() {                                                       
       return (
           <span>
-            <h2 id='adminPageTitle'>Welcome Admin!</h2>
+            <h2 id='adminPageTitle'>Admin Dashboard</h2>
           </span>
       )
   }

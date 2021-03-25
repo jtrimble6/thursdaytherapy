@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Switch } from 'react-router-dom'
+import { Switch, Redirect } from 'react-router-dom'
 
 import API from './utils/API'
 import Home from './components/home/Home'
@@ -122,34 +122,60 @@ class App extends Component {
                 <AdminLogin 
                   updateUser={this.updateUser}
                 />
+                
               }
             />
             <Route exact path='/admin'
               render={() =>
-                <AdminPage 
-                  updateUser={this.updateUser}
-                />
-              }
+                
+                {
+                  this.state.loggedIn === true ? 
+                  <AdminPage 
+                    updateUser={this.updateUser}
+                  />
+                 : 
+                  <Redirect to='/login' />
+                }
+                
+                }
             />
             <Route exact path='/inventory'
               render={() =>
-                <Inventory 
-                  updateUser={this.updateUser}
-                />
+                
+                {
+                  this.state.loggedIn === true ? 
+                  <Inventory 
+                    updateUser={this.updateUser}
+                  />
+                 : 
+                  <Redirect to='/login' />
+                }
               }
             />
             <Route exact path='/purchases'
               render={() =>
-                <Purchases 
-                  updateUser={this.updateUser}
-                />
+                
+                {
+                  this.state.loggedIn === true ? 
+                  <Purchases 
+                    updateUser={this.updateUser}
+                  />
+                 : 
+                  <Redirect to='/login' />
+                }
+
               }
             />
             <Route exact path='/tools'
               render={() =>
-                <AdminTools 
-                  updateUser={this.updateUser}
-                />
+                {
+                  this.state.loggedIn === true ? 
+                  <AdminTools 
+                    updateUser={this.updateUser}
+                  />
+                 : 
+                  <Redirect to='/login' />
+                }
               }
             />
             <Route exact path='/signout'
