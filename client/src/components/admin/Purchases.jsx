@@ -1055,7 +1055,7 @@ class Purchases extends Component {
                       
                   </Column>
 
-                  <Column flexGrow={2} width={200}>
+                  <Column flexGrow={2} width={125}>
                       <HeaderCell>Last Name</HeaderCell>
                       <Cell dataKey="lastName" />
                   </Column>
@@ -1070,7 +1070,7 @@ class Purchases extends Component {
                       <Cell dataKey="purchaseDate" />
                   </Column>
 
-                  <Column flexGrow={3} width={250}>
+                  <Column flexGrow={3} width={200}>
                       <HeaderCell>Confirmation #</HeaderCell>
                       <Cell dataKey="confirmationNumber" />
                   </Column>
