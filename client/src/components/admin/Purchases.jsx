@@ -739,7 +739,7 @@ class Purchases extends Component {
 
                             <Column flexGrow={1} width={70}>
                                 <HeaderCell>Total</HeaderCell>
-                                <Cell>{(rowData) => {return "$" + Number(rowData.soapTotal)toFixed(2)}}</Cell>
+                                <Cell>{(rowData) => {return "$" + Number(rowData.soapTotal).toFixed(2)}}</Cell>
                                 {/* <Cell dataKey="total" /> */}
                             </Column>
 
