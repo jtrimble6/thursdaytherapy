@@ -28,7 +28,6 @@ class App extends Component {
     }
 
     this.clearLocalStorage = this.clearLocalStorage.bind(this)
-    this.requireAuth = this.requireAuth.bind(this)
     
 
 }
@@ -92,18 +91,6 @@ class App extends Component {
     }
   }
 
-  requireAuth = (nextState, replace, next) => {
-    console.log('REQUIRES AUTH')
-    console.log('Logged In?? ', this.state.loggedIn)
-      if (!this.state.loggedIn) {
-        replace({
-          pathname: "/login",
-          state: {nextPathname: nextState.location.pathname}
-        });
-      }
-      next();
-    }
-
   render() {
     return (
       <Router>
@@ -152,7 +139,7 @@ class App extends Component {
                 
               }
             />
-            <Route exact path='/admin' onEnter={this.requireAuth}
+            <Route exact path='/admin'
               render={() =>
                 
                 <AdminPage 
@@ -161,14 +148,14 @@ class App extends Component {
                 
                 }
             />
-            <Route exact path='/inventory' onEnter={this.requireAuth}
+            <Route exact path='/inventory'
               render={() =>
                 <Inventory 
                   updateUser={this.updateUser}
                 />
               }
             />
-            <Route exact path='/purchases' onEnter={this.requireAuth}
+            <Route exact path='/purchases'
               render={() =>
                 
                 <Purchases 
@@ -177,7 +164,7 @@ class App extends Component {
 
               }
             />
-            <Route exact path='/tools' onEnter={this.requireAuth}
+            <Route exact path='/tools'
               render={() =>
                 <AdminTools 
                   updateUser={this.updateUser}

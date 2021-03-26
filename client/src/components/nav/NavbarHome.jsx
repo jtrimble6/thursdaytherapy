@@ -23,7 +23,14 @@ class NavbarHome extends Component {
       }
     
     getCart = () => {
-        let cartCount = localStorage.length
+        let cartCount = 0
+        let localSessionID = localStorage.getItem('sessionID')
+        if (!localSessionID || localSessionID === null) {
+          return
+        } else {
+          cartCount = localStorage.length
+        }
+        
         // console.log('CART COUNT: ', cartCount)
         if(cartCount > 0) {
             this.setState({
