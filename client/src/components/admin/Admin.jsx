@@ -40,7 +40,7 @@ class Admin extends Component {
       let localSessionID = localStorage.getItem('sessionID')
       console.log('CHECKING SESSION ID:')
       console.log(localSessionID)
-      if (!localSessionID) {
+      if (!localSessionID || localSessionID === null) {
         this.setRedirect()
       }
     }
