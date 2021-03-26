@@ -53,7 +53,7 @@ class Admin extends Component {
 
   renderRedirect = () => {
       if (this.state.redirect === true) {
-        return <Redirect to='/admin' />
+        return <Redirect to='/login' />
       }
       else {}
   }
