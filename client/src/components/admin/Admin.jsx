@@ -38,6 +38,8 @@ class Admin extends Component {
   componentDidMount() {
     //   this.fetchData()
       let localSessionID = localStorage.getItem('sessionID')
+      console.log('CHECKING SESSION ID:')
+      console.log(localSessionID)
       if (!localSessionID) {
         this.setRedirect()
       }
