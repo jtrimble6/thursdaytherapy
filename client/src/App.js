@@ -21,9 +21,17 @@ import './App.css';
 
 class App extends Component {
 
-  state = {
+  constructor(props) {
+    super(props)
+    this.state = {
+      
+    }
+
+    this.clearLocalStorage = this.clearLocalStorage.bind(this)
+    this.requireAuth = this.requireAuth.bind(this)
     
-  }
+
+}
 
   componentDidMount() {
     this.getUser()
