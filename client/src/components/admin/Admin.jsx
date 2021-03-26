@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 // import { Panel, Modal, Button, Dropdown } from 'rsuite';
 import $ from 'jquery'
 import '../../css/admin/admin.css'
@@ -8,7 +9,8 @@ class Admin extends Component {
       super(props);
       
 
-      this.state = {        
+      this.state = {    
+        redirect: false,    
         developmentURL: "http://localhost:3000/product",
         developmentCartURL: "http://localhost:3000/cart",
         productionCartURL: "https://thursday-therapy.com.com/cart",
@@ -29,11 +31,31 @@ class Admin extends Component {
       this.fetchData = this.fetchData.bind(this)
       this.addToCart = this.addToCart.bind(this)
       this.changeQty = this.changeQty.bind(this)
+      this.setRedirect = this.setRedirect.bind(this)
+      this.renderRedirect = this.renderRedirect.bind(this)
   }
 
   componentDidMount() {
     //   this.fetchData()
+      let localSessionID = localStorage.getItem('sessionID')
+      if (!localSessionID) {
+        this.setRedirect()
+      }
     }
+
+  setRedirect = () => {
+      this.setState({
+          redirect: true
+      })
+  }
+
+  renderRedirect = () => {
+      if (this.state.redirect === true) {
+        return <Redirect to='/admin' />
+      }
+      else {}
+  }
+
 
   async fetchData() {
       const res = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentURL : this.state.productionURL);
@@ -114,6 +136,7 @@ class Admin extends Component {
   render() {                                                       
       return (
           <span>
+            {this.renderRedirect()}
             <h2 id='adminPageTitle'>Admin Dashboard</h2>
           </span>
       )
