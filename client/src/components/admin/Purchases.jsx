@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import { Modal, Button, Table, Row, Icon, Alert, Loader } from 'rsuite';
 import { Form } from 'react-bootstrap'
 import API from '../../utils/API'
@@ -27,6 +28,7 @@ class Purchases extends Component {
         super(props);
 
         this.state = {
+            redirect: false,
             currentPurchases: [],
             filteredPurchases: [],
             showDetails: false,
@@ -50,6 +52,8 @@ class Purchases extends Component {
 
         }
 
+        this.setRedirect = this.setRedirect.bind(this)
+        this.renderRedirect = this.renderRedirect.bind(this)
         this.getPurchases = this.getPurchases.bind(this)
         this.handleUpdateOrder = this.handleUpdateOrder.bind(this)
         this.openDetails = this.openDetails.bind(this)
@@ -68,8 +72,29 @@ class Purchases extends Component {
     }
 
     componentDidMount() {
-        this.getPurchases()
+        let localSessionID = localStorage.getItem('sessionID')
+        console.log('CHECKING SESSION ID:')
+        console.log(localSessionID)
+        if (!localSessionID || localSessionID === null) {
+          this.setRedirect()
+        } else {
+          this.getPurchases()
+        }
+        
       }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+    }
+  
+    renderRedirect = () => {
+        if (this.state.redirect === true) {
+          return <Redirect to='/login' />
+        }
+        else {}
+    }
     
     getPurchases = () => {
       API.getPurchases()
@@ -468,6 +493,7 @@ class Purchases extends Component {
         const { Column, HeaderCell, Cell } = Table;                                                                                             
         return (
           <div id='purchases'>
+            {this.renderRedirect()}
             <NavbarAdmin />
               <span>
                 <div className="row purchasesTitleRow">

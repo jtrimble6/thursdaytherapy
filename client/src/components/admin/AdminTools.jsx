@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import { Panel, Icon, Alert } from 'rsuite';
 import NavbarAdmin from '../nav/NavbarAdmin.jsx'
 import API from '../../utils/API'
@@ -11,11 +12,14 @@ class AdminTools extends Component {
         super(props);
 
         this.state = {
+          redirect: false,
           showAdminAddModal: false,
           showAdminDeleteModal: false,
           admins: []
         }
         
+        this.setRedirect = this.setRedirect.bind(this)
+        this.renderRedirect = this.renderRedirect.bind(this)
         this.openAddAdmin = this.openAddAdmin.bind(this)
         this.closeAddAdmin = this.closeAddAdmin.bind(this)
         this.closeDeleteAdmin = this.closeDeleteAdmin.bind(this)
@@ -25,7 +29,28 @@ class AdminTools extends Component {
     }
 
     componentDidMount() {
-        this.getAdmins()
+        let localSessionID = localStorage.getItem('sessionID')
+        console.log('CHECKING SESSION ID:')
+        console.log(localSessionID)
+        if (!localSessionID || localSessionID === null) {
+          this.setRedirect()
+        } else {
+          this.getAdmins()
+        }
+        
+      }
+
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+      }
+  
+    renderRedirect = () => {
+        if (this.state.redirect === true) {
+          return <Redirect to='/login' />
+        }
+        else {}
       }
 
     getAdmins = () => {
@@ -65,6 +90,7 @@ class AdminTools extends Component {
     render() {                                                       
         return (
           <div id='adminTools'>
+            {this.renderRedirect()}
             <NavbarAdmin />
             <span>
               

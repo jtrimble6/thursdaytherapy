@@ -13,8 +13,8 @@ class Admin extends Component {
         redirect: false,    
         developmentURL: "http://localhost:3000/product",
         developmentCartURL: "http://localhost:3000/cart",
-        productionCartURL: "https://thursday-therapy.com.com/cart",
-        productionURL: "https://thursday-therapy.com.com/product",
+        productionCartURL: "https://thursday-therapy.com/cart",
+        productionURL: "https://thursday-therapy.com/product",
         show: false,
         soapName: '',
         soapIngredients: '',
@@ -75,6 +75,7 @@ class Admin extends Component {
           });
         });
     }
+    
   async addToCart(id) {
     if (this.state.qty === 'qty') {
       // console.log('must set a valid qty')
