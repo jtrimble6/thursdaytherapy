@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Panel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon, Grid, Row, Col, Loader, Alert } from 'rsuite';
+import { v4 as uuidv4 } from 'uuid';
+import { Panel, Carousel, Modal, Button, Dropdown, Form, FormGroup, FormControl, Icon, Grid, Row, Col, Loader, Alert } from 'rsuite';
 import $ from 'jquery'
 import API from '../../utils/API'
 import '../../css/products/productsImages.css'
@@ -38,7 +39,7 @@ class Products extends Component {
 
   async fetchData() {
     let productImages = []
-    const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursdaytherapy.herokuapp.com/uploads");
+    const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursday-therapy.com/uploads");
       res.json()
         .then((res) => {
           // console.log('ALL IMAGES: ', res);
@@ -50,41 +51,103 @@ class Products extends Component {
             // filteredProducts: res.data
           });
           API.getProducts()
-              .then(res => {
-                // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
-                let productsData = res.data
-                console.log('PRODUCTS: ', productsData)
-                for (let p=0; p<productsData.length; p++) {
-                  let product = productsData[p]
-                  let productName = product.name
-                  let productImage = productImages.filter(image => {
-                    return image.productId === productName
-                  })
-                  let newProducts = [...productsData]
-                  // console.log('FILENAME: ', productImage[0])
-                  let productImageFile = productImage[0]
-                  if (productImageFile) {
-                    let newProduct = {
-                      ...newProducts[p], 
-                      soapImageFile: productImage[0].filename,
-                      soapImageId: productImage[0]._id
-                    }
-                    newProducts[p] = newProduct
-                    this.setState({
-                      products: newProducts,
-                      filteredProducts: newProducts
+                .then(res => {
+                  console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+                  let productsData = res.data
+                  console.log('PRODUCTS: ', productsData)
+                  for (let p=0; p<productsData.length; p++) {
+                    let product = productsData[p]
+                    let productName = product.name
+                    let productImage = productImages.filter(image => {
+                      return image.productId === productName
                     })
-                    productsData = newProducts
-                    document.getElementById('productsLoader').hidden = true
+                    let newProducts = [...productsData]
+                    // console.log('FILENAME: ', productImage[0])
+                    if (productImage.length > 1) {
+                      // console.log('MULTIPLE IMAGES: ', productImage)
+                      let soapImageFiles = []
+                      let soapImageIds = []
+                      for(let g=0; g<3; g++) {
+                        let productImageFile = productImage[g]
+                        if (productImageFile) { 
+                          soapImageFiles.push(productImageFile.filename)
+                          soapImageIds.push(productImageFile._id)
+                        }
+                      }
+                      let newProduct = {
+                        ...newProducts[p], 
+                        soapImageFile: soapImageFiles,
+                        soapImageId: soapImageIds
+                      }
+                      newProducts[p] = newProduct
+                      this.setState({
+                        products: newProducts,
+                        filteredProducts: newProducts
+                      })
+                      productsData = newProducts
+                    } else {
+                      let productImageFile = productImage[0]
+                      if (productImageFile) {
+                        let newProduct = {
+                          ...newProducts[p], 
+                          soapImageFile: productImage[0].filename,
+                          soapImageId: productImage[0]._id
+                        }
+                        newProducts[p] = newProduct
+                        this.setState({
+                          products: newProducts,
+                          filteredProducts: newProducts
+                        })
+                        productsData = newProducts
+                        document.getElementById('productsLoader').hidden = true
+                      }
+                      this.props.updateCart()
+                    }
+                    
+                    
+                    // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
                   }
-                  this.props.updateCart()
-                  // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
-                }
-                // this.setState({
-                //     products: res.data,
-                //     filteredProducts: res.data
-                //   });
-              })
+                  // this.setState({
+                  //     products: res.data,
+                  //     filteredProducts: res.data
+                  //   });
+                })
+          // API.getProducts()
+          //     .then(res => {
+          //       // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+          //       let productsData = res.data
+          //       console.log('PRODUCTS: ', productsData)
+          //       for (let p=0; p<productsData.length; p++) {
+          //         let product = productsData[p]
+          //         let productName = product.name
+          //         let productImage = productImages.filter(image => {
+          //           return image.productId === productName
+          //         })
+          //         let newProducts = [...productsData]
+          //         // console.log('FILENAME: ', productImage[0])
+          //         let productImageFile = productImage[0]
+          //         if (productImageFile) {
+          //           let newProduct = {
+          //             ...newProducts[p], 
+          //             soapImageFile: productImage[0].filename,
+          //             soapImageId: productImage[0]._id
+          //           }
+          //           newProducts[p] = newProduct
+          //           this.setState({
+          //             products: newProducts,
+          //             filteredProducts: newProducts
+          //           })
+          //           productsData = newProducts
+                    
+          //         }
+                  
+          //         // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+          //       }
+          //       // this.setState({
+          //       //     products: res.data,
+          //       //     filteredProducts: res.data
+          //       //   });
+          //     })
               .catch(err => {
                 Alert.warning('There was an error loading the page. Please retry.', 10000)
                 console.log('ERROR GETTING PRODUCTS: ', err)
@@ -193,7 +256,9 @@ class Products extends Component {
       let soapImage = soap.dataset.soapimage
       let soapPrice = soap.dataset.soapprice
       let soapIngredients = soap.dataset.soapingredients
-      let soapImageFile = soap.dataset.soapimagefile
+      let soapImageFile = soap.dataset.soapfile
+      console.log('SOAP IMAGE FILES: ', soapImage)
+      let soapImageFilesArray = soapImage.split(",")
       // console.log("PRODUCT: ", soapName)
       this.setState({ 
           soapImage: soapImage,
@@ -201,7 +266,7 @@ class Products extends Component {
           soapName: soapName,
           soapPrice: soapPrice,
           soapIngredients: soapIngredients,
-          soapImageFile: soapImageFile,
+          soapImageFile: soapImageFilesArray,
           show: true
       });
     }
@@ -285,7 +350,34 @@ class Products extends Component {
                         
                     </Col>
                     <Col className='productListingImageCol' xs={12} xsPull={12}>
-                      <img src={`uploads/${this.state.soapImageFile}`} data-soapname='Peacock Z' className="productsImageModal" alt="peacockZ1" />
+                    <Carousel key={uuidv4()} placement="bottom" shape="dot" className="soapImageSlider">
+
+                    { Array.isArray(this.state.soapImageFile) ? 
+
+                    this.state.soapImageFile.map((image, j) => (
+                      <img
+                        key={uuidv4()} 
+                        // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                        src={image !== undefined ? `uploads/${image}` : "https://via.placeholder.com/150" }
+                        data-soapname='Peacock Z' 
+                        className="productsImageModal" 
+                        alt="peacockZ1" 
+                        // height="200"
+                      />
+                    ))
+
+                    :
+
+                    <img 
+                      src={`uploads/${this.state.soapImageFile}`} 
+                      data-soapname='Peacock Z' 
+                      className="productsImageModal" 
+                      alt="peacockZ1" 
+                    />
+
+                    }
+
+                      </Carousel>
                       <h2 className="productsListingPrice">
                         {this.formatMoney(this.state.soapPrice)}
                       </h2>
@@ -314,8 +406,62 @@ class Products extends Component {
                 </Button>
               </Modal.Footer>
             </Modal>
-            
+
             {this.state.filteredProducts.map((product, i) => (
+                    <span key={product._id}>
+                      <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
+                          <Carousel key={uuidv4()} placement="bottom" shape="dot" className="soapImageSlider">
+                            
+                            {
+                              Array.isArray(product.soapImageFile) ? 
+
+                              product.soapImageFile.map((image, j) => (
+                                <img
+                                  key={uuidv4()} 
+                                  // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                                  src={image !== undefined ? `uploads/${image}` : "https://via.placeholder.com/150" }
+                                  data-soapname={product.name} 
+                                  data-soapprice={product.price} 
+                                  data-soapimage={product.soapImageFile} 
+                                  data-soapid={product._id} 
+                                  data-soapfile={product.image}
+                                  data-soapimageid={product.soapImageId}
+                                  data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
+                                  onClick={this.open} 
+                                  className="productsImage" 
+                                  alt="soap name" 
+                                  // height="200"
+                                />
+                              ))
+
+                              :
+
+                              <img 
+                                // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                                src={product.soapImageFile !== undefined ? `uploads/${product.soapImageFile}` : "https://via.placeholder.com/150" }
+                                data-soapname={product.name} 
+                                data-soapprice={product.price} 
+                                data-soapimage={product.soapImageFile} 
+                                data-soapid={product._id} 
+                                data-soapfile={product.image}
+                                data-soapimageid={product.soapImageId}
+                                data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
+                                onClick={this.open} 
+                                className="productsImage" 
+                                alt="soap name" 
+                                // height="200"
+                              />
+
+                            }
+                            
+                            
+                          </Carousel>
+                          <Panel className='productsImageHeader' header={product.name}></Panel>
+                      </Panel>
+                    </span>   
+                  ))}
+            
+            {/* {this.state.filteredProducts.map((product, i) => (
               <span key={product._id}>
                 <Panel className='productsImagePanel' shaded bordered bodyFill={false} style={{ display: 'inline-block' }}>
                   <img 
@@ -333,7 +479,7 @@ class Products extends Component {
                   <Panel className='productsImageHeader' header={product.name}></Panel>
                 </Panel>
               </span>   
-            ))}
+            ))} */}
           </div>
         </span>
       )

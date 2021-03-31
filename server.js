@@ -31,13 +31,13 @@ require('./src/routeHandler')(app)
 // Set the Access Token which is used to authorize to a merchant
 const accessToken = process.env.NODE_ENV === 'production' ? process.env.SQUARE_SANDBOX_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
 
-app.use(function (req, res, next) {
-	if (req.header('x-forwarded-proto') === 'http' && process.env.NODE_ENV === 'production') {
-	  res.redirect(301, 'https://' + req.hostname + req.url);
-	  return
-	}
-	next()
-  });
+// app.use(function (req, res, next) {
+// 	if (req.header('x-forwarded-proto') === 'http' && process.env.NODE_ENV === 'production') {
+// 	  res.redirect(301, 'https://' + req.hostname + req.url);
+// 	  return
+// 	}
+// 	next()
+//   });
 
 app.use(morgan('dev'));
 app.use(cors());
@@ -136,7 +136,8 @@ app.use(function(req, res, next) { //allow cross origin requests
 //   }));
 
 // Connect to the Mongo DB
-const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? "mongodb://localhost:27017/cart" : process.env.MONGO_URI, { useNewUrlParser: true }, { useUnifiedTopology: true });
+let localDB = "mongodb://localhost:27017/cart"
+const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? localDB : process.env.MONGO_URI, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 var gfs;
 var connection = mongoose.connection;
@@ -175,25 +176,46 @@ const storage = new GridFsStorage({
     });
   }
 });
-const upload = multer({ storage });
+// const upload = multer({ storage });
+const upload = multer({ storage : storage }).array('file', 3);
 
 app.post("/upload/:productId", function (req, res, next) {
 	try {
-		upload.single('file')(req, res, function (error) {
-			if (error) {
-			  console.log(`upload.single error: ${error}`);
-			  return res.sendStatus(500);
-			} else {
-			  console.log('UPLOAD FILE: ', req.file)
-			  gfs.files.update({'filename': req.file.filename}, 
-				  {'$set': 
-					  {
-					  'productId': req.params.productId
-					  },
-				  })
-			}
-			// code
-		  })
+		upload(req,res,function(err) {
+			//console.log(req.body);
+			//console.log(req.files);
+			if (err) {
+				console.log(`upload multiple error: ${err}`);
+				return res.sendStatus(500);
+			  } else {
+				console.log('UPLOAD FILE(s): ', req.files)
+				for (let u=0; u<req.files.length; u++) {
+					gfs.files.update({'filename': req.files[u].filename}, 
+						{'$set': 
+							{
+							'productId': req.params.productId
+							},
+						})
+				}
+				
+			  }
+			res.end("Files are uploaded");
+		});
+		// upload.single('file')(req, res, function (error) {
+		// 	if (error) {
+		// 	  console.log(`upload.single error: ${error}`);
+		// 	  return res.sendStatus(500);
+		// 	} else {
+		// 	  console.log('UPLOAD FILE: ', req.file)
+		// 	  gfs.files.update({'filename': req.file.filename}, 
+		// 		  {'$set': 
+		// 			  {
+		// 			  'productId': req.params.productId
+		// 			  },
+		// 		  })
+		// 	}
+		// 	// code
+		//   })
 	  } catch (error) {
 		return res.status(400).json({ error: error.toString() });
 	  }

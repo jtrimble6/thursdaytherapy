@@ -1,25 +1,25 @@
 .inventoryTitleRow {
-    width: 100%;
-    display: inline-block !important;
+  width: 100%;
+  display: inline-block !important;
 }
 
 .inventoryTitle {
-    font-size: 5vw;
-    float: left;
-    width: 30%;
-    margin-left: 15vw;
-    font-family: 'Didot';
+  font-size: 5vw;
+  float: left;
+  width: 30%;
+  margin-left: 15vw;
+  font-family: "Didot";
 }
 
 #adminInventorySearchBarForm {
-    float: right;
-    width: 30%;
-    margin-right: 10vw;
-    margin-top: 1vw;
+  float: right;
+  width: 30%;
+  margin-right: 10vw;
+  margin-top: 1vw;
 }
 
 #adminInventorySearchBarFormGroup .rs-form-control-wrapper {
-    max-width: 70% !important;
+  max-width: 70% !important;
 }
 
 /* .searchIcon {
@@ -29,83 +29,102 @@
 } */
 
 .addProductPanel .rs-panel-body {
-    width: 95%;
-    height: 25vw;
-    margin: 0 auto;
-    margin-top: 5vw;
-    text-align: center;
+  width: 95%;
+  height: 25vw;
+  margin: 0 auto;
+  margin-top: 5vw;
+  text-align: center;
 }
 
 #addProductImage {
-    font-size: 10vw;
+  font-size: 10vw;
 }
 
 #addProductImage .rs-icon {
-    text-align: center !important;
+  text-align: center !important;
 }
 
+.soapImageSlider {
+  background-color: transparent;
+}
 
+.rs-carousel {
+  height: auto;
+}
+
+.rs-carousel-content {
+  /* height: auto; */
+  height: auto;
+  max-height: 100%;
+  width: auto;
+  max-width: 100%;
+}
+
+.rs-carousel-label {
+  background-color: transparent !important;
+}
+
+.rs-carousel-toolbar {
+  position: relative;
+  bottom: 0px !important;
+  margin-top: 1vw;
+  margin-bottom: 0vw;
+}
+
+.rs-carousel-shape-dot .rs-carousel-label {
+  width: 3vw;
+  height: 1vh;
+  outline: solid 2px #575757;
+  background-color: transparent !important;
+  border-radius: 0%;
+  margin-bottom: 2vh;
+  bottom: 2vh;
+  margin-top: 2vh;
+}
+
+.rs-carousel-label-wrapper {
+  /* border-radius: 50% !important; */
+  /* outline: solid 2px black; */
+}
+
+.rs-carousel-label-wrapper input:checked ~ label {
+  background-color: #575757 !important;
+  border-radius: 0% !important;
+}
 
 /* .productsImagePanel .rs-panel-body {
     
 } */
 
-
 /* ----------- LAPTOPS ----------- */
-
 
 /* ----------- Non-Retina Screens ----------- */
 
-@media screen 
-and (min-device-width: 700px) 
-and (max-device-width: 1100px)  { 
-    #searchEntry {
-        width: 100%;
-    }
-    #adminInventorySearchBarFormGroup .rs-form-control-wrapper {
-        width: 85%;
-    }
+@media screen and (min-device-width: 700px) and (max-device-width: 1100px) {
+  #searchEntry {
+    width: 100%;
+  }
+  #adminInventorySearchBarFormGroup .rs-form-control-wrapper {
+    width: 85%;
+  }
 }
 
-@media screen 
-and (min-device-height: 1000px)
-and (max-device-width: 699px) 
-and (-webkit-min-device-pixel-ratio: 1) { 
-  
+@media screen and (min-device-height: 1000px) and (max-device-width: 699px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
-@media screen 
-and (min-device-width: 700px) 
-and (max-device-width: 1200px) 
-and (-webkit-min-device-pixel-ratio: 1) { 
-  
+@media screen and (min-device-width: 700px) and (max-device-width: 1200px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
-@media screen 
-and (min-device-width: 1201px) 
-and (max-device-width: 1600px) 
-and (-webkit-min-device-pixel-ratio: 1) { 
- 
+@media screen and (min-device-width: 1201px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
-@media screen 
-and (min-device-width: 1601px) 
-and (max-device-width: 1800px) 
-and (-webkit-min-device-pixel-ratio: 1) { 
-
+@media screen and (min-device-width: 1601px) and (max-device-width: 1800px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
-@media screen 
-and (min-device-width: 1800px) 
-and (max-device-width: 2000px) 
-and (-webkit-min-device-pixel-ratio: 1) { 
- 
+@media screen and (min-device-width: 1800px) and (max-device-width: 2000px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
-@media screen 
-and (min-device-width: 2001px) 
-and (-webkit-min-device-pixel-ratio: 1) { 
- 
+@media screen and (min-device-width: 2001px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 /* ----------- iPads ----------- */
@@ -113,328 +132,191 @@ and (-webkit-min-device-pixel-ratio: 1) {
 /* ----------- iPad 1, 2, Mini and Air ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px) 
-and (-webkit-min-device-pixel-ratio: 1) {
-
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px) 
-and (orientation: portrait) 
-and (-webkit-min-device-pixel-ratio: 1) {
-  
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px) 
-and (orientation: landscape) 
-and (-webkit-min-device-pixel-ratio: 1) {
-
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 /* ----------- iPad 3, 4 and Pro 9.7" ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px) 
-and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px) 
-and (orientation: portrait) 
-and (-webkit-min-device-pixel-ratio: 2) {
- 
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px) 
-and (orientation: landscape) 
-and (-webkit-min-device-pixel-ratio: 2) {
-  
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* ----------- iPad Pro 10.5" ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 834px) 
-and (max-device-width: 1112px)
-and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 834px) and (max-device-width: 1112px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
 /* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
-@media only screen 
-and (min-device-width: 834px) 
-and (max-device-width: 834px) 
-and (orientation: portrait) 
-and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 834px) and (max-device-width: 834px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Landscape */
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
 /* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
-@media only screen 
-and (min-device-width: 1112px) 
-and (max-device-width: 1112px) 
-and (orientation: landscape) 
-and (-webkit-min-device-pixel-ratio: 2) {
-  
+@media only screen and (min-device-width: 1112px) and (max-device-width: 1112px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* ----------- iPad Pro 12.9" ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 1024px) 
-and (max-device-width: 1366px)
-and (-webkit-min-device-pixel-ratio: 2) {
-  
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
 /* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
-@media only screen 
-and (min-device-width: 1024px) 
-and (max-device-width: 1024px) 
-and (orientation: portrait) 
-and (-webkit-min-device-pixel-ratio: 2) {
- 
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Landscape */
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
 /* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
-@media only screen 
-and (min-device-width: 1366px) 
-and (max-device-width: 1366px) 
-and (orientation: landscape) 
-and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 1366px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* ----------- iPhones ----------- */
 
-
 /* ----------- iPhone 4 and 4S ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 480px)
-and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 480px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: portrait) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 480px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: landscape) {
-
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
 }
 
 /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 568px)
-and (-webkit-min-device-pixel-ratio: 2) {
-
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 568px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: portrait) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .inventoryTitle {
+    width: 20vw;
+    margin-top: 3vw;
+  }
 
-    .inventoryTitle {
-        width: 20vw;
-        margin-top: 3vw;
-    }
+  .addProductPanel {
+    height: 50vw !important;
+  }
 
-    .addProductPanel {
-        height: 50vw !important;
-    }
+  #addProductImage {
+    font-size: 20vw;
+  }
 
-    #addProductImage {
-        font-size: 20vw;
-    }
+  /* SEARCH BAR */
 
-    /* SEARCH BAR */
+  #adminInventorySearchBarForm {
+    float: left;
+    width: 55vw;
+    margin-right: 0vw;
+    margin-left: 8vw;
+    font-size: 3.5vw;
+  }
 
-    #adminInventorySearchBarForm {
-        float: left;
-        width: 55vw;
-        margin-right: 0vw;
-        margin-left: 8vw;
-        font-size: 3.5vw;
-    }
+  #adminInventorySearchBarForm.rs-form-control-wrapper {
+    width: 100%;
+  }
 
-    #adminInventorySearchBarForm.rs-form-control-wrapper {
-        width: 100%;
-    }
+  #searchEntry {
+    max-width: 100%;
+    font-size: 3.2vw;
+  }
 
-    #searchEntry {
-        max-width: 100%;
-        font-size: 3.2vw;
-    }
+  /* PRODUCT MODALS */
 
-    /* PRODUCT MODALS */
+  #adminEditInventoryModalFooter button {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 3vw;
+    float: left;
+  }
 
-    #adminEditInventoryModalFooter button {
-        width: 100%;
-        margin: 0 auto;
-        margin-bottom: 3vw;
-        float: left;
+  .rs-modal-body {
+    max-width: 100%;
+  }
 
-    }
+  #inventoryForm {
+    max-width: 100%;
+  }
 
-    .rs-modal-body {
-        max-width: 100%;
-    }
+  .adminAddFormGroup .rs-form-control-wrapper {
+    max-width: 100%;
+  }
 
-    #inventoryForm {
-        max-width: 100%;
-    }
-
-    .adminAddFormGroup .rs-form-control-wrapper {
-        max-width: 100%;
-    }
-
-    textarea.rs-input {
-        min-width: 100% !important;
-    }
-
+  textarea.rs-input {
+    min-width: 100% !important;
+  }
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 568px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: landscape) {
-  
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
 }
 
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 667px) 
-and (-webkit-min-device-pixel-ratio: 2) { 
-
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 667px) 
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: portrait) { 
-
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 667px) 
-and (min-device-height: 365px)
-and (-webkit-min-device-pixel-ratio: 2)
-and (orientation: landscape) { 
-  
-
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (min-device-height: 365px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
 }
 
 /* ----------- iPhone 6+, 7+ and 8+ ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 414px) 
-and (max-device-width: 736px) 
-and (-webkit-min-device-pixel-ratio: 3) { 
-
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 414px) 
-and (max-device-width: 736px) 
-and (-webkit-min-device-pixel-ratio: 3)
-and (orientation: portrait) { 
-
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 414px) 
-and (max-device-width: 736px) 
-and (-webkit-min-device-pixel-ratio: 3)
-and (orientation: landscape) { 
-  
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
 }
 
 /* ----------- iPhone X ----------- */
 
 /* Portrait and Landscape */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 812px) 
-and (-webkit-min-device-pixel-ratio: 3) { 
-
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
 }
 
 /* Portrait */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 812px) 
-and (-webkit-min-device-pixel-ratio: 3)
-and (orientation: portrait) { 
-  
-  
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
 }
 
 /* Landscape */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 812px) 
-and (-webkit-min-device-pixel-ratio: 3)
-and (orientation: landscape) { 
-  
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
 }
-
-
-
-
-
-

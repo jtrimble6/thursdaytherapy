@@ -314,8 +314,8 @@ export default class PaymentForm extends Component {
 
       axios({
           method: "POST", 
-          url: "https://thursdaytherapy.herokuapp.com/neworder",
-          // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
+          url: "https://thursday-therapy.com/neworder",
+          // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursday-therapy.com/neworder",
           data: {
               firstName: firstName,   
               lastName: lastName,
@@ -373,8 +373,8 @@ export default class PaymentForm extends Component {
       `;
       axios({
           method: "POST", 
-          url: "https://thursdaytherapy.herokuapp.com/orderconfirmation",
-          // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
+          url: "https://thursday-therapy.com/orderconfirmation",
+          // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursday-therapy.com/orderconfirmation",
           data: {
               firstName: firstName,   
               lastName: lastName,

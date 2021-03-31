@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Panel, Modal, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button, Icon, Alert } from 'rsuite';
+import { Redirect } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid';
+import { Panel, Carousel, Modal, Form, FormGroup, ControlLabel, FormControl, HelpBlock, Button, Icon, Alert } from 'rsuite';
 import axios from 'axios';
 import API from '../../utils/API'
 import $ from 'jquery'
@@ -12,13 +14,14 @@ class Inventory extends Component {
         super(props);
       
         this.state = {
+            redirect: false,
             showEditModal: false,
             showAddModal: false,
-            developmentURL: "http://localhost:3000/product/",
-            developmentImageURL: "http://localhost:3000/uploads/",
-            developmentPostImageURL: "http://localhost:3000/upload/",
+            developmentURL: "http://localhost:5000/product/",
+            developmentImageURL: "http://localhost:5000/uploads",
+            developmentPostImageURL: "http://localhost:5000/upload/",
             productionURL: "https://thursday-therapy.com/product/",
-            productionImageURL: "https://thursday-therapy.com/",
+            productionImageURL: "https://thursday-therapy.com/uploads",
             productionPostImageURL: "https://thursday-therapy.com/upload/",
             soapOriginalName: '',
             soapName: '',
@@ -43,6 +46,8 @@ class Inventory extends Component {
             products: [],
             filteredProducts: []
         }
+        this.setRedirect = this.setRedirect.bind(this)
+        this.renderRedirect = this.renderRedirect.bind(this)
         this.closeAddModal = this.closeAddModal.bind(this)
         this.openAddModal = this.openAddModal.bind(this)
         this.closeEditModal = this.closeEditModal.bind(this);
@@ -60,13 +65,42 @@ class Inventory extends Component {
     }
 
     componentDidMount() {
+        // let localSessionID = localStorage.getItem('sessionID')
+        // console.log('CHECKING SESSION ID:')
+        // console.log(localSessionID)
+        // if (!localSessionID || localSessionID === null) {
+        //   this.setRedirect()
+        // } else {
+        //   this.fetchData()
+        // }
         this.fetchData()
       }
 
+    setRedirect = () => {
+        this.setState({
+            redirect: true
+        })
+      }
+  
+    renderRedirect = () => {
+        if (this.state.redirect === true) {
+          return <Redirect to='/login' />
+        }
+        else {}
+      }
+
     async fetchData() {
+      console.log('FETCHING DATA')
       let productImages = []
-      const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursday-therapy.com/uploads");
-        res.json()
+      let url = process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL
+      const res = await fetch(url);
+      console.log('RES RESULT: ', res)
+      if (!res.ok) {
+        const message = `An error has occured: ${res.status}`;
+        console.log('ERROR: ', message)
+        // throw new Error(message);
+      } else {
+        await res.json()
           .then((res) => {
             // console.log('ALL IMAGES: ', res);
             productImages = res
@@ -78,9 +112,9 @@ class Inventory extends Component {
             });
             API.getProducts()
                 .then(res => {
-                  // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+                  console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
                   let productsData = res.data
-                  // console.log('PRODUCTS: ', productsData)
+                  console.log('PRODUCTS: ', productsData)
                   for (let p=0; p<productsData.length; p++) {
                     let product = productsData[p]
                     let productName = product.name
@@ -89,12 +123,21 @@ class Inventory extends Component {
                     })
                     let newProducts = [...productsData]
                     // console.log('FILENAME: ', productImage[0])
-                    let productImageFile = productImage[0]
-                    if (productImageFile) {
+                    if (productImage.length > 1) {
+                      // console.log('MULTIPLE IMAGES: ', productImage)
+                      let soapImageFiles = []
+                      let soapImageIds = []
+                      for(let g=0; g<3; g++) {
+                        let productImageFile = productImage[g]
+                        if (productImageFile) { 
+                          soapImageFiles.push(productImageFile.filename)
+                          soapImageIds.push(productImageFile._id)
+                        }
+                      }
                       let newProduct = {
                         ...newProducts[p], 
-                        soapImageFile: productImage[0].filename,
-                        soapImageId: productImage[0]._id
+                        soapImageFile: soapImageFiles,
+                        soapImageId: soapImageIds
                       }
                       newProducts[p] = newProduct
                       this.setState({
@@ -102,7 +145,23 @@ class Inventory extends Component {
                         filteredProducts: newProducts
                       })
                       productsData = newProducts
+                    } else {
+                      let productImageFile = productImage[0]
+                      if (productImageFile) {
+                        let newProduct = {
+                          ...newProducts[p], 
+                          soapImageFile: productImage[0].filename,
+                          soapImageId: productImage[0]._id
+                        }
+                        newProducts[p] = newProduct
+                        this.setState({
+                          products: newProducts,
+                          filteredProducts: newProducts
+                        })
+                        productsData = newProducts
+                      }
                     }
+                    
                     
                     // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
                   }
@@ -121,7 +180,7 @@ class Inventory extends Component {
               error: error
             });
         });
-
+      }
       
       }
 
@@ -140,7 +199,7 @@ class Inventory extends Component {
         return;
       }
       if (soapIngredients === '') {
-        Alert.error('Please enter a soap ingredients.', 5000)
+        Alert.error('Please enter a description.', 5000)
         return;
       }
       if (imageFile === '') {
@@ -149,17 +208,20 @@ class Inventory extends Component {
       }
 
       // console.log('IMAGE FILE: ', imageFile)
-
-      let data = {
-        'name': soapName,
-        'price': soapPrice,
-        'ingredients': soapIngredients,
-        'image': imageFile.name
-      }
-
+      let data = {}
       let formData = new FormData();
-      let imagefile = document.querySelector('#fileAdd');
-      formData.append("file", imagefile.files[0]);
+      for (let h=0; h<imageFile.length; h++) {
+        data = {
+          'name': soapName,
+          'price': soapPrice,
+          'ingredients': soapIngredients,
+          'image': imageFile[h].name
+        }
+  
+        let imagefile = document.querySelector('#fileAdd');
+        console.log('IMAGE FILES TO UPDATE: ', imagefile)
+        formData.append("file", imagefile.files[h]);
+      }
      
       console.log('DATA TO UPLOAD: ', data)
 
@@ -167,11 +229,29 @@ class Inventory extends Component {
       API.saveProduct(data)
           .then(res => {
             console.log('SAVE PRODUCT RESULT: ', res)
-            axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursday-therapy.com/upload/" + soapName, formData, {
+            console.log('ENV: ', process.env.NODE_ENV)
+            
+            process.env.NODE_ENV === "development" ?
+
+              axios.post("http://localhost:5000/upload/" + soapName, formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
-              }
-            })
+                }
+              })
+
+              :
+
+              axios.post("https://thursday-therapy.com/upload/" + soapName, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+                }
+              })
+            
+            // axios.post(process.env.NODE_ENV === "development" ? "http://localhost:5000/upload/" : "https://thursday-therapy.com/upload/" + soapName, formData, {
+            //   headers: {
+            //     'Content-Type': 'multipart/form-data'
+            //   }
+            // })
             Alert.success('New product successfully added!', 5000)
             // this.fetchData()
             this.closeAddModal()
@@ -188,43 +268,117 @@ class Inventory extends Component {
       let soapName = this.state.soapEditName
       let soapPrice = this.state.soapEditPrice
       let soapIngredients = this.state.soapEditIngredients
-      let imageFile = this.state.soapEditImage
+      let imageFiles = this.state.soapImageFile
       let soapId = this.state.soapEditId
       let soapImageId = this.state.soapImageId
-      let data = {
-        'name': soapName,
-        'price': soapPrice,
-        'ingredients': soapIngredients,
-        'image': imageFile
-      }
 
+      let data = {}
       let formData = new FormData();
-      let imageFileUpdate = document.querySelector('#fileUpdate');
-      formData.append("file", imageFileUpdate.files[0]);
+      let imagefileupdate = ''
 
-      if (imageFileUpdate.files[0]) {
+      console.log('SOAP IMAGE ID HERE: ', soapImageId)
+      let soapImageIds = soapImageId.split(",")
+      console.log('SOAP IMAGE IDS HERE: ', soapImageIds)
+      // debugger;
+
+      console.log('IMAGE FILES HERE: ', imageFiles)
+      // debugger;
+      // let imageFiles = imageFile.split(",")
+      // console.log('IMAGE FILES HERE: ', imageFiles)
+      // debugger;
+      
+      //PARSE IMAGE FILE STRING BY COMMAS
+
+      if (imageFiles.length > 0) {
+        console.log('IMAGE FILES: ', imageFiles)
+        let imageFilesArray = imageFiles.map(imageFileName => {
+          return imageFileName.name
+        })
+        let imageFilesString = imageFilesArray.toString(",")
+        data = {
+          'name': soapName,
+          'price': soapPrice,
+          'ingredients': soapIngredients,
+          'image': imageFilesString
+        }
+        for (let h=0; h<imageFiles.length; h++) {
+          imagefileupdate = document.querySelector('#fileUpdate');
+          console.log('IMAGE FILES TO UPDATE: ', imagefileupdate)
+          formData.append("file", imagefileupdate.files[h]);
+        }
+
+
+        // DELETE PREVIOUS IMAGES
+        for (let g=0; g<soapImageIds.length; g++) {
+            console.log('DELETING THIS IMAGE ID: ', soapImageIds[g])
+            process.env.NODE_ENV === "development" ?
+
+            axios.delete("http://localhost:5000/uploads/" + soapImageIds[g], {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            
+            :
+
+            axios.delete("https://thursday-therapy.com/uploads/" + soapImageIds[g], {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            })
+            
+        }
+      
+        console.log('DATA TO UPLOAD: ', data)
+        // debugger;
         API.updateProduct(soapId, data)
-          .then(res => {
-            // console.log('UPDATE PRODUCT RESULT: ', res)
-            // this.closeEditModal()
-              axios.delete(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursday-therapy.com/uploads/" + soapImageId, {
+            .then(res => {
+              // console.log('UPDATE PRODUCT RESULT: ', res)
+              // this.closeEditModal()
+              process.env.NODE_ENV === "development" ?
+
+              
+              axios.post("http://localhost:5000/upload/" + soapName, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   }
                 })
-              axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/upload/" : "https://thursday-therapy.com/upload/" + soapName, formData, {
+                .then(
+                  Alert.success('Product was successfully edited', 5000),
+                  this.closeEditModal()
+                )
+
+              :
+              
+              axios.post("https://thursday-therapy.com/upload/" + soapName, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   }
                 })
-              Alert.success('Product successfully updated!', 5000)
-              this.fetchData()
-              this.closeEditModal()
+                .then(
+                Alert.success('Product was successfully edited', 5000),
+                this.closeEditModal()
+              )
             })
-          .catch(err => {
-              Alert.error('There was an error updating the product. Please try again.', 10000)
-              console.log('ERROR UPDATING PRODUCT: ', err)
-            })
+              
+            .catch(err => {
+                Alert.error('There was an error updating the product. Please try again.', 10000)
+                console.log('ERROR UPDATING PRODUCT: ', err)
+              })
+
+
+        // let data = {
+        //   'name': soapName,
+        //   'price': soapPrice,
+        //   'ingredients': soapIngredients,
+        //   'image': imageFile
+        // }
+
+        // let formData = new FormData();
+        // let imageFileUpdate = document.querySelector('#fileUpdate');
+        // formData.append("file", imageFileUpdate.files[0]);
+
+      
       } else {
         let soapImages = this.state.productImages
         let soapOriginalName = this.state.soapOriginalName
@@ -234,31 +388,69 @@ class Inventory extends Component {
           return soap.productId === soapOriginalName
         })
         let soapFile = oldImageFile
-        let soapFileId = oldImageFile[0].filename
+        
         console.log('soap file: ', soapFile)
-        console.log('FILENAME FOUND: ', soapFileId)
-        if (soapFileId) {
+        // console.log('FILENAME FOUND: ', soapFileId)
+
+        for (let v=0; v<soapFile.length; v++) {
+          let soapFileId = ''
+          soapFileId = soapFile[v].filename
+
+          console.log('OLD IMAGE FILE: ', this.state.soapEditFile)
+          // let imageFilesArray = imageFiles.map(imageFileName => {
+          //   return imageFileName.name
+          // })
+          // let imageFilesString = imageFilesArray.toString(",")
+          data = {
+            'name': soapName,
+            'price': soapPrice,
+            'ingredients': soapIngredients,
+            'image': this.state.soapEditFile
+          }
+
           API.updateProduct(soapId, data)
             .then(res => {
               // console.log('UPDATE PRODUCT RESULT: ', res)
               // this.closeEditModal()
-                axios.put(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads/" : "https://thursday-therapy.com/uploads/" + soapFileId + '/' + soapName, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data'
-                    },
-                  })
-                Alert.success('Product successfully updated!', 5000)
-                this.closeEditModal()
-                window.location.reload()
+              process.env.NODE_ENV === "development" ?
+
+              axios.put("http://localhost:5000/uploads/" + soapFileId + '/' + soapName, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  },
+                })
+                .then(
+                  Alert.success('Product successfully updated!', 5000),
+                  this.closeEditModal(),
+                  // window.location.reload()
+                )
+                
+              :
+
+              axios.put("https://thursday-therapy.com/uploads/" + soapFileId + '/' + soapName, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  },
+                })
+                .then(
+                  Alert.success('Product successfully updated!', 5000),
+                  this.closeEditModal(),
+                  // window.location.reload()
+                )
               })
             .catch(err => {
                 Alert.error('There was an error updating the product. Please try again.', 10000)
                 console.log('ERROR UPDATING PRODUCT: ', err)
               })
-        } else {
-          Alert.error('No matching images found.', 5000)
-          return;
         }
+
+        // debugger;
+        // if (soapFileId) {
+          
+        // } else {
+        //   Alert.error('No matching images found.', 5000)
+        //   return;
+        // }
         
       }
       
@@ -281,7 +473,7 @@ class Inventory extends Component {
               // console.log('REMOVE PRODUCT RESULT: ', res)
               Alert.success('Product was successfully removed.', 5000)
               this.closeEditModal()
-              this.fetchData()
+              // this.fetchData()
           })
           .catch(err => {
             console.log('ERROR REMOVING PRODUCT: ', err)
@@ -296,10 +488,16 @@ class Inventory extends Component {
           // console.log('FILENAME: ', file)
           // let image = document.getElementById('soapImage')
           // console.log('IMAGE TO UPLOAD: ', image)
-          let imageFile = e.target.files[0]
-          // console.log('IMAGE FILE: ', imageFile)
+          let imageFiles = e.target.files
+          console.log('IMAGE FILES SELECTED: ', imageFiles)
+          // let imageFiles = fileList
+          let imageFilesArray = []
+          for (let f=0; f<imageFiles.length; f++) {
+            imageFilesArray.push(imageFiles[f])
+          }
+          console.log('IMAGE FILE: ', imageFilesArray)
           this.setState({
-            soapImageFile: imageFile
+            soapImageFile: imageFilesArray
           })
       }
   
@@ -322,6 +520,7 @@ class Inventory extends Component {
         let soapFile = soap.dataset.soapfile
         let soapImageId = soap.dataset.soapimageid
         console.log("PRODUCT: ", soapName)
+        console.log("PRODUCT IMAGES: ", soapImage)
         this.setState({ 
             soapEditImage: soapImage,
             soapEditId: soapId,
@@ -410,6 +609,7 @@ class Inventory extends Component {
     render() {                                                       
         return (
           <div id='inventory'>
+            {/* {this.renderRedirect()} */}
             <NavbarAdmin />
               <span>
                 <div className="row inventoryTitleRow">
@@ -458,7 +658,7 @@ class Inventory extends Component {
                             className='inventoryFormLabel' 
                             htmlFor="price"
                           >
-                            Price
+                            Price ($)
                           </ControlLabel>
                           <FormControl 
                               name="soapPrice"
@@ -475,7 +675,7 @@ class Inventory extends Component {
                             className='inventoryFormLabel' 
                             htmlFor="ingredients"
                           >
-                            Soap Ingredients
+                            Soap Description
                           </ControlLabel>
                           <FormControl 
                             id='soapIngredients' 
@@ -490,9 +690,9 @@ class Inventory extends Component {
                             className='inventoryFormLabel' 
                             htmlFor="file"
                           >
-                            Soap Image
+                            Soap Images
                           </ControlLabel>
-                          <input type='file' id='fileAdd' name='file' onChange={this.handleFileSelection} />
+                          <input type='file' id='fileAdd' name='file' onChange={this.handleFileSelection} multiple/>
                           {/* <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
                             <button>
                               <Icon icon='camera-retro' size="lg" />
@@ -509,7 +709,7 @@ class Inventory extends Component {
                           {/* <HelpBlock>{this.state.soapFile}</HelpBlock> */}
                         </FormGroup>
                       </Form>
-                      {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
+                      {/* <img src={"http://localhost:5000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
                     </Modal.Body>
                     <Modal.Footer>
                       <Button onClick={this.addToInventory}>
@@ -545,7 +745,7 @@ class Inventory extends Component {
                             className='inventoryFormLabel' 
                             htmlFor="price"
                           >
-                            Price
+                            Price ($)
                           </ControlLabel>
                           <FormControl 
                             disabled
@@ -564,7 +764,7 @@ class Inventory extends Component {
                             className='inventoryFormLabel' 
                             htmlFor="ingredients"
                           >
-                            Soap Ingredients
+                            Soap Description
                           </ControlLabel>
                           {/* <HelpBlock>Required</HelpBlock> */}
                           <FormControl 
@@ -582,7 +782,7 @@ class Inventory extends Component {
                             className='inventoryFormLabel' 
                             htmlFor="img"
                           >
-                            Soap Image
+                            Soap Images
                           </ControlLabel>
                           {/* <HelpBlock>Required</HelpBlock> */}
                           {/* <FormControl 
@@ -591,16 +791,21 @@ class Inventory extends Component {
                             name="file"
                             className="form-control inventoryFormEntry" 
                           /> */}
-                          {/* <Uploader multiple={false} autoUpload={false} listType="picture" id="image" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
+                          {/* <Uploader multiple={true} autoUpload={false} listType="picture" id="fileUpdate" name="image" onChange={(fileList) => this.handleFileSelection(fileList)}>
                             <button>
                               <Icon icon='camera-retro' size="lg" />
                             </button>
                           </Uploader> */}
-                          <input type='file' id='fileUpdate' name='file' onChange={this.handleFileSelection} />
+                          <input type='file' id='fileUpdate' name='file' onChange={this.handleFileSelection} multiple/>
+                          {/* <Uploader
+                            listType="picture-text"
+                            defaultFileList={fileList}
+                            action="//jsonplaceholder.typicode.com/posts/"
+                          /> */}
                           <HelpBlock id='editImageHelpBlock'>{this.state.soapEditFile}</HelpBlock>
                         </FormGroup>
                       </Form>
-                      {/* <img src={"http://localhost:3000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
+                      {/* <img src={"http://localhost:5000/" + this.state.soapImage} data-soapname='Peacock Z' onClick={this.openEditModal} className="productsImageModal" alt="peacockZ1" /> */}
                     </Modal.Body>
                     <Modal.Footer id='adminEditInventoryModalFooter'>
                       <Button onClick={this.editInventory}>
@@ -628,20 +833,52 @@ class Inventory extends Component {
                   {this.state.filteredProducts.map((product, i) => (
                     <span key={product._id}>
                       <Panel className='productsImagePanel' shaded bordered bodyFill={true} style={{ display: 'inline-block' }}>
-                          <img 
-                            // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
-                            src={`uploads/${product.soapImageFile}`}
-                            data-soapname={product.name} 
-                            data-soapprice={product.price} 
-                            data-soapimage={product.soapImageFile} 
-                            data-soapid={product._id} 
-                            data-soapfile={product.image}
-                            data-soapimageid={product.soapImageId}
-                            data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
-                            onClick={this.openEditModal} 
-                            className="productsImage" 
-                            alt="soap name" 
-                          />
+                          <Carousel key={uuidv4()} placement="bottom" shape="dot" className="soapImageSlider">
+                            
+                            {
+                              Array.isArray(product.soapImageFile) ? 
+
+                              product.soapImageFile.map((image, j) => (
+                                <img
+                                  key={uuidv4()} 
+                                  // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                                  src={image !== undefined ? `uploads/${image}` : "https://via.placeholder.com/150" }
+                                  data-soapname={product.name} 
+                                  data-soapprice={product.price} 
+                                  data-soapimage={product.soapImageFile} 
+                                  data-soapid={product._id} 
+                                  data-soapfile={product.image}
+                                  data-soapimageid={product.soapImageId}
+                                  data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
+                                  onClick={this.openEditModal} 
+                                  className="productsImage" 
+                                  alt="soap name" 
+                                  // height="200"
+                                />
+                              ))
+
+                              :
+
+                              <img 
+                                // src={(process.env.NODE_ENV === "development" ? this.state.developmentImageURL : this.state.productionImageURL) + product.soapImageFile ? product.soapImageFile : product.image} 
+                                src={product.soapImageFile !== undefined ? `uploads/${product.soapImageFile}` : "https://via.placeholder.com/150" }
+                                data-soapname={product.name} 
+                                data-soapprice={product.price} 
+                                data-soapimage={product.soapImageFile} 
+                                data-soapid={product._id} 
+                                data-soapfile={product.image}
+                                data-soapimageid={product.soapImageId}
+                                data-soapingredients={product.ingredients ? product.ingredients : 'No ingredients listed.'}
+                                onClick={this.openEditModal} 
+                                className="productsImage" 
+                                alt="soap name" 
+                                // height="200"
+                              />
+
+                            }
+                            
+                            
+                          </Carousel>
                           <Panel className='productsImageHeader' header={product.name}></Panel>
                       </Panel>
                     </span>   
