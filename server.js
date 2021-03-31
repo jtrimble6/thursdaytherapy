@@ -29,8 +29,16 @@ require('dotenv').config();
 require('./src/routeHandler')(app)
 
 // Set the Access Token which is used to authorize to a merchant
-const accessToken = process.env.NODE_ENV === 'production' ? process.env.SQUARE_SANDBOX_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
-
+const accessToken = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_SQUARE_PRODUCTION_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
+const environment = process.env.NODE_ENV === 'production' ? Environment.Production : Environment.Sandbox
+// Initialized the Square api client:
+//   Set sandbox environment for testing purpose
+//   Set access token
+const client = new Client({
+	environment: environment,
+	accessToken: accessToken,
+  });
+  
 // app.use(function (req, res, next) {
 // 	if (req.header('x-forwarded-proto') === 'http' && process.env.NODE_ENV === 'production') {
 // 	  res.redirect(301, 'https://' + req.hostname + req.url);
@@ -71,14 +79,6 @@ app.use(
 	})
   );
 
-// Initialized the Square api client:
-//   Set sandbox environment for testing purpose
-//   Set access token
-const client = new Client({
-	environment: Environment.Sandbox,
-	accessToken: accessToken,
-  });
-  
 passport.serializeUser(function(user, done) {
 	done(null, user._id);
   });
