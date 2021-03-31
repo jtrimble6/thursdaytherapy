@@ -264,7 +264,7 @@ app.get('/uploads/:filename', (req, res) => {
 	//   console.log('FILE EXISTS!!!! ', file)
 	//   return res.json(file)
 
-	  if(file.contentType === 'image/jpeg') {
+	  if(file.contentType === 'image/jpeg' || file.contentType === 'image/HEIC') {
 		// Read output to browser
 		// console.log('THIS IS AN IMAGE!!!')
 		var readstream = gfs.createReadStream(file.filename)

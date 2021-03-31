@@ -52,9 +52,9 @@ class Products extends Component {
           });
           API.getProducts()
                 .then(res => {
-                  console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
+                  // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
                   let productsData = res.data
-                  console.log('PRODUCTS: ', productsData)
+                  // console.log('PRODUCTS: ', productsData)
                   for (let p=0; p<productsData.length; p++) {
                     let product = productsData[p]
                     let productName = product.name
@@ -150,7 +150,7 @@ class Products extends Component {
           //     })
               .catch(err => {
                 Alert.warning('There was an error loading the page. Please retry.', 10000)
-                console.log('ERROR GETTING PRODUCTS: ', err)
+                // console.log('ERROR GETTING PRODUCTS: ', err)
               })
         })
         .catch((error) => {
@@ -256,7 +256,7 @@ class Products extends Component {
       let soapImage = soap.dataset.soapimage
       let soapPrice = soap.dataset.soapprice
       let soapIngredients = soap.dataset.soapingredients
-      let soapImageFile = soap.dataset.soapfile
+      // let soapImageFile = soap.dataset.soapfile
       console.log('SOAP IMAGE FILES: ', soapImage)
       let soapImageFilesArray = soapImage.split(",")
       // console.log("PRODUCT: ", soapName)

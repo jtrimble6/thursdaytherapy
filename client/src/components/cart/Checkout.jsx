@@ -429,12 +429,12 @@ class Checkout extends Component {
 
         if (this.state.orderGrandTotal % 1 === 0) {
           orderAmountInt = parseInt(this.state.orderGrandTotal)
-          console.log('ORDER TOTAL: ', orderAmountInt)
+          // console.log('ORDER TOTAL: ', orderAmountInt)
           orderAmountFormatted = this.formatMoney(orderAmountInt)
           
         } else {
           orderAmountInt = this.state.orderGrandTotal
-          console.log('ORDER TOTAL: ', orderAmountInt)
+          // console.log('ORDER TOTAL: ', orderAmountInt)
           orderAmountFormatted = this.formatMoney(orderAmountInt)
         }
 
@@ -480,7 +480,7 @@ class Checkout extends Component {
             purchaseAmount: this.formatMoney(this.state.orderGrandTotal),
             purchaseCard: this.state.paymentCardLastFour
         };
-        console.log('ORDER DATA: ', orderData);
+        // console.log('ORDER DATA: ', orderData);
         API.submitOrder(orderData)
           .then(res => {
             // console.log('ORDER SUBMIT RESULT: ', res) 
@@ -506,8 +506,8 @@ class Checkout extends Component {
             let soapTotalFormatted = ''
             if (element.soapPrice % 1 === 0) {
               let soapPriceInt = parseInt(element.soapPrice)
-              console.log('SOAP PRICE: ', element.soapPrice)
-              console.log('SOAP PRICE INT: ', soapPriceInt)
+              // console.log('SOAP PRICE: ', element.soapPrice)
+              // console.log('SOAP PRICE INT: ', soapPriceInt)
               soapPriceFormatted = that.formatMoney(soapPriceInt)
               // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
               // let soapTotalInt = parseInt(element.soapTotal)
@@ -553,7 +553,7 @@ class Checkout extends Component {
                   details: body
               }
           }).then((response)=> {
-            console.log('EMAIL ORDER RESPONSE: ', response)
+            // console.log('EMAIL ORDER RESPONSE: ', response)
               if (response.data.msg === 'success'){
                   // console.log("Message Sent."); 
                   Alert.success('Your order has been received!', 5000)
@@ -613,7 +613,7 @@ class Checkout extends Component {
                   orderDetails: orderDetails
               }
           }).then((response)=> {
-              console.log('EMAIL CONF RESPONSE: ', response)
+              // console.log('EMAIL CONF RESPONSE: ', response)
               if (response.data.msg === 'success'){
                   // console.log("Message Sent."); 
                   Alert.success('Confirmation email sent!', 5000)
@@ -784,7 +784,7 @@ class Checkout extends Component {
         // document.getElementById('orderInfoLoader').hidden = true
   
         // console.log('CART: ', cart)
-        console.log('CART TOTAL: ', orderGrandTotal)
+        // console.log('CART TOTAL: ', orderGrandTotal)
   
       }
 
@@ -798,9 +798,9 @@ class Checkout extends Component {
       }
 
     changeState = (e) => {
-        console.log("State change: ", e.target)
+        // console.log("State change: ", e.target)
         let addressState = $(e.target).text()
-        console.log('New state: ', addressState)
+        // console.log('New state: ', addressState)
         this.setState({
           addressState: addressState
         })
@@ -986,7 +986,7 @@ class Checkout extends Component {
           // console.log('GOT A RESPONSE ADDRESS VERF: ', res)
           let lookup = res.data.lookups[0]
           let lookupResult = lookup.result
-          console.log('LOOKUP RESULT: ', lookupResult)
+          // console.log('LOOKUP RESULT: ', lookupResult)
           this.setState({
             addressSuggestions: lookupResult,
             showAddressModal: true
@@ -1012,10 +1012,10 @@ class Checkout extends Component {
         paymentInfo.hidden = true
 
         let address = e.target
-        console.log('SELECTED ADDRESS BUTTON: ', address)
+        // console.log('SELECTED ADDRESS BUTTON: ', address)
         let addressLine1 = address.dataset.addressline1
         let addressLine2 = address.dataset.addressline2
-        console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
+        // console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
         this.setState({
           addressLine1: addressLine1,
           addressLine2: addressLine2
