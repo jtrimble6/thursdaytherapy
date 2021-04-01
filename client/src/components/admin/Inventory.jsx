@@ -65,15 +65,15 @@ class Inventory extends Component {
     }
 
     componentDidMount() {
-        // let localSessionID = localStorage.getItem('sessionID')
-        // console.log('CHECKING SESSION ID:')
-        // console.log(localSessionID)
-        // if (!localSessionID || localSessionID === null) {
-        //   this.setRedirect()
-        // } else {
-        //   this.fetchData()
-        // }
-        this.fetchData()
+        let localSessionID = localStorage.getItem('sessionID')
+        console.log('CHECKING SESSION ID:')
+        console.log(localSessionID)
+        if (!localSessionID || localSessionID === null) {
+          this.setRedirect()
+        } else {
+          this.fetchData()
+        }
+        // this.fetchData()
       }
 
     setRedirect = () => {
@@ -609,7 +609,7 @@ class Inventory extends Component {
     render() {                                                       
         return (
           <div id='inventory'>
-            {/* {this.renderRedirect()} */}
+            {this.renderRedirect()}
             <NavbarAdmin />
               <span>
                 <div className="row inventoryTitleRow">
