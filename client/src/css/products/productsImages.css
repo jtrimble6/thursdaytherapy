@@ -77,7 +77,7 @@
 
 .productsListingPrice,
 .productsListingIngredients {
-  font-size: 1vw;
+  font-size: 1rem;
   font-weight: bolder;
   line-height: 1.6;
 }
@@ -89,11 +89,18 @@
   padding: 1vw;
   padding-right: 2vw;
   padding-left: 0;
-  width: 90%;
+  /* width: 90%; */
+  float: left;
+  width: 100%;
+  height: auto;
+  min-height: 75px;
+  outline: none;
+  resize: none;
+  /* border: 1px solid grey; */
 }
 
 .productsListingPrice {
-  margin-top: 1vw;
+  /* margin-top: 1vw; */
   text-align: center;
 }
 
@@ -307,8 +314,16 @@
   }
 
   .productListingDetailsCol {
-    max-width: 100%;
+    /* max-width: 100%; */
+
+    float: left;
+    /* width: 100%; */
+    height: auto;
   }
+
+  /* .comment {
+    
+} */
 
   .productListingDetailsCol p {
     font-size: 5vw;

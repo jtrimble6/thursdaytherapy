@@ -346,7 +346,7 @@ class Products extends Component {
                     <Col className='productListingDetailsCol' xs={12} xsPush={12}>
                       {/* <h2>Soap Description:</h2> */}
                       <textarea rows={10} className='productsListingIngredients'>{ this.state.soapIngredients ? this.state.soapIngredients : 'No description listed' }</textarea>
-                        <br />
+                        {/* <br /> */}
                         
                     </Col>
                     <Col className='productListingImageCol' xs={12} xsPull={12}>
