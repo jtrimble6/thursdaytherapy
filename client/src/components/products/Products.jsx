@@ -39,7 +39,7 @@ class Products extends Component {
 
   async fetchData() {
     let productImages = []
-    const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursday-therapy.com/uploads");
+    const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://www.thursday-therapy.com/uploads");
       res.json()
         .then((res) => {
           // console.log('ALL IMAGES: ', res);

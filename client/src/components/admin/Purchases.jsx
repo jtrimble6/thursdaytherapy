@@ -396,7 +396,7 @@ class Purchases extends Component {
           `;
           axios({
               method: "POST", 
-              url: "https://thursday-therapy.com/orderconfirmation",
+              url: "https://www.thursday-therapy.com/orderconfirmation",
               // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursdaytherapy.herokuapp.com/orderconfirmation",
               data: {
                   firstName: firstName,   
@@ -461,7 +461,7 @@ class Purchases extends Component {
   
         axios({
             method: "POST", 
-            url: "https://thursday-therapy.com/neworder",
+            url: "https://www.thursday-therapy.com/neworder",
             // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursdaytherapy.herokuapp.com/neworder",
             data: {
                 firstName: firstName,   

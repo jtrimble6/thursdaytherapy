@@ -20,9 +20,9 @@ class Inventory extends Component {
             developmentURL: "http://localhost:5000/product/",
             developmentImageURL: "http://localhost:5000/uploads",
             developmentPostImageURL: "http://localhost:5000/upload/",
-            productionURL: "https://thursday-therapy.com/product/",
-            productionImageURL: "https://thursday-therapy.com/uploads",
-            productionPostImageURL: "https://thursday-therapy.com/upload/",
+            productionURL: "https://www.thursday-therapy.com/product/",
+            productionImageURL: "https://www.thursday-therapy.com/uploads",
+            productionPostImageURL: "https://www.thursday-therapy.com/upload/",
             soapOriginalName: '',
             soapName: '',
             soapId: '',
@@ -241,13 +241,13 @@ class Inventory extends Component {
 
               :
 
-              axios.post("https://thursday-therapy.com/upload/" + soapName, formData, {
+              axios.post("https://www.thursday-therapy.com/upload/" + soapName, formData, {
               headers: {
                 'Content-Type': 'multipart/form-data'
                 }
               })
             
-            // axios.post(process.env.NODE_ENV === "development" ? "http://localhost:5000/upload/" : "https://thursday-therapy.com/upload/" + soapName, formData, {
+            // axios.post(process.env.NODE_ENV === "development" ? "http://localhost:5000/upload/" : "https://www.thursday-therapy.com/upload/" + soapName, formData, {
             //   headers: {
             //     'Content-Type': 'multipart/form-data'
             //   }
@@ -321,7 +321,7 @@ class Inventory extends Component {
             
             :
 
-            axios.delete("https://thursday-therapy.com/uploads/" + soapImageIds[g], {
+            axios.delete("https://www.thursday-therapy.com/uploads/" + soapImageIds[g], {
               headers: {
                 'Content-Type': 'multipart/form-data'
               }
@@ -350,7 +350,7 @@ class Inventory extends Component {
 
               :
               
-              axios.post("https://thursday-therapy.com/upload/" + soapName, formData, {
+              axios.post("https://www.thursday-therapy.com/upload/" + soapName, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   }
@@ -427,7 +427,7 @@ class Inventory extends Component {
                 
               :
 
-              axios.put("https://thursday-therapy.com/uploads/" + soapFileId + '/' + soapName, {
+              axios.put("https://www.thursday-therapy.com/uploads/" + soapFileId + '/' + soapName, {
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   },

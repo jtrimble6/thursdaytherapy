@@ -543,8 +543,8 @@ class Checkout extends Component {
     
           axios({
               method: "POST", 
-              url: "https://thursday-therapy.com/neworder",
-              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://thursday-therapy.com/neworder",
+              url: "https://www.thursday-therapy.com/neworder",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/neworder" : "https://www.thursday-therapy.com/neworder",
               data: {
                   firstName: firstName,   
                   lastName: lastName,
@@ -602,8 +602,8 @@ class Checkout extends Component {
           `;
           axios({
               method: "POST", 
-              url: "https://thursday-therapy.com/orderconfirmation",
-              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://thursday-therapy.com/orderconfirmation",
+              url: "https://www.thursday-therapy.com/orderconfirmation",
+              // url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/orderconfirmation" : "https://www.thursday-therapy.com/orderconfirmation",
               data: {
                   firstName: firstName,   
                   lastName: lastName,
@@ -656,7 +656,7 @@ class Checkout extends Component {
 
     async fetchData() {
         let productImages = []
-        const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://thursday-therapy.com/uploads");
+        const res = await fetch(process.env.NODE_ENV === "development" ? "http://localhost:3000/uploads" : "https://www.thursday-therapy.com/uploads");
           res.json()
             .then((res) => {
               // console.log('ALL IMAGES: ', res);
@@ -980,7 +980,7 @@ class Checkout extends Component {
       let addressState = this.state.addressState
       let addressZipCode = this.state.addressZipCode
       
-      axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/addressverf/" : "https://thursday-therapy.com/addressverf/" + address1 + "/" + address2 + "/" + addressCity + "/" + addressState + "/" + addressZipCode, {
+      axios.post(process.env.NODE_ENV === "development" ? "http://localhost:3000/addressverf/" : "https://www.thursday-therapy.com/addressverf/" + address1 + "/" + address2 + "/" + addressCity + "/" + addressState + "/" + addressZipCode, {
         })
         .then(res => {
           // console.log('GOT A RESPONSE ADDRESS VERF: ', res)
