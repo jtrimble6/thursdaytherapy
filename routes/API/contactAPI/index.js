@@ -6,12 +6,12 @@ var nodemailer = require('nodemailer');
 require('dotenv').config();
 
 var transport = {
-  // host: 'smtp.gmail.com',
-  host: 'qvh6-ytnz.thursday-therapy.com',
+  host: 'smtp.gmail.com',
+  // host: 'qvh6-ytnz.thursday-therapy.com',
   auth: {
     port: 465,
     user: process.env.EMAIL_ADDRESS,
-    // pass: process.env.EMAIL_PASSWORD
+    pass: process.env.EMAIL_PASSWORD
   }
 }
 
