@@ -26,7 +26,7 @@ class AdminLogout extends Component {
         return (
             <div id="logoutPage">
              <h1>You have successfully logged out!</h1>
-             <a href={process.env.NODE_ENV === 'development' ? '/' : 'https://thursdaytherapy.herokuapp.com/'}>Back to Home</a>
+             <a href={process.env.NODE_ENV === 'development' ? '/' : 'https://www.thursday-therapy.com/'}>Back to Home</a>
             </div>
         )
     }

@@ -275,9 +275,13 @@ class Inventory extends Component {
       let data = {}
       let formData = new FormData();
       let imagefileupdate = ''
+      let soapImageIds = ''
 
       console.log('SOAP IMAGE ID HERE: ', soapImageId)
-      let soapImageIds = soapImageId.split(",")
+      if (soapImageId) {
+        soapImageIds = soapImageId.split(",")
+      }
+      
       console.log('SOAP IMAGE IDS HERE: ', soapImageIds)
       // debugger;
 
