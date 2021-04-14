@@ -30,7 +30,7 @@ router.post('/send', (req, res, next) => {
   var email = req.body.email
   var message = req.body.message
   var content = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
-  let toEmail = process.env.NODE_ENV === 'production' ? 'hkopciak@gmail.com' : 'trimbledevelops@gmail.com' 
+  let toEmail = process.env.NODE_ENV === 'production' ? 'herve@czjsresources.com' : 'trimbledevelops@gmail.com' 
   var mail = {
     from: name,
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
@@ -61,7 +61,7 @@ router.post('/neworder', (req, res, next) => {
   var phoneNumber = req.body.phoneNumber
   var details = req.body.details
   var content = `Congratulations! A new order has just been submitted!\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nOrder Details: ${details}`
-  var toEmail = process.env.NODE_ENV === 'production' ? 'hkopciak@gmail.com' : 'trimbledevelops@gmail.com' 
+  var toEmail = process.env.NODE_ENV === 'production' ? 'herve@czjsresources.com' : 'trimbledevelops@gmail.com' 
 
   var mail = {
     from: firstName + ' ' + lastName,
@@ -90,13 +90,15 @@ router.post('/neworder', (req, res, next) => {
 router.post('/orderconfirmation', (req, res, next) => {
   var firstName = req.body.firstName
   // var lastName = req.body.lastName
-  var email = req.body.email
+  var email = 'herve@czjsresources.com'
+  var customerEmail = req.body.email
   // var confirmationNumber = req.body.confirmationNumber
   // var confirmationUrl = req.body.confirmationUrl
   var orderDetails = req.body.orderDetails
   // var content = `Thank you ${firstName} ${lastName} for your order! Your order has been received!\nConfirmation #: ${confirmationNumber}\nView your receipt here: ${confirmationUrl}`
   var html = 
       `<img src="cid:logo"/>\n
+      <p>Customer Email: ${customerEmail}<p>\n
       <p>Dear ${firstName},</p>\n
       <p>Purchase Confirmation</p>\n 
       <hr />
@@ -110,7 +112,7 @@ router.post('/orderconfirmation', (req, res, next) => {
       <p>sales@thursday-therapy.com | www.thursday-therapy.com</p>`
 
   var mail = {
-    from: 'noreply.thursdaytherapy.com',
+    from: 'noreply.thursdaytherapy@gmail.com',
     // to: 'kgouveia@gfitwefit.com',  //Change to email address that you want to receive messages on
     // to: process.env.NODE_ENV === 'DEVELOPMENT' ? "trimbledevelops@gmail.com" : "hkopciak@gmail.com",
     to: email,
