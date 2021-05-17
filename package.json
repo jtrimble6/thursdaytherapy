@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:jtrimble6/thursdaytherapy.git",
-  "author": "JOSHUA TRIMBLE <JAYTRIM6@GMAIL.COM>",
+  "author": "JOSHUA TRIMBLE <TRIMBLEDEVELOPS@GMAIL.COM>",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
