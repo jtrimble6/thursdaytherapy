@@ -3,6 +3,8 @@
     width: 80%;
     margin: 0 auto;
     align-content: center;
+    /* padding-bottom: 10vh; */
+    background-color: lightgray;
 }
 
 .homeImagesCol {
@@ -14,6 +16,12 @@
     width: 100%;
     height: auto;
 }
+
+#homeImage1, #homeImage2, #homeImage3  {
+    /* position: relative; */
+    vertical-align: middle;
+}
+
 
 /* ----------- LAPTOPS ----------- */
 

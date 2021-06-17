@@ -8,20 +8,22 @@
 }
 
 .howToBuyImagesCol, .howToBuyTextCol {
-    width: 33.3%;
+    width: 50%;
+    padding: 5vw;
     display: inline-block;
     height: 100%;
+}
+
+.howToBuyImagesCol {
+    vertical-align: middle !important;
 }
 
 .howToBuyTextCol {
     height: 100%;
     text-align: center;
-    
-}
-
-.howToBuyTextCol {
     vertical-align: top !important;
-    margin-top: 10vw;
+    /* margin-top: 10vw; */
+    
 }
 
 .howToBuyText {
@@ -49,6 +51,10 @@
 
 .howToBuyCallButton:hover {
     color: #1675e0;
+}
+
+.contactRow {
+    margin-bottom: 2vh;
 }
 
 #contactUsPhoneHeader {

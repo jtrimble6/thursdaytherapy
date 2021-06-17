@@ -42,17 +42,14 @@ class HowToBuy extends Component {
         return (
             <span>
               <div id='howToBuyImagesRow' className="row">
-                <div className="col-sm howToBuyImagesCol">
-                  <img src={HowToBuyImage1} className="howToBuyImage" alt="image1" />
-                </div>
-                <div className="col-sm howToBuyTextCol">
+                <div className="col-sm-6 howToBuyTextCol">
                     <div className="row">
                       <a href='/products' className='howToBuyText'>Order securely using our site!</a>
                     </div> <hr />
                     <div className="row">
                       <a href='https://brossmansfarm.com/' rel='noreferrer' target='_blank' className='howToBuyText'>See our soaps at Brossman's Farm in Leesburg, VA</a>
                     </div> <hr />
-                    <div className="row">
+                    <div className="row contactRow">
                     <Modal id='contactUsPhone' show={this.state.show} onHide={this.close}>
                       {/* <Modal.Header>
                           <Modal.Title id='productsListingName'>{this.state.soapName}</Modal.Title>
@@ -67,12 +64,20 @@ class HowToBuy extends Component {
                         </Button>
                       </Modal.Footer>
                     </Modal>
-                      <Button onClick={this.showPhoneModal} className='howToBuyCallButton'>Call us!</Button>
+                      {/* <Button onClick={this.showPhoneModal} className='howToBuyCallButton'>Call us!</Button> */}
+                    </div>
+                    <div className="row">
+                      <div className="col howToBuyImagesCol1">
+                        <img src={HowToBuyImage2} className="howToBuyImage" alt="image3" />
+                      </div>
                     </div>
                 </div>
-                <div className="col-sm howToBuyImagesCol">
-                  <img src={HowToBuyImage2} className="howToBuyImage" alt="image3" />
+                <div className="col-sm-6 howToBuyImagesCol">
+                  <img src={HowToBuyImage1} className="howToBuyImage" alt="image1" />
                 </div>
+                {/* <div className="col-sm howToBuyImagesCol">
+                  <img src={HowToBuyImage2} className="howToBuyImage" alt="image3" />
+                </div> */}
               </div>
             </span>
         )
