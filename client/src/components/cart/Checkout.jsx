@@ -277,7 +277,7 @@ class Checkout extends Component {
       };
       this.SqPaymentForm = new window.SqPaymentForm(config);
       this.SqPaymentForm.build();
-      let creditCardForm = document.getElementById('creditCardForm')
+      const creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false
       this.setState({
         sqPaymentForm: this.SqPaymentForm
