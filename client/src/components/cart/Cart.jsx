@@ -117,7 +117,7 @@ class Cart extends Component {
 
     async fetchCart(newProducts) {
       let cart = []
-      console.log('LOCAL STORAGE: ', localStorage)
+      // console.log('LOCAL STORAGE: ', localStorage)
       // console.log('PRODUCTS: ', products)
       let cartTotal = 0
       for (let c=0; c<localStorage.length; c++) {
