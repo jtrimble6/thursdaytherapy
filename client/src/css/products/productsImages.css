@@ -1,147 +1,151 @@
 /* PRODUCT ROWS */
 
 #productsImagesRow1 {
-  /* height: 25vw; */
-  padding-bottom: 2vw;
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 5vw;
-  align-content: center;
+	/* height: 25vw; */
+	padding-bottom: 2vw;
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 5vw;
+	align-content: center;
 }
 
 #productsImagesRow2 {
-  /* height: 25vw; */
-  padding-bottom: 2vw;
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 1vw;
-  align-content: center;
+	/* height: 25vw; */
+	padding-bottom: 2vw;
+	width: 90%;
+	margin: 0 auto;
+	margin-top: 1vw;
+	align-content: center;
 }
 
 .productsImagePanel {
-  width: 22%;
-  height: 100% !important;
-  margin: 1vw;
+	width: 22%;
+	height: 100% !important;
+	margin: 1vw;
 }
 
 .productsImage {
-  width: 100%;
-  margin: 0 auto !important;
-  height: auto;
-  cursor: pointer;
-  border-radius: 6px;
+	width: 100%;
+	margin: 0 auto !important;
+	height: auto;
+	cursor: pointer;
+	border-radius: 6px;
 }
 
 .productListingDetailsCol {
-  text-align: center;
+	text-align: center;
 }
 
 .productListingImageCol {
-  margin: 0 auto !important;
-  margin-top: 1vw !important;
+	margin: 0 auto !important;
+	margin-top: 1vw !important;
 }
 
 /* PRODUCT MODALS */
 
 .productsImageModal {
-  width: 50%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  height: auto;
+	width: 50%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	height: auto;
 }
 
 .productsImageHeader {
-  padding: 1vw !important;
+	padding: 1vw !important;
 }
 
 .productsImageHeader .rs-panel-heading {
-  padding: 1vw !important;
-  font-size: 2vw;
-  text-align: center;
+	padding: 1vw !important;
+	font-size: 2vw;
+	text-align: center;
 }
 
 .productsImageHeader .rs-panel-body {
-  display: none;
+	display: none;
 }
 
 .rs-dropdown-menu {
-  max-height: 50vh;
-  overflow: scroll;
+	max-height: 50vh;
+	overflow: scroll;
 }
 
 #productsListingName {
-  text-align: center;
-  font-size: 3vw;
+	text-align: center;
+	font-size: 3vw;
 }
 
 .productsListingPrice,
 .productsListingIngredients {
-  font-size: 1rem;
-  font-weight: bolder;
-  line-height: 1.6;
+	font-size: 1rem;
+	font-weight: bolder;
+	line-height: 1.6;
 }
 
 .productsListingIngredients {
-  border: none;
-  text-align: left;
-  resize: none;
-  padding: 1vw;
-  padding-right: 2vw;
-  padding-left: 0;
-  /* width: 90%; */
-  padding-bottom: 8rem;
-  float: left;
-  width: 100%;
-  height: auto;
-  min-height: 75px;
-  outline: none;
-  resize: none;
-  /* border: 1px solid grey; */
+	border: none;
+	text-align: left;
+	resize: none;
+	padding: 1vw;
+	padding-right: 2vw;
+	padding-left: 0;
+	/* width: 90%; */
+	padding-bottom: 8rem;
+	float: left;
+	width: 100%;
+	height: auto;
+	min-height: 75px;
+	outline: none;
+	resize: none;
+	/* border: 1px solid grey; */
 }
 
 .productsListingPrice {
-  /* margin-top: 1vw; */
-  text-align: center;
+	/* margin-top: 1vw; */
+	text-align: center;
 }
 
 .productsTitleRow {
-  width: 100%;
-  display: inline-block !important;
+	width: 100%;
+	display: inline-block !important;
 }
 
 .productsTitle {
-  font-size: 5vw;
-  float: left;
-  width: 30%;
-  margin-left: 15vw;
-  font-family: "Didot";
+	font-size: 5vw;
+	float: left;
+	width: 30%;
+	margin-left: 15vw;
+	font-family: "Didot";
 }
 
 /* SEARCH BAR */
 
 #adminProductsSearchBarForm {
-  float: right;
-  width: 30%;
-  margin-right: 10vw;
-  margin-top: 1vw;
+	float: right;
+	width: 30%;
+	margin-right: 10vw;
+	margin-top: 1vw;
 }
 
 #adminProductsSearchBarFormGroup .rs-form-control-wrapper {
-  width: 70%;
+	width: 70%;
 }
 
 .searchIcon {
-  margin-left: 1vw;
+	margin-left: 1vw;
+}
+
+#searchEntry {
+	width: 100%;
 }
 
 /* LOADER */
 
 #productsLoader {
-  margin-top: 10vw;
-  height: 10vw;
-  position: relative;
-  top: 0;
+	margin-top: 10vw;
+	height: 10vw;
+	position: relative;
+	top: 0;
 }
 
 /* ----------- LAPTOPS ----------- */
@@ -149,12 +153,12 @@
 /* ----------- Non-Retina Screens ----------- */
 
 @media screen and (min-device-width: 700px) and (max-device-width: 1100px) {
-  #searchEntry {
-    width: 100%;
-  }
-  #adminProductsSearchBarFormGroup .rs-form-control-wrapper {
-    width: 85%;
-  }
+	#searchEntry {
+		width: 100%;
+	}
+	#adminProductsSearchBarFormGroup .rs-form-control-wrapper {
+		width: 85%;
+	}
 }
 
 @media screen and (min-device-height: 1000px) and (max-device-width: 699px) and (-webkit-min-device-pixel-ratio: 1) {
@@ -265,78 +269,78 @@
 
 /* Portrait */
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
-  .productsTitle {
-    width: 20vw;
-    margin-top: 1vw;
-    margin-left: 15vw;
-    font-size: 6vw;
-  }
+	.productsTitle {
+		width: 20vw;
+		margin-top: 1vw;
+		margin-left: 15vw;
+		font-size: 6vw;
+	}
 
-  /* SEARCH BAR */
+	/* SEARCH BAR */
 
-  #adminProductsSearchBarForm {
-    float: left;
-    width: 65vw;
-    margin-right: 0vw;
-    font-size: 3.5vw;
-  }
+	#adminProductsSearchBarForm {
+		float: left;
+		width: 65vw;
+		margin-right: 0vw;
+		font-size: 3.5vw;
+	}
 
-  #adminProductsSearchBarForm.rs-form-control-wrapper {
-    width: 100%;
-  }
+	#adminProductsSearchBarForm.rs-form-control-wrapper {
+		width: 100%;
+	}
 
-  #searchEntry {
-    max-width: 100%;
-    font-size: 3.2vw;
-  }
+	#searchEntry {
+		max-width: 100%;
+		font-size: 3.2vw;
+	}
 
-  /* PRODUCT ROWS */
-  .productsImagePanel {
-    width: 45%;
-    margin-left: 2.5%;
-  }
+	/* PRODUCT ROWS */
+	.productsImagePanel {
+		width: 45%;
+		margin-left: 2.5%;
+	}
 
-  .productsImageHeader .rs-panel-heading {
-    font-size: 4vw;
-  }
+	.productsImageHeader .rs-panel-heading {
+		font-size: 4vw;
+	}
 
-  /* PRODUCT MODALS */
-  .rs-modal-content {
-    max-width: 100vw;
-  }
-  #productsListingName {
-    font-size: 5vw;
-  }
+	/* PRODUCT MODALS */
+	.rs-modal-content {
+		max-width: 100vw;
+	}
+	#productsListingName {
+		font-size: 5vw;
+	}
 
-  .productsImageModal {
-    width: 40vw;
+	.productsImageModal {
+		width: 40vw;
 
-    height: auto;
-  }
+		height: auto;
+	}
 
-  .productListingDetailsCol {
-    /* max-width: 100%; */
+	.productListingDetailsCol {
+		/* max-width: 100%; */
 
-    float: left;
-    /* width: 100%; */
-    height: auto;
-  }
+		float: left;
+		/* width: 100%; */
+		height: auto;
+	}
 
-  .productsListingIngredients {
-    padding-bottom: 5rem;
-  }
+	.productsListingIngredients {
+		padding-bottom: 5rem;
+	}
 
-  /* .comment {
+	/* .comment {
     
 } */
 
-  .productListingDetailsCol p {
-    font-size: 5vw;
-  }
+	.productListingDetailsCol p {
+		font-size: 5vw;
+	}
 
-  .productListingDetailsCol h5 {
-    font-size: 5vw;
-  }
+	.productListingDetailsCol h5 {
+		font-size: 5vw;
+	}
 }
 
 /* Landscape */

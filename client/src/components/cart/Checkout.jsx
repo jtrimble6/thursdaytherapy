@@ -85,6 +85,8 @@ class Checkout extends Component {
           paymentOrderId: '',
           purchaseReceiptUrl: '',
           showAddressModal: false,
+          showManualAddressModal: false,
+          showPaymentOptionsModal: false,
           showNonceModal: false,
           emailError: false,
           passwordError: false,
@@ -93,6 +95,7 @@ class Checkout extends Component {
           stepOneFieldError: false,
           sessionID: '',
           redirect: false,
+          cancelOrderRedirect: false,
           divStyle: {
             backgroundColor: '#85bb65 !important',
             color: 'white',
@@ -110,8 +113,10 @@ class Checkout extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.handlePhoneChange = this.handlePhoneChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleCancelOrder = this.handleCancelOrder.bind(this)
         this.handleNextStep = this.handleNextStep.bind(this)
         this.handlePrevStep = this.handlePrevStep.bind(this)
+        this.autoPrevStep = this.autoPrevStep.bind(this)
         this.handleFinalStep = this.handleFinalStep.bind(this)
         this.changeState = this.changeState.bind(this)
         this.handleStepTitleChange = this.handleStepTitleChange.bind(this)
@@ -121,10 +126,16 @@ class Checkout extends Component {
         this.validateAddress = this.validateAddress.bind(this)
         this.handleSendUserInfo = this.handleSendUserInfo.bind(this)
         this.openAddressModal = this.openAddressModal.bind(this)
-        this.hideAddressModal = this.hideAddressModal.bind(this)
+        this.openManualAddressModal = this.openManualAddressModal.bind(this)
+        this.hideManualAddressModal = this.hideManualAddressModal.bind(this)
         this.openNonceModal = this.openNonceModal.bind(this)
         this.hideNonceModal = this.hideNonceModal.bind(this)
         this.confirmAddress = this.confirmAddress.bind(this)
+        this.creditCardPayment = this.creditCardPayment.bind(this)
+        this.paypalPayment = this.paypalPayment.bind(this)
+        this.manualConfirmAddress = this.manualConfirmAddress.bind(this)
+        this.renderPaymentOptions = this.renderPaymentOptions.bind(this)
+        this.renderPaypalForm = this.renderPaypalForm.bind(this)
         this.renderCreditCardForm = this.renderCreditCardForm.bind(this)
         this.requestCardNonce = this.requestCardNonce.bind(this)
         this.handleNonceReceived = this.handleNonceReceived.bind(this)
@@ -135,6 +146,8 @@ class Checkout extends Component {
         this.formatMoney = this.formatMoney.bind(this)
         this.setRedirect = this.setRedirect.bind(this)
         this.renderRedirect = this.renderRedirect.bind(this)
+        this.setCancelOrderRedirect = this.setCancelOrderRedirect.bind(this)
+        this.renderCancelOrderRedirect = this.renderCancelOrderRedirect.bind(this)
         this.handleConfirmationComplete = this.handleConfirmationComplete.bind(this)
         this.handleResendConfirmationEmail = this.handleResendConfirmationEmail.bind(this)
     
@@ -146,6 +159,69 @@ class Checkout extends Component {
         this.fetchData()
         
       }
+    
+    renderPaymentOptions = () => {
+      this.setState({
+        showPaymentOptionsModal: true
+      })
+    }
+
+    renderPaypalForm = () => {
+      fetch('process-paypal', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentAmount: parseFloat(this.state.orderGrandTotal).toFixed(2)
+        })   
+      })
+      .then(res => {
+        console.log('paypal status: ', res.status)
+        console.log('paypal link: ', res.data)
+        console.log('paypal response: ', res)
+        // if (!response.ok) {
+        //   return response.json().then(
+        //     errorInfo => Promise.reject(errorInfo));
+        // }
+        // return response.json();
+      })
+      .catch(err => {
+        // alert('Network error: ' + err);
+        Alert.error('Sorry, there was an error connecting to Paypal payment. Please try again.', 10000)
+        document.getElementById('processingPaymentPayButton').hidden = false
+        document.getElementById('processingPaymentLoader').hidden = true
+      })
+      // .then(data => {
+      //   // console.log(data);
+      //   if (data.title === "Payment Successful") {
+      //     Alert.success('Payment was a success!', 5000)
+      //     // console.log('PAYMENT WAS A HUGE SUCCESS!')
+      //     // console.log('PAYMENT RESULT: ', data.result.payment)
+      //     let paymentResult = data.result.payment
+      //     this.setState({
+      //         paymentStatus: paymentResult.status,
+      //         paymentCardLastFour: paymentResult.cardDetails.card.last4,
+      //         paymentAmount: paymentResult.amountMoney.amount,
+      //         paymentId: paymentResult.id,
+      //         paymentOrderId: paymentResult.orderId,
+      //         purchaseReceiptUrl: paymentResult.receiptUrl
+      //     })
+
+      //   }
+      //   // debugger;
+      //   // alert('Payment complete successfully!\nCheck browser developer console for more details');
+      //   this.handlePaymentConfirmation()
+      // })
+      .catch(err => {
+        console.error(err);
+        Alert.error('Sorry, there was an error completing your payment. Please try again.', 10000)
+        document.getElementById('processingPaymentPayButton').hidden = false
+        document.getElementById('processingPaymentLoader').hidden = true
+        // alert('Payment failed to complete!\nCheck browser developer console for more details');
+      });
+    }
 
     renderCreditCardForm = () => {
       const config = {
@@ -392,13 +468,13 @@ class Checkout extends Component {
         let requiredText = document.getElementById('checkoutRequiredSmall')
         requiredText.hidden = true
 
-         // CREATE RESEND CONFIRMATION EMAIL BUTTON
-         let checkoutResendEmailButton = document.createElement('button')
-         checkoutResendEmailButton.innerHTML = 'Resend Confirmation Email'
-         checkoutResendEmailButton.classList.add('checkoutResendEmailButton')
-         checkoutResendEmailButton.classList.add('button-credit-card')
-         checkoutResendEmailButton.onclick = this.handleResendConfirmationEmail
-         checkoutFormNav.appendChild(checkoutResendEmailButton)
+        // CREATE RESEND CONFIRMATION EMAIL BUTTON
+        let checkoutResendEmailButton = document.createElement('button')
+        checkoutResendEmailButton.innerHTML = 'Resend Confirmation Email'
+        checkoutResendEmailButton.classList.add('checkoutResendEmailButton')
+        checkoutResendEmailButton.classList.add('button-credit-card')
+        checkoutResendEmailButton.onclick = this.handleResendConfirmationEmail
+        checkoutFormNav.appendChild(checkoutResendEmailButton)
     
         // CREATE CHECKOUT CONFIRMATION BUTTON
         let checkoutConfirmationButton = document.createElement('button')
@@ -407,8 +483,6 @@ class Checkout extends Component {
         checkoutConfirmationButton.classList.add('button-credit-card')
         checkoutConfirmationButton.onclick = this.handleConfirmationComplete
         checkoutFormNav.appendChild(checkoutConfirmationButton)
-
-       
     
         // CREATE ORDER CONFIRMATION DIV
         let orderConfirmationElement = document.createElement('div')
@@ -712,6 +786,10 @@ class Checkout extends Component {
               });
           });
       }
+
+    async removeItem(itemKey) {
+        localStorage.removeItem(itemKey)
+      }
   
     async fetchCart(newProducts) {
 
@@ -733,11 +811,11 @@ class Checkout extends Component {
           itemLookup = products.filter(product => {
             return (product._id === itemObj.soapName)
           })
-          itemName = itemLookup[0].name
-          itemPrice = itemLookup[0].price
-          itemQty = itemObj.soapQty
-          itemId = itemLookup[0]._id
-          itemIngredients = itemLookup[0].ingredients
+          itemName = itemLookup[0]?.name ? itemLookup[0].name : ''
+          itemPrice = itemLookup[0]?.price ? itemLookup[0].price : ''
+          itemQty = itemObj.soapQty ? itemObj.soapQty : ''
+          itemId = itemLookup[0]?._id ? itemLookup[0]._id : ''
+          itemIngredients = itemLookup[0]?.ingredients ? itemLookup[0].ingredients : ''
   
           // REMOVING ITEMS FROM CART W/ QTY < 0
           if (itemQty > 0) {
@@ -798,7 +876,8 @@ class Checkout extends Component {
       }
 
     changeState = (e) => {
-        // console.log("State change: ", e.target)
+        console.log('CHANGING STATE')
+        console.log("State change: ", e.target)
         let addressState = $(e.target).text()
         // console.log('New state: ', addressState)
         this.setState({
@@ -876,6 +955,12 @@ class Checkout extends Component {
             return true
         }
       }
+      
+    handleCancelOrder(event) {
+        event.preventDefault()
+        console.log('REDIRECT TO SHOPPING CART')
+        this.setCancelOrderRedirect()
+      }
 
     handleNextStep(event) {
         event.preventDefault()
@@ -910,8 +995,20 @@ class Checkout extends Component {
         }, () => {
           this.handleStepTitleChange()
         })
-
       }
+    
+    autoPrevStep() {
+        this.scrollTop()
+        this.handleStepTitleChange()
+        let currentStep = this.state.currentStep
+        // If the current step is 2 or 3, then subtract one on "previous" button click
+        currentStep = currentStep <= 1? 1: currentStep - 1
+        this.setState({
+          currentStep: currentStep,
+        }, () => {
+          this.handleStepTitleChange()
+        })
+    }
 
     handleFinalStep = () => {
       this.setState({
@@ -965,6 +1062,14 @@ class Checkout extends Component {
         Alert.warning('Please enter a last name.', 5000)
         return;
       }
+      if (this.state.address1 === '') {
+        Alert.warning('Please enter an Address.', 5000)
+        return;
+      }
+      if (this.state.addressState === 'Select State') {
+        Alert.warning('Please select a State.', 5000)
+        return;
+      }
       if (this.state.emailError) {
         Alert.warning('Please enter a valid email address.', 5000)
         return;
@@ -994,22 +1099,45 @@ class Checkout extends Component {
         })
         .catch(err => {
           console.log('GOT AN ERROR ADDRESS VERF: ', err)
+          Alert.warning('Issue with address verification.', 5000)
+          this.setState({
+            showManualAddressModal: true
+          })
         })
       
       }
 
+    manualConfirmAddress = (e) => {
+      e.preventDefault()
+      this.setState({
+        showManualAddressModal: false
+      })
+
+      this.renderPaymentOptions()
+
+      // this.renderCreditCardForm()
+
+      // let addressValidationButton = document.getElementById('addressValidationButtonDiv')
+      // addressValidationButton.hidden = true
+      // let paymentInfo = document.getElementById('paymentInfoFormRow')
+      // paymentInfo.hidden = true
+
+      let address = e.target
+      // console.log('SELECTED ADDRESS BUTTON: ', address)
+      let addressLine1 = address.dataset.addressline1
+      let addressLine2 = address.dataset.addressline2
+      // console.log('ADDRESS CONFIRMED: ', addressLine1, addressLine2)
+      this.setState({
+        addressLine1: addressLine1,
+        addressLine2: addressLine2
+      })
+    }  
+
     confirmAddress = (e) => {
         e.preventDefault()
         this.setState({
-          showAddressModal: false,
+          showAddressModal: false
         })
-
-        this.renderCreditCardForm()
-
-        let addressValidationButton = document.getElementById('addressValidationButtonDiv')
-        addressValidationButton.hidden = true
-        let paymentInfo = document.getElementById('paymentInfoFormRow')
-        paymentInfo.hidden = true
 
         let address = e.target
         // console.log('SELECTED ADDRESS BUTTON: ', address)
@@ -1020,7 +1148,29 @@ class Checkout extends Component {
           addressLine1: addressLine1,
           addressLine2: addressLine2
         })
+
+        this.renderPaymentOptions()
       }
+
+    creditCardPayment = (e) => {
+      e.preventDefault()
+      // console.log('READY FOR CREDIT CARD')
+      this.renderCreditCardForm()
+
+      let addressValidationButton = document.getElementById('addressValidationButtonDiv')
+      addressValidationButton.hidden = true
+      let paymentInfo = document.getElementById('paymentInfoFormRow')
+      paymentInfo.hidden = true
+    }
+
+    paypalPayment = (e) => {
+      e.preventDefault()
+      // console.log('READY FOR PAYPAL')
+      
+      this.renderPaypalForm()
+    }
+
+
 
     openAddressModal = (e) => {
         // console.log(e.target)
@@ -1029,11 +1179,30 @@ class Checkout extends Component {
         });
       }
 
+    openManualAddressModal = (e) => {
+        this.setState({
+            showManualAddressModal: true
+        })
+      }
+
     hideAddressModal = (e) => {
         this.setState({ 
             showAddressModal: false
           });
       }
+
+    hideManualAddressModal = (e) => {
+        this.setState({ 
+            showManualAddressModal: false
+          });
+      }
+
+    hidePaymentOptionsModal = (e) => {
+        this.setState({
+          showPaymentOptionsModal: false
+        })
+        this.autoPrevStep()
+    }
 
     openNonceModal = (e) => {
         // console.log(e.target)
@@ -1115,6 +1284,12 @@ class Checkout extends Component {
             redirect: true
         })
       }
+
+    setCancelOrderRedirect = () => {
+        this.setState({
+            cancelOrderRedirect: true
+        })
+      }
   
     renderRedirect = () => {
         if (this.state.redirect === true) {
@@ -1123,13 +1298,20 @@ class Checkout extends Component {
         else {}
       }
 
+    renderCancelOrderRedirect = () => {
+        if (this.state.cancelOrderRedirect === true) {
+          return <Redirect to='/shoppingcart' />
+        }
+        else {}
+      }
+
     render() {
       return (
           <span>
             {this.renderRedirect()}
-              {/* <h2 className='checkoutTitle'>Secure Checkout</h2> */}
+            {this.renderCancelOrderRedirect()}
               <div id='checkoutTitleDiv' className="checkoutTitleRow">
-                <h1 id='checkoutTitle' className='checkoutTitle'>Secure Checkout</h1>
+                <h1 id='checkoutTitle' className='checkoutTitle'>Checkout</h1>
                 <p id='checkoutStepTitle' className='checkoutStep'>
                   {this.state.currentStepTitle}
                 </p>
@@ -1179,11 +1361,20 @@ class Checkout extends Component {
                   showAddressModal={this.state.showAddressModal}
                   openAddressModal={this.openAddressModal}
                   hideAddressModal={this.hideAddressModal}
+                  showManualAddressModal={this.state.showManualAddressModal}
+                  openManualAddressModal={this.openManualAddressModal}
+                  hideManualAddressModal={this.hideManualAddressModal}
+                  showPaymentOptionsModal={this.state.showPaymentOptionsModal}
+                  openPaymentOptionsModal={this.openPaymentOptionsModal}
+                  hidePaymentOptionsModal={this.hidePaymentOptionsModal}
                   showNonceModal={this.state.showNonceModal}
                   openNonceModal={this.openNonceModal}
                   hideNonceModal={this.hideNonceModal}
                   addressSuggestions={this.state.addressSuggestions}
                   confirmAddress={this.confirmAddress}
+                  manualConfirmAddress={this.manualConfirmAddress}
+                  creditCardPayment={this.creditCardPayment}
+                  paypalPayment={this.paypalPayment}
                   handleCardError={this.renderCreditCardForm}
                   requestCardNonce={this.requestCardNonce}
                 />
@@ -1197,10 +1388,15 @@ class Checkout extends Component {
                   { 
                     (this.state.currentStep === 1) ? 
                     
-                    <Button onClick={this.handleNextStep} variant="primary" className="nextStep">
-                      Confirm Order
-                    </Button>
-                    
+                    <span className='stepButtonSpan'>
+                      <Button onClick={this.handleNextStep} variant="primary" id="confirmOrderButton" className="nextStep">
+                        Confirm Order
+                      </Button>
+
+                      <Button onClick={this.handleCancelOrder} variant="primary" id="cancelOrderButton" className="nextStep">
+                        Cancel
+                      </Button>
+                    </span>
                     :
 
                     (this.state.currentStep < 2) ?
@@ -1244,6 +1440,5 @@ class Checkout extends Component {
 };
 
 export default Checkout;
-       
 
 

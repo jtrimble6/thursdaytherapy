@@ -20,10 +20,27 @@ class CartPage extends Component {
       }
     
     getCart = () => {
-        let cartCount = localStorage.length
-        // console.log('CART COUNT: ', cartCount)
+        // let localSessionID = localStorage.getItem('sessionID')
+        // if (!localSessionID || localSessionID === null) {
+        //   console.log('no session id')
+        //   return
+        // } 
+
+        let int = 1
+        let cart = []
+        // console.log('counting cart')
+        while (int <= localStorage.length) {
+          let cartItem = "item" + int
+          // console.log('cart item: ', int)
+          if (localStorage.getItem(cartItem)) {
+            let cartItemFound = JSON.parse(localStorage.getItem(cartItem))
+            cart.push(cartItemFound)
+          }
+          int++
+        }
+
         this.setState({
-            cartCount: cartCount
+          cartCount: cart.length
         })
       }
     

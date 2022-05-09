@@ -96,8 +96,9 @@ class Cart extends Component {
                       })
                       productsData = newProducts
                     }
-                    this.fetchCart(newProducts)
-                    // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
+                    // this.fetchCart(newProducts)
+                    this.fetchCartTest(newProducts)
+                    // console.log('NEW PRODUCTS: ', newProducts)
                   }
                   // this.setState({
                   //     products: res.data,
@@ -166,6 +167,60 @@ class Cart extends Component {
       // console.log('CART: ', cart)
 
       }
+
+      async fetchCartTest(newProducts) {
+        let cart = []
+        console.log('LOCAL STORAGE: ', localStorage)
+        console.log('PRODUCTS: ', newProducts)
+        let cartTotal = 0
+        for (let c=0; c<localStorage.length; c++) {
+          let products = newProducts
+          let itemKey = localStorage.key(c)
+          let item = localStorage.getItem(itemKey)
+          let itemObj = JSON.parse(item)
+          // console.log('LOCAL STORAGE ITEM: ', itemObj)
+  
+          let itemLookup = ''
+          let itemName = ''
+          let itemPrice = ''
+          let itemQty = ''
+          let itemId = ''
+          itemLookup = products.filter(product => {
+            return (product._id === itemObj.soapName)
+          })
+          console.log('ITEM LOOKUP: ', itemLookup)
+          if(itemLookup.length) {
+            itemName = itemLookup[0].name
+            itemPrice = itemLookup[0].price
+            itemQty = itemObj.soapQty
+            itemId = itemLookup[0]._id
+    
+            if (itemQty > 0) {
+              let newCartItem = {
+                'itemKey': itemKey,
+                'soapName': itemName,
+                'soapPrice': itemPrice,
+                'soapQty': itemQty,
+                'soapTotal': (itemPrice * itemQty),
+                'soapId': itemId
+              }
+              cart.push(newCartItem)
+              cartTotal = cartTotal + (itemPrice * itemQty)
+            } else {
+              this.removeItem(itemKey)
+            }
+          }
+          
+        }
+        
+        this.setState({
+          carts: cart,
+          cartTotal: cartTotal
+        })
+  
+        console.log('CART: ', cart)
+  
+        }
 
     async increaseQty(itemKey) {
       let item = itemKey
@@ -434,8 +489,8 @@ class Cart extends Component {
                         // }
                         return (
                         <span>
-                            <Button className='cartEditButtons' onClick={this.open} data-product={rowData.soapId}> Edit </Button> |{' '}
-                            <Button className='cartEditButtons' onClick={(e) => this.handleRemoveItem(e)} data-product={rowData.soapId}> Remove </Button>
+                            <Button id='cartEdit' className='cartEditButtons' onClick={this.open} data-product={rowData.soapId}> Edit </Button>
+                            <Button id='cartRemove' className='cartEditButtons' onClick={(e) => this.handleRemoveItem(e)} data-product={rowData.soapId}> Remove </Button>
                         </span>
                         );
                     }}

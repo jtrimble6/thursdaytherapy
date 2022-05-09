@@ -44,36 +44,37 @@ class CheckoutOrderInfo extends Component {
                 <Table
                   className='orderTable'
                   // height={400}
+                  defaultExpandAllRows={true}
                   data={this.props.currentCart}
                   renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
                   onRowClick={data => {
                       // console.log(data);
                   }}
                 >
-                  <Column flexGrow={1} width={70} align="left">
+                  <Column id='orderSoapQty' flexGrow={1} align="left">
                       <HeaderCell>Qty</HeaderCell>
                       <Cell dataKey="soapQty" />
                   </Column>
 
-                  <Column flexGrow={2} width={200} align="left">
+                  <Column id='orderSoapName' flexGrow={1} align="left" >
                       <HeaderCell>Name</HeaderCell>
                       <Cell dataKey="soapName" />
                       {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                   </Column>
 
-                  <Column flexGrow={3} width={250} align="left">
+                  <Column id='orderSoapDescription' flexGrow={1} align="left">
                       <HeaderCell>Description</HeaderCell>
                       <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
                       {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
-                  <Column flexGrow={1} width={250} align="right">
+                  <Column id='orderSoapPrice' flexGrow={1} align="right">
                       <HeaderCell>Price</HeaderCell>
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
                       {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
-                  <Column flexGrow={1} width={200} align="right">
+                  <Column id='orderSoapTotalPrice' flexGrow={1} align="right">
                       <HeaderCell>Total Price</HeaderCell>
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
                   </Column>
@@ -98,4 +99,3 @@ class CheckoutOrderInfo extends Component {
 };
 
 export default CheckoutOrderInfo;
-       

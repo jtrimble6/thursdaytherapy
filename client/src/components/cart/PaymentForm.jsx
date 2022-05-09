@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import API from '../../utils/API'
 import axios from 'axios'
 import { Loader, Alert, Modal, Button } from 'rsuite';
+import PayPalButton from './PayPalButton'
 
 const styles = {
   name: {
@@ -38,12 +39,6 @@ const styles = {
     backgroundColor: 'lightgreen',
     fontSize: '2vw',
     marginBottom: '2vw'
-  },
-  addressValidationButton: {
-    width: '60%',
-    backgroundColor: 'gold',
-    fontSize: '2vw',
-    marginBottom: '2vw'
   }
 }
 
@@ -56,12 +51,15 @@ export default class PaymentForm extends Component {
       googlePay: false,
       applePay: false,
       masterpass: false,
+      paypalLoadError: false,
       paymentStatus: '',
       paymentCardLastFour: '',
       paymentAmount: '',
       paymentId: '',
       paymentOrderId: '',
       purchaseReceiptUrl: '',
+      paymentComplete: false,
+      showPaymentOptionsModal: false,
       redirect: false,
 
     }
@@ -71,21 +69,51 @@ export default class PaymentForm extends Component {
     this.handleThirdParty = this.handleThirdParty.bind(this)
     this.handleNonceReceived = this.handleNonceReceived.bind(this)
     this.handlePaymentConfirmation = this.handlePaymentConfirmation.bind(this)
+    this.handlePaypalConfirmation = this.handlePaypalConfirmation.bind(this)
+    this.handlePaypalLoadError = this.handlePaypalLoadError.bind(this)
     this.handleConfirmationComplete = this.handleConfirmationComplete.bind(this)
     this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
     this.sendNewOrderEmail = this.sendNewOrderEmail.bind(this)
     this.sendOrderConfirmationEmail = this.sendOrderConfirmationEmail.bind(this)
+
   }
 
   componentDidMount() {
   
+    }
+  
+  handlePaypalLoadError = () => {
+    this.setState({
+      paypalLoadError: true
+    })
+  }
+
+  handlePaypalConfirmation = (payer) => {
+    console.log('PAYPAL CONFIRMATION')
+    console.log('PAYEE DETAILS: ', payer)
+
+    Alert.success('Payment was a success!', 5000)
+    // console.log('PAYMENT WAS A HUGE SUCCESS!')
+    // console.log('PAYMENT RESULT: ', data.result.payment)
+    this.setState({
+        paymentStatus: "SUCCESS",
+        paymentCardLastFour: "PAYPAL",
+        paymentAmount: this.props.paymentAmount,
+        paymentId: payer.payer_id,
+        paymentOrderId: payer.payer_id,
+        purchaseReceiptUrl: "Payment made through paypal",
+        paymentComplete: true
+    })
+    
+    this.handlePaymentConfirmation()
+    
     }
 
   handleNonceReceived = (nonce) => {
     const idempotency_key = uuidv4();
     // console.log('nonce received in payment: ', nonce)
     // console.log('uuid created: ', idempotency_key)
-    //Generate a random UUID as an idempotency key for the payment request
+    // Generate a random UUID as an idempotency key for the payment request
     // length of idempotency_key should be less than 45
     function uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -189,7 +217,7 @@ export default class PaymentForm extends Component {
     // CREATE CHECKOUT CONFIRMATION BUTTON
     let checkoutConfirmationButton = document.createElement('button')
     // checkoutConfirmationButton.innerHTML = '<button className="checkoutConfirmationButton" onclick='+ this.handleConfirmationComplete +'" />';
-    checkoutConfirmationButton.innerHTML = 'Back to home'
+    checkoutConfirmationButton.innerHTML = 'Return Home'
     checkoutConfirmationButton.classList.add('checkoutConfirmationButton')
     checkoutConfirmationButton.classList.add('button-credit-card')
     checkoutConfirmationButton.onclick = this.handleConfirmationComplete
@@ -206,7 +234,7 @@ export default class PaymentForm extends Component {
     orderConfirmationStatus.innerHTML = 'Payment Status: ' + this.state.paymentStatus
     
     let orderCard = document.createElement('p')
-    orderCard.innerHTML = 'Payment Card: *' + this.state.paymentCardLastFour
+    orderCard.innerHTML = 'Payment Method: *' + this.state.paymentCardLastFour
     
     let orderAmount = document.createElement('p')
     let orderAmountInt = parseInt(this.props.paymentAmount)
@@ -348,14 +376,6 @@ export default class PaymentForm extends Component {
       // let that = this
       // Format a string itemising cart by mapping elements to sub-strings and joining the result
       const items = cart.map(function(element) {
-        // let soapPriceInt = parseInt(element.soapPrice)
-        // console.log('SOAP PRICE INT: ', soapPriceInt)
-        // let soapPriceFormatted = that.formatMoney(soapPriceInt)
-        // console.log('SOAP PRICE FORMATTED: ', soapPriceFormatted)
-        // let soapTotalInt = parseInt(element.soapTotal)
-        // console.log('SOAP TOTAL INT: ', soapPriceInt)
-        // let soapTotalFormatted = that.formatMoney(element.soapTotal)
-        // console.log('SOAP TOTAL FORMATTED: ', soapTotalFormatted)
         return `
         (${ element.soapQty }) ${ element.soapName }
         
@@ -386,18 +406,9 @@ export default class PaymentForm extends Component {
       }).then((response)=> {
           console.log('EMAIL CONF RESPONSE: ', response)
           if (response.data.msg === 'success'){
-              // console.log("Message Sent."); 
-              Alert.success('Confirmation email sent!', 5000)
-              // this.setState({
-              //   contactSuccess: true
-              // })
-              // this.resetForm()
+            Alert.success('Confirmation email sent!', 5000)
           } else if(response.data.msg === 'fail'){
-            // console.log("Message failed to send.")
             Alert.error('There was an error sending order confirmation. Please contact us to resend.', 15000)
-            // this.setState({
-            //   contactError: true
-            // })
           }
       })
     }
@@ -428,10 +439,11 @@ export default class PaymentForm extends Component {
     return (
       <div id='paymentInfoSquareForm' className="container">
         {this.renderRedirect()}
-        {/* ADD INVENTORY MODAL */}
+
+        {/* ADDRESS VERIFICATION MODAL */}
         <Modal show={this.props.showAddressModal} onHide={this.props.hideAddressModal}>
           <Modal.Header>
-            <Modal.Title styles={'text-align: center'}>Address Verification</Modal.Title>
+            <Modal.Title className='confirmAddressModalHeader'>Address Verification</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <h2>Address Suggestions: </h2><br />
@@ -442,9 +454,9 @@ export default class PaymentForm extends Component {
               : <p>No suggestions found.</p>
             }
             <hr />
-            <h2>Address Entered: </h2><br />
-            <p>{this.props.address1} {this.props.address2 !== null ? this.props.address2 : ''} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
-            <Button onClick={this.props.confirmAddress} data-addressline1={this.props.address1 + ' ' + this.props.address2} data-addressline2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
+            <h2 className='addressEnteredHeader'>Address Entered: </h2><br />
+            <p className='addressEntered'>{this.props.address1} {this.props.address2 !== null ? this.props.address2 : ''} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
+            <Button className='confirmAddressButton' onClick={this.props.confirmAddress} data-addressline1={this.props.address1 + ' ' + this.props.address2} data-addressline2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
               Confirm Address
             </Button>
           </Modal.Body>
@@ -454,6 +466,57 @@ export default class PaymentForm extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
+
+        {/* MANUAL ADDRESS VERIFICATION MODAL */}
+        <Modal show={this.props.showManualAddressModal} onHide={this.props.hideManualAddressModal}>
+          <Modal.Header>
+            <Modal.Title className='confirmAddressModalHeader'>Address Verification</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+          <h2 className='addressEnteredHeader'>Please Confirm Address Entered: </h2><br />
+            <p className='addressEntered'>{this.props.address1} {this.props.address2 !== null ? this.props.address2 : ''} {this.props.addressCity}, {this.props.addressState} {this.props.addressZipCode}</p>
+            <Button className='confirmAddressButton' onClick={this.props.manualConfirmAddress} data-addressline1={this.props.address1 + ' ' + this.props.address2} data-addressline2={this.props.addressCity + ' ' + this.props.addressState + ' ' + this.props.addressZipCode} >
+              Confirm Address
+            </Button>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.props.hideManualAddressModal}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        {/* PAYMENT OPTIONS MODAL */}
+        <Modal id='paymentOptionsModal' show={ this.state.paymentComplete ? this.state.showPaymentOptionsModal : this.props.showPaymentOptionsModal} onHide={this.props.hidePaymentOptionsModal}>
+          <Modal.Header>
+            <Modal.Title className='paymentOptionsModalHeader'>Select Payment Method</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Button className='paymentOptionsButton' onClick={this.props.creditCardPayment}>
+              Pay with Credit Card
+            </Button>
+
+            {/* <h2 className='paymentOptionsSubHeader'>Third-Party Payment Services: </h2><br />
+
+            <PayPalButton 
+              paymentAmount={this.props.paymentAmount}
+              handlePaypalConfirmation={this.handlePaypalConfirmation}
+              hidePaymentOptionsModal={this.props.hidePaymentOptionsModal}
+              handlePaypalLoadError={this.handlePaypalLoadError}
+            />
+
+            {
+              this.state.paypalLoadError ? <Button className='paypalLoadErrorButton' disabled>Error loading third-party services</Button> : <div></div>
+            } */}
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.props.hidePaymentOptionsModal}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <div id='creditCardForm' hidden={true}>
           <div id="form-container">
             <div id="sq-ccbox">
@@ -491,57 +554,8 @@ export default class PaymentForm extends Component {
             </span>
           </Button>
         </div>
-        {/* <Modal show={this.props.showNonceModal} onHide={this.props.hideNonceModal}>
-          <Modal.Header>
-            <Modal.Title>Payment Information</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-          <div id="form-container">
-            <div id="sq-ccbox">
-              <p className='sqPaymentCardInfo'>
-                <span style={styles.leftCenter}>Enter Card Info Below </span>
-                <span style={styles.blockRight}>
-                  {this.state.cardBrand.toUpperCase()}
-                </span>
-              </p>
-                <input
-                  id="name"
-                  style={styles.name}
-                  type="text"
-                  placeholder="Name on Card"
-                />
-              <div id="cc-field-wrapper">
-                <input type="hidden" id="card-nonce" name="nonce" />
-                <div id="sq-card-number" style={styles.center}></div>
-                <div id="sq-expiration-date" style={styles.center}></div>
-                <div id="sq-cvv" style={styles.center}></div>
-                <div id="sq-postal-code"></div>
-              </div>
-            </div>
-          </div>
-          <p style={styles.center} id="error"></p>
-        
-          </Modal.Body>
-          <Modal.Footer>
-            <Button 
-              style={styles.submitButton}
-              className="button-credit-card"
-              onClick={this.requestCardNonce}
-              id='paymentFormSubmitButton'
-            >
-              <span hidden={false} id="processingPaymentPayButton">Pay</span>
-              <span id="processingPaymentLoader" hidden={true}>
-                <Loader center speed="slow" size="xs" content="Processing..." />
-              </span>
-            </Button>
-            <Button onClick={this.props.hideNonceModal}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal> */}
         <div id='addressValidationButtonDiv' hidden={false}>
           <Button 
-            style={styles.addressValidationButton}
             onClick={this.props.validateAddress}
             id='addressValidationButton'
           >

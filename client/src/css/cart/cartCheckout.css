@@ -42,32 +42,22 @@
 	text-align: center;
 	margin-bottom: 1vw;
 	padding: 1vw;
-	border-radius: 1vw;
+	border-radius: 5rem;
 }
 
-#orderSubtotal {
-	background-color: lightgray;
-	width: 30vw;
-	margin: 0 auto;
-	margin-bottom: 1vw;
+#orderInfoTotalDiv {
+	margin-top: 5vh;
 }
 
-#orderShippingCost {
-	background-color: darkgray;
+#orderSubtotal, #orderShippingCost, #orderGrandTotal {
+	font-weight: bolder;
 	width: 30vw;
 	margin: 0 auto;
-	margin-bottom: 1vw;
-}
-
-#orderGrandTotal {
-	background-color: gold;
-	width: 30vw;
-	margin: 0 auto;
-	margin-bottom: 1vw;
+	padding: .5vw;
 }
 
 .orderTable {
-	width: 80% !important;
+	/* width: 80%; */
 	margin: 0 auto;
 }
 
@@ -77,17 +67,35 @@
 	margin-bottom: 5vw;
 }
 
+/* FORM NAVIGATION */
+
+#confirmOrderButton, #cancelOrderButton {
+	border-radius: 5rem;
+}
+
+#confirmOrderButton {
+	background-color: lightgreen;
+	border: 2px solid white !important;
+}
+
+#cancelOrderButton {
+	background-color: #fac04e;
+	border: 2px solid white !important;
+}
+
 .nextStep,
 .prevStep {
+	font-size: 1.5rem;
 	height: 5vw;
+	border-radius: 5rem;
 }
 
 .nextStep {
 	width: 100% !important;
 	/* height: 100% !important; */
 	margin: 0 auto !important;
-	color: #211c18 !important;
-	border: 2px solid #fac04e !important;
+	color: #211c18;
+	border: 2px solid #fac04e;
 }
 
 .stepButtonSpan .nextStep {
@@ -123,6 +131,8 @@
 	margin-right: 2.5% !important;
 }
 
+/* PAYMENT FORM */
+
 #paymentInfoFormRow {
 	width: 60%;
 	margin: 0 auto;
@@ -145,13 +155,27 @@
 
 .sqPaymentCardInfo {
 	font-size: 1vw;
-	margin-bottom: 1vw;
 	display: inline-block;
 	width: 100%;
+	margin: 0 auto;
+	margin-bottom: 3vh;
+}
+
+.sqPaymentCardInfo span {
+	float: none !important;
+	text-align: center;
 }
 
 .paymentInfoFormGroup .form-label {
-	margin-right: 1vw;
+	width: 100%;
+	display: inline-block;
+	margin-bottom: 1vh;
+}
+
+.paymentInfoFormGroup .form-control {
+	width: 80%;
+	border: 2px solid black;
+	padding: .5rem;
 }
 
 .paymentConfirmationDiv {
@@ -161,7 +185,7 @@
 	margin-bottom: 5vw;
 	text-align: center;
 	background-color: lightgreen;
-	border-radius: 1vw;
+	border-radius: 5rem;
 	padding: 1vw;
 	font-size: 1.5vw;
 	font-weight: bold;
@@ -184,6 +208,67 @@
 }
 
 #processingPaymentPayButton {
+	color: black;
+}
+
+/* ADDRESS VERIFICATION */
+#addressValidationButton {
+	font-size: 1rem;
+	width: 60%;
+    background-color: #fac04e;
+	border-radius: 5rem;
+	margin-top: 5vh;
+}
+
+.confirmAddressModalHeader {
+	text-align: center;
+	font-weight: bold; 
+}
+
+.addressEnteredHeader {
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+.addressEntered {
+	font-size: 1rem;
+	font-weight: bolder;
+	margin-bottom: 2vh;
+	margin-left: 2vw;
+}
+
+.confirmAddressButton {
+	background-color: lightgreen
+}
+
+/* PAYMENT OPTIONS */
+
+#paymentOptionsModal {
+	height: auto;
+}
+
+.paymentOptionsModalHeader {
+	text-align: center;
+	font-weight: bold; 
+}
+
+.paymentOptionsSubHeader {
+	font-weight: bold;
+}
+
+.paymentOptionsButton {
+	font-weight: bolder;
+	font-size: 1rem;
+	margin: 0 auto;
+	margin-bottom: 2vh;
+	width: 100%;
+	background-color: #fac04e;
+	border: 2px solid #fac04e;
+}
+
+.paymentOptionsButton:hover {
+	background-color: white;
+	border: 2px solid #fac04e;
 	color: black;
 }
 
@@ -227,7 +312,7 @@
 	line-height: 1;
 	position: relative;
 	width: 315px;
-	border-radius: 10px;
+	border-radius: 5rem;
 	transition: all 400ms linear;
 	width: 40vw;
 	height: 200px;
@@ -260,7 +345,7 @@ button.button-credit-card {
 	vertical-align: middle;
 	height: 45px;
 	width: 385px;
-	border-radius: 10px;
+	border-radius: 5rem;
 	text-align: center;
 	margin: 5px auto;
 	font-size: 22px;
@@ -272,7 +357,7 @@ button.button-credit-card {
 button.wallet-button {
 	display: block;
 	margin: 5px auto;
-	border-radius: 10px;
+	border-radius: 5rem;
 	height: 45px;
 	width: 300px;
 	overflow: hidden;
@@ -293,7 +378,7 @@ button.wallet-button {
 	background-size: 110%;
 	background-repeat: no-repeat;
 	background-position: center;
-	border-radius: 4px;
+	border-radius: 5rem;
 	cursor: pointer;
 	display: none;
 }
@@ -309,7 +394,7 @@ button.wallet-button {
 	background-size: 100% 60%;
 	background-repeat: no-repeat;
 	background-position: calc((100% - 32px) / 2) 50%;
-	border-radius: 4px;
+	border-radius: 5rem;
 	cursor: pointer;
 	display: none;
 }
@@ -338,7 +423,7 @@ button.wallet-button {
 	background-repeat: no-repeat;
 	background-size: contain;
 	border: 0;
-	border-radius: 4px;
+	border-radius: 5rem;
 	box-shadow: 0 1px 1px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 	cursor: pointer;
 	display: none;
@@ -376,6 +461,21 @@ input::placeholder {
 }
 
 @media screen and (min-device-width: 2001px) and (-webkit-min-device-pixel-ratio: 1) {
+	#orderInfoTableDiv {
+		padding-top: 5vh;
+	}
+
+	#orderSoapDescription {
+		width: auto !important;
+	}
+
+	#orderSoapPrice {
+		
+	}
+
+	#orderSoapTotalPrice {
+		width: auto !important;
+	}
 }
 
 /* ----------- iPads ----------- */
@@ -404,6 +504,37 @@ input::placeholder {
 	#sq-ccbox {
 		width: auto;
 	}
+
+	.sqPaymentCardInfo {
+		font-size: 0.8rem;
+		width: 100%;
+		margin: 0 auto;
+		margin-bottom: 2vh;
+	}
+
+	.sqPaymentCardInfo span {
+		text-align: center;
+		float: none !important;
+	}
+
+	.paymentInfoFormGroup .form-label {
+		width: 100%;
+		display: inline-block;
+		margin-bottom: 1vh;
+	}
+
+	.paymentInfoFormGroup .form-control {
+		width: 80%;
+		border: 2px solid black;
+		padding: .5rem;
+	}
+
+	#checkoutRequiredSmall {
+		font-size: 0.7rem;
+	}
+	#addressValidationButtonDiv {
+        margin-top: 3vh;
+    }
 }
 
 /* Portrait */
@@ -412,6 +543,47 @@ input::placeholder {
 
 /* Landscape */
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* ----------- iPad Air ----------- */
+
+/* Landscape */
+@media only screen and (min-device-width: 1180px) and (max-device-width: 1180px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+	#sq-ccbox {
+		width: auto;
+	}
+
+	.sqPaymentCardInfo {
+		font-size: 0.8rem;
+		width: 100%;
+		margin: 0 auto;
+		margin-bottom: 2vh;
+	}
+
+	.sqPaymentCardInfo span {
+		text-align: center;
+		float: none !important;
+	}
+
+	.paymentInfoFormGroup .form-label {
+		width: 100%;
+		display: inline-block;
+		margin-bottom: 1vh;
+	}
+
+	.paymentInfoFormGroup .form-control {
+		width: 80%;
+		border: 2px solid black;
+		padding: .5rem;
+	}
+
+	#checkoutRequiredSmall {
+		font-size: 0.7rem;
+	}
+	#addressValidationButtonDiv {
+        margin-top: 3vh;
+    }
 }
 
 /* ----------- iPad Pro 10.5" ----------- */
@@ -433,6 +605,7 @@ input::placeholder {
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
 /* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
 @media only screen and (min-device-width: 1112px) and (max-device-width: 1112px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+
 }
 
 /* ----------- iPad Pro 12.9" ----------- */
@@ -454,6 +627,7 @@ input::placeholder {
 /* Declare the same value for min- and max-width to avoid colliding with desktops */
 /* Source: https://medium.com/connect-the-dots/css-media-queries-for-ipad-pro-8cad10e17106*/
 @media only screen and (min-device-width: 1366px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+
 }
 
 /* ----------- iPhones ----------- */
@@ -482,8 +656,8 @@ input::placeholder {
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
 	/* CHECKOUT HEADER */
 	#checkoutTitle {
-		font-size: 8vw;
-		margin-bottom: 10vw;
+		font-size: 2.5rem;
+		margin-bottom: 2vh;
 	}
 	#checkoutStepTitle {
 		font-size: 6vw;
@@ -494,6 +668,14 @@ input::placeholder {
 	.orderInfoTitle {
 		font-size: 6vw;
 		font-weight: bold;
+	}
+
+	#orderInfoTableDiv {
+		padding: .2rem;
+	}
+
+	#orderInfoTotalDiv {
+		margin-top: 5vh;
 	}
 
 	#orderSubtotal {
@@ -511,20 +693,69 @@ input::placeholder {
 		font-size: 3vw;
 	}
 
-	/* ORDER DETAILS TABLE */
-	.rs-table-cell-group {
-		font-size: 3vw;
+	/* PAYMENT DETAILS FORM */
+
+	.sqPaymentCardInfo span {
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	#paymentInfoFormRow {
+		width: 100%;
+		margin: 0 auto;
+		text-align: center;
+		margin-top: 1vh;
+		margin-bottom: 1vh;
+	}
+
+	#paymentInfoSquareForm {
+		width: 60%;
+	}
+
+	.paymentInfoFormGroup {
+		margin-top: 2vh;
+		margin-bottom: 2vh;
+	}
+
+	.paymentInfoFormGroup .form-label {
+		margin: 0 auto;
+		margin-bottom: 1vh;
+		margin-top: 2vh;
+		width: 100% !important;
+		display: inline-block;
+	}
+
+	.paymentInfoFormGroup .form-control {
+		width: 80%;
+		padding: 2vh;
+		margin-bottom: 1vh;
+		border: 2px solid black;
+	}
+
+	.changeQtyDropdown {
+		/* width: 100%; */
+		cursor: pointer;
+	}
+
+	/* PAYMENT OPTIONS MODAL */
+
+	.paymentOptionsSubHeader {
+		margin-top: 5vh;
 		text-align: center;
 	}
 
-	/* PAYMENT DETAILS FORM */
-	.paymentInfoFormGroup .form-label {
-		width: 100%;
-		display: inline-block;
-		margin-top: 3vw;
+	/* CHECKOUT NAV */
+
+	.stepButtonSpan {
+		margin: 0 auto;
 	}
 
-	/* CHECKOUT NAV */
+	#confirmOrderButton, #cancelOrderButton {
+		font-size: 1rem;
+		white-space: nowrap;
+		width: 100% !important;
+		text-align: center;
+	}
 	.nextStep,
 	.prevStep {
 		height: 10vw;
@@ -586,10 +817,26 @@ input::placeholder {
 
 /* Portrait */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+
 }
 
 /* Landscape */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (min-device-height: 365px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+	.sqPaymentCardInfo {
+		margin: 0 auto;
+		margin-bottom: 3vh;
+		width: 100%;
+		font-size: .8rem;
+	}
+
+	.sqPaymentCardInfo span {
+		text-align: center;
+		float: none !important;
+	}
+
+	#checkoutRequiredSmall {
+		font-size: 0.6rem;
+	}
 }
 
 /* ----------- iPhone 6+, 7+ and 8+ ----------- */

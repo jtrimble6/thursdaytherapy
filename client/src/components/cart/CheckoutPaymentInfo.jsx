@@ -35,7 +35,9 @@ class CheckoutPaymentInfo extends Component {
       }
 
       componentDidMount(){
-
+        this.setState({
+          loaded: true
+        })
       }
 
       componentWillMount(){
@@ -184,7 +186,7 @@ class CheckoutPaymentInfo extends Component {
                       <Dropdown 
                         className='changeQtyDropdown' 
                         title={this.props.addressState} 
-                        placement="leftStart"
+                        placement="topEnd"
                         aria-label='State'
                       >
                         <Dropdown.Item onClick={this.props.changeState}>Alabama</Dropdown.Item>
@@ -279,36 +281,29 @@ class CheckoutPaymentInfo extends Component {
                     showAddressModal={this.props.showAddressModal}
                     openAddressModal={this.props.openAddressModal}
                     hideAddressModal={this.props.hideAddressModal}
+                    showManualAddressModal={this.props.showManualAddressModal}
+                    openManualAddressModal={this.props.openManualAddressModal}
+                    hideManualAddressModal={this.props.hideManualAddressModal}
+                    showPaymentOptionsModal={this.props.showPaymentOptionsModal}
+                    openPaymentOptionsModal={this.props.openPaymentOptionsModal}
+                    hidePaymentOptionsModal={this.props.hidePaymentOptionsModal}
                     showNonceModal={this.props.showNonceModal}
                     openNonceModal={this.props.openNonceModal}
                     hideNonceModal={this.props.hideNonceModal}
                     addressSuggestions={this.props.addressSuggestions}
                     confirmAddress={this.props.confirmAddress}
+                    manualConfirmAddress={this.props.manualConfirmAddress}
+                    creditCardPayment={this.props.creditCardPayment}
+                    paypalPayment={this.props.paypalPayment}
                     handleCardError={this.props.handleCardError}
                     requestCardNonce={this.props.requestCardNonce}
                   />
-                  // <Form.Group as={Col} controlId="formGridEmail">
-                  //   <span style={styles.leftCenter}>Enter Card Info Below </span>
-                  //   <span style={styles.blockRight}>
-                  //       {this.state.cardBrand.toUpperCase()}
-                  //   </span>
-                  //   <div id="sq-card-number"></div>
-                  //   <input type="hidden" id="card-nonce" name="nonce" />
-                  //   <div id="sq-expiration-date"></div>
-                  //   <div id="sq-cvv"></div>
-                  // </Form.Group>
 
                   : 
                   
                   <div></div>
                 }
-                  
-                  {/* <Button
-                    className="button-credit-card"
-                    onClick={this.requestCardNonce}
-                  >
-                    Submit Order
-                  </Button> */}
+
                 </Form.Row>
 
                 
@@ -319,4 +314,3 @@ class CheckoutPaymentInfo extends Component {
 };
 
 export default CheckoutPaymentInfo;
-       

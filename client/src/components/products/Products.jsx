@@ -99,57 +99,17 @@ class Products extends Component {
                           filteredProducts: newProducts
                         })
                         productsData = newProducts
-                        document.getElementById('productsLoader').hidden = true
+                        console.log('products: ', newProducts)
                       }
                       this.props.updateCart()
                     }
-                    
-                    
                     // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
                   }
-                  // this.setState({
-                  //     products: res.data,
-                  //     filteredProducts: res.data
-                  //   });
+                  document.getElementById('productsLoader').hidden = true
                 })
-          // API.getProducts()
-          //     .then(res => {
-          //       // console.log('PRODUCT IMAGES RETRIEVED: ', productImages)
-          //       let productsData = res.data
-          //       console.log('PRODUCTS: ', productsData)
-          //       for (let p=0; p<productsData.length; p++) {
-          //         let product = productsData[p]
-          //         let productName = product.name
-          //         let productImage = productImages.filter(image => {
-          //           return image.productId === productName
-          //         })
-          //         let newProducts = [...productsData]
-          //         // console.log('FILENAME: ', productImage[0])
-          //         let productImageFile = productImage[0]
-          //         if (productImageFile) {
-          //           let newProduct = {
-          //             ...newProducts[p], 
-          //             soapImageFile: productImage[0].filename,
-          //             soapImageId: productImage[0]._id
-          //           }
-          //           newProducts[p] = newProduct
-          //           this.setState({
-          //             products: newProducts,
-          //             filteredProducts: newProducts
-          //           })
-          //           productsData = newProducts
-                    
-          //         }
-                  
-          //         // console.log('NEW PRODUCTS WITH IMAGES: ', this.state.filteredProducts)
-          //       }
-          //       // this.setState({
-          //       //     products: res.data,
-          //       //     filteredProducts: res.data
-          //       //   });
-          //     })
               .catch(err => {
-                Alert.warning('There was an error loading the page. Please retry.', 10000)
+                Alert.warning('There was an error loading the page. Please try again.', 10000)
+                document.getElementById('productsLoader').hidden = true
                 // console.log('ERROR GETTING PRODUCTS: ', err)
               })
         })
@@ -157,8 +117,9 @@ class Products extends Component {
           this.setState({
             error: error
           });
-          Alert.warning('There was an error loading the page. Please retry.', 10000)
-      });
+          Alert.warning('There was an error loading the page. Please try again.', 10000)
+          document.getElementById('productsLoader').hidden = true
+        });
     }
 
   async addToCart(id) {
@@ -386,7 +347,7 @@ class Products extends Component {
                 </Grid>
               </Modal.Body>
               <Modal.Footer>
-                <Dropdown className='changeQtyDropdown' title={this.state.qty} placement="leftStart">
+                <Dropdown className='changeQtyDropdown' title={this.state.qty} placement="topEnd">
                   <Dropdown.Item onClick={this.changeQty}>1</Dropdown.Item>
                   <Dropdown.Item onClick={this.changeQty}>2</Dropdown.Item>
                   <Dropdown.Item onClick={this.changeQty}>3</Dropdown.Item>
@@ -460,26 +421,6 @@ class Products extends Component {
                       </Panel>
                     </span>   
                   ))}
-            
-            {/* {this.state.filteredProducts.map((product, i) => (
-              <span key={product._id}>
-                <Panel className='productsImagePanel' shaded bordered bodyFill={false} style={{ display: 'inline-block' }}>
-                  <img 
-                    src={`uploads/${product.soapImageFile}`}
-                    data-soapname={product.name} 
-                    data-soapprice={product.price} 
-                    data-soapimage={product.image} 
-                    data-soapid={product._id} 
-                    data-soapingredients={product.ingredients}
-                    data-soapimagefile={product.soapImageFile}
-                    onClick={this.open} 
-                    className="productsImage" 
-                    alt="peacockZ1" 
-                  />
-                  <Panel className='productsImageHeader' header={product.name}></Panel>
-                </Panel>
-              </span>   
-            ))} */}
           </div>
         </span>
       )

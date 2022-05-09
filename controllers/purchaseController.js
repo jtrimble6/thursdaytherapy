@@ -35,7 +35,7 @@ module.exports = {
             'email': req.body.email, 
             'phoneNumber': req.body.phoneNumber 
           }},
-         )
+        )
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
     },
@@ -46,7 +46,7 @@ module.exports = {
           { $set: { 
             'videoFilterPreferences': req.body
           }},
-         )
+        )
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
     },
@@ -66,7 +66,7 @@ module.exports = {
               'paymentDate': paymentDate,
               'paymentCard': paymentCard
             }},
-         )
+        )
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
     },
@@ -86,7 +86,7 @@ module.exports = {
               'paymentDate': paymentDate,
               'paymentCard': paymentCard
             }},
-         )
+        )
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
     },
@@ -98,7 +98,7 @@ module.exports = {
             { $set: { 
               'password': password
             }},
-         )
+        )
         .then(dbModel => res.json(dbModel))
         .catch(err => res.status(422).json(err))
     },

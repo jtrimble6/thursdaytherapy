@@ -21,7 +21,7 @@
 .disclaimer {
     text-align: center;
     margin-top: 2vw;
-    font-size: 1vw;
+    font-size: .8rem;
 }
 
 /* NAVBAR PAGES */
@@ -42,7 +42,7 @@
 }
 
 .navbarHomeItems a {
-    font-size: 1.5vw;
+    font-size: 1rem !important;
 }
 
 .navbarHomeItems .rs-nav-item-content :hover {
@@ -74,7 +74,7 @@
   }
 
 #cartCount {
-    font-size: 1vw;
+    font-size: .7rem;
     background: lightblue !important;
     color: black;
     /* padding: 0 0.5vw 0 0.5vw; */
@@ -145,13 +145,22 @@ and (-webkit-min-device-pixel-ratio: 1) {
 and (min-device-width: 1800px) 
 and (max-device-width: 2000px) 
 and (-webkit-min-device-pixel-ratio: 1) { 
- 
+
 }
 
 @media screen 
 and (min-device-width: 2001px) 
 and (-webkit-min-device-pixel-ratio: 1) { 
- 
+    .navbarHomeItems a {
+        font-size: 1.5rem !important;
+    }
+    .cartCount {
+        font-size: 1rem;
+    }
+    .disclaimer {
+        font-size: 1.3rem;
+    }
+
 }
 
 /* ----------- iPads ----------- */
@@ -172,7 +181,7 @@ and (min-device-width: 768px)
 and (max-device-width: 1024px) 
 and (orientation: portrait) 
 and (-webkit-min-device-pixel-ratio: 1) {
-  
+
 }
 
 /* Landscape */
@@ -191,7 +200,29 @@ and (-webkit-min-device-pixel-ratio: 1) {
 and (min-device-width: 768px) 
 and (max-device-width: 1024px) 
 and (-webkit-min-device-pixel-ratio: 2) {
+    #navbarHomeLogo {
+        width: 100%;
+        margin: 0 auto;
+    }
 
+    #navbarHomeTabs {
+        width: 100%;
+        align-items: center;
+    }
+
+    #navbarHomeTabs ul {
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    #navbarHomeTabs ul li {
+        width: 16%;
+        text-align: center;
+    }
+
+    .disclaimer {
+        margin-top: 3vh;
+    }
 }
 
 /* Portrait */
@@ -200,7 +231,7 @@ and (min-device-width: 768px)
 and (max-device-width: 1024px) 
 and (orientation: portrait) 
 and (-webkit-min-device-pixel-ratio: 2) {
- 
+
 }
 
 /* Landscape */
@@ -209,7 +240,7 @@ and (min-device-width: 768px)
 and (max-device-width: 1024px) 
 and (orientation: landscape) 
 and (-webkit-min-device-pixel-ratio: 2) {
-  
+
 }
 
 /* ----------- iPad Pro 10.5" ----------- */
@@ -314,7 +345,7 @@ and (min-device-width: 320px)
 and (max-device-width: 568px)
 and (-webkit-min-device-pixel-ratio: 2) {
     .disclaimer {
-        font-size: 2vw;
+        font-size: .8rem;
     }
 }
 
@@ -369,7 +400,7 @@ and (min-device-width: 320px)
 and (max-device-width: 568px)
 and (-webkit-min-device-pixel-ratio: 2)
 and (orientation: landscape) {
-  
+    
 }
 
 /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
@@ -380,7 +411,7 @@ and (min-device-width: 375px)
 and (max-device-width: 667px) 
 and (-webkit-min-device-pixel-ratio: 2) { 
     .disclaimer {
-        font-size: 2vw;
+        font-size: .7rem;
     }
 }
 
@@ -390,7 +421,7 @@ and (min-device-width: 375px)
 and (max-device-width: 667px) 
 and (-webkit-min-device-pixel-ratio: 2)
 and (orientation: portrait) { 
-
+   
 }
 
 /* Landscape */
@@ -400,7 +431,9 @@ and (max-device-width: 667px)
 and (min-device-height: 365px)
 and (-webkit-min-device-pixel-ratio: 2)
 and (orientation: landscape) { 
-  
+    .disclaimer {
+        margin-top: 10vh !important;
+    }
 
 }
 
@@ -412,7 +445,7 @@ and (min-device-width: 414px)
 and (max-device-width: 736px) 
 and (-webkit-min-device-pixel-ratio: 3) { 
     .disclaimer {
-        font-size: 2vw;
+        font-size: .8rem;
     }
 }
 
@@ -442,7 +475,7 @@ and (min-device-width: 375px)
 and (max-device-width: 812px) 
 and (-webkit-min-device-pixel-ratio: 3) { 
     .disclaimer {
-        font-size: 2vw;
+        font-size: .8rem;
     }
 }
 
