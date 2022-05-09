@@ -49,7 +49,7 @@ const PayPalButton = (props) => {
     };
 
     const SCRIPT_PROVIDER_OPTIONS = {
-        "client-id": process.env.NODE_ENV === 'development' ? "AUwm02t0ydp1rXEJG5Yh9P3Ex2L4cew1T4mf5sF8IFKF5OMcweFWe1G2HPu0gki__3KoVrdHYhaAmIkS" : process.env.REACT_APP_PAYPAL_SANDBOX_CLIENT_ID
+        "client-id": process.env.NODE_ENV === 'development' ? "test" : process.env.REACT_APP_PAYPAL_SANDBOX_CLIENT_ID
     };
 
 return (
