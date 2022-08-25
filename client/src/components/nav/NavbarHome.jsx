@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav, Icon, Badge } from 'rsuite';
 import NavbarHeaderImage from '../../css/images/navbarHeaderImage.png'
 
-import 'rsuite/dist/styles/rsuite-default.css';
+import 'rsuite/styles/index.less';
 import '../../css/nav/navbarHome.css'
 
 
