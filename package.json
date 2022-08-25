@@ -25,7 +25,7 @@
     "passport-local": "^1.0.0",
     "paypal-rest-sdk": "^1.8.1",
     "react": "^18.2.0",
-    "rsuite": "^5.11.0",
+    "rsuite": "^5.16.6",
     "smartystreets-javascript-sdk": "^1.7.1",
     "square": "^7.0.0",
     "ssl-express-www": "^3.0.7"
