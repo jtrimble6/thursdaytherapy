@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar, Nav } from 'rsuite';
 import NavbarHeaderImage from '../../css/images/navbarHeaderImage.png'
 
-import 'rsuite/styles/index.less';
+import 'rsuite/dist/styles/rsuite-default.css';
 import '../../css/nav/navbarHome.css'
 
 
@@ -11,14 +11,14 @@ class NavbarAdmin extends Component {
         super(props);
 
         this.state = {
-      
+
         }
 
     }
 
     componentDidMount() {
         
-      }
+    }
     
     
     
@@ -27,7 +27,7 @@ class NavbarAdmin extends Component {
         return (
             <Navbar id='navbarHome'>
                 {/* <Navbar.Header id='navbarHomeHeader'>
-                  <img src={NavbarHeaderImage} className="navbar-brand Navbar-logo" alt="NavbarHeaderImg" />
+                <img src={NavbarHeaderImage} className="navbar-brand Navbar-logo" alt="NavbarHeaderImg" />
                 </Navbar.Header> */}
                 <Navbar.Body id='navbarHomeBody'>
                 <img src={NavbarHeaderImage} id="navbarHomeLogo" className="navbar-brand Navbar-logo" alt="NavbarHeaderImg" />

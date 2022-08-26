@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Icon, Badge } from 'rsuite';
-import NavbarHeaderImage from '../../css/images/navbarHeaderImage.png'
+import NavbarHeaderImage from '../../css/images/navbarHeaderImage.png';
 
-import 'rsuite/styles/index.less';
-import '../../css/nav/navbarHome.css'
+import 'rsuite/dist/styles/rsuite-default.css';
+import '../../css/nav/navbarHome.css';
 
 
 class NavbarHome extends Component {
