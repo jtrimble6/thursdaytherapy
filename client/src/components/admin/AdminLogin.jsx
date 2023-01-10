@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Form, FormGroup, ControlLabel, FormControl, Button, Icon, Alert } from 'rsuite';
-import NavbarHome from '../nav/NavbarHome.jsx'
+// import NavbarHome from '../nav/NavbarHome.jsx'
 import API from '../../utils/API'
 // import SignInError from "../../components/alerts/SignInError";
 

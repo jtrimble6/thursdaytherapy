@@ -170,8 +170,8 @@ class Cart extends Component {
 
       async fetchCartTest(newProducts) {
         let cart = []
-        console.log('LOCAL STORAGE: ', localStorage)
-        console.log('PRODUCTS: ', newProducts)
+        // console.log('LOCAL STORAGE: ', localStorage)
+        // console.log('PRODUCTS: ', newProducts)
         let cartTotal = 0
         for (let c=0; c<localStorage.length; c++) {
           let products = newProducts
@@ -188,7 +188,7 @@ class Cart extends Component {
           itemLookup = products.filter(product => {
             return (product._id === itemObj.soapName)
           })
-          console.log('ITEM LOOKUP: ', itemLookup)
+          // console.log('ITEM LOOKUP: ', itemLookup)
           if(itemLookup.length) {
             itemName = itemLookup[0].name
             itemPrice = itemLookup[0].price
@@ -218,7 +218,7 @@ class Cart extends Component {
           cartTotal: cartTotal
         })
   
-        console.log('CART: ', cart)
+        // console.log('CART: ', cart)
   
         }
 
@@ -498,13 +498,13 @@ class Cart extends Component {
                 </Column>
             </Table>
           </div>
-          <div id='placeOrderRow' className="row">
+          <div id='placeOrderRow' className="row shoppingCartButtonsRow">
               <h2 id='placeOrderTotal'>Subtotal: {this.formatMoney(this.state.cartTotal)}</h2>
-              <Button id='emptyCartButton' onClick={this.emptyCart}>
-                  Empty Cart <Icon icon='trash' />
-              </Button>
               <Button id='placeOrderButton' onClick={this.handleOrderCheckout}>
                   Secure Checkout <Icon icon='lock' />
+              </Button>
+              <Button id='emptyCartButton' onClick={this.emptyCart}>
+                  Empty Cart <Icon icon='trash' />
               </Button>
           </div>   
         </span>

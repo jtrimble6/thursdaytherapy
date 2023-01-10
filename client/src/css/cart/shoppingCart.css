@@ -44,23 +44,34 @@
 	/* max-height: 50vw; */
 }
 
-#placeOrderRow {
+/* #placeOrderRow {
 	width: 30vw;
 	margin: 0 auto;
 	margin-bottom: 10vw;
+} */
+
+.shoppingCartButtonsRow {
+	width: 30vw;
+	margin: 0 auto;
+	margin-bottom: 10vw;
+}
+
+.shoppingCartButtons {
+	width: 30vw;
 }
 
 #placeOrderButton {
 	background-color: lightgreen;
 	width: 30vw;
 	align-content: center;
+	margin-bottom: 1vw;
 }
 
 #emptyCartButton {
 	background-color: lightgray;
 	width: 30vw;
 	align-content: center;
-	margin-bottom: 1vw;
+	
 }
 
 #placeOrderTotal {
@@ -74,7 +85,7 @@
 
 #orderInfoTableDiv {
 	width: auto !important;
-	padding: 2rem;
+	padding: 5rem;
 }
 
 .rs-table-body-row-wrapper {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Col } from 'react-bootstrap'
 import { Dropdown } from 'rsuite';
-import PaymentForm from './PaymentForm'
+import MyPaymentForm from './PaymentForm'
 import { Loader } from 'rsuite';
 
 
@@ -35,21 +35,22 @@ class CheckoutPaymentInfo extends Component {
       }
 
       componentDidMount(){
+        console.log('checkout payment info')
         this.setState({
           loaded: true
         })
       }
 
       componentWillMount(){
-        const that = this;
-        let sqPaymentScript = document.createElement('script');
-        sqPaymentScript.src = "https://js.squareupsandbox.com/v2/paymentform";
-        sqPaymentScript.type = "text/javascript"
-        sqPaymentScript.async = false;
-        sqPaymentScript.onload = ()=>{that.setState({
-          loaded: true
-        })};
-        document.getElementsByTagName("head")[0].appendChild(sqPaymentScript);
+        // const that = this;
+        // let sqPaymentScript = document.createElement('script');
+        // sqPaymentScript.src = "https://js.squareupsandbox.com/v2/paymentform";
+        // sqPaymentScript.type = "text/javascript"
+        // sqPaymentScript.async = false;
+        // sqPaymentScript.onload = ()=>{that.setState({
+        //   loaded: true
+        // })};
+        // document.getElementsByTagName("head")[0].appendChild(sqPaymentScript);
       }    
 
   
@@ -260,8 +261,8 @@ class CheckoutPaymentInfo extends Component {
                   <Loader vertical center speed="slow" size="lg" content="Loading payment form..." />
                 </div>
                   {this.state.loaded ? 
-                  <PaymentForm 
-                    paymentForm={window.SqPaymentForm}
+                  <MyPaymentForm 
+                    // paymentForm={window.SqPaymentForm}
                     paymentAmount={this.props.cartTotal}
                     cart={this.props.cart}
                     firstName={this.props.firstName}

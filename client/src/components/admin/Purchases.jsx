@@ -73,8 +73,8 @@ class Purchases extends Component {
 
     componentDidMount() {
         let localSessionID = localStorage.getItem('sessionID')
-        console.log('CHECKING SESSION ID:')
-        console.log(localSessionID)
+        // console.log('CHECKING SESSION ID:')
+        // console.log(localSessionID)
         if (!localSessionID || localSessionID === null) {
           this.setRedirect()
         } else {
@@ -114,7 +114,7 @@ class Purchases extends Component {
         })
         .catch(err => {
             Alert.error('There was an error loading the purchases. Please reload page.', 10000)
-            console.log('ERROR GETTING PURCHASES: ', err)
+            // console.log('ERROR GETTING PURCHASES: ', err)
         })
       }
 
@@ -138,7 +138,7 @@ class Purchases extends Component {
         })
         .catch(err => {
             Alert.error('There was an error updating the product. Please retry.', 10000)
-            console.log('ERROR GETTING PURCHASES: ', err)
+            // console.log('ERROR GETTING PURCHASES: ', err)
         })
       }
 
@@ -303,9 +303,9 @@ class Purchases extends Component {
       }
 
     changeState = (e) => {
-        console.log("State change: ", e.target)
+        // console.log("State change: ", e.target)
         let addressState = $(e.target).text()
-        console.log('New state: ', addressState)
+        // console.log('New state: ', addressState)
         this.setState({
           addressState: addressState
         })
@@ -359,7 +359,7 @@ class Purchases extends Component {
             purchaseReceiptUrl: purchase[0].purchaseReceiptUrl,
             purchaseCard: purchase[0].purchaseCardLastFour
         };
-        console.log('ORDER DATA: ', orderData);
+        // console.log('ORDER DATA: ', orderData);
         let orderDetails = orderData.purchaseDetails
         this.sendNewOrderEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.phoneNumber, orderDetails)
         this.sendOrderConfirmationEmail(orderData.firstName, orderData.lastName, orderData.email, orderData.confirmationNumber, orderData.purchaseReceiptUrl, orderDetails)
@@ -407,7 +407,7 @@ class Purchases extends Component {
                   orderDetails: orderDetails
               }
           }).then((response)=> {
-              console.log('EMAIL CONF RESPONSE: ', response)
+              // console.log('EMAIL CONF RESPONSE: ', response)
               if (response.data.msg === 'success'){
                   // console.log("Message Sent."); 
                   Alert.success('Confirmation email sent!', 5000)
@@ -471,7 +471,7 @@ class Purchases extends Component {
                 details: body
             }
         }).then((response)=> {
-          console.log('EMAIL ORDER RESPONSE: ', response)
+          // console.log('EMAIL ORDER RESPONSE: ', response)
             if (response.data.msg === 'success'){
                 // console.log("Message Sent."); 
                 Alert.success('Your order has been received!', 5000)
@@ -609,95 +609,6 @@ class Purchases extends Component {
                                 onChange={this.handleChange}                            
                             />
                         </Form.Group>
-                        {/* <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressZipCode">Address Zip Code</Form.Label>
-                            <Form.Control 
-                                disabled
-                                name="addressZipCode"
-                                // type="text"
-                                // min={0}
-                                className="form-control purchaseFormEntry"
-                                id="addressZipCode"
-                                value={this.state.addressZipCode}   
-                                onChange={this.handleChange}                            
-                            />
-                        </Form.Group>
-                        <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressCity">Address City</Form.Label>
-                            <Form.Control 
-                                disabled
-                                name="addressCity"
-                                // type="text"
-                                // min={0}
-                                className="form-control purchaseFormEntry"
-                                id="addressCity"
-                                value={this.state.addressCity}   
-                                onChange={this.handleChange}                            
-                            />
-                        </Form.Group>
-                        <Form.Group className='purchaseFormGroup' controlId="formGridShippingState">
-                          <Form.Label className='purchaseFormLabel' htmlFor="addressState">Address State</Form.Label>
-                          <Dropdown 
-                            disabled
-                            name="addressState"
-                            id='addressState'
-                            className='changeQtyDropdown' 
-                            title={this.state.addressState} 
-                            placement="leftStart"
-                            aria-label='State'
-                          >
-                            <Dropdown.Item onClick={this.changeState}>Alabama</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Alaska</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Arizona</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Arkansas</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>California</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Colorado</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Connecticut</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Delaware</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Florida</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Georgia</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Hawaii</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Idaho</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Illinois</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Indiana</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Iowa</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Kansas</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Kentucky</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Louisiana</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Maine</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Maryland</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Massachusetts</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Michigan</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Minnesota</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Mississippi</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Missouri</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Montana</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Nebraska</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Nevada</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New Hampshire</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New Jersey</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New Mexico</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New York</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>North Carolina</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>North Dakota</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Ohio</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Oklahoma</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Oregon</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Pennsylvania</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Rhode Island</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>South Carolina</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>South Dakota</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Tennessee</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Texas</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Utah</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Vermont</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Virginia</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Washington</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>West Virginia</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Wisconsin</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Wyoming</Dropdown.Item>
-                          </Dropdown>
-                        </Form.Group> */}
                         <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</Form.Label>
                             <Form.Control 
@@ -882,92 +793,6 @@ class Purchases extends Component {
                                 placeholder={this.state.addressLine2}                              
                             />
                         </Form.Group>
-                        {/* <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressZipCode">Address Zip Code</Form.Label>
-                            <Form.Control 
-                                disabled
-                                name="addressZipCode"
-                                type="text"
-                                // min={0}
-                                className="form-control purchaseFormEntry"
-                                id="addressZipCode"
-                                placeholder={this.state.addressZipCode}                              
-                            />
-                        </Form.Group>
-                        <Form.Group className="purchaseFormGroup">
-                            <Form.Label className='purchaseFormLabel' htmlFor="addressCity">Address City</Form.Label>
-                            <Form.Control 
-                                disabled
-                                name="addressCity"
-                                type="text"
-                                // min={0}
-                                className="form-control purchaseFormEntry"
-                                id="addressCity"
-                                placeholder={this.state.addressCity}                              
-                            />
-                        </Form.Group>
-                        <Form.Group className='purchaseFormGroup' controlId="formGridShippingState">
-                          <Form.Label className='purchaseFormLabel' htmlFor="addressState">Address State</Form.Label>
-                          <Dropdown 
-                            disabled
-                            name="addressState"
-                            className='changeQtyDropdown' 
-                            title={this.state.addressState} 
-                            placement="leftStart"
-                            aria-label='State'
-                          >
-                            <Dropdown.Item onClick={this.changeState}>Alabama</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Alaska</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Arizona</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Arkansas</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>California</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Colorado</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Connecticut</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Delaware</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Florida</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Georgia</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Hawaii</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Idaho</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Illinois</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Indiana</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Iowa</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Kansas</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Kentucky</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Louisiana</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Maine</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Maryland</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Massachusetts</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Michigan</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Minnesota</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Mississippi</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Missouri</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Montana</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Nebraska</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Nevada</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New Hampshire</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New Jersey</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New Mexico</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>New York</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>North Carolina</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>North Dakota</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Ohio</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Oklahoma</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Oregon</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Pennsylvania</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Rhode Island</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>South Carolina</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>South Dakota</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Tennessee</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Texas</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Utah</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Vermont</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Virginia</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Washington</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>West Virginia</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Wisconsin</Dropdown.Item>
-                            <Dropdown.Item onClick={this.changeState}>Wyoming</Dropdown.Item>
-                          </Dropdown>
-                        </Form.Group> */}
                         <Form.Group className="purchaseFormGroup">
                             <Form.Label className='purchaseFormLabel' htmlFor="purchaseDate">Purchase Date</Form.Label>
                             <Form.Control 
@@ -1039,16 +864,6 @@ class Purchases extends Component {
                                 {/* <Cell dataKey="total" /> */}
                             </Column>
 
-                            {/* <Column width={100} resizable>
-                                <HeaderCell>Order ID</HeaderCell>
-                                <Cell dataKey="_id" />
-                            </Column> */}
-
-                            {/* <Column width={250} resizable>
-                                <HeaderCell>Product ID</HeaderCell>
-                                <Cell dataKey="soapId" />
-                            </Column> */}
-
                           </Table>
                         </Form.Group>
                       </Form>
@@ -1100,18 +915,7 @@ class Purchases extends Component {
                       <HeaderCell>Confirmation #</HeaderCell>
                       <Cell dataKey="confirmationNumber" />
                   </Column>
-
-                  {/* <Column width={200}>
-                      <HeaderCell>Purchase Details</HeaderCell>
-                      <Cell>
-                      {rowData.purchaseDetails.map((purchase, i) => {
-                          return <p>{purchase}</p>
-                      })}
-                          
-                      </Cell>
-                  </Column> */}
-
-
+                  
                   <Column id='actionColumn' flex-grow={4} width={250} align="right">
                       <HeaderCell id='actionColumnHeader'>Action</HeaderCell>
                       <Cell>
