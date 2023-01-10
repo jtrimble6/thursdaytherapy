@@ -13,7 +13,13 @@
 }
 
 .checkoutFormRow {
-	margin-bottom: 5vw;
+	margin-bottom: 5vh;
+}
+
+#checkoutPaymentInfoRow {
+	width: 60vw !important;
+	margin: 0 auto;
+	margin-top: 1vh;
 }
 
 .checkoutStep {
@@ -34,11 +40,11 @@
 }
 
 .checkoutFormRow {
-	margin-top: 5vw;
+	margin-top: 5vh;
 }
 
 .orderInfoTitle {
-	font-size: 2vw;
+	font-size: 2rem;
 	text-align: center;
 	margin-bottom: 1vw;
 	padding: 1vw;
@@ -61,11 +67,11 @@
 	margin: 0 auto;
 }
 
-.formNav {
+/* .formNav {
 	width: 60%;
 	margin: 0 auto;
 	margin-bottom: 5vw;
-}
+} */
 
 /* FORM NAVIGATION */
 
@@ -86,7 +92,7 @@
 .nextStep,
 .prevStep {
 	font-size: 1.5rem;
-	height: 5vw;
+	height: 5vh;
 	border-radius: 5rem;
 }
 
@@ -666,7 +672,7 @@ input::placeholder {
 		font-size: 3vw;
 	}
 	.orderInfoTitle {
-		font-size: 6vw;
+		font-size: 2.5rem;
 		font-weight: bold;
 	}
 
@@ -758,13 +764,13 @@ input::placeholder {
 	}
 	.nextStep,
 	.prevStep {
-		height: 10vw;
+		height: 10vh;
 	}
 	.sqPaymentCardInfo {
 		font-size: 3vw;
 	}
 	#checkoutPaymentInfoRow {
-		max-width: 100% !important;
+		width: 80vw !important;
 		margin: 1vw;
 	}
 	#paymentInfoSquareForm {

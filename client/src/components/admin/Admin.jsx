@@ -29,7 +29,7 @@ class Admin extends Component {
       this.close = this.close.bind(this);
       this.open = this.open.bind(this);
       this.fetchData = this.fetchData.bind(this)
-      this.addToCart = this.addToCart.bind(this)
+      // this.addToCart = this.addToCart.bind(this)
       this.changeQty = this.changeQty.bind(this)
       this.setRedirect = this.setRedirect.bind(this)
       this.renderRedirect = this.renderRedirect.bind(this)
@@ -76,36 +76,36 @@ class Admin extends Component {
         });
     }
     
-  async addToCart(id) {
-    if (this.state.qty === 'qty') {
-      // console.log('must set a valid qty')
-      return
-    } else try {
-        const response = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentCartURL : this.state.productionCartURL, {
-          method: "POST",
-          body: JSON.stringify({
-            productId: id,
-            quantity: this.state.qty,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-        // let data = await response.json();
-        // alert("Item Added To Cart");
-        this.close()
-        // console.log(data);
-      } catch (err) {
-        alert("Something Went Wrong");
-        // console.log(err);
-      }
-    }
+  // async addToCart(id) {
+  //   if (this.state.qty === 'qty') {
+  //     // console.log('must set a valid qty')
+  //     return
+  //   } else try {
+  //       const response = await fetch(process.env.NODE_ENV === "development" ? this.state.developmentCartURL : this.state.productionCartURL, {
+  //         method: "POST",
+  //         body: JSON.stringify({
+  //           productId: id,
+  //           quantity: this.state.qty,
+  //         }),
+  //         headers: {
+  //           "Content-type": "application/json; charset=UTF-8",
+  //         },
+  //       });
+  //       // let data = await response.json();
+  //       // alert("Item Added To Cart");
+  //       this.close()
+  //       // console.log(data);
+  //     } catch (err) {
+  //       alert("Something Went Wrong");
+  //       // console.log(err);
+  //     }
+  //   }
 
   close() {
       this.setState({ 
         show: false,
         qty: 'qty',
-       });
+      });
     }
 
   open = (e) => {

@@ -85,21 +85,21 @@ app.use(userRoutes, sessionRoutes, contactRoutes, purchaseRoutes, productRoutes)
 // app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
 app.use(
 	session({
-	  secret: 'fraggle-rock',
-	  resave: false,
-	  saveUninitialized: false
+		secret: 'fraggle-rock',
+		resave: false,
+		saveUninitialized: false
 	})
-  );
+);
 
 passport.serializeUser(function(user, done) {
 	done(null, user._id);
-  });
-   
+});
+
 passport.deserializeUser(function(id, done) {
 	User.findById(id, function(err, user) {
-	  done(err, user);
+		done(err, user);
 	});
-  });
+});
 
 app.use(function(req, res, next) { //allow cross origin requests
 	res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
@@ -107,86 +107,40 @@ app.use(function(req, res, next) { //allow cross origin requests
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	res.header("Access-Control-Allow-Credentials", true);
 	next();
-  });
-
-//force HTTPS and redirect WWW
+});
 
 
-// app.get('*',function(req,res,next){
-// 	if(req.headers['x-forwarded-proto']!='https')
-// 	  res.redirect('https://thursday-therapy.com'+req.url)
-// 	else
-// 	  next() /* Continue to other routes if we're not redirecting */
-//   })
-
-// app.use(enforce.HTTPS({ trustProtoHeader: true }))
-// app.use('*', (req, res, next) => {
-// 	if (req.secure) {
-// 	  return next();
-// 	}
-// 	res.redirect(`https://${req.hostname}${req.url}`);
-//   });
-
-// app.get('*',function(req,res,next){
-// 	if(req.headers['x-forwarded-proto']!='https')
-// 	  res.redirect('https://thursday-therapy.com'+req.url)
-// 	else
-// 	  next() /* Continue to other routes if we're not redirecting */
-//   })
-
-// wwwRedirect = (req, res, next) => {
-//     if (req.headers.host.slice(0, 4) === 'www.') {
-//         var newHost = req.headers.host.slice(4);
-//         return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
-//     }
-//     next();
-// };
-// app.use(wwwRedirect);
-// app.use(forceDomain({
-// 	hostname: 'thursday-therapy.com',
-// 	protocol: 'https'
-//   }));
-
-// Connect to the Mongo DB
-let localDB = "mongodb://localhost:27017/cart"
+let localDB = "mongodb://127.0.0.1/cart"
 const promise = mongoose.connect(process.env.NODE_ENV === 'development' ? localDB : process.env.MONGO_URI, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 var gfs;
 var connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function() {
-  console.log("Connected to MongoDB!")
-  var mongoDriver = mongoose.mongo;
-  gfs = Grid(connection.db, mongoDriver);
-  gfs.collection('uploads');
+  	// console.log("Connected to MongoDB!")
+	var mongoDriver = mongoose.mongo;
+	gfs = Grid(connection.db, mongoDriver);
+	gfs.collection('uploads');
 });
-
-// const conn = mongoose.connection;
-// let gfs;
-
-// conn.once('open',() => {
-//   gfs = Grid(conn, mongoose.mongo);
-//   gfs.collection('uploads');
-// });
 
 //create storage object
 const storage = new GridFsStorage({
-  db: promise,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'uploads'
-        };
-        resolve(fileInfo);
-      });
-    });
-  }
+	db: promise,
+	file: (req, file) => {
+		return new Promise((resolve, reject) => {
+		crypto.randomBytes(16, (err, buf) => {
+			if (err) {
+			return reject(err);
+			}
+			const filename = buf.toString('hex') + path.extname(file.originalname);
+			const fileInfo = {
+			filename: filename,
+			bucketName: 'uploads'
+			};
+			resolve(fileInfo);
+		});
+		});
+	}
 });
 // const upload = multer({ storage });
 const upload = multer({ storage : storage }).array('file', 3);
@@ -197,10 +151,10 @@ app.post("/upload/:productId", function (req, res, next) {
 			//console.log(req.body);
 			//console.log(req.files);
 			if (err) {
-				console.log(`upload multiple error: ${err}`);
+				// console.log(`upload multiple error: ${err}`);
 				return res.sendStatus(500);
-			  } else {
-				console.log('UPLOAD FILE(s): ', req.files)
+			} else {
+				// console.log('UPLOAD FILE(s): ', req.files)
 				for (let u=0; u<req.files.length; u++) {
 					gfs.files.update({'filename': req.files[u].filename}, 
 						{'$set': 
@@ -210,7 +164,7 @@ app.post("/upload/:productId", function (req, res, next) {
 						})
 				}
 				
-			  }
+			}
 			res.end("Files are uploaded");
 		});
 		// upload.single('file')(req, res, function (error) {
@@ -228,67 +182,67 @@ app.post("/upload/:productId", function (req, res, next) {
 		// 	}
 		// 	// code
 		//   })
-	  } catch (error) {
+	} catch (error) {
 		return res.status(400).json({ error: error.toString() });
-	  }
+	}
 	
-  });
+});
 
   // @route GET /files
   // @desc Display all files in JSON
-  
+
 app.get('/uploads', (req, res) => {
 	// console.log('UPLOADS RESPONSE: ', res.data)
 	gfs.files.find().toArray((err, files) => {
 	  // Check if files exist
 	//   console.log('GFS: ', gfs)
-	  if(!files || files.length === 0) {
-		return res.status(404).json({
-		  err: 'No images exist: '
-		})
-	  } else {
-		// console.log('ALL FILES: ', files)
-		files.map(file => {
-		  if(file.contentType.startsWith('image')) {
-			file.isImage === true
-		  } else {
-			file.isImage === false
-		  }
-		})
-	  }
-  
-	  // Files exist
-	  return res.json(files)
+	if(!files || files.length === 0) {
+	return res.status(404).json({
+		err: 'No images exist: '
 	})
-  })
+	} else {
+	// console.log('ALL FILES: ', files)
+	files.map(file => {
+		if(file.contentType.startsWith('image')) {
+		file.isImage === true
+		} else {
+		file.isImage === false
+		}
+	})
+	}
+
+	  // Files exist
+	return res.json(files)
+	})
+})
 
 app.get('/uploads/:filename', (req, res) => {
 	gfs.files.findOne({filename: req.params.filename}, (err, file) => {
 	  // Check if files exist
-	  if(!file || file.length === 0) {
-		console.log('NO IMAGES FOUND')
+	if(!file || file.length === 0) {
+		// console.log('NO IMAGES FOUND')
 		return res.status(404).json({
-		  err: 'No images exist'
+			err: 'No images exist'
 		})
-	  } 
-  
+	} 
+
 	  // File exists
 	//   console.log('FILE EXISTS!!!! ', file)
 	//   return res.json(file)
 
-	  if(file.contentType === 'image/jpeg') {
+	if(file.contentType === 'image/jpeg') {
 		// Read output to browser
 		// console.log('THIS IS AN IMAGE!!!')
 		var readstream = gfs.createReadStream(file.filename)
 		readstream.pipe(res)
-	  } else {
+	} else {
 		res.status(404).json({
-		  err: 'Not an image'
+			err: 'Not an image'
 		})
-	  }
+	}
 
 	})
-  })
+})
 
 app.put('/uploads/:filename/:soapname', (req, res) => {
 	gfs.files.update({'filename': req.params.filename}, 
@@ -297,21 +251,21 @@ app.put('/uploads/:filename/:soapname', (req, res) => {
 			'productId': req.params.soapname
 			},
 		})
-  })
+})
 
 app.delete('/uploads/:id', (req, res) => {
 	gfs.remove({ _id: req.params.id, root: 'uploads' }, (err, gridStore) => {
-	  if(err) {
-		return res.status(404).json({ err: err })
-	  }
+		if(err) {
+			return res.status(404).json({ err: err })
+		}
 	})
-  })
+})
 
 
 // HANDLE PAYPAL PAYMENTS
 app.post('/process-paypal' , ( req , res ) => {
 	// create payment object 
-	console.log('req.body: ', req.body)
+	// console.log('req.body: ', req.body)
     const createPayment = {
             "intent": "sale",
 			"payer": {
@@ -338,7 +292,7 @@ app.post('/process-paypal' , ( req , res ) => {
             for(let i = 0; i < payment.links.length; i++){
                 if(payment.links[i].rel === 'approval_url'){
                     // res.redirect(payment.links[i].href);
-					console.log('link: ', payment.links[i].href)
+					// console.log('link: ', payment.links[i].href)
 					res.send({forwardLink: payment.links[i].href})
                 }
             }
@@ -366,23 +320,22 @@ app.post('/process-paypal' , ( req , res ) => {
 
 // HANDLE SQUARE PAYMENTS
 
-app.post('/process-payment', async (req, res) => {
-	const requestParams = req.body;
-
-	// Charge the customer's card
-	const paymentsApi = client.paymentsApi;
-	const requestBody = {
-		sourceId: requestParams.nonce,
-		amountMoney: {
-			amount: 100 * requestParams.paymentAmount, // $1.00 charge
-			currency: 'USD'
-		},
-		locationId: requestParams.location_id,
-		idempotencyKey: requestParams.idempotency_key,
-	};
+app.post("/process-payment", async (req, res) => {
+	let body = req.body;
+	let { paymentsApi } = client
+	// body.idempotencyKey = uuidv4();
+	// body.amountMoney = {
+	// 	amount: 1,
+	// 	currency: 'GBP',
+	// };
+	// let paymentResponse = paymentsApi.createPayment(body);
+	// paymentResponse.then((response) => {
+	// 	console.log('SQUARE RESPONSE: ', response)
+	// 	reply.send(response.json)
+	// })
 
 	try {
-		const response = await paymentsApi.createPayment(requestBody);
+		const response = await paymentsApi.createPayment(body);
 		res.status(200).json({
 			'title': 'Payment Successful',
 			'result': response.result
@@ -405,12 +358,12 @@ app.post('/process-payment', async (req, res) => {
 
 app.post('/addressverf/:address1/:address2/:addressCity/:addressState/:addressZipCode', async(req, res) => {
 	function handleSuccess(response) {
-		console.log(response)
+		// console.log(response)
 		res.send(response)
 	}
 	
 	function handleError(response) {
-		console.log(response);
+		// console.log(response);
 		return res.sendStatus(500);
 	}
 	let authId = process.env.SMARTY_AUTH_ID;
@@ -483,7 +436,7 @@ if (process.env.NODE_ENV === "development") {
 	});
 } else {
 	app.listen(PORT, () => {
-		console.log(`Express server now listening on port ${PORT}`);
+		// console.log(`Express server now listening on port ${PORT}`);
 	});
 }
 
@@ -500,4 +453,4 @@ if (process.env.NODE_ENV === "development") {
 //         }
 //         }); 
 //     });
-// }			
+// }

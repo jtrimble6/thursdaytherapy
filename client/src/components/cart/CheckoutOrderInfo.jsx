@@ -42,8 +42,11 @@ class CheckoutOrderInfo extends Component {
               </div>
               <div id="orderInfoTableDiv" hidden={this.props.cartLoaded ? false : true}>
                 <Table
-                  className='orderTable'
+                  // className='orderTable'
                   // height={400}
+                  height={400}
+                  autoHeight
+                  affixHeader
                   defaultExpandAllRows={true}
                   data={this.props.currentCart}
                   renderEmpty={() => <div id='emptyCartTitle'>Cart is Empty</div>}
@@ -51,7 +54,33 @@ class CheckoutOrderInfo extends Component {
                       // console.log(data);
                   }}
                 >
-                  <Column id='orderSoapQty' flexGrow={1} align="left">
+
+                <Column width={70} align="center" resizable>
+                  <HeaderCell>Qty</HeaderCell>
+                  <Cell dataKey="soapQty" />
+                </Column>
+
+                <Column width={300} resizable sortable>
+                  <HeaderCell>Name</HeaderCell>
+                  <Cell dataKey="soapName" />
+                </Column>
+
+                <Column width={300} resizable>
+                  <HeaderCell>Description</HeaderCell>
+                  <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
+                </Column>
+
+                <Column width={200} resizable>
+                  <HeaderCell>Price</HeaderCell>
+                  <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
+                </Column>
+
+                <Column width={260}>
+                  <HeaderCell>Total Price</HeaderCell>
+                  <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
+                </Column>
+
+                  {/* <Column id='orderSoapQty' flexGrow={1} align="left">
                       <HeaderCell>Qty</HeaderCell>
                       <Cell dataKey="soapQty" />
                   </Column>
@@ -59,19 +88,16 @@ class CheckoutOrderInfo extends Component {
                   <Column id='orderSoapName' flexGrow={1} align="left" >
                       <HeaderCell>Name</HeaderCell>
                       <Cell dataKey="soapName" />
-                      {/* <Cell>{(rowData, rowIndex) => {return rowData.productId.name;}}</Cell> */}
                   </Column>
 
                   <Column id='orderSoapDescription' flexGrow={1} align="left">
                       <HeaderCell>Description</HeaderCell>
                       <Cell>{(rowData) => {return rowData.soapIngredients}}</Cell>
-                      {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
                   <Column id='orderSoapPrice' flexGrow={1} align="right">
                       <HeaderCell>Price</HeaderCell>
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapPrice)}}</Cell>
-                      {/* <Cell dataKey="soapPrice" /> */}
                   </Column>
 
                   <Column id='orderSoapTotalPrice' flexGrow={1} align="right">
@@ -79,7 +105,7 @@ class CheckoutOrderInfo extends Component {
                       <Cell>{(rowData) => {return this.formatMoney(rowData.soapTotal)}}</Cell>
                   </Column>
 
-                  {/* <Column width={200}>
+                  <Column width={200}>
                       <HeaderCell>Img</HeaderCell>
                       <Cell dataKey="image" />
                   </Column> */}

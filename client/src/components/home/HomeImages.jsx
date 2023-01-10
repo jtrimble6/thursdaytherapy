@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import HomeImage1 from '../../css/images/homeImage1.jpg'
-import HomeImage2 from '../../css/images/homeImage2.jpg'
-import HomeImage3 from '../../css/images/homeImage3.jpg'
+// import HomeImage2 from '../../css/images/homeImage2.jpg'
+// import HomeImage3 from '../../css/images/homeImage3.jpg'
 import HowToBuyImage1 from '../../css/images/howToBuyImage1.jpeg'
 import HowToBuyImage2 from '../../css/images/howToBuyImage2.jpeg'
 

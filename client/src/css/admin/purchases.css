@@ -65,12 +65,12 @@
   height: 50vh !important;
   /* max-height: 50vw; */
 }
-
+/* 
 #placeOrderRow {
   width: 30vw;
   margin: 0 auto;
   margin-bottom: 10vw;
-}
+} */
 
 #placeOrderButton {
   background-color: lightgreen;

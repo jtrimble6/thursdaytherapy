@@ -279,7 +279,7 @@ class Inventory extends Component {
 
       console.log('SOAP IMAGE ID HERE: ', soapImageId)
       if (soapImageId) {
-        soapImageIds = soapImageId.split(",")
+        soapImageIds = soapImageId?.split(",")
       }
       
       console.log('SOAP IMAGE IDS HERE: ', soapImageIds)

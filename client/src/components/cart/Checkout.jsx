@@ -5,6 +5,7 @@ import API from '../../utils/API'
 import { Alert } from 'rsuite';
 import { Form, Button } from 'react-bootstrap'
 import $ from 'jquery'
+
 // CSS
 import '../../css/cart/cartCheckout.css'
 // SIGN UP PAGES
@@ -13,6 +14,9 @@ import CheckoutPaymentInfo from './CheckoutPaymentInfo'
 import CheckoutConfirmation from './CheckoutConfirmation'
 // ALERTS 
 import ChangeStepError from '../alerts/ChangeStepError'
+
+import dotenv from 'dotenv'
+dotenv.config()
 
 const normalizeInput = (value, previousValue) => {
   // console.log('normalizing input')
@@ -157,10 +161,11 @@ class Checkout extends Component {
         // console.log('User Sign Up Ready')
         this.scrollTop()
         this.fetchData()
-        
+        console.log('SANDBOX ID: ', process.env.NODE_ENV)
       }
     
     renderPaymentOptions = () => {
+      console.log('need to render payment options default')
       this.setState({
         showPaymentOptionsModal: true
       })
@@ -224,140 +229,140 @@ class Checkout extends Component {
     }
 
     renderCreditCardForm = () => {
-      const config = {
-        applicationId: process.env.REACT_APP_SQUARE_PRODUCION_APPLICATION_ID,
-        locationId: process.env.REACT_APP_LOCATION_ID,
-        inputClass: "sq-input",
-        autoBuild: false,
-        inputStyles: [
-          {
-            fontSize: "16px",
-            fontFamily: "Helvetica Neue",
-            padding: "16px",
-            color: "#373F4A",
-            backgroundColor: "transparent",
-            lineHeight: "1.15em",
-            placeholderColor: "#000",
-            _webkitFontSmoothing: "antialiased",
-            _mozOsxFontSmoothing: "grayscale"
-          }
-        ],
-        cardNumber: {
-          elementId: "sq-card-number",
-          placeholder: "• • • •  • • • •  • • • •  • • • •"
-        },
-        cvv: {
-          elementId: "sq-cvv",
-          placeholder: "CVV"
-        },
-        expirationDate: {
-          elementId: "sq-expiration-date",
-          placeholder: "MM/YY"
-        },
-        postalCode: {
-          elementId: "sq-postal-code",
-          placeholder: "Zip"
-        },
-        callbacks: {
-          methodsSupported: (methods) => {
-            if(methods.googlePay){
-              this.setState({
-                googlePay: methods.googlePay
-              })
-            }
-            if(methods.applePay){
-              this.setState({
-                applePay: methods.applePay
-              })
-            }
-            if(methods.masterpass){
-              this.setState({
-                masterpass: methods.masterpass
-              })
-            }
-            return;
-          },
-          createPaymentRequest: () => {
-            return {
-              requestShippingAddress: false,
-              requestBillingInfo: true,
-              currencyCode: "USD",
-              countryCode: "US",
-              total: {
-                label: "MERCHANT NAME",
-                amount: JSON.stringify(this.state.orderGrandTotal),
-                pending: false
-              },
-              lineItems: [
-                {
-                  label: "Subtotal",
-                  amount: JSON.stringify(this.state.orderGrandTotal),
-                  pending: false
-                }
-              ]
-            };
-          },
-          cardNonceResponseReceived: (errors, nonce, cardData) => {
-            if (errors) {
-              // Log errors from nonce generation to the Javascript console
-              Alert.error('There was an error processing payment. Please try again.', 10000)
-              document.getElementById('processingPaymentPayButton').hidden = false
-              document.getElementById('processingPaymentLoader').hidden = true
-              // console.log("Encountered errors:");
-              errors.forEach(function(error) {
-                // console.log("  " + error.message);
-              });
-              return;
-            }
-            this.handleNonceReceived(nonce)
-            this.setState({
-              nonce: nonce
-            })
-          },
-          unsupportedBrowserDetected: () => {
-          },
-          inputEventReceived: (inputEvent) => {
-            switch (inputEvent.eventType) {
-              case "focusClassAdded":
-                break;
-              case "focusClassRemoved":
-                break;
-              case "errorClassAdded":
-                document.getElementById("error").innerHTML =
-                  "Please fix card information errors before continuing.";
-                break;
-              case "errorClassRemoved":
-                document.getElementById("error").style.display = "none";
-                break;
-              case "cardBrandChanged":
-                if(inputEvent.cardBrand !== "unknown"){
-                  this.setState({
-                    cardBrand: inputEvent.cardBrand
-                  })
-                } else {
-                  this.setState({
-                    cardBrand: ""
-                  })
-                }
-                break;
-              case "postalCodeChanged":
-                break;
-              default:
-                break;
-            }
-          },
-          paymentFormLoaded: function() {
-            document.getElementById('name').style.display = "inline-flex";
-          }
-        }
-      };
-      this.SqPaymentForm = new window.SqPaymentForm(config);
-      this.SqPaymentForm.build();
+      // const config = {
+      //   applicationId: process.env.REACT_APP_SQUARE_PRODUCION_APPLICATION_ID,
+      //   locationId: process.env.REACT_APP_LOCATION_ID,
+      //   inputClass: "sq-input",
+      //   autoBuild: false,
+      //   inputStyles: [
+      //     {
+      //       fontSize: "16px",
+      //       fontFamily: "Helvetica Neue",
+      //       padding: "16px",
+      //       color: "#373F4A",
+      //       backgroundColor: "transparent",
+      //       lineHeight: "1.15em",
+      //       placeholderColor: "#000",
+      //       _webkitFontSmoothing: "antialiased",
+      //       _mozOsxFontSmoothing: "grayscale"
+      //     }
+      //   ],
+      //   cardNumber: {
+      //     elementId: "sq-card-number",
+      //     placeholder: "• • • •  • • • •  • • • •  • • • •"
+      //   },
+      //   cvv: {
+      //     elementId: "sq-cvv",
+      //     placeholder: "CVV"
+      //   },
+      //   expirationDate: {
+      //     elementId: "sq-expiration-date",
+      //     placeholder: "MM/YY"
+      //   },
+      //   postalCode: {
+      //     elementId: "sq-postal-code",
+      //     placeholder: "Zip"
+      //   },
+      //   callbacks: {
+      //     methodsSupported: (methods) => {
+      //       if(methods.googlePay){
+      //         this.setState({
+      //           googlePay: methods.googlePay
+      //         })
+      //       }
+      //       if(methods.applePay){
+      //         this.setState({
+      //           applePay: methods.applePay
+      //         })
+      //       }
+      //       if(methods.masterpass){
+      //         this.setState({
+      //           masterpass: methods.masterpass
+      //         })
+      //       }
+      //       return;
+      //     },
+      //     createPaymentRequest: () => {
+      //       return {
+      //         requestShippingAddress: false,
+      //         requestBillingInfo: true,
+      //         currencyCode: "USD",
+      //         countryCode: "US",
+      //         total: {
+      //           label: "MERCHANT NAME",
+      //           amount: JSON.stringify(this.state.orderGrandTotal),
+      //           pending: false
+      //         },
+      //         lineItems: [
+      //           {
+      //             label: "Subtotal",
+      //             amount: JSON.stringify(this.state.orderGrandTotal),
+      //             pending: false
+      //           }
+      //         ]
+      //       };
+      //     },
+      //     cardNonceResponseReceived: (errors, nonce, cardData) => {
+      //       if (errors) {
+      //         // Log errors from nonce generation to the Javascript console
+      //         Alert.error('There was an error processing payment. Please try again.', 10000)
+      //         document.getElementById('processingPaymentPayButton').hidden = false
+      //         document.getElementById('processingPaymentLoader').hidden = true
+      //         // console.log("Encountered errors:");
+      //         errors.forEach(function(error) {
+      //           // console.log("  " + error.message);
+      //         });
+      //         return;
+      //       }
+      //       this.handleNonceReceived(nonce)
+      //       this.setState({
+      //         nonce: nonce
+      //       })
+      //     },
+      //     unsupportedBrowserDetected: () => {
+      //     },
+      //     inputEventReceived: (inputEvent) => {
+      //       switch (inputEvent.eventType) {
+      //         case "focusClassAdded":
+      //           break;
+      //         case "focusClassRemoved":
+      //           break;
+      //         case "errorClassAdded":
+      //           document.getElementById("error").innerHTML =
+      //             "Please fix card information errors before continuing.";
+      //           break;
+      //         case "errorClassRemoved":
+      //           document.getElementById("error").style.display = "none";
+      //           break;
+      //         case "cardBrandChanged":
+      //           if(inputEvent.cardBrand !== "unknown"){
+      //             this.setState({
+      //               cardBrand: inputEvent.cardBrand
+      //             })
+      //           } else {
+      //             this.setState({
+      //               cardBrand: ""
+      //             })
+      //           }
+      //           break;
+      //         case "postalCodeChanged":
+      //           break;
+      //         default:
+      //           break;
+      //       }
+      //     },
+      //     paymentFormLoaded: function() {
+      //       document.getElementById('name').style.display = "inline-flex";
+      //     }
+      //   }
+      // };
+      // this.SqPaymentForm = new window.SqPaymentForm(config);
+      // this.SqPaymentForm.build();
       const creditCardForm = document.getElementById('creditCardForm')
       creditCardForm.hidden = false
-      this.setState({
-        sqPaymentForm: this.SqPaymentForm
-      })
+      // this.setState({
+      //   sqPaymentForm: this.SqPaymentForm
+      // })
       }
 
     requestCardNonce = (e) => {
@@ -855,7 +860,7 @@ class Checkout extends Component {
           cartTotal: cartTotal,
           orderSubTotal: cartTotal,
           orderShippingCost: orderShippingCost,
-          orderGrandTotal: orderGrandTotal,
+          orderGrandTotal: parseFloat(orderGrandTotal).toFixed(2),
           cartLoaded: true
         })
 
@@ -1113,6 +1118,7 @@ class Checkout extends Component {
         showManualAddressModal: false
       })
 
+      console.log('need to render payment options manual')
       this.renderPaymentOptions()
 
       // this.renderCreditCardForm()
@@ -1131,7 +1137,7 @@ class Checkout extends Component {
         addressLine1: addressLine1,
         addressLine2: addressLine2
       })
-    }  
+      }  
 
     confirmAddress = (e) => {
         e.preventDefault()
@@ -1149,11 +1155,12 @@ class Checkout extends Component {
           addressLine2: addressLine2
         })
 
+        console.log('need to render payment options confirm')
         this.renderPaymentOptions()
       }
 
     creditCardPayment = (e) => {
-      e.preventDefault()
+      // e.preventDefault()
       // console.log('READY FOR CREDIT CARD')
       this.renderCreditCardForm()
 
@@ -1384,7 +1391,7 @@ class Checkout extends Component {
                 />
 
 
-                <Form.Row className="formNav" id='checkoutFormNav'>
+                <Form.Row className="formNav shoppingCartButtonsRow" id='checkoutFormNav'>
                   { 
                     (this.state.currentStep === 1) ? 
                     
