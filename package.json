@@ -50,8 +50,7 @@
   "scripts": {
     "start": "node server.js",
     "server": "node server.js",
-    "build": "react-scripts build",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
+    "build": "react-scripts build"
   },
   "engines": {
     "node": "18.8.0"
