@@ -36,7 +36,9 @@
     "ts-loader": "^9.4.1",
     "typescript": "3.2.1",
     "uuid": "^8.3.2",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
+    "@types/lodash": "^4.14.187"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
