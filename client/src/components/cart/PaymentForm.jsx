@@ -710,7 +710,7 @@ export default class MyPaymentForm extends Component {
 						* Identifies the location of the merchant that is taking the payment.
 						* Obtained from the Square Application Dashboard - Locations tab.
 						*/
-						locationId={process.env.REACT_APP_LOCATION_ID}
+						// locationId={process.env.REACT_APP_LOCATION_ID}
 					>
 					<CreditCard />
 					</PaymentForm>
