@@ -10,8 +10,8 @@ import { Loader, Alert, Modal, Button } from 'rsuite';
 
 import { CreditCard, PaymentForm } from 'react-square-web-payments-sdk';
 
-import dotenv from 'dotenv'
-dotenv.config()
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 // const styles = {
 // 	name: {

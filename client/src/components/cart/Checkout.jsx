@@ -15,8 +15,8 @@ import CheckoutConfirmation from './CheckoutConfirmation'
 // ALERTS 
 import ChangeStepError from '../alerts/ChangeStepError'
 
-import dotenv from 'dotenv'
-dotenv.config()
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 const normalizeInput = (value, previousValue) => {
   // console.log('normalizing input')

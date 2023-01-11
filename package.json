@@ -56,7 +56,7 @@
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "engines": {
-    "node": "18.8.0",
+    "node": "16.0.0",
     "yarn": "1.19.1"
   }
 }

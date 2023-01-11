@@ -1,34 +1,22 @@
 {
   "files": {
-    "main.css": "/thursdaytherapy/static/css/main.b46f6007.chunk.css",
-    "main.js": "/thursdaytherapy/static/js/main.a598c792.chunk.js",
-    "main.js.map": "/thursdaytherapy/static/js/main.a598c792.chunk.js.map",
-    "runtime-main.js": "/thursdaytherapy/static/js/runtime-main.fc437883.js",
-    "runtime-main.js.map": "/thursdaytherapy/static/js/runtime-main.fc437883.js.map",
-    "static/css/2.e133fd2b.chunk.css": "/thursdaytherapy/static/css/2.e133fd2b.chunk.css",
-    "static/js/2.929ea4e4.chunk.js": "/thursdaytherapy/static/js/2.929ea4e4.chunk.js",
-    "static/js/2.929ea4e4.chunk.js.map": "/thursdaytherapy/static/js/2.929ea4e4.chunk.js.map",
-    "static/js/3.2cabbcdf.chunk.js": "/thursdaytherapy/static/js/3.2cabbcdf.chunk.js",
-    "static/js/3.2cabbcdf.chunk.js.map": "/thursdaytherapy/static/js/3.2cabbcdf.chunk.js.map",
+    "main.css": "/thursdaytherapy/static/css/main.5a0853a4.css",
+    "main.js": "/thursdaytherapy/static/js/main.5bf8bbfd.js",
+    "static/js/377.b33aecdb.chunk.js": "/thursdaytherapy/static/js/377.b33aecdb.chunk.js",
+    "static/media/howToBuyImage1.jpeg": "/thursdaytherapy/static/media/howToBuyImage1.7b7d4b8b67ce54080e5c.jpeg",
+    "static/media/howToBuyImage2.jpeg": "/thursdaytherapy/static/media/howToBuyImage2.7be5be54d106e1eaa197.jpeg",
+    "static/media/homeImage1.jpg": "/thursdaytherapy/static/media/homeImage1.2c7e0a2e84fccba8d9c7.jpg",
+    "static/media/contactUsImage.jpeg": "/thursdaytherapy/static/media/contactUsImage.f5d04cf5fdece1d33acb.jpeg",
+    "static/media/ourStoryImage2.jpg": "/thursdaytherapy/static/media/ourStoryImage2.5b0f21424c2faac14fa9.jpg",
+    "static/media/ourStoryImage1.jpeg": "/thursdaytherapy/static/media/ourStoryImage1.c10f5fcf1d9952428288.jpeg",
+    "static/media/navbarHeaderImage.png": "/thursdaytherapy/static/media/navbarHeaderImage.e04670ab8d193d971410.png",
     "index.html": "/thursdaytherapy/index.html",
-    "static/css/2.e133fd2b.chunk.css.map": "/thursdaytherapy/static/css/2.e133fd2b.chunk.css.map",
-    "static/css/main.b46f6007.chunk.css.map": "/thursdaytherapy/static/css/main.b46f6007.chunk.css.map",
-    "static/js/2.929ea4e4.chunk.js.LICENSE.txt": "/thursdaytherapy/static/js/2.929ea4e4.chunk.js.LICENSE.txt",
-    "static/media/contactUsImage.f5d04cf5.jpeg": "/thursdaytherapy/static/media/contactUsImage.f5d04cf5.jpeg",
-    "static/media/homeImage1.2c7e0a2e.jpg": "/thursdaytherapy/static/media/homeImage1.2c7e0a2e.jpg",
-    "static/media/homeImage2.b091e17e.jpg": "/thursdaytherapy/static/media/homeImage2.b091e17e.jpg",
-    "static/media/homeImage3.1245c6a1.jpg": "/thursdaytherapy/static/media/homeImage3.1245c6a1.jpg",
-    "static/media/howToBuyImage1.d18f7d6a.jpeg": "/thursdaytherapy/static/media/howToBuyImage1.d18f7d6a.jpeg",
-    "static/media/howToBuyImage2.094ea568.jpeg": "/thursdaytherapy/static/media/howToBuyImage2.094ea568.jpeg",
-    "static/media/navbarHeaderImage.e04670ab.png": "/thursdaytherapy/static/media/navbarHeaderImage.e04670ab.png",
-    "static/media/ourStoryImage1.c10f5fcf.jpeg": "/thursdaytherapy/static/media/ourStoryImage1.c10f5fcf.jpeg",
-    "static/media/ourStoryImage2.5b0f2142.jpg": "/thursdaytherapy/static/media/ourStoryImage2.5b0f2142.jpg"
+    "main.5a0853a4.css.map": "/thursdaytherapy/static/css/main.5a0853a4.css.map",
+    "main.5bf8bbfd.js.map": "/thursdaytherapy/static/js/main.5bf8bbfd.js.map",
+    "377.b33aecdb.chunk.js.map": "/thursdaytherapy/static/js/377.b33aecdb.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.fc437883.js",
-    "static/css/2.e133fd2b.chunk.css",
-    "static/js/2.929ea4e4.chunk.js",
-    "static/css/main.b46f6007.chunk.css",
-    "static/js/main.a598c792.chunk.js"
+    "static/css/main.5a0853a4.css",
+    "static/js/main.5bf8bbfd.js"
   ]
 }
