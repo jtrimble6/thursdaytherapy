@@ -50,12 +50,10 @@
     "are-you-es5": "^2.1.2"
   },
   "scripts": {
-    "tsc": "tsc",
-    "start": "node src/server/dist/server.js",
-    "heroku-postbuild": "webpack --mode production; tsc --project=tsconfig.json",
-    "server": "nodemon src/server/lib/server.ts",
-    "client": "webpack-dev-server --open --config webpack.dev.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "start": "node server.js",
+    "server": "node server.js",
+    "build": "react-scripts build",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "engines": {
     "node": "18.8.0",
