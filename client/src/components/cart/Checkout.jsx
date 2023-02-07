@@ -128,7 +128,6 @@ class Checkout extends Component {
         this.validStepOne = this.validStepOne.bind(this)
         this.checkEmail = this.checkEmail.bind(this)
         this.validateAddress = this.validateAddress.bind(this)
-        this.handleSendUserInfo = this.handleSendUserInfo.bind(this)
         this.openAddressModal = this.openAddressModal.bind(this)
         this.openManualAddressModal = this.openManualAddressModal.bind(this)
         this.hideManualAddressModal = this.hideManualAddressModal.bind(this)
@@ -161,7 +160,7 @@ class Checkout extends Component {
         // console.log('User Sign Up Ready')
         this.scrollTop()
         this.fetchData()
-        console.log('SANDBOX ID: ', process.env.NODE_ENV)
+        // console.log('SANDBOX ID: ', process.env.NODE_ENV)
       }
     
     renderPaymentOptions = () => {
@@ -1231,33 +1230,6 @@ class Checkout extends Component {
           Email: ${email} \n 
           Username: ${username} \n
           Password: ${password}`)
-      }
-
-    handleSendUserInfo = (firstName, lastName, email, subscriptionStatus) => {
-        // console.log(firstName, lastName, email, subscriptionStatus)
-        axios({
-            method: "POST", 
-            url: process.env.NODE_ENV === 'development' ? "http://localhost:3000/sendUserInfo" : "http://gfitwefit.com/sendUserInfo",
-            data: {
-                firstName: firstName,   
-                lastName: lastName,
-                email: email,  
-                subscriptionStatus: subscriptionStatus === true ? 'active' : 'inactive'
-            }
-        }).then((response)=> {
-            if (response.data.msg === 'success'){
-                // console.log("Message Sent."); 
-                this.setState({
-                  contactSuccess: true
-                })
-                this.handleFinalStep()
-            } else if(response.data.msg === 'fail'){
-              // console.log("Message failed to send.")
-              this.setState({
-                contactError: true
-              })
-            }
-        })
       }
 
     handleConfirmationComplete = () => {

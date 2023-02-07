@@ -41,8 +41,8 @@ paypal.configure({
 });
 
 // Set the Access Token which is used to authorize to a merchant
-const accessToken = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_SQUARE_PRODUCTION_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
-const environment = process.env.NODE_ENV === 'development' ? Environment.Production : Environment.Sandbox
+const accessToken = process.env.NODE_ENV === 'production' ? process.env.SQUARE_PRODUCTION_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
+const environment = process.env.NODE_ENV === 'production' ? Environment.Production : Environment.Sandbox
 // Initialized the Square api client:
 //   Set sandbox environment for testing purpose
 //   Set access token
@@ -72,10 +72,10 @@ app.use(express.json());
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "PRODUCTION") {
 	app.use(express.static(path.join(__dirname, "client", "build")));
-  } 
+} 
 
 app.use('/thursdaytherapy/', express.static(path.join(__dirname, "client/build")));
-  
+
 // app.use(secure);
 
 app.use(express.static('client/build'));

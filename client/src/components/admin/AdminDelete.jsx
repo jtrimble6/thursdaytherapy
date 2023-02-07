@@ -74,7 +74,7 @@ class AdminDelete extends Component {
     checkPassword = event => {
         const password = event.target.value
         this.setState({
-         confirmPassword: password
+          confirmPassword: password
         })
         if (this.state.password !== password) {
             // console.log('THE PASSWORDS DO NOT MATCH')
@@ -192,4 +192,3 @@ class AdminDelete extends Component {
 }
 
 export default AdminDelete;
-       
