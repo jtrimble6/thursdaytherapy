@@ -678,10 +678,10 @@ export default class MyPaymentForm extends Component {
 						 * the Square Application Dashboard.
 						 */
 						// SANDBOX
-						applicationId={process.env.REACT_APP_SQUARE_SANDBOX_APPLICATION_ID}
+						// applicationId={process.env.REACT_APP_SQUARE_SANDBOX_APPLICATION_ID}
 
 						// PRODUCTION
-						// applicationId={process.env.REACT_APP_SQUARE_PRODUCTION_APPLICATION_ID}
+						applicationId={process.env.REACT_APP_SQUARE_PRODUCTION_APPLICATION_ID}
 
 						/**
 						 * Invoked when payment form receives the result of a tokenize generation

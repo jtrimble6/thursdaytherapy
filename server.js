@@ -43,8 +43,8 @@ paypal.configure({
 // Set the SQUARE PAYMENT Access Token which is used to authorize to a merchant
 
 // CHANGE FOR PRODUCTION
-const accessToken = process.env.NODE_ENV === 'development' ? process.env.SQUARE_PRODUCTION_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
-const environment = process.env.NODE_ENV === 'development' ? Environment.Production : Environment.Sandbox
+const accessToken = process.env.NODE_ENV === 'production' ? process.env.SQUARE_PRODUCTION_ACCESS_TOKEN : process.env.SQUARE_SANDBOX_ACCESS_TOKEN;
+const environment = process.env.NODE_ENV === 'production' ? Environment.Production : Environment.Sandbox
 // Initialized the Square api client:
 //   Set sandbox environment for testing purpose
 //   Set access token
