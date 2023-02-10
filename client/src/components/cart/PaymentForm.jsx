@@ -142,7 +142,7 @@ export default class MyPaymentForm extends Component {
 			body: JSON.stringify({
 				nonce: nonce,
 				idempotency_key: idempotency_key,
-				location_id: 'L04H83ZZ2XDWC',
+				location_id: process.env.REACT_APP_LOCATION_ID,
 				paymentAmount: this.props.paymentAmount
 			})
 		})
