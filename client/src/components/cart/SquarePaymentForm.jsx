@@ -10,10 +10,10 @@ export default function App() {
 
 			<PaymentForm
 				// SANDBOX
-				// applicationId={process.env.REACT_APP_SQUARE_SANDBOX_APPLICATION_ID}
+				applicationId={process.env.REACT_APP_SQUARE_SANDBOX_APPLICATION_ID}
 
 				// PRODUCTION 
-				applicationId={process.env.REACT_APP_SQUARE_PRODUCION_APPLICATION_ID}
+				// applicationId={process.env.REACT_APP_SQUARE_PRODUCTION_APPLICATION_ID}
 
 				cardTokenizeResponseReceived={(token, buyer) => {
 					console.info({ token, buyer });
