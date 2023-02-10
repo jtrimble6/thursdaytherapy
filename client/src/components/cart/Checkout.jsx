@@ -197,27 +197,6 @@ class Checkout extends Component {
         document.getElementById('processingPaymentPayButton').hidden = false
         document.getElementById('processingPaymentLoader').hidden = true
       })
-      // .then(data => {
-      //   // console.log(data);
-      //   if (data.title === "Payment Successful") {
-      //     Alert.success('Payment was a success!', 5000)
-      //     // console.log('PAYMENT WAS A HUGE SUCCESS!')
-      //     // console.log('PAYMENT RESULT: ', data.result.payment)
-      //     let paymentResult = data.result.payment
-      //     this.setState({
-      //         paymentStatus: paymentResult.status,
-      //         paymentCardLastFour: paymentResult.cardDetails.card.last4,
-      //         paymentAmount: paymentResult.amountMoney.amount,
-      //         paymentId: paymentResult.id,
-      //         paymentOrderId: paymentResult.orderId,
-      //         purchaseReceiptUrl: paymentResult.receiptUrl
-      //     })
-
-      //   }
-      //   // debugger;
-      //   // alert('Payment complete successfully!\nCheck browser developer console for more details');
-      //   this.handlePaymentConfirmation()
-      // })
       .catch(err => {
         console.error(err);
         Alert.error('Sorry, there was an error completing your payment. Please try again.', 10000)
@@ -228,140 +207,8 @@ class Checkout extends Component {
     }
 
     renderCreditCardForm = () => {
-      // const config = {
-      //   applicationId: process.env.REACT_APP_SQUARE_PRODUCTION_APPLICATION_ID,
-      //   locationId: process.env.REACT_APP_LOCATION_ID,
-      //   inputClass: "sq-input",
-      //   autoBuild: false,
-      //   inputStyles: [
-      //     {
-      //       fontSize: "16px",
-      //       fontFamily: "Helvetica Neue",
-      //       padding: "16px",
-      //       color: "#373F4A",
-      //       backgroundColor: "transparent",
-      //       lineHeight: "1.15em",
-      //       placeholderColor: "#000",
-      //       _webkitFontSmoothing: "antialiased",
-      //       _mozOsxFontSmoothing: "grayscale"
-      //     }
-      //   ],
-      //   cardNumber: {
-      //     elementId: "sq-card-number",
-      //     placeholder: "• • • •  • • • •  • • • •  • • • •"
-      //   },
-      //   cvv: {
-      //     elementId: "sq-cvv",
-      //     placeholder: "CVV"
-      //   },
-      //   expirationDate: {
-      //     elementId: "sq-expiration-date",
-      //     placeholder: "MM/YY"
-      //   },
-      //   postalCode: {
-      //     elementId: "sq-postal-code",
-      //     placeholder: "Zip"
-      //   },
-      //   callbacks: {
-      //     methodsSupported: (methods) => {
-      //       if(methods.googlePay){
-      //         this.setState({
-      //           googlePay: methods.googlePay
-      //         })
-      //       }
-      //       if(methods.applePay){
-      //         this.setState({
-      //           applePay: methods.applePay
-      //         })
-      //       }
-      //       if(methods.masterpass){
-      //         this.setState({
-      //           masterpass: methods.masterpass
-      //         })
-      //       }
-      //       return;
-      //     },
-      //     createPaymentRequest: () => {
-      //       return {
-      //         requestShippingAddress: false,
-      //         requestBillingInfo: true,
-      //         currencyCode: "USD",
-      //         countryCode: "US",
-      //         total: {
-      //           label: "MERCHANT NAME",
-      //           amount: JSON.stringify(this.state.orderGrandTotal),
-      //           pending: false
-      //         },
-      //         lineItems: [
-      //           {
-      //             label: "Subtotal",
-      //             amount: JSON.stringify(this.state.orderGrandTotal),
-      //             pending: false
-      //           }
-      //         ]
-      //       };
-      //     },
-      //     cardNonceResponseReceived: (errors, nonce, cardData) => {
-      //       if (errors) {
-      //         // Log errors from nonce generation to the Javascript console
-      //         Alert.error('There was an error processing payment. Please try again.', 10000)
-      //         document.getElementById('processingPaymentPayButton').hidden = false
-      //         document.getElementById('processingPaymentLoader').hidden = true
-      //         // console.log("Encountered errors:");
-      //         errors.forEach(function(error) {
-      //           // console.log("  " + error.message);
-      //         });
-      //         return;
-      //       }
-      //       this.handleNonceReceived(nonce)
-      //       this.setState({
-      //         nonce: nonce
-      //       })
-      //     },
-      //     unsupportedBrowserDetected: () => {
-      //     },
-      //     inputEventReceived: (inputEvent) => {
-      //       switch (inputEvent.eventType) {
-      //         case "focusClassAdded":
-      //           break;
-      //         case "focusClassRemoved":
-      //           break;
-      //         case "errorClassAdded":
-      //           document.getElementById("error").innerHTML =
-      //             "Please fix card information errors before continuing.";
-      //           break;
-      //         case "errorClassRemoved":
-      //           document.getElementById("error").style.display = "none";
-      //           break;
-      //         case "cardBrandChanged":
-      //           if(inputEvent.cardBrand !== "unknown"){
-      //             this.setState({
-      //               cardBrand: inputEvent.cardBrand
-      //             })
-      //           } else {
-      //             this.setState({
-      //               cardBrand: ""
-      //             })
-      //           }
-      //           break;
-      //         case "postalCodeChanged":
-      //           break;
-      //         default:
-      //           break;
-      //       }
-      //     },
-      //     paymentFormLoaded: function() {
-      //       document.getElementById('name').style.display = "inline-flex";
-      //     }
-      //   }
-      // };
-      // this.SqPaymentForm = new window.SqPaymentForm(config);
-      // this.SqPaymentForm.build();
-      const creditCardForm = document.getElementById('creditCardForm')
-      creditCardForm.hidden = false
-      // this.setState({
-      //   sqPaymentForm: this.SqPaymentForm
-      // })
+        const creditCardForm = document.getElementById('creditCardForm')
+        creditCardForm.hidden = false
       }
 
     requestCardNonce = (e) => {
@@ -843,12 +690,12 @@ class Checkout extends Component {
 
 
         // CALCULATE SHIPPING COST
-        let orderShippingCost = 9.50
+        let orderShippingCost = 12.00
         if (cartItemQty > 6 && cartItemQty < 24) {
-          orderShippingCost = 16.95
+          orderShippingCost = 19.00
         } 
         if (cartItemQty > 24) {
-          orderShippingCost = 24.45
+          orderShippingCost = 25.00
         }
 
         // CALCULATE GRAND TOTAL
