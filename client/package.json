@@ -1,7 +1,7 @@
 {
   "name": "client",
   "proxy": "http://localhost:5000",
-  "homepage": "http://jtrimble6.github.io/thursdaytherapy",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
